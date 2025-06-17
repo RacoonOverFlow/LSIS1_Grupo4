@@ -1,5 +1,11 @@
 ####################################################################################################################################
 Este ficheiro serve para que todos saibam como declarar as variáveis, a linguagem usada e definir estilos de css comuns a todas as paginas
 
+cores:
+azul escuro : #19365F
+azul claro : #4697D2
+cinzento : #B8B8B8
+branco : #FFFFFF
+
 Todas as variáveis, classes e funções são em inglês, utilizando camelCase.
 ####################################################################################################################################
