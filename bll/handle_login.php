@@ -1,31 +1,10 @@
 <?php
-require_once("../DAL/connection.php");
+require_once("../DAL/login_dal.php");
+
+$dal= new connection();
 
 if (!isset($_SESSION)) {
     session_start();
-}
-
-function checkUser($conn, $nMeca, $password) {
-    $sql = "SELECT nMeca, password FROM utilizador WHERE nMeca = ?";
-    $fetched_nMeca = $hashed_password = '';
-    if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("s", $nMeca);
-        $stmt->execute();
-        $stmt->store_result();
-
-        if ($stmt->num_rows === 1) {
-            $stmt->bind_result($fetched_nMeca, $hashed_password);
-            $stmt->fetch();
-
-            if (strcmp($password, $hashed_password) == 0) {
-                return true;
-            }
-        }
-
-        $stmt->close();
-    }
-
-    return false;
 }
 
 // Check if the user is already logged in, if yes then redirect him to welcome page
@@ -58,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate credentials
     if (empty($nMeca_err) && empty($password_err)) {
         // Prepare a select statement
-        if (checkUser($conn, $nMeca, $password)) {
+        if (checkUser( $nMeca, $password)) {
             // Password is correct, so start a new session
             print("triste");
 
