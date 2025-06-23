@@ -1,5 +1,5 @@
 <?php
-class connection(){
+class connection{
     private $conn;
     function __construct(){
         $conn = new mysqli("localhost", "root", "", "tlantic");
@@ -8,5 +8,4 @@ class connection(){
         }
     }
 }
-
 ?>
