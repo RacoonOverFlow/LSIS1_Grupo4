@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Update Profile</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body style="background-color: #19365F;">
+
+<div class="skewed"></div>
+
+<section class="login-box">
+  <div class="logo">
+    <img src="../photos/logo.png" alt="logo">
+  </div>
+ <form action=""" method="post">
+    <div class="login-form">
+      <input type="text" name="username" placeholder="Username">
+    </div>
+    <div class="login-form">
+      <input type="email" name="email" placeholder="Email">
+    </div>
+    <div class="login-form">
+      <input type="text" name="moradaFiscal" placeholder="Morada Fiscal">
+    </div>
+    <div class="login-form">
+      <dropdown>
+        <select name="tipoContribuinte">
+          <option value="Homem">Homem</option>
+          <option value="Mulher">Mulher</option>
+        </select>
+      </dropdown>
+    </div>
+    <div class="login-form">
+      <dropdown>
+        <select name="tipoContribuinte">
+          <option value="Solteiro">Solteiro</option>
+          <option value="Casado">Casado</option>
+          <option value="CasadoCom2Titulares">Casado Com 2 Titulares</option>
+        </select>
+      </dropdown>
+    </div>
+    <div class="login-form">
+      <input type="number" name="nDependentes" placeholder="numero de dependentes">
+    </div>
+    <div class="login-form">
+        <input type="text" name="IBAN" placeholder="IBAN">
+    </div>    
+    <div class="login-form">
+        <dropdown>
+        <select name="tipoContribuinte">
+          <option value="12ano">12ano</option>
+          <option value="Licenciatura">Licenciatura</option>
+          <option value="Mestrado">Mestrado</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </dropdown>
+    </div>
+    <div class="login-form">
+      <input type="text" name="Curso" placeholder="Curso">
+    </div>
+    <div class="login-form">
+      <input type="text" name="Frequencia" placeholder="Frequência">
+    </div>
+    <div class="login-form">
+      <input type="text" name="ContatoDeEmergencia" placeholder="Contato De Emergencia">
+    </div>
+    <div class="login-form">
+      <input type="text" name="GrauDeRelacionamento" placeholder="Grau De Relacionamento"> 
+    </div>
+    <div class="login-form">
+      <input type="number" name="Contacto" placeholder="Contacto"> ( primeiro dropdown com o DDI e dps os 9 digitos )
+    </div>    
+    <div class="login-form">
+      <input type="text" name="MatriculaDaViatura" placeholder="Matricula Da Viatura">   
+    </div>
+    <div class="login-form">
+      <input type="number" name="CartaoContinente" placeholder="Cartao Continente"> 
+    </div>
+    <input type="submit" value="Update" id="login-form-submit" >
+ </form>
+</section>
+
+
+</body>
