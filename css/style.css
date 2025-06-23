@@ -204,4 +204,5 @@ button {
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 2 colunas */
   gap: 20px; /* espaço entre as caixas */
+  margin-bottom:20px;
 }
