@@ -27,7 +27,7 @@ require_once ("../bll/handle_login.php");
       <span class="invalid-feedback"><?php echo $nMeca_err; ?></span>
     </div>
     <div class="login-form">
-      <input type="text" name="password" class="login-form-field <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" placeholder="Password">
+      <input type="password" name="password" class="login-form-field <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" placeholder="Password">
       <span class="invalid-feedback"><?php echo $password_err; ?></span>
     </div>
   <input type="submit" value="Login" id="login-form-submit" >

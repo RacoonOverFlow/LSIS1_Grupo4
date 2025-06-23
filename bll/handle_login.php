@@ -1,5 +1,5 @@
 <?php
-require_once("../dsl/connection.php");
+require_once("../DAL/connection.php");
 
 if (!isset($_SESSION)) {
     session_start();
