@@ -2,7 +2,7 @@
 include("../DAL/connection.php");
 
 function checkUser($nMeca, $password) {
-    $sql = "SELECT nMeca, password FROM utilizador WHERE nMeca = ?";
+    $sql = "SELECT numeroMecanografico	, password FROM dadoslogin WHERE numeroMecanografico = ?";
     $fetched_nMeca = $hashed_password = '';
     $dal = new connection();
     $conn = $dal->getConn();
