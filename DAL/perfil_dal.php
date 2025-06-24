@@ -9,7 +9,7 @@ class Perfil_DAL {
   }
 
   function getDadosPessoaisById($nMeca) {
-    $query = "SELECT dp.* FROM dadosPessoais dp INNER JOIN dadoslogin dl ON dp.idDadosPessoais = dl.idLogin WHERE dl.numeroMecanografico = ?";
+    $query = "SELECT dp.* FROM dadosPessoais dp INNER JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais INNER JOIN dadoslogin dl ON F.idLogin = dl.idLogin WHERE dl.numeroMecanografico = ?";
     $stmt=$this->conn->prepare($query);
     $stmt->bind_param("i", $nMeca);
     $stmt->execute();
