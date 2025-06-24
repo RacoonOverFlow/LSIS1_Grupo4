@@ -1,5 +1,4 @@
 <?php
-<?php
 class Perfil_DAL {
   private $conn;
 
