@@ -4,12 +4,12 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once "../DAL/perfil_dal.php";
 
-function setPerfil($idPerfil) {
+function setPerfil($nMeca) {
   $dal = new Perfil_DAL();
   
-  $dadosPessoais = $dal->getDadosPessoaisById($idPerfil);
+  $dadosPessoais = $dal->getDadosPessoaisById($nMeca);
 
-  if (!$dadosPessoais || empty($dadosPessoais["Nome"])) {
+  if (!$dadosPessoais || empty($dadosPessoais["nomeCompelto"])) {
     echo "<p>Utilizador não encontrado.</p>";
     return;
   }
@@ -30,7 +30,7 @@ function setPerfil($idPerfil) {
     echo '<button onclick="location.href=\'updateProfile.html\'">Atualizar Perfil</button>';
     echo '</div>';
     echo '<h2>Informação do Perfil</h2>';
-    echo '<p><strong>Nome:</strong> ' . htmlspecialchars($dadosPessoais['nomeCompleto']) . '</p>';
+    echo '<p><strong>Nome:</strong> ' . htmlspecialchars($dadosPessoais['nomeCompelto']) . '</p>';
     echo '<p><strong>Email:</strong> ' . htmlspecialchars($dadosPessoais['email']) . '</p>'; 
     echo '<p><strong>Data Nascimento:</strong> ' . htmlspecialchars($dadosPessoais['dataNascimento']) . '</p>';
     echo '<p><strong>Morada:</strong> ' . htmlspecialchars($dadosPessoais['moradaFiscal']) . '</p>';
@@ -39,7 +39,7 @@ function setPerfil($idPerfil) {
     echo '<p><strong>NIF:</strong> ' . htmlspecialchars($dadosPessoais['nif']) . '</p>';
     echo '<p><strong>NISS:</strong> ' . htmlspecialchars($dadosPessoais['niss']) . '</p>';
     echo '<p><strong>Genero:</strong> ' . htmlspecialchars($dadosPessoais['genero']) . '</p>';
-    echo '<p><strong>Contacto De Emergencia: </strong> +' . htmlspecialchars($dadosPessoais['idIndicativo']) . htmlspecialchars($dadosPessoais['contactoDeEmergencia']) . '</p>';
+    echo '<p><strong>Contacto De Emergencia: </strong> +' . htmlspecialchars($dadosPessoais['idIndicativo']) .' '. htmlspecialchars($dadosPessoais['contactoEmergencia']) . '</p>';
     echo '<p><strong>Grau De Relacionamento:</strong> ' . htmlspecialchars($dadosPessoais['grauDeRelacionamento']) . '</p>';
     echo '</div>'; 
     echo '</div>';

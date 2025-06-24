@@ -2,7 +2,7 @@
 
 session_start();
 include "../BLL/Perfil_bll.php";
-$idPerfil = $_SESSION['idPerfil'] ?? null;
+$nMeca = $_SESSION['nMeca'] ?? null;
 ?>
 
 
@@ -16,7 +16,26 @@ $idPerfil = $_SESSION['idPerfil'] ?? null;
 </head>
 
 <body>
+
   <main>
-    <?php setPerfil($idPerfil); ?>
+    <div class="header">
+      <div class="button-page">
+        <a class="links" href="profile.html">Perfil</a>
+      </div>
+      <div class="button-next-page">
+        <a class="links" href="Teams.html">Equipas</a>
+      </div>
+      <div class="button-next-page">
+        <a class="links" href="Dashboard.html">Dashboard</a>
+      </div>
+      <div class="logo">
+        <img clas = "imgLogo" src="../photos/logo.png" alt="Tlantic">
+      </div>
+      <div class="button-page">
+        <a class="links" href="logout.html">Logout</a>
+      </div>  
+    </div>
+
+  <?php setPerfil($nMeca); ?>
   </main>
 </body>

@@ -9,10 +9,10 @@ class Perfil_DAL {
     }
   }
 
-  function getDadosPessoaisById($id) {
-    $query = "SELECT dp.* FROM dadosPessoais dp INNER JOIN funcionario f ON dp.id = f.dadosPessoais_id WHERE f.id = ?";
+  function getDadosPessoaisById($nMeca) {
+    $query = "SELECT dp.* FROM dadosPessoais dp INNER JOIN dadoslogin dl ON dp.idDadosPessoais = dl.idLogin WHERE dl.numeroMecanografico = ?";
     $stmt=$this->conn->prepare($query);
-    $stmt->bind_param("i", $id);
+    $stmt->bind_param("i", $nMeca);
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc();
   }
