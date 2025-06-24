@@ -42,9 +42,24 @@
   <input type="text" name="niss" placeholder="Número de Identificação da Segurança Social"><br>
 
   Género:
-  <input type="text" name="genero" placeholder="Masculino/Feminino/Outro"><br>
+  <select name="Genero">
+    <option value="">Selecione um genero</option>
+    <option value="feminino">Feminino</option>
+    <option value="Masculino">Masculino</option>
+  </select><br>
 
   Contacto de emergência:
+  <select name="indicativo">
+    <option value="">Selecione um indicativo</option>
+    <option value="+351">+351</option>
+  </select>
+  <input type="text" name="contactoEmergencia" placeholder="Telefone de emergência"><br>
+
+  Contacto Pessoal:
+  <select name="indicativo">
+    <option value="">Selecione um indicativo</option>
+    <option value="+351">+351</option>
+  </select>
   <input type="text" name="contactoEmergencia" placeholder="Telefone de emergência"><br>
 
   Grau de relacionamento:
@@ -54,7 +69,10 @@
   <input type="email" name="email" placeholder="Email Pessoal"><br>
 
   Nacionalidade:
-  <input type="text" name="nacionalidade" placeholder="Ex: Portuguesa"><br><br>
+  <select name="Nacionalidade">
+    <option value="">Selecione uma nacionalidade</option>
+    <option value="portuguesa">Portuguesa</option>
+  </select><br><br>
 
   <!-- Dados Contrato -->
   <h3>Dados do Contrato</h3>
@@ -65,15 +83,34 @@
   <input type="date" name="dataFimContrato"><br>
 
   Tipo de contrato:
-  <input type="text" name="tipoContrato" placeholder="Parcial, Integral, etc."><br>
+  <select name="Tipo de contrato">
+    <option value="">Selecione um Tipo de contrato </option>
+    <option value="Estagio curricular">Estagio curricular</option>
+    <option value="Estagio IEFP">Estagio IEFP</option>
+    <option value="Termo certo">Termo certo</option>
+    <option value="Termo incerto">Termo incerto</option>
+    <option value="Sem incerto">Sem incerto</option>
+  </select><br>
 
   Regime de horário de trabalho:
-  <input type="text" name="regimeHorario" placeholder="Ex: 40h semanais"><br><br>
+  <select name="Regime de Horario de Trabalho">
+    <option value="">Selecione um regime de horario de trabalho </option>
+    <option value="10%">10%</option>
+    <option value="20%">20%</option>
+    <option value="50%">50%</option>
+    <option value="100%">100%</option>
+  </select><br><br>
 
   <!-- Dados Financeiros -->
   <h3>Dados Financeiros</h3>
   Situação de IRS:
-  <input type="text" name="situacaoIrs" placeholder="Ex: Casado, Solteiro"><br>
+  <select name="Situação de IRS">
+    <option value="">Selecione uma situação de IRS</option>
+    <option value="Casado">Casado</option>
+    <option value="Solteiro">Solteiro</option>
+    <option value="Viuvo/a">Viuvo/a</option>
+    <option value="União de facto">União de facto</option>
+  </select><br>
 
   Remuneração:
   <input type="number" step="0.01" name="remuneracao" placeholder="€"><br>
@@ -96,11 +133,13 @@
   <h3>Cargo</h3>
   <select name="cargo">
     <option value="">Selecione um cargo</option>
-    <!-- Você pode preencher com JS ou manualmente -->
-    <option value="administrador">Administrador</option>
-    <option value="tecnico">Técnico</option>
-    <option value="assistente">Assistente</option>
+    <option value="Convidado">Convidado</option>
+    <option value="Colaborador">Colaborador</option>
+    <option value="coordenador">Coordenador</option>
+    <option value="Recurso Humanos">Recursos Humanos</option>
+    <option value="Administrador">Administrador</option>
   </select><br><br>
+
   <!-- Viatura -->
   <h3>Viatura</h3>
   Tipo de viatura:
