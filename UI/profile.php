@@ -56,18 +56,19 @@ $perfil = $bll->obterPerfilFuncionario($id);
             <button onclick="location.href='updateProfile.html'">Atualizar Perfil</button>
           </div>
           <h2>Informação do Perfil</h2>
-          <p><strong>Nome:</strong> <?= htmlspecialchars($perfil['nome']) ?></p>
+          <p><strong>Numero Mecanografico:</strong> <?= htmlspecialchars($perfil['numeroMecanografico']) ?></p>
+          <p><strong>Nome:</strong> <?= htmlspecialchars($perfil['nomeCompleto']) ?></p>
           <p><strong>Email:</strong> <?= htmlspecialchars($perfil['email']) ?></p>
-          <p><strong>Telefone:</strong> <?= htmlspecialchars($perfil['telefone']) ?></p> 
-          <p><strong>Data de Nascimento:</strong> <?= htmlspecialchars($perfil['data_nascimento']) ?></p>
-          <p><strong>Morada:</strong> <?= htmlspecialchars($perfil['morada']) ?></p>
-          <p><strong>Equipa:</strong> <?= htmlspecialchars($perfil['equipa']) ?></p>
-          <p><strong>Função:</strong> <?= htmlspecialchars($perfil['funcao']) ?></p>
-          <p><strong>Data de Registo:</strong> <?= htmlspecialchars($perfil['data_registo']) ?></p>
-          <p><strong>Último Acesso:</strong> <?= htmlspecialchars($perfil['ultimo_acesso']) ?></p>
-          <p><strong>Estado:</strong> <?= htmlspecialchars($perfil['estado']) ?></p>
-          <p><strong>Tipo de Conta:</strong> <?= htmlspecialchars($perfil['tipo_conta']) ?></p>
-          <p><strong>Preferências de Idioma:</strong> <?= htmlspecialchars($perfil['idioma']) ?></p>
+          <p><strong>Data Nascimento:</strong> <?= htmlspecialchars($perfil['dataNascimento']) ?></p>
+          <p><strong>Morada:</strong> <?= htmlspecialchars($perfil['moradaFiscal']) ?></p>
+          <p><strong>Nacionalidade:</strong> <?= htmlspecialchars($perfil['nacionalidade']) ?></p> 
+          <p><strong>Cartao de Cidadao:</strong> <?= htmlspecialchars($perfil['cc']) ?></p>
+          <p><strong>Data de Validade do Cartao de Cidadao:</strong> <?= htmlspecialchars($perfil['dataValidadeCC']) ?></p>
+          <p><strong>NIF:</strong> <?= htmlspecialchars($perfil['nif']) ?></p>
+          <p><strong>NISS:</strong> <?= htmlspecialchars($perfil['niss']) ?></p>
+          <p><strong>Genero:</strong> <?= htmlspecialchars($perfil['genero']) ?></p>
+          <p><strong>Contacto De Emergencia:</strong> <?= htmlspecialchars($perfil['contactoDeEmergencia']) ?></p>
+          <p><strong>Grau De Relacionamento:</strong> <?= htmlspecialchars($perfil['grauDeRelacionamento']) ?></p>
         </div>
       </div>
     </div>
