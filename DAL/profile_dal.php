@@ -8,7 +8,7 @@ class ProfileDAL{
 
     function getFuncionario($id){
         if($this->conn){
-            $sql = "SELECT * FROM funcionarios WHERE id = ?";
+            $sql = "SELECT * FROM funcionario WHERE id = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);
             $stmt->execute();
@@ -19,6 +19,5 @@ class ProfileDAL{
         }
     }
 
-    
 }
 ?>

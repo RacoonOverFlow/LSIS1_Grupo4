@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["nMeca"] = $nMeca;
             
             // Redirect user to welcome page
-            header("location: profile.html");
+            header("location: perfil.php");
             
         } else {
             // Username doesn't exist, display a generic error message
