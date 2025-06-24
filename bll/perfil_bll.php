@@ -1,5 +1,5 @@
 <?php
-include 'FuncionarioDal.php';
+require_once "../DAL/perfil_dal.php";
 
 class FuncionarioBLL {
     private $dal;
