@@ -9,7 +9,7 @@ if (!isset($_SESSION)) {
 
 // Check if the user is already logged in, if yes then redirect him to welcome page
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    header("location: profile.php");
+    header("location: perfil.php");
     exit;
 }
 
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["nMeca"] = $nMeca;
             
             // Redirect user to welcome page
-            header("location: profile.html");
+            header("location: perfil.php");
             
         } else {
             // Username doesn't exist, display a generic error message

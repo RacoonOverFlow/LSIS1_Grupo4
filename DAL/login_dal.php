@@ -1,8 +1,10 @@
 <?php
 include("../DAL/connection.php");
 
+
 function checkUser($nMeca, $password) {
-    $sql = "SELECT numeroMecanografico	, password FROM dadoslogin WHERE numeroMecanografico = ?";
+    $sql = "SELECT dadosLogin.numeroMecanografico, dadosLogin.password FROM funcionario
+    INNER JOIN dadosLogin ON funcionario.idLogin = dadosLogin.idLogin WHERE dadosLogin.numeroMecanografico = ?";
     $fetched_nMeca = $hashed_password = '';
     $dal = new connection();
     $conn = $dal->getConn();
