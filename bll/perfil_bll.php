@@ -1,19 +1,19 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 require_once "../DAL/perfil_dal.php";
 
-class FuncionarioBLL {
-    private $dal;
+function setPerfil($idPerfil) {
+  $dal = new Perfil_DAL();
+  $isOwnProfile = isset($_SESSION["id_utilizador"]) && $_SESSION["id_utilizador"] == $idPerfil;
 
-    public function __construct($conn) {
-        $this->dal = new FuncionarioDAL($conn);
-    }
+  $utilizador = $dal->getUtilizadorById($idPerfil);
 
-    public function obterPerfilFuncionario($id) {
-        if ($id <= 0) {
-            return null;
-        }
-        return $this->dal->getFuncionario($id);
-    }
+  if (!$utilizador || empty($utilizador["Nome"])) {
+    echo "<p>Utilizador não encontrado.</p>";
+    return;
+  }
 
 }
 ?>
