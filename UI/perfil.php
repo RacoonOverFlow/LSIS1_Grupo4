@@ -32,7 +32,7 @@ $nMeca = $_SESSION['nMeca'] ?? null;
         <img clas = "imgLogo" src="../photos/logo.png" alt="Tlantic">
       </div>
       <div class="button-page">
-        <a class="links" href="logout.html">Logout</a>
+        <a class="links" href="logout.php">Logout</a>
       </div>  
     </div>
 
