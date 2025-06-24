@@ -1,12 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
- <form id="formFuncionario">
+<?php
+include "../DAL/registoFuncionario_dal.php";
+
+function isThisACallback(): bool{
+
+  $camposObrigatorio=[
+    //Dados Login
+    'numeroMecanografico',
+    'password',
+
+    // Dados Pessoais
+    'nomeCompleto',
+    'nomeAbreviado',
+    'dataNascimento',
+    'moradaFiscal',
+    'cc',
+    'validadeCc',
+    'nif',
+    'niss',
+    'Genero',
+    'contactoEmergencia',
+    'grauRelacionamento',
+    'email',
+    'Nacionalidade',
+
+    // Dados Contrato
+    'dataInicioContrato',
+    'dataFimContrato',
+    'Tipo de contrato',
+    'Regime de Horario de Trabalho',
+
+    // Dados Financeiros
+    'Situação de IRS',
+    'remuneracao',
+    'numeroDependentes',
+    'iban',
+
+    // Benefícios
+    'cartaoContinente',
+    'voucherNos',
+
+    // Cargo
+    'cargo',
+
+    // Viatura
+    'tipoViatura',
+    'matriculaViatura',
+
+    // CV
+    'Habilitações literarias',
+    'curso',
+    'frequencia'];
+  foreach($camposObrigatorio as $campo){
+    if(empty($campo)){
+      return false;
+    }
+  }
+  return true;
+}
+function displayForm() {
+  echo '<form id="formFuncionario" action="" method="post">
   <!-- Dados Login -->
   <h3>Dados Login</h3>
   Numero Mecanográfico:
@@ -49,13 +101,6 @@
   </select><br>
 
   Contacto de emergência:
-  <select name="indicativo">
-    <option value="">Selecione um indicativo</option>
-    <option value="+351">+351</option>
-  </select>
-  <input type="text" name="contactoEmergencia" placeholder="Telefone de emergência"><br>
-
-  Contacto Pessoal:
   <select name="indicativo">
     <option value="">Selecione um indicativo</option>
     <option value="+351">+351</option>
@@ -156,9 +201,9 @@
   CV:
   <select name="Habilitações literarias">
   <option value="">Habilitações</option>
-  <option value="empresa">12º ano</option>
-  <option value="pessoal">Licenciatura</option>
-  <option value="pessoal">Mestrado</option>
+  <option value="12ºano">12º ano</option>
+  <option value="Licenciatura">Licenciatura</option>
+  <option value="Mestrado">Mestrado</option>
   </select><br>
   Curso:
   <input type="text" name="curso" placeholder="Curso"><br>
@@ -166,7 +211,27 @@
   <input type="text" name="frequencia" placeholder="Frequencia"><br><br>
 
   <!-- Botão -->
-  <button type="submit">Criar Funcionário</button>
-</form>
-</body>
-</html>
+  <input type="submit" value="Registar"/>
+</form>';
+}
+function showUI(){
+    if(!isThisACallback()){
+        displayForm();
+    }
+    else{
+      try{
+        $dal = new registoFuncionario_dal();
+        if(!$dal->verificarFuncionarioExiste($_POST['nif'])) {
+          $dal->registarFuncionario($_POST);
+          header("Location: admin.php");
+        }
+        else{
+          echo "Já existe um utilizador com esse mesmo nif. Por favor introduza os dados novamente...";
+          header("Location: registoFuncionario.php");
+        }
+      }
+      catch(RuntimeException $e){
+        echo "<div>".$e->getMessage()."</div>";
+      }
+    }
+}

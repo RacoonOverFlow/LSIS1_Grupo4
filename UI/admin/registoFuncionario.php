@@ -1,3 +1,8 @@
+<?php 
+include "../../BLL/registoFuncionario_bll.php";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +11,8 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="registoFuncionario.html"><button>Criar novo funcionário</button></a>
+
+<?php showUI(); ?>
+
 </body>
 </html>
