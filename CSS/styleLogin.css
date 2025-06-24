@@ -1,0 +1,72 @@
+/*--- LOGIN PAGE ---*/
+
+.skewed {
+  position: absolute;
+  top: 0;
+  left: +15vw; /*view widht*/
+  width: 30%;
+  height: 100vh; /*view height*/
+  background-color: #4697D2;
+  transform: skewX(-8deg); /* tilta a imagem */
+  z-index: 0; /*usado para o overlay*/
+  box-shadow: 0px 0px 20px black ;
+}
+
+.logo {
+  padding: 0px 10px 10px 10px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.login-box {
+  position: absolute;
+  background-color: rgb(216, 215, 215, 0.9);
+  top: 38vh;
+  left: 35vw;
+  padding: 2%; /* cleaner shorthand */
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 30vw; /* Add a fixed width to control form size */
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.login-form input {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  padding: 20px;
+  border: none;
+  box-sizing: border-box;
+  font-size: 18px;
+  opacity: 50%;
+}
+
+/*login button*/
+#login-form-submit {
+  width: 100%;
+  padding: 14px; /* better match visually */
+  border: none;
+  border-radius: 12px;
+  color: white;
+  background-color: #19365F;
+  cursor: pointer;
+  outline: none;
+  font-size: 18px;
+  opacity: 1;
+}

@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Prepare a select statement
         if (checkUser( $nMeca, $password)) {
             // Password is correct, so start a new session
-            print("triste");
+            print("triste"); //pf lembrem-se de retirar isto pq é so pra ver se as cenas estao ou nao a funcionar
 
             if (!isset($_SESSION)) {
                 session_start();
@@ -56,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Username doesn't exist, display a generic error message
 
             $login_err = "Invalid username or password.";
-            print("triste 0.2");
+            print("triste 0.2"); //same aqui ele é so pra debugar
         }
     } else {
         // Username doesn't exist, display a generic error message
