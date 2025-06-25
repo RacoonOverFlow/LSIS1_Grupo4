@@ -75,10 +75,10 @@ switch ($utilizadorCargo) {
             <?= htmlspecialchars($equipa['nome_coordenador'] ?? 'Não definido') ?>
           </p>
 
-          <p><strong>Data de Criação:</strong> <?= $equipa['dataCriacao'] ?></p>
+          <p><strong>Data de Criação:</strong> <?= $equipa['dataCriacao'] ?? 'Não definida' ?></p>
           <p><strong>Status:</strong> <?= $equipa['is_active'] ? 'Ativa' : 'Inativa' ?></p>
 
-          <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 2): ?>
+          <?php if ($utilizadorCargo == 5 || $utilizadorCargo == 3): ?>
             <div class="team-actions">
               <button>Editar</button>
               <button>Adicionar Membro</button>
