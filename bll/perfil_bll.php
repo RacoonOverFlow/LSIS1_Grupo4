@@ -18,7 +18,7 @@ function setPerfil($nMeca) {
     echo "<p>Utilizador não encontrado.</p>";
     return;
   }
-
+    mostrarHeader($cargo);
     echo '<div class="backTemplate">';
     echo '<div class="backTemplate2">';
     echo '<div>';  

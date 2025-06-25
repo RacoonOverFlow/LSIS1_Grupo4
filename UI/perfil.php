@@ -3,6 +3,7 @@
 session_start();
 include "../BLL/Perfil_bll.php";
 include "Permissoes.php";
+
 ?>
 
 
@@ -39,7 +40,7 @@ include "Permissoes.php";
     
 
   <?php 
-  mostrarHeader();
+
   setPerfil($nMeca); ?>
   </main>
 </body>
