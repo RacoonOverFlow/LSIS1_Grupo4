@@ -4,7 +4,7 @@ require_once "connection.php";
 
 function checkUser($nMeca, $password) {
     $sql = "SELECT dadosLogin.numeroMecanografico, dadosLogin.password FROM funcionario
-    INNER JOIN dadosLogin ON funcionario.idLogin = dadosLogin.idLogin WHERE dadosLogin.numeroMecanografico = ?";
+    INNER JOIN dadosLogin ON funcionario.numeroMecanografico = dadosLogin.numeroMecanografico WHERE dadosLogin.numeroMecanografico = ?";
     $fetched_nMeca = $hashed_password = '';
     $dal = new connection();
     $conn = $dal->getConn();

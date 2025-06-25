@@ -248,7 +248,7 @@ function showUI(){
           exit;
         }
         else{
-          header("Location: registoFuncionario.php?erro=duplicado");
+          header("Location: registoFuncionario.php?erro=funcionarioDuplicado");
           exit;
 
         }

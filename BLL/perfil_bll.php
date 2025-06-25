@@ -14,7 +14,7 @@ function setPerfil($nMeca) {
   $beneficios = $dal->getBeneficiosById($nMeca);
   $cargo = $dal->getCargoById($nMeca);
 
-  if (!$dadosPessoais || empty($dadosPessoais["nomeCompelto"])) {
+  if (!$dadosPessoais || empty($dadosPessoais["nomeCompleto"])) {
     echo "<p>Utilizador não encontrado.</p>";
     return;
   }
