@@ -6,9 +6,11 @@ require_once __DIR__ . '/../DAL/registoFuncionario_dal.php';
 function isThisACallback(): bool{
 
   $camposObrigatorio=[
+    /*
     //Dados Login
     'numeroMecanografico',
     'password',
+    'idCargo',*/
 
     // Dados Pessoais
     'nomeCompleto',
@@ -20,19 +22,21 @@ function isThisACallback(): bool{
     'nif',
     'niss',
     'Genero',
+    'idIndicativo',
+    'contactoPessoal',
     'contactoEmergencia',
     'grauRelacionamento',
     'email',
-    'Nacionalidade',
-
+    'idNacionalidade',
+/*
     // Dados Contrato
     'dataInicioContrato',
     'dataFimContrato',
-    'Tipo de contrato',
-    'Regime de Horario de Trabalho',
+    'tipoContrato',
+    'regimeHorarioTrabalho',
 
     // Dados Financeiros
-    'Situação de IRS',
+    'situacaoIrs',
     'remuneracao',
     'numeroDependentes',
     'iban',
@@ -41,17 +45,16 @@ function isThisACallback(): bool{
     'cartaoContinente',
     'voucherNos',
 
-    // Cargo
-    'cargo',
-
     // Viatura
     'tipoViatura',
     'matriculaViatura',
 
     // CV
-    'Habilitações literarias',
+    'habilitacoesLiterarias',
     'curso',
-    'frequencia'];
+    'frequencia',
+  'idDocumento'*/];
+
   foreach($camposObrigatorio as $campo){
     if(empty($_POST[$campo])){
       return false;
@@ -67,8 +70,19 @@ function displayForm() {
   <input type="text" name="numeroMecanografico" placeholder="Numero Mecanografico"><br>
 
   Password:
-  <input type="password" name="password" placeholder="Password"><br><br>
-
+  <input type="password" name="password" placeholder="Password"><br>';
+  $dal = new registoFuncionario_dal();
+  $cargos = $dal->getCargos();
+  echo 'Cargo:
+  <select name="idCargo">
+    <option value="">Selecione um cargo</option>';
+  
+  foreach($cargos as $cargo){
+    echo '<option value="' . htmlspecialchars($cargo['idCargo']) 
+    . '">' . htmlspecialchars($cargo['cargo']) .'</option>';
+  }
+  
+  echo '</select><br><br>
   <!-- Dados Pessoais -->
   <h3>Dados Pessoais</h3>
   Nome completo:
@@ -101,7 +115,7 @@ function displayForm() {
     <option value="feminino">Feminino</option>
     <option value="Masculino">Masculino</option>
   </select><br>';
-  $dal = new registoFuncionario_dal();
+
   $indicativos = $dal->getIndicativos();
   echo 'Contacto pessoal:
   <select name="idIndicativo">
@@ -144,7 +158,7 @@ function displayForm() {
   <input type="date" name="dataFimContrato"><br>
 
   Tipo de contrato:
-  <select name="Tipo de contrato">
+  <select name="tipoContrato">
     <option value="">Selecione um Tipo de contrato </option>
     <option value="Estagio curricular">Estagio curricular</option>
     <option value="Estagio IEFP">Estagio IEFP</option>
@@ -154,7 +168,7 @@ function displayForm() {
   </select><br>
 
   Regime de horário de trabalho:
-  <select name="Regime de Horario de Trabalho">
+  <select name="regimeHorarioTrabalho">
     <option value="">Selecione um regime de horario de trabalho </option>
     <option value="10%">10%</option>
     <option value="20%">20%</option>
@@ -165,7 +179,7 @@ function displayForm() {
   <!-- Dados Financeiros -->
   <h3>Dados Financeiros</h3>
   Situação de IRS:
-  <select name="Situação de IRS">
+  <select name="situacaoIrs">
     <option value="">Selecione uma situação de IRS</option>
     <option value="Casado">Casado</option>
     <option value="Solteiro">Solteiro</option>
@@ -190,21 +204,6 @@ function displayForm() {
   Data de emissão do voucher NOS:
   <input type="date" name="voucherNos"><br><br>
 
-  <!-- Cargo -->
-  <h3>Cargo</h3>';
-
-  $cargos = $dal->getCargos();
-  echo 'Cargo:
-  <select name="idCargo">
-    <option value="">Selecione um cargo</option>';
-  
-  foreach($cargos as $cargo){
-    echo '<option value="' . htmlspecialchars($cargo['idCargo']) 
-    . '">' . htmlspecialchars($cargo['cargo']) .'</option>';
-  }
-  
-  echo '</select><br><br>
-
   <!-- Viatura -->
   <h3>Viatura</h3>
   Tipo de viatura:
@@ -219,7 +218,7 @@ function displayForm() {
   <!-- CV -->
   <h3>CV</h3>
   CV:
-  <select name="HabilitaçõesLiterarias">
+  <select name="habilitacoesLiterarias">
   <option value="">Habilitações</option>
   <option value="12ºano">12º ano</option>
   <option value="Licenciatura">Licenciatura</option>
@@ -246,10 +245,12 @@ function showUI(){
         if(!$dal->verificarFuncionarioExiste($_POST['nif'])) {
           $dal->registarFuncionario($_POST);
           header("Location: admin.php");
+          exit;
         }
         else{
-          echo "Já existe um utilizador com esse mesmo nif. Por favor introduza os dados novamente...";
-          header("Location: registoFuncionario.php");
+          header("Location: registoFuncionario.php?erro=duplicado");
+          exit;
+
         }
       }
       catch(RuntimeException $e){
