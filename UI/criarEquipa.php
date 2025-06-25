@@ -16,10 +16,7 @@ include "Permissoes.php";
 </head>
 
 <body>
-
   <main>
-    
-
   <?php 
   criarEquipa(); ?>
   </main>
