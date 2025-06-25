@@ -34,6 +34,7 @@ function setPerfil($nMeca) {
     echo '<div class="AtualizarPerfil">';
     echo '<button onclick="location.href=\'updateProfile.html\'">Atualizar Perfil</button>';
     echo '</div>';
+    echo '<p>';
     echo '<h2>Informação do Perfil</h2>';
     echo '<h3>Dados Pessoais</h3>';
     echo '<p><strong>Número Mecanográfico:</strong> ' . htmlspecialchars($nMeca) . '</p>';
@@ -48,11 +49,13 @@ function setPerfil($nMeca) {
     echo '<p><strong>Genero:</strong> ' . htmlspecialchars($dadosPessoais['genero']) . '</p>';
     echo '<p><strong>Contacto De Emergencia: </strong> +' . htmlspecialchars($dadosPessoais['idIndicativo']) .' '. htmlspecialchars($dadosPessoais['contactoEmergencia']) . '</p>';
     echo '<p><strong>Grau De Relacionamento:</strong> ' . htmlspecialchars($dadosPessoais['grauDeRelacionamento']) . '</p>';
+    echo '<p>';
     echo '<h3>Dados Financeiros</h3>';
     echo '<p><strong>Situação De IRS:</strong> ' . htmlspecialchars($dadosFinanceiros['situacaoDeIRS']) . '</p>';
     echo '<p><strong>Número De Dependentes:</strong> ' . htmlspecialchars($dadosFinanceiros['numeroDeDependentes']) . '</p>';
     echo '<p><strong>Remuneração:</strong> ' . htmlspecialchars($dadosFinanceiros['remuneracao']) . '€ </p>';
     echo '<p><strong>IBAN:</strong> ' . htmlspecialchars($dadosFinanceiros['IBAN']) . '</p>';
+    echo '<p>';
     echo '<h3>Dados Contratuais</h3>';
     echo '<p><strong>Data De Inicio:</strong> ' . htmlspecialchars($dadosContrato['dataInicioDeContrato']) . '</p>';
     echo '<p><strong>Data De Fim:</strong> ' . htmlspecialchars($dadosContrato['dataFimDeContrato']) . '</p>';
@@ -61,15 +64,16 @@ function setPerfil($nMeca) {
     echo '<h3>Curriculum Vitae</h3>';
     echo '<p><strong>Habilitações Literárias:</strong> ' . htmlspecialchars($cv['habilitacoesLiterarias']) . '</p>';
     echo '<p><strong>Curso:</strong> ' . htmlspecialchars($cv['curso']) . '</p>';
-    echo '<p><strong>Frequencia:</strong> ' . htmlspecialchars($cv['frequencia']) . '</p>';~
+    echo '<p><strong>Frequencia:</strong> ' . htmlspecialchars($cv['frequencia']) . '</p>';
+    echo '<p>';
     echo '<h3>Benefícios</h3>';
-    echo '<p><strong>Cartão Continente:</strong> ' . htmlspecialchars($beneficios['cartaoContinente']) . '€</p>';
+    echo '<p><strong>Cartão Continente:</strong> ' . htmlspecialchars($beneficios['cartaoContinente']) . '</p>';
     echo '<p><strong>Voucher NOS:</strong> ' . htmlspecialchars($beneficios['voucherNOS']) . '</p>';
+    echo '<p>';
     echo '<h3>Cargo</h3>';
-    echo '<p><strong>Cargo:</strong> ' . htmlspecialchars($cargo['cargo'])
+    echo '<p><strong>Cargo:</strong> ' . htmlspecialchars($cargo['cargo']) . '</p>';
     echo '</div>'; 
     echo '</div>';
     echo '</div>';
-
 }
 ?>
