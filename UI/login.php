@@ -1,6 +1,6 @@
 <?php
 
-require_once ("../BLL/handle_login.php");
+require_once __DIR__ . '/../BLL/handle_login.php';
 
 ?>
 
