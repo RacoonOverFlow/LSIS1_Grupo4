@@ -1,6 +1,6 @@
 <?php
 
-require_once ("../bll/handle_login.php");
+require_once ("../BLL/handle_login.php");
 
 ?>
 
