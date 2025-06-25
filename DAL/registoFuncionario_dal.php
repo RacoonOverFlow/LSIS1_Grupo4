@@ -1,5 +1,6 @@
 <?php
-include("./connection.php");
+require_once __DIR__ . "/../DAL/connection.php";
+
 
 class registoFuncionario_dal{
     private $conn;
@@ -28,7 +29,7 @@ class registoFuncionario_dal{
         try{
         $idIndicativo=$this->getIdIndicativo($dados['indicativo']);
         if($idIndicativo === null){
-            throw new Exception("Indicativo de contacto inválido ou não encontrado.")
+            throw new Exception("Indicativo de contacto inválido ou não encontrado.");
         }
             // 1. Inserir dados pessoais
         $stmt = $this->conn->prepare("INSERT INTO dadospessoais 
