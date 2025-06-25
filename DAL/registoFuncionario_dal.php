@@ -87,7 +87,6 @@ class registoFuncionario_dal{
         );
         if(!$stmt->execute()) throw new Exception("Erro execute dadospessoais: " . $stmt->error);
         echo "Dados pessoais inseridos com sucesso<br>";
-
         $idDadosPessoais = $this->conn->insert_id;
         
         // 2. Inserir dados de login
@@ -96,43 +95,57 @@ class registoFuncionario_dal{
         $stmt = $this->conn->prepare("INSERT INTO dadoslogin (numeroMecanografico, password, idCargo) VALUES (?, ?, ?)");
         if(!$stmt) throw new Exception("Erro na prepare dadoslogin ". $this->conn->error);
         $stmt->bind_param("ssi", $dados['numeroMecanografico'], $dados["password"], $dados["idCargo"]);
-        $stmt->execute();
+        if(!$stmt->execute()) throw new Exception("Erro execute dadoslogin " . $stmt->error);
+        echo "Dados login inseridos com sucesso<br>";
         $idDadosLogin = $dados['numeroMecanografico'];
-        /*
+        
         // 3. Inserir dados do contrato
         $stmt = $this->conn->prepare("INSERT INTO dadoscontrato (dataInicioDeContrato, dataFimDeContrato, tipoDeContrato, regimeDeHorarioDeTrabalho) VALUES (?, ?, ?, ?)");
+        if(!$stmt) throw new Exception("Erro na prepare dadoscontacto". $this->conn->error);
         $stmt->bind_param("ssss", $dados['dataInicioContrato'], $dados['dataFimContrato'], $dados['tipoContrato'], $dados['regimeHorarioTrabalho']);
-        $stmt->execute();
+        if(!$stmt->execute()) throw new Exception('Erro execute dados contrato'. $stmt->error);
+        echo "Dados contacto inseridos com sucesso<br>";
         $idDadosContrato = $this->conn->insert_id;
 
         // 4. Inserir dados financeiros
         $stmt = $this->conn->prepare("INSERT INTO dadosfinanceiros (situacaoDeIRS, remuneracao, numeroDeDependentes, IBAN) VALUES (?, ?, ?, ?)");
+        if(!$stmt) throw new Exception("Erro na prepare dadosfinanceiros". $this->conn->error);
         $stmt->bind_param("sdis", $dados['situacaoIrs'], $dados['remuneracao'], $dados['numeroDependentes'], $dados['iban']);
-        $stmt->execute();
+        if(!$stmt->execute()) throw new Exception('Erro execute dados financeiros'. $stmt->error);
+        echo "Dados financeiros inseridos com sucesso<br>";
         $idDadosFinanceiros = $this->conn->insert_id;
 
         // 5. Inserir benefícios
         $stmt = $this->conn->prepare("INSERT INTO beneficios (cartaoContinente, voucherNOS) VALUES (?, ?)");
+        if(!$stmt) throw new Exception("Erro na prepare beneficios". $this->conn->error);
         $stmt->bind_param("ss", $dados['cartaoContinente'], $dados['voucherNos']);
-        $stmt->execute();
+        if(!$stmt->execute()) throw new Exception('Erro execute beneficios'. $stmt->error);
+        echo "Beneficios inseridos com sucesso<br>";
         $idBeneficios = $this->conn->insert_id;
 
         // 7. Inserir viatura
-        $stmt = $this->conn->prepare("INSERT INTO viatura (tipo, matricula) VALUES (?, ?)");
-        $stmt->bind_param("ss", $dados['tipoViatura'], $dados['matriculaViatura']);
-        $stmt->execute();
+        $stmt = $this->conn->prepare("INSERT INTO viatura (matriculaDaViatura, tipo) VALUES (?, ?)");
+        if(!$stmt) throw new Exception("Erro na prepare viatura". $this->conn->error);
+        $stmt->bind_param("ss",  $dados['matriculaViatura'], $dados['tipoViatura']);
+        if(!$stmt->execute()) throw new Exception('Erro execute viatura'. $stmt->error);
+        echo "Viatura inserida com sucesso<br>";
         $idViatura = $this->conn->insert_id;
 
         // 8. Inserir CV
         $stmt = $this->conn->prepare("INSERT INTO cv (habilitacoesLiterarias, curso, frequencia, idDocumento) VALUES (?, ?, ?, ?)");
+        if(!$stmt) throw new Exception("Erro na prepare execute cv". $this->conn->error);
         $stmt->bind_param("sssi", $dados['habilitacoesLiterarias'], $dados['curso'], $dados['frequencia'], $dados["idDocumento"]);
-        $stmt->execute();
+        if(!$stmt->execute()) throw new Exception("Erro execute cv". $stmt->error);
+        echo "cv inserido com sucesso<br>";
         $idCV = $this->conn->insert_id;
 
-        $stmt = $this->conn->prepare("INSERT INTO funcionario (numeroMecanografico, idDadosContrato, idDadosPessoais, idDadosFinanceiros, idCV, idBeneficios");
+        // 9. inserir funcionario
+        $stmt = $this->conn->prepare("INSERT INTO funcionario (numeroMecanografico, idDadosContrato, idDadosPessoais, idDadosFinanceiros, idCV, idBeneficios) VALUES (?,?,?,?,?,?)");
+        if(!$stmt) throw new Exception("Erro na prepare funcionario". $this->conn->error);
         $stmt->bind_param("iiiiii", $dados["numeroMecanografico"], $idDadosContrato, $idDadosPessoais, $idDadosFinanceiros,$idCV, $idBeneficios);
-        $stmt->execute();
-        $idFuncionario = $this->conn->insert_id;*/
+        if(!$stmt->execute()) throw new Exception("Erro execute funcionario". $stmt->error);
+        echo "Funcionario inserido com sucesso<br>";
+        $idFuncionario = $this->conn->insert_id;
 
         $this->conn->commit();
 

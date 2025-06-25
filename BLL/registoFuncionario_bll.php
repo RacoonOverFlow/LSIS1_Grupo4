@@ -28,7 +28,7 @@ function isThisACallback(): bool{
     'grauRelacionamento',
     'email',
     'idNacionalidade',
-/*
+
     // Dados Contrato
     'dataInicioContrato',
     'dataFimContrato',
@@ -53,7 +53,7 @@ function isThisACallback(): bool{
     'habilitacoesLiterarias',
     'curso',
     'frequencia',
-  'idDocumento'*/];
+  'idDocumento'];
 
   foreach($camposObrigatorio as $campo){
     if(empty($_POST[$campo])){
