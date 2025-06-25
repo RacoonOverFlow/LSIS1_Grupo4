@@ -1,7 +1,6 @@
 
 <?php
-require_once "/../DAL/equipaDal.php";
-
+require_once __DIR__ . '/../DAL/equipaDal.php';
 function getAllEquipas() {
     try {
         $equipaDal = new Equipa_DAL();
