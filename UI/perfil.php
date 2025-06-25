@@ -1,13 +1,14 @@
 <?php
+<<<<<<< HEAD
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+=======
+>>>>>>> a051e8fe1a8a57c9deb3021a804466b0eb856799
 session_start();
 require_once "../BLL/perfil_bll.php";
 include "Permissoes.php";
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,8 +20,8 @@ include "Permissoes.php";
 </head>
 
 <body>
-
   <main>
+<<<<<<< HEAD
     <!--<div class="header">
       <div class="button-page">
         <a class="links" href="perfil.php">Perfil</a>
@@ -41,6 +42,9 @@ include "Permissoes.php";
 
   <?php
 
+=======
+  <?php 
+>>>>>>> a051e8fe1a8a57c9deb3021a804466b0eb856799
   setPerfil($nMeca); ?>
   </main>
 </body>
