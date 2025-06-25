@@ -6,11 +6,11 @@ require_once __DIR__ . '/../DAL/registoFuncionario_dal.php';
 function isThisACallback(): bool{
 
   $camposObrigatorio=[
-    /*
+  
     //Dados Login
     'numeroMecanografico',
     'password',
-    'idCargo',*/
+    'idCargo',
 
     // Dados Pessoais
     'nomeCompleto',

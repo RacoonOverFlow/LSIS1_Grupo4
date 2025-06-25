@@ -50,7 +50,7 @@ class Perfil_DAL {
   }
 
   function getCargoById($nMeca) {
-    $query = "SELECT idCargo FROM dadoslogin WHERE numeroMecanografico = ?";
+    $query = "SELECT cargo FROM cargo INNER JOIN dadoslogin dl ON cargo.idCargo=dl.idCargo WHERE dl.numeroMecanografico = ?";
     $stmt=$this->conn->prepare($query);
     $stmt->bind_param("i", $nMeca);
     $stmt->execute();

@@ -61,6 +61,7 @@ class registoFuncionario_dal{
     function registarFuncionario($dados){
         $this->conn->begin_transaction();
         try{
+        
             // 1. Inserir dados pessoais
         $stmt = $this->conn->prepare("INSERT INTO dadospessoais 
             (nomeCompleto, nomeAbreviado, dataNascimento, moradaFiscal, cc, dataValidade, nif, niss, genero, idIndicativo, contactoPessoal, contactoEmergencia, grauDeRelacionamento, email, idNacionalidade) 
@@ -88,8 +89,7 @@ class registoFuncionario_dal{
         echo "Dados pessoais inseridos com sucesso<br>";
 
         $idDadosPessoais = $this->conn->insert_id;
-
-        /*
+        
         // 2. Inserir dados de login
         //$hashedPassword = password_hash($dados['password'], PASSWORD_BCRYPT);
         //por enquanto vou deixar sem hash
@@ -98,7 +98,7 @@ class registoFuncionario_dal{
         $stmt->bind_param("ssi", $dados['numeroMecanografico'], $dados["password"], $dados["idCargo"]);
         $stmt->execute();
         $idDadosLogin = $dados['numeroMecanografico'];
-
+        /*
         // 3. Inserir dados do contrato
         $stmt = $this->conn->prepare("INSERT INTO dadoscontrato (dataInicioDeContrato, dataFimDeContrato, tipoDeContrato, regimeDeHorarioDeTrabalho) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $dados['dataInicioContrato'], $dados['dataFimContrato'], $dados['tipoContrato'], $dados['regimeHorarioTrabalho']);
