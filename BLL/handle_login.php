@@ -48,7 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["loggedin"] = true;
             //$_SESSION["id"] = $id;
             $_SESSION["nMeca"] = $nMeca;
-            
+            $_SESSION["idCargo"] = $idCargo;
+
             // Redirect user to welcome page
             header("location: perfil.php");
             
