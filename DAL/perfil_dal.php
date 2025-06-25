@@ -18,7 +18,7 @@ class Perfil_DAL {
   }
 
   function getDadosFinanceirosById($nMeca) {
-    $query = "SELECT df.* FROM dadosfinanceiros df INNER JOIN funcionario f ON df.idDadosPessoais = f.idDadosFinanceiros INNER JOIN dadoslogin dl ON F.idLogin = dl.idLogin WHERE dl.numeroMecanografico = ?";
+    $query = "SELECT df.* FROM dadosfinanceiros df INNER JOIN funcionario f ON df.idDadosFinanceiros = f.idDadosFinanceiros INNER JOIN dadoslogin dl ON F.idLogin = dl.idLogin WHERE dl.numeroMecanografico = ?";
     $stmt=$this->conn->prepare($query);
     $stmt->bind_param("i", $nMeca);
     $stmt->execute();
@@ -26,7 +26,7 @@ class Perfil_DAL {
   }
 
   function getDadosContratoById($nMeca) {
-    $query = "SELECT dc.* FROM dadoscontrato dp INNER JOIN funcionario f ON dc.idDadosContrato = f.idDadosContrato INNER JOIN dadoslogin dl ON F.idLogin = dl.idLogin WHERE dl.numeroMecanografico = ?";
+    $query = "SELECT dc.* FROM dadoscontrato dc INNER JOIN funcionario f ON dc.idDadosContrato = f.idDadosContrato INNER JOIN dadoslogin dl ON F.idLogin = dl.idLogin WHERE dl.numeroMecanografico = ?";
     $stmt=$this->conn->prepare($query);
     $stmt->bind_param("i", $nMeca);
     $stmt->execute();
@@ -34,7 +34,7 @@ class Perfil_DAL {
   }
 
   function getCVById($nMeca) {
-    $query = "SELECT cv.* FROM cv cv INNER JOIN funcionario f ON dp.idCV = f.idCV INNER JOIN dadoslogin dl ON F.idLogin = dl.idLogin WHERE dl.numeroMecanografico = ?";
+    $query = "SELECT cv.* FROM cv cv INNER JOIN funcionario f ON cv.idCV = f.idCV INNER JOIN dadoslogin dl ON f.idLogin = dl.idLogin WHERE dl.numeroMecanografico = ?";
     $stmt=$this->conn->prepare($query);
     $stmt->bind_param("i", $nMeca);
     $stmt->execute();
