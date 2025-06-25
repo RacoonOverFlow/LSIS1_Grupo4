@@ -20,3 +20,13 @@ function getEquipasByCoordenador($coordenadorId) {
         return [];
     }
 }
+
+function getIdCargoByNumeroMecanografico($numeroMecanografico) {
+    try {
+        $equipaDal = new Equipa_DAL();
+        return $equipaDal->getIdCargoByNumeroMecanografico($numeroMecanografico);
+    } catch (Exception $e) {
+        error_log("Erro ao obter ID do cargo: " . $e->getMessage());
+        return null;
+    }
+}

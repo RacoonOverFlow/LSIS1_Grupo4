@@ -59,4 +59,17 @@ class Equipa_DAL
         }
         return $membros;
     }
+
+
+    function getIdCargoByNumeroMecanografico($numeroMecanografico){
+    $query = "SELECT idCargo FROM dadoslogin WHERE numeroMecanografico = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("s", $numeroMecanografico);
+    $stmt->execute();
+    $stmt->bind_result($cargoId);
+    $stmt->fetch();
+    $stmt->close();
+
+    return $cargoId;
+}
 }

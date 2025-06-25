@@ -5,15 +5,15 @@ error_reporting(E_ALL);
 session_start();
 require_once __DIR__ . '/../BLL/equipaBLL.php';
 
-// Verificar login e cargos
-if (!isset($_SESSION['numeroMecanografico']) || !isset($_SESSION['idCargo'])) {
+
+if (!isset($_SESSION['nMeca'])) {
   header("Location: login.php");
   exit;
 }
 
 // Obter informações do usuário logado
-$numeroMecanografico = $_SESSION['numeroMecanografico'];
-$utilizadorCargo = $_SESSION['idCargo']; // Deve ser setado no login
+$numeroMecanografico = $_SESSION['nMeca'];
+$utilizadorCargo = getIdCargoByNumeroMecanografico($numeroMecanografico);
 
 // Determinar quais equipas mostrar
 switch ($utilizadorCargo) {

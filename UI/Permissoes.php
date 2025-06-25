@@ -18,7 +18,7 @@ function mostrarHeader($cargo) {
             </div>
             <?php if ($cargo['cargo'] === 'Recursos Humanos' ||$cargo['cargo'] === 'Administrador' || $cargo['cargo'] === 'Coordenador'): ?>
                 <div class="button-next-page">
-                    <a class="links" href="Equipas.html">Equipas</a>
+                    <a class="links" href="equipas.php">Equipas</a>
                 </div>
                 <div class="button-next-page">
                     <a class="links" href="Dashboard.html">Dashboard</a>
