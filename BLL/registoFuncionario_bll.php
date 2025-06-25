@@ -100,27 +100,41 @@ function displayForm() {
     <option value="">Selecione um genero</option>
     <option value="feminino">Feminino</option>
     <option value="Masculino">Masculino</option>
-  </select><br>
+  </select><br>';
+  $dal = new registoFuncionario_dal();
+  $indicativos = $dal->getIndicativos();
+  echo 'Contacto pessoal:
+  <select name="idIndicativo">
+    <option value="">Selecione umm indicativo</option>';
+  
+  foreach($indicativos as $indicativo){
+    echo '<option value="' . htmlspecialchars($indicativo['idIndicativo']) 
+    . '">' . htmlspecialchars($indicativo['indicativo']) .'</option>';
+  }
 
-  Contacto de emergência:
-  <select name="indicativo">
-    <option value="">Selecione um indicativo</option>
-    <option value="+351">+351</option>
-  </select>
-  <input type="text" name="contactoEmergencia" placeholder="Telefone de emergência"><br>
+  echo '</select>
+  <input type="text" name="contactoPessoal" placeholder="Telefone pessoal"><br>
+
+  Contacto de Emergência:
+  <input type="text" name="contactoEmergencia" placeholder="Contacto de emergência"><br>
 
   Grau de relacionamento:
   <input type="text" name="grauRelacionamento" placeholder="Ex: Pai, Esposa, Amigo"><br>
 
   Email:
-  <input type="email" name="email" placeholder="Email Pessoal"><br>
+  <input type="email" name="email" placeholder="Email Pessoal"><br>';
 
-  Nacionalidade:
-  <select name="Nacionalidade">
-    <option value="">Selecione uma nacionalidade</option>
-    <option value="portuguesa">Portuguesa</option>
-  </select><br><br>
+  $nacionalidades = $dal->getNacionalidades();
+  echo 'Nacionalidade:
+  <select name="idNacionalidade">
+    <option value="">Selecione uma nacionalidade</option>';
+  
+  foreach($nacionalidades as $nacionalidade){
+    echo '<option value="' . htmlspecialchars($nacionalidade['idNacionalidade']) 
+    . '">' . htmlspecialchars($nacionalidade['nacionalidade']) .'</option>';
+  }
 
+  echo '</select><br><br>
   <!-- Dados Contrato -->
   <h3>Dados do Contrato</h3>
   Data de início:
@@ -177,15 +191,19 @@ function displayForm() {
   <input type="date" name="voucherNos"><br><br>
 
   <!-- Cargo -->
-  <h3>Cargo</h3>
-  <select name="cargo">
-    <option value="">Selecione um cargo</option>
-    <option value="Convidado">Convidado</option>
-    <option value="Colaborador">Colaborador</option>
-    <option value="coordenador">Coordenador</option>
-    <option value="Recurso Humanos">Recursos Humanos</option>
-    <option value="Administrador">Administrador</option>
-  </select><br><br>
+  <h3>Cargo</h3>';
+
+  $cargos = $dal->getCargos();
+  echo 'Cargo:
+  <select name="idCargo">
+    <option value="">Selecione um cargo</option>';
+  
+  foreach($cargos as $cargo){
+    echo '<option value="' . htmlspecialchars($cargo['idCargo']) 
+    . '">' . htmlspecialchars($cargo['cargo']) .'</option>';
+  }
+  
+  echo '</select><br><br>
 
   <!-- Viatura -->
   <h3>Viatura</h3>
@@ -201,7 +219,7 @@ function displayForm() {
   <!-- CV -->
   <h3>CV</h3>
   CV:
-  <select name="Habilitações literarias">
+  <select name="HabilitaçõesLiterarias">
   <option value="">Habilitações</option>
   <option value="12ºano">12º ano</option>
   <option value="Licenciatura">Licenciatura</option>
@@ -210,7 +228,9 @@ function displayForm() {
   Curso:
   <input type="text" name="curso" placeholder="Curso"><br>
   Frequencia:
-  <input type="text" name="frequencia" placeholder="Frequencia"><br><br>
+  <input type="text" name="frequencia" placeholder="Frequencia"><br>
+  IdDocumento:
+  <input type="number" name="idDocumento" placeholder="idDocumento"><br><br>
 
   <!-- Botão -->
   <input type="submit" value="Registar"/>
