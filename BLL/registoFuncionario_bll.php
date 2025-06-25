@@ -250,7 +250,6 @@ function showUI(){
         else{
           header("Location: registoFuncionario.php?erro=funcionarioDuplicado");
           exit;
-
         }
       }
       catch(RuntimeException $e){

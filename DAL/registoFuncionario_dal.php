@@ -147,6 +147,13 @@ class registoFuncionario_dal{
         echo "Funcionario inserido com sucesso<br>";
         $idFuncionario = $this->conn->insert_id;
 
+        // 10. inserir viatura_funcionario
+        $stmt = $this->conn->prepare("INSERT INTO viatura_funcionario (idViatura, idFuncionario) VALUE (?,?)");
+        if(!$stmt) throw new Exception("Erro na prepare viatura_funcionario" . $this->conn->error);
+        $stmt->bind_param("ii", $idViatura, $idFuncionario);
+        if(!$stmt->execute()) throw new Exception("Erro execute viatura_funcionario" . $stmt->error);
+        echo "viatura_funcionario inserido com sucesso";
+        
         $this->conn->commit();
 
         } catch (Exception $e) {
