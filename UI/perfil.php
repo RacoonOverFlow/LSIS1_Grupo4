@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-include "../BLL/Perfil_bll.php";
+require_once "../BLL/Perfil_bll.php";
 include "Permissoes.php";
 
 ?>
