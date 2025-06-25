@@ -2,7 +2,8 @@
 
 session_start();
 include "../BLL/Perfil_bll.php";
-$nMeca = $_SESSION['nMeca'] ?? null;
+include "Permissoes.php";
+
 ?>
 
 
@@ -18,12 +19,12 @@ $nMeca = $_SESSION['nMeca'] ?? null;
 <body>
 
   <main>
-    <div class="header">
+    <!--<div class="header">
       <div class="button-page">
         <a class="links" href="profile.html">Perfil</a>
       </div>
       <div class="button-next-page">
-        <a class="links" href="Teams.html">Equipas</a>
+        <a class="links" href="Equipas.html">Equipas</a>
       </div>
       <div class="button-next-page">
         <a class="links" href="Dashboard.html">Dashboard</a>
@@ -34,8 +35,12 @@ $nMeca = $_SESSION['nMeca'] ?? null;
       <div class="button-page">
         <a class="links" href="logout.php">Logout</a>
       </div>  
-    </div>
+    </div>-->
 
-  <?php setPerfil($nMeca); ?>
+    
+
+  <?php 
+
+  setPerfil($nMeca); ?>
   </main>
 </body>

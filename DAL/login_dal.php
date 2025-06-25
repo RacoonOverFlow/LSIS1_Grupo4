@@ -1,5 +1,5 @@
 <?php
-include("../DAL/connection.php");
+require_once "connection.php";
 
 
 function checkUser($nMeca, $password) {
