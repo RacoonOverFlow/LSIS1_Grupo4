@@ -22,7 +22,7 @@ class registoFuncionario_dal{
         while($row = $result->fetch_assoc()){
             $nacionalidades[] = $row;
         }
-        return $nacionalidades;//devolve array de arrays associativos com idNacionalidade e nacionalidade
+        return $nacionalidades;//devolve array com idNacionalidade e nacionalidade
     }
 
     function getCargos(){
@@ -38,7 +38,7 @@ class registoFuncionario_dal{
         while($row = $result->fetch_assoc()){
             $cargos[] = $row;
         }
-        return $cargos;//devolve array de arrays associativos com idNacionalidade e nacionalidade
+        return $cargos;//devolve array com idCargo e cargo
     }
 
     function getIndicativos(){
@@ -54,7 +54,7 @@ class registoFuncionario_dal{
         while($row = $result->fetch_assoc()){
             $indicativos[] = $row;
         }
-        return $indicativos;//devolve array de arrays associativos com idNacionalidade e nacionalidade
+        return $indicativos;//devolve array com idNacionalidade e nacionalidade
     }
 
 
@@ -65,7 +65,8 @@ class registoFuncionario_dal{
         $stmt = $this->conn->prepare("INSERT INTO dadospessoais 
             (nomeCompleto, nomeAbreviado, dataNascimento, moradaFiscal, cc, dataValidade, nif, niss, genero, idIndicativo, contactoPessoal, contactoEmergencia, grauDeRelacionamento, email, idNacionalidade) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
+        if(!$stmt) throw new Exception("Erro prepare dadospessoais: " . $this->conn->error);
+        
         $stmt->bind_param("sssssssssissssi",
             $dados['nomeCompleto'],
             $dados['nomeAbreviado'],
@@ -83,27 +84,30 @@ class registoFuncionario_dal{
             $dados['email'],
             $dados["idNacionalidade"]
         );
-        $stmt->execute();
+        if(!$stmt->execute()) throw new Exception("Erro execute dadospessoais: " . $stmt->error);
+        echo "Dados pessoais inseridos com sucesso<br>";
 
-        $idPessoais = $this->conn->insert_id;
+        $idDadosPessoais = $this->conn->insert_id;
 
+        /*
         // 2. Inserir dados de login
         //$hashedPassword = password_hash($dados['password'], PASSWORD_BCRYPT);
         //por enquanto vou deixar sem hash
         $stmt = $this->conn->prepare("INSERT INTO dadoslogin (numeroMecanografico, password, idCargo) VALUES (?, ?, ?)");
+        if(!$stmt) throw new Exception("Erro na prepare dadoslogin ". $this->conn->error);
         $stmt->bind_param("ssi", $dados['numeroMecanografico'], $dados["password"], $dados["idCargo"]);
         $stmt->execute();
-        $idLogin = $dados['numeroMecanografico'];
+        $idDadosLogin = $dados['numeroMecanografico'];
 
         // 3. Inserir dados do contrato
         $stmt = $this->conn->prepare("INSERT INTO dadoscontrato (dataInicioDeContrato, dataFimDeContrato, tipoDeContrato, regimeDeHorarioDeTrabalho) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $dados['dataInicioContrato'], $dados['dataFimContrato'], $dados['Tipo de contrato'], $dados['Regime de Horario de Trabalho']);
+        $stmt->bind_param("ssss", $dados['dataInicioContrato'], $dados['dataFimContrato'], $dados['tipoContrato'], $dados['regimeHorarioTrabalho']);
         $stmt->execute();
         $idDadosContrato = $this->conn->insert_id;
 
         // 4. Inserir dados financeiros
         $stmt = $this->conn->prepare("INSERT INTO dadosfinanceiros (situacaoDeIRS, remuneracao, numeroDeDependentes, IBAN) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("sdis", $dados['Situação de IRS'], $dados['remuneracao'], $dados['numeroDependentes'], $dados['iban']);
+        $stmt->bind_param("sdis", $dados['situacaoIrs'], $dados['remuneracao'], $dados['numeroDependentes'], $dados['iban']);
         $stmt->execute();
         $idDadosFinanceiros = $this->conn->insert_id;
 
@@ -117,16 +121,22 @@ class registoFuncionario_dal{
         $stmt = $this->conn->prepare("INSERT INTO viatura (tipo, matricula) VALUES (?, ?)");
         $stmt->bind_param("ss", $dados['tipoViatura'], $dados['matriculaViatura']);
         $stmt->execute();
+        $idViatura = $this->conn->insert_id;
 
         // 8. Inserir CV
         $stmt = $this->conn->prepare("INSERT INTO cv (habilitacoesLiterarias, curso, frequencia, idDocumento) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("sssi", $dados['HabilitaçõesLiterarias'], $dados['curso'], $dados['frequencia'], $dados["idDocumento"]);
+        $stmt->bind_param("sssi", $dados['habilitacoesLiterarias'], $dados['curso'], $dados['frequencia'], $dados["idDocumento"]);
         $stmt->execute();
+        $idCV = $this->conn->insert_id;
+
+        $stmt = $this->conn->prepare("INSERT INTO funcionario (numeroMecanografico, idDadosContrato, idDadosPessoais, idDadosFinanceiros, idCV, idBeneficios");
+        $stmt->bind_param("iiiiii", $dados["numeroMecanografico"], $idDadosContrato, $idDadosPessoais, $idDadosFinanceiros,$idCV, $idBeneficios);
+        $stmt->execute();
+        $idFuncionario = $this->conn->insert_id;*/
 
         $this->conn->commit();
 
         } catch (Exception $e) {
-            echo "Não deu";
             $this->conn->rollback();
             throw new RuntimeException("Erro ao registar funcionário: " . $e->getMessage());
             
