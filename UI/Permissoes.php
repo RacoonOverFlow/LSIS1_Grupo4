@@ -14,14 +14,14 @@ function mostrarHeader($cargo) {
     ?>
         <div class="header">
             <div class="button-page">
-                <a class="links" href="profile.html">Perfil</a>
+                <a class="links" href="perfil.php">Perfil</a>
             </div>
             <?php if ($cargo['cargo'] === 'Recursos Humanos' ||$cargo['cargo'] === 'Administrador' || $cargo['cargo'] === 'Coordenador'): ?>
                 <div class="button-next-page">
-                    <a class="links" href="Equipas.html">Equipas</a>
+                    <a class="links" href="equipas.php">Equipas</a>
                 </div>
                 <div class="button-next-page">
-                    <a class="links" href="Dashboard.html">Dashboard</a>
+                    <a class="links" href='dashboard.php">Dashboard</a>
                 </div>
             <?php endif; ?> 
 
