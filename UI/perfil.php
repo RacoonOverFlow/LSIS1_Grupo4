@@ -1,11 +1,8 @@
 <?php
-
 session_start();
 require_once "../BLL/Perfil_bll.php";
 include "Permissoes.php";
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,30 +14,8 @@ include "Permissoes.php";
 </head>
 
 <body>
-
   <main>
-    <!--<div class="header">
-      <div class="button-page">
-        <a class="links" href="profile.html">Perfil</a>
-      </div>
-      <div class="button-next-page">
-        <a class="links" href="Equipas.html">Equipas</a>
-      </div>
-      <div class="button-next-page">
-        <a class="links" href="Dashboard.html">Dashboard</a>
-      </div>
-      <div class="logo">
-        <img clas = "imgLogo" src="../photos/logo.png" alt="Tlantic">
-      </div>
-      <div class="button-page">
-        <a class="links" href="logout.php">Logout</a>
-      </div>  
-    </div>-->
-
-    
-
   <?php 
-
   setPerfil($nMeca); ?>
   </main>
 </body>

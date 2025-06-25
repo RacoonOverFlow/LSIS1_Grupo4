@@ -21,7 +21,7 @@ function mostrarHeader($cargo) {
                     <a class="links" href="equipas.php">Equipas</a>
                 </div>
                 <div class="button-next-page">
-                    <a class="links" href='dashboard.php">Dashboard</a>
+                    <a class="links" href="dashboard.php">Dashboard</a>
                 </div>
             <?php endif; ?> 
 
