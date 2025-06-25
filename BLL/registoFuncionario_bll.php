@@ -1,5 +1,7 @@
 <?php
-include "../DAL/registoFuncionario_dal.php";
+require_once __DIR__ . '/../DAL/registoFuncionario_dal.php';
+
+
 
 function isThisACallback(): bool{
 
@@ -51,7 +53,7 @@ function isThisACallback(): bool{
     'curso',
     'frequencia'];
   foreach($camposObrigatorio as $campo){
-    if(empty($campo)){
+    if(empty($_POST[$campo])){
       return false;
     }
   }

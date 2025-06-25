@@ -1,12 +1,12 @@
 <?php
+require_once "./connection.php";
+
 class Perfil_DAL {
   private $conn;
 
   function __construct() {
-    $this->conn = new mysqli('localhost', 'root', '', 'tlantic');
-    if ($this->conn->connect_error) {
-      die("Erro na ligação à base de dados: " . $this->conn->connect_error);
-    }
+    $dal= new connection();
+    $this->conn = $dal->getConn();
   }
 
   function getDadosPessoaisById($nMeca) {
