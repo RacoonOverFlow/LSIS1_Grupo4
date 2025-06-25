@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once '../DAL/perfil_dal.php';
 
-$id_funcionario = $_SESSION['nMeca'] ?? null;
+$nMeca = $_SESSION['nMeca'] ?? null;
 
 $dal = new Perfil_DAL();
   
@@ -14,12 +14,11 @@ $cargo = $dal->getCargoById($nMeca);
 
 function mostrarHeader() {
     ?>
-    <header class="nav_bar">
         <div class="header">
             <div class="button-page">
                 <a class="links" href="profile.html">Perfil</a>
             </div>
-            <?php if ($cargo['cargo'] === 'Recursos Humanos' || $cargo['cargo'] === 'Administrador' || $cargo['cargo'] === 'Coordenador'): ?>
+            <?php if ($cargo['cargo'] === 'Administrador' || $cargo['cargo'] === 'Coordenador'): ?>
                 <div class="button-next-page">
                     <a class="links" href="Equipas.html">Equipas</a>
                 </div>
@@ -31,7 +30,6 @@ function mostrarHeader() {
             <div class="logo">
                 <img clas = "imgLogo" src="../photos/logo.png" alt="Tlantic">
             </div>
-        </div>
 
         <?php if (isset($_SESSION['nMeca'])): ?>
             <div class="button-page">
@@ -40,6 +38,6 @@ function mostrarHeader() {
         <?php else: ?>
             <div class="button-page"><a class="links" href="login.php">Login</a></div>
         <?php endif; ?>
-    </header>
+        </div>
     <?php
 }
