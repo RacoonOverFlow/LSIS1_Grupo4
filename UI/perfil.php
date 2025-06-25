@@ -23,7 +23,7 @@ $nMeca = $_SESSION['nMeca'] ?? null;
         <a class="links" href="profile.html">Perfil</a>
       </div>
       <div class="button-next-page">
-        <a class="links" href="Teams.html">Equipas</a>
+        <a class="links" href="Equipas.html">Equipas</a>
       </div>
       <div class="button-next-page">
         <a class="links" href="Dashboard.html">Dashboard</a>

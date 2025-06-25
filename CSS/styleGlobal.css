@@ -92,11 +92,12 @@ button {
 .perfilInfo {
   background-color: #E2E2E2;
   width: 100%;
-  height: 541px;
+  height: 100%;
   margin: 10px;
   padding: 10px;
   border-radius: 25px;
   align-items: center;
+  display: flex;
 }
 
 .Alertas {
