@@ -14,7 +14,7 @@ function setPerfil($nMeca) {
   $beneficios = $dal->getBeneficiosById($nMeca);
   $cargo = $dal->getCargoById($nMeca);
 
-  if (!$dadosPessoais || empty($dadosPessoais["nomeCompelto"])) {
+  if (!$dadosPessoais || empty($dadosPessoais["nomeCompleto"])) {
     echo "<p>Utilizador não encontrado.</p>";
     return;
   }
@@ -39,7 +39,7 @@ function setPerfil($nMeca) {
     echo '<br>';
     echo '<h3>Dados Pessoais</h3>';
     echo '<p><strong>Número Mecanográfico:</strong> ' . htmlspecialchars($nMeca) . '</p>';
-    echo '<p><strong>Nome:</strong> ' . htmlspecialchars($dadosPessoais['nomeCompelto']) . '</p>';
+    echo '<p><strong>Nome:</strong> ' . htmlspecialchars($dadosPessoais['nomeCompleto']) . '</p>';
     echo '<p><strong>Email:</strong> ' . htmlspecialchars($dadosPessoais['email']) . '</p>'; 
     echo '<p><strong>Data Nascimento:</strong> ' . htmlspecialchars($dadosPessoais['dataNascimento']) . '</p>';
     echo '<p><strong>Morada:</strong> ' . htmlspecialchars($dadosPessoais['moradaFiscal']) . '</p>';

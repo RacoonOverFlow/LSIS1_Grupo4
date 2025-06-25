@@ -6,11 +6,11 @@ require_once __DIR__ . '/../DAL/registoFuncionario_dal.php';
 function isThisACallback(): bool{
 
   $camposObrigatorio=[
-    /*
+  
     //Dados Login
     'numeroMecanografico',
     'password',
-    'idCargo',*/
+    'idCargo',
 
     // Dados Pessoais
     'nomeCompleto',
@@ -28,7 +28,7 @@ function isThisACallback(): bool{
     'grauRelacionamento',
     'email',
     'idNacionalidade',
-/*
+
     // Dados Contrato
     'dataInicioContrato',
     'dataFimContrato',
@@ -53,7 +53,7 @@ function isThisACallback(): bool{
     'habilitacoesLiterarias',
     'curso',
     'frequencia',
-  'idDocumento'*/];
+  'idDocumento'];
 
   foreach($camposObrigatorio as $campo){
     if(empty($_POST[$campo])){
@@ -248,7 +248,7 @@ function showUI(){
           exit;
         }
         else{
-          header("Location: registoFuncionario.php?erro=duplicado");
+          header("Location: registoFuncionario.php?erro=funcionarioDuplicado");
           exit;
 
         }

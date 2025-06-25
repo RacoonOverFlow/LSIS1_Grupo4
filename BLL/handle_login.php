@@ -1,5 +1,5 @@
 <?php
-require_once("../DAL/login_dal.php");
+require_once __DIR__ . '/../DAL/login_dal.php';
 
 $dal= new connection();
 
