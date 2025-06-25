@@ -4,7 +4,7 @@ class connection
     private $conn;
     function __construct()
     {
-        $this->conn = new mysqli("localhost", "root", "1234", "LSIS1_DB");
+        $this->conn = new mysqli("127.0.0.1", "root", "", "LSIS1_DB");
         if ($this->conn->connect_error) {
             die("Erro de conexão: " . $this->conn->connect_error);
         }
@@ -15,4 +15,3 @@ class connection
         return $this->conn;
     }
 }
-?>

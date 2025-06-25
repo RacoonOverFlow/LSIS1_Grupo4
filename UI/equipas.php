@@ -33,11 +33,11 @@ switch ($utilizadorCargo) {
 <html>
 
 <head>
-  <!-- ... cabeçalho ... -->
+
 </head>
 
 <body>
-  <!-- ... menu ... -->
+  
 
   <div class="backTemplate">
     <?php
