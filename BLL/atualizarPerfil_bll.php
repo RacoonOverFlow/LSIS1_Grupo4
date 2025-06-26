@@ -74,6 +74,7 @@ function displayForm() {
   $dadosContrato = $dal->getDadosContratoById($funcionario['idDadosContrato']);
   $cv = $dal->getCVById($funcionario['idCV']);
   $beneficios = $dal->getBeneficiosById($funcionario['idBeneficios']);
+  $viatura = $dal->getViaturaById($funcionario['idViatura']);
 
 
   echo '<form id="formFuncionario" action="" method="post">';
@@ -237,16 +238,65 @@ function displayForm() {
 }
 
 function showUI(){
-    if(!isThisACallback()){
-        displayForm();
+  if(!isThisACallback()){
+    displayForm();
+  }
+  else{
+    try{
+      $dal = new atualizarPerfil_DAL();
+      $dal->updateDadosPessoais(
+        $_POST['nomeCompleto'],
+        $_POST['nomeAbreviado'],
+        $_POST['dataNascimento'],
+        $_POST['moradaFiscal'],
+        $_POST['cc'],
+        $_POST['dataValidade'],
+        $_POST['nif'],
+        $_POST['niss'],
+        $_POST['Genero'],
+        $_POST['idIndicativo'],
+        $_POST['contactoPessoal'],
+        $_POST['contactoEmergencia'],
+        $_POST['grauDeRelacionamento'],
+        $_POST['email'],
+        $_POST['idNacionalidade']
+      );
+
+      $dal->updateDadosFinanceiros(
+        $_POST['iban'],
+        $_POST['situacaoIrs'],
+        $_POST['remuneracao'],
+        $_POST['numeroDependentes']
+      );
+
+      $dal->updateDadosContrato(
+        $_POST['dataInicioContrato'],
+        $_POST['dataFimContrato'],
+        $_POST['tipoContrato'],
+        $_POST['regimeHorarioTrabalho']
+      );
+
+      $dal->updateCV(
+        $_POST['habilitacoesLiterarias'],
+        $_POST['curso'],
+        $_POST['frequencia'],
+        $_POST['idDocumento']
+      );
+
+      $dal->updateBeneficios(
+        $_POST['cartaoContinente'],
+        $_POST['voucherNos']
+      );
+
+      $dal->updateViatura(
+        $_POST['tipoViatura'],
+        $_POST['matriculaViatura']
+      );
+
+      header("Location: Perfil.php");
     }
-    else{
-      try{
-        $dal = new atualizarPerfil_DAL();
-        $dal->registarFuncionario($_POST);
-      }
-      catch(RuntimeException $e){
-        echo "<div>".$e->getMessage()."</div>";
-      }
+    catch(RuntimeException $e){
+      echo "<div>".$e->getMessage()."</div>";
     }
+  }
 }

@@ -1,9 +1,6 @@
 <?php 
-
 session_start();
 require_once "../BLL/atualizarPerfil_bll.php";
-
-
 ?>
 
 <!DOCTYPE html>
