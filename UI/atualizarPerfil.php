@@ -1,5 +1,5 @@
 <?php 
-require_once "../../BLL/atualizarPerfil_bll.php";
+require_once "../BLL/atualizarPerfil_bll.php";
 
 ?>
 
