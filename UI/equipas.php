@@ -6,9 +6,10 @@ session_start();
 require_once __DIR__ . '/../BLL/equipaBLL.php';
 
 
-if (!isset($_SESSION['nMeca'])) {
-  header("Location: login.php");
-  exit;
+if (!isset($_SESSION['nMeca']) || !isset($_SESSION['cargo_id'])) {
+    error_log("Redirecionando para login: Sessão incompleta");
+    //header("Location: login.php");
+    exit;
 }
 
 // Obter informações do usuário logado
@@ -33,7 +34,7 @@ switch ($utilizadorCargo) {
 <html>
 
 <head>
-
+<link rel="stylesheet" href="../CSS/styleGlobal.css">
 </head>
 
 <body>

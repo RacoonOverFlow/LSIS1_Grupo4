@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../DAL/login_dal.php';
 
-$dal= new connection();
+$dal= new Login_DAL();
 
 if (!isset($_SESSION)) {
     session_start();
@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate credentials
     if (empty($nMeca_err) && empty($password_err)) {
         // Prepare a select statement
-        if (checkUser( $nMeca, $password)) {
+        if ($dal ->checkUser( $nMeca, $password)) {
             // Password is correct, so start a new session
             print("triste"); //pf lembrem-se de retirar isto pq é so pra ver se as cenas estao ou nao a funcionar
 
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["loggedin"] = true;
             //$_SESSION["id"] = $id;
             $_SESSION["nMeca"] = $nMeca;
-            $_SESSION["idCargo"] = $idCargo;
+            $_SESSION["idCargo"] = $dal->getIdCargoByNumeroMecanografico($nMeca);
 
             // Redirect user to welcome page
             header("location: perfil.php");
