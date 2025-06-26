@@ -64,15 +64,13 @@ function showUI(){
       $dal = new criarEquipa_DAL();
       $idEquipa = $dal->criarEquipa($_POST["nomeEquipa"]);
 
-      // Associar às coleções (ao criar o item é devolvido e id;
-      // o $_POST['colecoes'] provem do select e contem os ids das coleçoes selecionadas
       if ($idEquipa && isset($_POST['colaboradores'])) {
         $dal->associarColaboradores($idEquipa, $_POST['colaboradores']);
       }
 
-      /*if ($idEquipa && isset($_POST['rh'])) {
+      if ($idEquipa && isset($_POST['rh'])) {
         $dal->associarRH($idEquipa, $_POST['rh']);
-      }*/
+      }
 
       if ($idEquipa && isset($_POST['coordenador'])) {
         $dal->associarCoordenador($idEquipa, $_POST['coordenador']);
