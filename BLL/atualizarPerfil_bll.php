@@ -66,51 +66,44 @@ function isThisACallback(): bool{
 }
 
 function displayForm() {
-  echo '<form id="formFuncionario" action="" method="post">
-  <!-- Dados Login -->
-  <h3>Dados Login</h3>
-  Numero Mecanográfico:
-  <input type="text" name="numeroMecanografico" placeholder="Numero Mecanografico"><br>
+  $dal = new atualizarPerfil_DAL();
+  
+  $funcionario = $dal->getFuncionario($_SESSION['numeroMecanografico']);
+  $dadosPessoais = $dal->getDadosPessoaisById($funcionario['idDadosPessoais']);
+  $dadosFinanceiros = $dal->getDadosFinanceirosById($funcionario['idDadosFinanceiros']);
+  $dadosContrato = $dal->getDadosContratoById($funcionario['idDadosContrato']);
+  $cv = $dal->getCVById($funcionario['idCV']);
+  $beneficios = $dal->getBeneficiosById($funcionario['idBeneficios']);
 
-  Password:
-  <input type="password" name="password" placeholder="Password"><br>';
-  $dal = new registoFuncionario_dal();
-  $cargos = $dal->getCargos();
-  echo 'Cargo:
-  <select name="idCargo">
-    <option value="">Selecione um cargo</option>';
-  
-  foreach($cargos as $cargo){
-    echo '<option value="' . htmlspecialchars($cargo['idCargo']) 
-    . '">' . htmlspecialchars($cargo['cargo']) .'</option>';
-  }
-  
+
+  echo '<form id="formFuncionario" action="" method="post">';
+
   echo '</select><br><br>
   <!-- Dados Pessoais -->
   <h3>Dados Pessoais</h3>
   Nome completo:
-  <input type="text" name="nomeCompleto" placeholder="Nome Completo"><br>
-
+  <input type="text" name="nomeCompleto" placeholder="Nome Completo" value="' . htmlspecialchars($dadosPessoais['nomeCompleto']) .'"><br>
+  
   Nome abreviado:
-  <input type="text" name="nomeAbreviado" placeholder="Nome Abreviado"><br>
+  <input type="text" name="nomeAbreviado" placeholder="Nome Abreviado" value='. htmlspecialchars($dadosPessoais['nomeAbreviado']) .'"><br>
 
   Data de nascimento:
-  <input type="date" name="dataNascimento"><br>
+  <input type="date" name="dataNascimento" value='. htmlspecialchars($dadosPessoais['dataNascimento']) .'"><br>
 
   Morada fiscal:
-  <input type="text" name="moradaFiscal" placeholder="Morada Fiscal"><br>
+  <input type="text" name="moradaFiscal" placeholder="Morada Fiscal" value='. htmlspecialchars($dadosPessoais['moradaFiscal']) .'"><br>
 
   Cartão de Cidadão (CC):
-  <input type="text" name="cc" placeholder="Número CC"><br>
+  <input type="text" name="cc" placeholder="Número CC" value='. htmlspecialchars($dadosPessoais['cc']) .'"><br>
 
   Data de validade do CC:
-  <input type="date" name="validadeCc"><br>
+  <input type="date" name="validadeCc" value='. htmlspecialchars($dadosPessoais['validadeCc']) .'"><br>
 
   NIF:
-  <input type="text" name="nif" placeholder="Número de Identificação Fiscal"><br>
+  <input type="text" name="nif" placeholder="Número de Identificação Fiscal" value='. htmlspecialchars($dadosPessoais['nif']) .'"><br>
 
   NISS:
-  <input type="text" name="niss" placeholder="Número de Identificação da Segurança Social"><br>
+  <input type="text" name="niss" placeholder="Número de Identificação da Segurança Social" value='. htmlspecialchars($dadosPessoais['niss']) .'"><br>
 
   Género:
   <select name="Genero">
@@ -238,22 +231,15 @@ function displayForm() {
   <input type="submit" value="Registar"/>
 </form>';
 }
+
 function showUI(){
     if(!isThisACallback()){
         displayForm();
     }
     else{
       try{
-        $dal = new registoFuncionario_dal();
-        if(!$dal->verificarFuncionarioExiste($_POST['nif'])) {
-          $dal->registarFuncionario($_POST);
-          header("Location: admin.php");
-          exit;
-        }
-        else{
-          header("Location: registoFuncionario.php?erro=funcionarioDuplicado");
-          exit;
-        }
+        $dal = new atualizarPerfil_DAL();
+        $dal->registarFuncionario($_POST);
       }
       catch(RuntimeException $e){
         echo "<div>".$e->getMessage()."</div>";
