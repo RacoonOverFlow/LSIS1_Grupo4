@@ -9,53 +9,9 @@ function isThisACallback(): bool{
 
   $camposObrigatorio=[
   
-    //Dados Login
-    'numeroMecanografico',
-    'password',
-    'idCargo',
-
     // Dados Pessoais
     'nomeCompleto',
-    'nomeAbreviado',
-    'dataNascimento',
-    'moradaFiscal',
-    'cc',
-    'validadeCc',
-    'nif',
-    'niss',
-    'Genero',
-    'idIndicativo',
-    'contactoPessoal',
-    'contactoEmergencia',
-    'grauRelacionamento',
-    'email',
-    'idNacionalidade',
-
-    // Dados Contrato
-    'dataInicioContrato',
-    'dataFimContrato',
-    'tipoContrato',
-    'regimeHorarioTrabalho',
-
-    // Dados Financeiros
-    'situacaoIrs',
-    'remuneracao',
-    'numeroDependentes',
-    'iban',
-
-    // Benefícios
-    'cartaoContinente',
-    'voucherNos',
-
-    // Viatura
-    'tipoViatura',
-    'matriculaViatura',
-
-    // CV
-    'habilitacoesLiterarias',
-    'curso',
-    'frequencia',
-  'idDocumento'];
+];
 
   foreach($camposObrigatorio as $campo){
     if(empty($_POST[$campo])){
@@ -74,7 +30,6 @@ function displayForm() {
   $dadosContrato = $dal->getDadosContratoById($funcionario['idDadosContrato']);
   $cv = $dal->getCVById($funcionario['idCV']);
   $beneficios = $dal->getBeneficiosById($funcionario['idBeneficios']);
-  $viatura = $dal->getViaturaById($funcionario['idViatura']);
 
 
   echo '<form id="formFuncionario" action="" method="post">';
@@ -205,16 +160,6 @@ function displayForm() {
   Data de emissão do voucher NOS:
   <input type="date" name="voucherNos" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"readonly><br><br>
 
-  <!-- Viatura -->
-  <h3>Viatura</h3>
-  Tipo de viatura:
-  <select name="tipoViatura">
-  <option value="">Selecione o tipo</option>
-  <option value="empresa"' . ($viatura['tipo'] == "empresa" ? 'selected' : '') . '>Empresa</option>
-  <option value="pessoal"' . ($viatura['tipo'] == "pessoal" ? 'selected' : '') . '>Pessoal</option>
-  </select><br>
-  Matrícula:
-  <input type="text" name="matriculaViatura" placeholder="XX-00-XX" value="'. htmlspecialchars($viatura['matriculaDaViatura']) .'"><br><br>
 
   <!-- CV -->
   <h3>CV</h3>
