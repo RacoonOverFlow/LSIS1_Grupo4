@@ -7,5 +7,6 @@
 </head>
 <body>
     <a href="registoFuncionario.php"><button>Criar novo funcionário</button></a>
+    <a href="visualizarFuncionarios.php"><button>Visualizar funcionários</button></a>
 </body>
 </html>

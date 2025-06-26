@@ -13,7 +13,7 @@ class atualizarPerfil_DAL {
     $stmt=$this->conn->prepare($query);
     $stmt->bind_param("i", $numMecanografico);
     $stmt->execute();
-    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    return $stmt->get_result()->fetch_assoc();
   }
 
   function getDadosPessoaisById($idDadosPessoais) {
@@ -55,6 +55,39 @@ class atualizarPerfil_DAL {
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc();
   }
+
+  function getIndicativos(){
+    $query = "SELECT * FROM indicativocontacto";
+    $stmt= $this->conn->prepare($query);
+    if (!$stmt) {
+        throw new Exception("Erro na preparação da query". $this->conn->error);
+    }
+    $stmt->execute();
+    $result= $stmt->get_result();
+
+    $indicativos=[];
+    while($row = $result->fetch_assoc()){
+        $indicativos[] = $row;
+    }
+    return $indicativos;//devolve array com idNacionalidade e nacionalidade
+  }
+
+
+  function getNacionalidades(){
+    $query = "SELECT * FROM nacionalidade";
+    $stmt= $this->conn->prepare($query);
+    if (!$stmt) {
+        throw new Exception("Erro na preparação da query". $this->conn->error);
+    }
+    $stmt->execute();
+    $result= $stmt->get_result();
+
+    $nacionalidades=[];
+    while($row = $result->fetch_assoc()){
+        $nacionalidades[] = $row;
+    }
+    return $nacionalidades;//devolve array com idNacionalidade e nacionalidade
+  }  
 
 
 }  
