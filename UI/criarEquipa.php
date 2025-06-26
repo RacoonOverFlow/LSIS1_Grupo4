@@ -17,7 +17,6 @@ include "Permissoes.php";
 
 <body>
   <main>
-  <?php 
-  criarEquipa(); ?>
+  <?php showUI(); ?>
   </main>
 </body>
