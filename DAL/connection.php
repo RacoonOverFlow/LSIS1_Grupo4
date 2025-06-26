@@ -4,7 +4,7 @@ class connection
     private $conn;
     function __construct()
     {
-        $this->conn = new mysqli("127.0.0.1", "root", "", "tlantic");
+        $this->conn = new mysqli("localhost", "root", "", "tlantic");
         if ($this->conn->connect_error) {
             die("Erro de conexão: " . $this->conn->connect_error);
         }
