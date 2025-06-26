@@ -3,53 +3,88 @@ require_once "connection.php";
 
 class Equipa_DAL
 {
-   private $conn;
+    private $conn;
 
-  function __construct() {
-    $dal= new connection();
-    $this->conn = $dal->getConn();
-  }
-
-    // Buscar todas as equipas
-    public function getAllEquipas()
+    function __construct()
     {
-        $query = "SELECT * FROM equipa";
-        $result = $this->conn->query($query);
-
-        $equipas = [];
-        if ($result) {
-            while ($equipa = $result->fetch_assoc()) {
-                $equipa['colaboradores'] = $this->getMembrosEquipa($equipa['idEquipa']);
-                $equipas[] = $equipa;
-            }
-        }
-        return $equipas;
+        $dal = new connection();
+        $this->conn = $dal->getConn();
+        error_log("Conexão com DB estabelecida");
     }
 
+    // Buscar todas as equipas 
+    function getAllEquipas() {
+    error_log("Buscando TODAS as equipas");
+    
+    $query = "SELECT idEquipa, nome FROM equipa";
+
+    
+    $result = $this->conn->query($query);
+    
+    if (!$result) {
+        error_log("Erro na query getAllEquipas: " . $this->conn->error);
+        return [];
+    }
+
+    $equipas = [];
+    while ($equipa = $result->fetch_assoc()) {
+        error_log("Equipa encontrada: " . print_r($equipa, true)); 
+        $equipa['colaboradores'] = $this->getMembrosEquipa($equipa['idEquipa']);
+        $equipas[] = $equipa;
+    }
+    
+    return $equipas;
+}
+
     // Buscar equipas por coordenador
-    function getEquipasByCoordenador($coordenadorId)
+    function getEquipasByCoordenador($numeroMecanografico)
     {
-        $query = "SELECT * FROM equipa WHERE coordenador_id = ?";
+        error_log("Buscando equipas para coordenador: $numeroMecanografico");
+        
+        // Primeiro: converter número mec para ID funcionário
+        $funcionarioId = $this->getFuncionarioIdByNumeroMecanografico($numeroMecanografico);
+        
+        if (!$funcionarioId) {
+            error_log("Coordenador não encontrado: $numeroMecanografico");
+            return [];
+        }
+
+        error_log("ID encontrado para $numeroMecanografico: $funcionarioId");
+        
+        $query = "SELECT 
+                    e.idEquipa, 
+                    e.nome,
+                    dp.nomeAbreviado AS nome_coordenador
+                  FROM equipa e
+                  LEFT JOIN funcionario f ON e.coordenador_id = f.idFuncionario
+                  LEFT JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+                  WHERE e.coordenador_id = ?";
+        
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $coordenadorId);
+        $stmt->bind_param("i", $funcionarioId);
         $stmt->execute();
         $result = $stmt->get_result();
 
         $equipas = [];
         while ($equipa = $result->fetch_assoc()) {
+            error_log("Equipa encontrada: " . $equipa['nome']);
             $equipa['colaboradores'] = $this->getMembrosEquipa($equipa['idEquipa']);
             $equipas[] = $equipa;
         }
+        
+        error_log("Equipas encontradas para coordenador: " . count($equipas));
         return $equipas;
     }
 
-    
     private function getMembrosEquipa($equipaId)
     {
-        $query = "SELECT f.idFuncionario, f.nome 
-                  FROM funcionario f
-                  JOIN colaborador_equipa ce ON f.idFuncionario = ce.idColaborador
+        $query = "SELECT 
+                    dp.nomeAbreviado AS nome
+                  FROM colaborador_equipa ce
+                  JOIN funcionario f ON ce.idColaborador = f.idFuncionario
+                  JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
                   WHERE ce.idEquipa = ?";
+        
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $equipaId);
         $stmt->execute();
@@ -61,17 +96,16 @@ class Equipa_DAL
         }
         return $membros;
     }
+    
+    private function getFuncionarioIdByNumeroMecanografico($numeroMecanografico) {
+        $query = "SELECT idFuncionario FROM funcionario WHERE numeroMecanografico = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $numeroMecanografico);
+        $stmt->execute();
+        $stmt->bind_result($idFuncionario);
+        $stmt->fetch();
+        $stmt->close();
 
-
-    function getIdCargoByNumeroMecanografico($numeroMecanografico){
-    $query = "SELECT idCargo FROM dadoslogin WHERE numeroMecanografico = ?";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bind_param("s", $numeroMecanografico);
-    $stmt->execute();
-    $stmt->bind_result($cargoId);
-    $stmt->fetch();
-    $stmt->close();
-
-    return $cargoId;
-}
+        return $idFuncionario;
+    }
 }

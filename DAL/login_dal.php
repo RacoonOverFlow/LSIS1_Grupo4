@@ -10,7 +10,7 @@ class Login_DAL {
     }
 
     function checkUser($nMeca, $password) {
-        $sql = "SELECT dadoslogin.numeroMecanografico, dadoslogin.password, FROM funcionario
+        $sql = "SELECT dadoslogin.numeroMecanografico, dadoslogin.password FROM funcionario
         INNER JOIN dadoslogin ON funcionario.numeroMecanografico = dadoslogin.numeroMecanografico WHERE dadoslogin.numeroMecanografico = ?";
         $fetched_nMeca = $hashed_password = '';
         $dal = new connection();
