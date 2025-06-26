@@ -5,8 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once "../DAL/criarEquipa_dal.php";
 
 function isThisACallback(): bool {
-  if (empty($_POST['nomeEquipa'])
-  {
+  if (empty($_POST['nomeEquipa']))  {
     return false;
   }
   return true;
