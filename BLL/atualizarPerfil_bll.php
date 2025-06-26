@@ -68,7 +68,7 @@ function isThisACallback(): bool{
 function displayForm() {
   $dal = new atualizarPerfil_DAL();
   
-  $funcionario = $dal->getFuncionario($_SESSION['numeroMecanografico']);
+  $funcionario = $dal->getFuncionario($_SESSION['nMeca'] ?? null);
   $dadosPessoais = $dal->getDadosPessoaisById($funcionario['idDadosPessoais']);
   $dadosFinanceiros = $dal->getDadosFinanceirosById($funcionario['idDadosFinanceiros']);
   $dadosContrato = $dal->getDadosContratoById($funcionario['idDadosContrato']);
@@ -97,7 +97,7 @@ function displayForm() {
   <input type="text" name="cc" placeholder="Número CC" value="'. htmlspecialchars($dadosPessoais['cc']) .'"><br>
 
   Data de validade do CC:
-  <input type="date" name="validadeCc" value="'. htmlspecialchars($dadosPessoais['validadeCc']) .'"><br>
+  <input type="date" name="dataValidade" value="'. htmlspecialchars($dadosPessoais['dataValidade']) .'"><br>
 
   NIF:
   <input type="text" name="nif" placeholder="Número de Identificação Fiscal" value="'. htmlspecialchars($dadosPessoais['nif']) .'"><br>
@@ -105,12 +105,15 @@ function displayForm() {
   NISS:
   <input type="text" name="niss" placeholder="Número de Identificação da Segurança Social" value="'. htmlspecialchars($dadosPessoais['niss']) .'"><br>
 
+
   Género:
   <select name="Genero">
     <option value="">Selecione um genero</option>
-    <option value="feminino">Feminino</option>
-    <option value="Masculino">Masculino</option>
+    <option value="Feminino" ' . ($dadosPessoais['genero'] == "F" ? 'selected' : '') . '>Feminino</option>
+    <option value="Masculino" ' . ($dadosPessoais['genero'] == "M" ? 'selected' : '') . '>Masculino</option>
   </select><br>';
+
+
 
   $indicativos = $dal->getIndicativos();
   echo 'Contacto pessoal:

@@ -13,7 +13,7 @@ class atualizarPerfil_DAL {
     $stmt=$this->conn->prepare($query);
     $stmt->bind_param("i", $numMecanografico);
     $stmt->execute();
-    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    return $stmt->get_result()->fetch_assoc();
   }
 
   function getDadosPessoaisById($idDadosPessoais) {
