@@ -11,15 +11,17 @@ class Equipa_DAL
   }
 
     // Buscar todas as equipas
-    function getAllEquipas()
+    public function getAllEquipas()
     {
         $query = "SELECT * FROM equipa";
         $result = $this->conn->query($query);
 
         $equipas = [];
-        while ($equipa = $result->fetch_assoc()) {
-            $equipa['colaboradores'] = $this->getMembrosEquipa($equipa['idEquipa']);
-            $equipas[] = $equipa;
+        if ($result) {
+            while ($equipa = $result->fetch_assoc()) {
+                $equipa['colaboradores'] = $this->getMembrosEquipa($equipa['idEquipa']);
+                $equipas[] = $equipa;
+            }
         }
         return $equipas;
     }
@@ -44,9 +46,9 @@ class Equipa_DAL
     
     private function getMembrosEquipa($equipaId)
     {
-        $query = "SELECT c.idColaborador, c.nome 
-                  FROM colaborador c
-                  JOIN colaborador_equipa ce ON c.idColaborador = ce.idColaborador
+        $query = "SELECT f.idFuncionario, f.nome 
+                  FROM funcionario f
+                  JOIN colaborador_equipa ce ON f.idFuncionario = ce.idColaborador
                   WHERE ce.idEquipa = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $equipaId);
