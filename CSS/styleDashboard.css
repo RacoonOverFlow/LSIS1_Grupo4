@@ -1,0 +1,22 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+#generoChart, #circulo, #cargoChart {
+  position:relative;
+  max-width: 600px;
+  max-height: 400px;
+  margin: 20px auto;
+  border: 1px solid #aaa;
+}
+
+.chart-container {
+  width: 600px;
+  height: 400px;
+  margin: 30px auto;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+/*--- GENERO FILTRO---*/
