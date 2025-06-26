@@ -18,26 +18,6 @@ include "Permissoes.php";
 
 <body>
   <main>
-    <!--<div class="header">
-      <div class="button-page">
-        <a class="links" href="perfil.php">Perfil</a>
-      </div>
-      <div class="button-next-page">
-        <a class="links" href="equipas.php">Equipas</a>
-      </div>
-      <div class="button-next-page">
-        <a class="links" href="Dashboard.html">Dashboard</a>
-      </div>
-      <div class="logo">
-        <img clas = "imgLogo" src="../photos/logo.png" alt="Tlantic">
-      </div>
-      <div class="button-page">
-        <a class="links" href="logout.php">Logout</a>
-      </div>  
-    </div>-->
-
-  <?php
-
-  setPerfil($nMeca); ?>
+  <?php setPerfil($nMeca); ?>
   </main>
 </body>

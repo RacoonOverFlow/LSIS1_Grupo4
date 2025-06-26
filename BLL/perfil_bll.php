@@ -33,7 +33,7 @@ function setPerfil($nMeca) {
     echo '</div>';
     echo '<div class="perfilInfo">';
     echo '<div class="AtualizarPerfil">';
-    echo '<button onclick="location.href=\'atualizarPerfil.html\'">Atualizar Perfil</button>';
+    echo '<button onclick="location.href=\'atualizarPerfil.php\'">Atualizar Perfil</button>';
     echo '</div>';
     echo '<br>';
     echo '<h2>Informação do Perfil</h2>';
