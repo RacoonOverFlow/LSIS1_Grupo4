@@ -85,25 +85,25 @@ function displayForm() {
   <input type="text" name="nomeCompleto" placeholder="Nome Completo" value="' . htmlspecialchars($dadosPessoais['nomeCompleto']) .'"><br>
   
   Nome abreviado:
-  <input type="text" name="nomeAbreviado" placeholder="Nome Abreviado" value='. htmlspecialchars($dadosPessoais['nomeAbreviado']) .'"><br>
+  <input type="text" name="nomeAbreviado" placeholder="Nome Abreviado" value="'. htmlspecialchars($dadosPessoais['nomeAbreviado']) .'"><br>
 
   Data de nascimento:
-  <input type="date" name="dataNascimento" value='. htmlspecialchars($dadosPessoais['dataNascimento']) .'"><br>
+  <input type="date" name="dataNascimento" value="'. htmlspecialchars($dadosPessoais['dataNascimento']) .'"><br>
 
   Morada fiscal:
-  <input type="text" name="moradaFiscal" placeholder="Morada Fiscal" value='. htmlspecialchars($dadosPessoais['moradaFiscal']) .'"><br>
+  <input type="text" name="moradaFiscal" placeholder="Morada Fiscal" value="'. htmlspecialchars($dadosPessoais['moradaFiscal']) .'"><br>
 
   Cartão de Cidadão (CC):
-  <input type="text" name="cc" placeholder="Número CC" value='. htmlspecialchars($dadosPessoais['cc']) .'"><br>
+  <input type="text" name="cc" placeholder="Número CC" value="'. htmlspecialchars($dadosPessoais['cc']) .'"><br>
 
   Data de validade do CC:
-  <input type="date" name="validadeCc" value='. htmlspecialchars($dadosPessoais['validadeCc']) .'"><br>
+  <input type="date" name="validadeCc" value="'. htmlspecialchars($dadosPessoais['validadeCc']) .'"><br>
 
   NIF:
-  <input type="text" name="nif" placeholder="Número de Identificação Fiscal" value='. htmlspecialchars($dadosPessoais['nif']) .'"><br>
+  <input type="text" name="nif" placeholder="Número de Identificação Fiscal" value="'. htmlspecialchars($dadosPessoais['nif']) .'"><br>
 
   NISS:
-  <input type="text" name="niss" placeholder="Número de Identificação da Segurança Social" value='. htmlspecialchars($dadosPessoais['niss']) .'"><br>
+  <input type="text" name="niss" placeholder="Número de Identificação da Segurança Social" value="'. htmlspecialchars($dadosPessoais['niss']) .'"><br>
 
   Género:
   <select name="Genero">
