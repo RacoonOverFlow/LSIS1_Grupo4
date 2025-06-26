@@ -82,28 +82,28 @@ function displayForm() {
   <!-- Dados Pessoais -->
   <h3>Dados Pessoais</h3>
   Nome completo:
-  <input type="text" name="nomeCompleto" placeholder="Nome Completo" value="' . htmlspecialchars($dadosPessoais['nomeCompleto']) .'"><br>
+  <input type="text" name="nomeCompleto" placeholder="Nome Completo" value="' . htmlspecialchars($dadosPessoais['nomeCompleto']) .'" readonly><br>
   
   Nome abreviado:
-  <input type="text" name="nomeAbreviado" placeholder="Nome Abreviado" value="'. htmlspecialchars($dadosPessoais['nomeAbreviado']) .'"><br>
+  <input type="text" name="nomeAbreviado" placeholder="Nome Abreviado" value="'. htmlspecialchars($dadosPessoais['nomeAbreviado']) .'" readonly><br>
 
   Data de nascimento:
-  <input type="date" name="dataNascimento" value="'. htmlspecialchars($dadosPessoais['dataNascimento']) .'"><br>
+  <input type="date" name="dataNascimento" value="'. htmlspecialchars($dadosPessoais['dataNascimento']) .'" readonly><br>
 
   Morada fiscal:
   <input type="text" name="moradaFiscal" placeholder="Morada Fiscal" value="'. htmlspecialchars($dadosPessoais['moradaFiscal']) .'"><br>
 
   Cartão de Cidadão (CC):
-  <input type="text" name="cc" placeholder="Número CC" value="'. htmlspecialchars($dadosPessoais['cc']) .'"><br>
+  <input type="text" name="cc" placeholder="Número CC" value="'. htmlspecialchars($dadosPessoais['cc']) .'" readonly><br>
 
   Data de validade do CC:
   <input type="date" name="dataValidade" value="'. htmlspecialchars($dadosPessoais['dataValidade']) .'"><br>
 
   NIF:
-  <input type="text" name="nif" placeholder="Número de Identificação Fiscal" value="'. htmlspecialchars($dadosPessoais['nif']) .'"><br>
+  <input type="text" name="nif" placeholder="Número de Identificação Fiscal" value="'. htmlspecialchars($dadosPessoais['nif']) .'" readonly><br>
 
   NISS:
-  <input type="text" name="niss" placeholder="Número de Identificação da Segurança Social" value="'. htmlspecialchars($dadosPessoais['niss']) .'"><br>
+  <input type="text" name="niss" placeholder="Número de Identificação da Segurança Social" value="'. htmlspecialchars($dadosPessoais['niss']) .'"readonly><br>
 
 
   Género:
@@ -135,11 +135,11 @@ function displayForm() {
   <input type="text" name="grauDeRelacionamento" value="'. htmlspecialchars($dadosPessoais['grauDeRelacionamento']) .'"><br>
 
   Email:
-  <input type="email" name="email" value="'. htmlspecialchars($dadosPessoais['email']) .'"><br>';
+  <input type="email" name="email" value="'. htmlspecialchars($dadosPessoais['email']) .'" readonly ><br>';
 
   $nacionalidades = $dal->getNacionalidades();
   echo 'Nacionalidade:
-  <select name="idNacionalidade">
+  <select name="idNacionalidade" disabled>
     <option value="">Selecione uma nacionalidade</option>';
   
   foreach($nacionalidades as $nacionalidade){
@@ -152,13 +152,13 @@ function displayForm() {
   <!-- Dados Contrato -->
   <h3>Dados do Contrato</h3>
   Data de início:
-  <input type="date" name="dataInicioContrato" value="'. htmlspecialchars($dadosContrato['dataInicioDeContrato']) .'"><br>
+  <input type="date" name="dataInicioContrato" value="'. htmlspecialchars($dadosContrato['dataInicioDeContrato']) .'" readonly><br>
 
   Data de fim:
-  <input type="date" name="dataFimContrato" value="'. htmlspecialchars($dadosContrato['dataFimDeContrato']) .'"><br>
+  <input type="date" name="dataFimContrato" value="'. htmlspecialchars($dadosContrato['dataFimDeContrato']) .'" readonly><br>
 
   Tipo de contrato:
-  <select name="tipoContrato">
+  <select name="tipoContrato" disabled>
     <option value="">Selecione um Tipo de contrato </option>
     <option value="Estagio curricular"' . ($dadosContrato['tipoDeContrato'] == "Estagio curricular" ? 'selected' : '') . '>Estagio curricular</option>
     <option value="Estagio IEFP"' . ($dadosContrato['tipoDeContrato'] == "Estagio IEFP" ? 'selected' : '') . '>Estagio IEFP</option>
@@ -168,7 +168,7 @@ function displayForm() {
   </select><br>
 
   Regime de horário de trabalho:
-  <select name="regimeHorarioTrabalho">
+  <select name="regimeHorarioTrabalho" disabled>
     <option value="">Selecione um regime de horario de trabalho </option>
     <option value="10%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "10%" ? 'selected' : '') . '>10%</option>
     <option value="20%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "20%" ? 'selected' : '') . '>20%</option>
@@ -188,7 +188,7 @@ function displayForm() {
   </select><br>
 
   Remuneração:
-  <input type="number" step="0.01" name="remuneracao" placeholder="€" value="'. htmlspecialchars($dadosFinanceiros['remuneracao']) .'"><br>
+  <input type="number" step="0.01" name="remuneracao" placeholder="€" value="'. htmlspecialchars($dadosFinanceiros['remuneracao']) .'"readonly><br>
 
   Número de dependentes:
   <input type="number" name="numeroDependentes" placeholder="0, 1, 2..." value="'. htmlspecialchars($dadosFinanceiros['numeroDeDependentes']) .'"><br>
@@ -202,7 +202,7 @@ function displayForm() {
   <input type="text" name="cartaoContinente" placeholder="Número do Cartão" value="'. htmlspecialchars($beneficios['cartaoContinente']) .'"><br>
 
   Data de emissão do voucher NOS:
-  <input type="date" name="voucherNos" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"><br><br>
+  <input type="date" name="voucherNos" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"readonly><br><br>
 
   <!-- Viatura -->
   <h3>Viatura</h3>
