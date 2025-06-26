@@ -16,7 +16,7 @@ function mostrarHeader($cargo) {
             <div class="button-page">
                 <a class="links" href="perfil.php">Perfil</a>
             </div>
-            <?php if ($cargo['cargo'] === 'Recursos Humanos' ||$cargo['cargo'] === 'Administrador' || $cargo['cargo'] === 'Coordenador'): ?>
+            <?php if ($cargo['cargo'] === 'Recursos Humanos' ||$cargo['cargo'] === 'Administrador' || $cargo['cargo'] === 'Coordenador' || $cargo['cargo'] === 'Recursos Humanos Super'): ?>
                 <div class="button-next-page">
                     <a class="links" href="equipas.php">Equipas</a>
                 </div>

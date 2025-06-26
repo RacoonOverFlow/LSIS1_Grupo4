@@ -1,5 +1,8 @@
 <?php 
-require_once "../../BLL/atualizarPerfil_bll.php";
+
+session_start();
+require_once "../BLL/atualizarPerfil_bll.php";
+
 
 ?>
 

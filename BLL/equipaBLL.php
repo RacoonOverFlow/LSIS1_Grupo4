@@ -1,10 +1,12 @@
-
 <?php
 require_once __DIR__ . '/../DAL/equipaDal.php';
+
 function getAllEquipas() {
     try {
         $equipaDal = new Equipa_DAL();
-        return $equipaDal->getAllEquipas();
+        $equipas = $equipaDal->getAllEquipas();
+        error_log("Total de equipas encontradas: " . count($equipas));
+        return $equipas;
     } catch (Exception $e) {
         error_log("Erro ao obter todas as equipas: " . $e->getMessage());
         return [];
@@ -14,19 +16,11 @@ function getAllEquipas() {
 function getEquipasByCoordenador($coordenadorId) {
     try {
         $equipaDal = new Equipa_DAL();
-        return $equipaDal->getEquipasByCoordenador($coordenadorId);
+        $equipas = $equipaDal->getEquipasByCoordenador($coordenadorId);
+        error_log("Equipas encontradas para coordenador $coordenadorId: " . count($equipas));
+        return $equipas;
     } catch (Exception $e) {
         error_log("Erro ao obter equipas do coordenador: " . $e->getMessage());
         return [];
-    }
-}
-
-function getIdCargoByNumeroMecanografico($numeroMecanografico) {
-    try {
-        $equipaDal = new Equipa_DAL();
-        return $equipaDal->getIdCargoByNumeroMecanografico($numeroMecanografico);
-    } catch (Exception $e) {
-        error_log("Erro ao obter ID do cargo: " . $e->getMessage());
-        return null;
     }
 }
