@@ -29,14 +29,14 @@
 .login-box {
   position: absolute;
   background-color: rgb(216, 215, 215, 0.9);
-  top: 38vh;
-  left: 35vw;
+  top: 33vh;
+  left: 58vw;
   padding: 2%; /* cleaner shorthand */
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 30vw; /* Add a fixed width to control form size */
+  width: 27vw; /* Add a fixed width to control form size */
   box-sizing: border-box;
   z-index: 1;
 }
@@ -71,4 +71,19 @@
   outline: none;
   font-size: 18px;
   opacity: 1;
+  font-style: bold;
+}
+
+.login-form-field::placeholder {
+  color: black;
+}
+
+.login-form-field {
+  border: none;
+  border-bottom: 1px solid #3a3a3a;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  outline: none;
+  padding: 0px 0px 5px 5px;
+  color:black;
 }

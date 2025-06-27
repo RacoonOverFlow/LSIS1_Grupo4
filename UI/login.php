@@ -15,7 +15,7 @@ require_once __DIR__ . '/../BLL/login_bll.php';
   <link rel="stylesheet" href="../CSS/styleLogin.css">
 </head>
 
-<body style="background-color: #19365F;">
+<body style="background-color: #0B132B;">
 
 <div class="skewed"></div>
 
