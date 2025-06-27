@@ -2,9 +2,8 @@
 Este ficheiro serve para que todos saibam como declarar as variáveis, a linguagem usada e definir estilos de css comuns a todas as paginas
 
 cores:
-login azul escuro : #0B132B
-azul escuro : #19365F
-azul claro : #4697D2
+background azul escuro : #0B132B
+azul claro : #40BCD8
 cinzento :rgb(216, 215, 215)
 branco : #FFFFFF
 

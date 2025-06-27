@@ -13,7 +13,7 @@ include "Permissoes.php";
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil</title>
-  <link rel="stylesheet" href="../CSS/styleGlobal.css">
+  <link rel="stylesheet" href="../CSS/stylePerfil.css">
 </head>
 
 <body>
