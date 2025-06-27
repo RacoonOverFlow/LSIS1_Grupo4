@@ -179,8 +179,7 @@ function displayForm() {
 
   <!-- Botão -->
   <input type="submit" value="Registar"/>
-</form>
-teste';
+</form>';
 }
 
 function showUI(){
