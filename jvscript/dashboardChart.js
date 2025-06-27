@@ -101,10 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Fetch dados e inicialização
   fetch("../BLL/dashboard_bll.php")
-    .then(res => res.json())
+    .then(res => 
+      res.json()  // Use .json() para obter os dados como JSON
+    )
     .then(data => {
       rawData = data;
-
+      
       createCheckboxFilters("filters-genero", rawData.genero, onGeneroChange);
       createCheckboxFilters("filters-cargo", rawData.cargo, onCargoChange);
       createCheckboxFilters("filters-nacionalidade", rawData.nacionalidade, onNacionalidadeChange);

@@ -32,14 +32,14 @@ class dashboard_dal {
     function getCargoDistribution() {
         $query = "SELECT ca.cargo, COUNT(*) AS total
             FROM funcionario f
-            INNER JOIN dadosLogin dl ON f.numeromecanografico = dl.numeromecanografico
+            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
             INNER JOIN cargo ca ON dl.idCargo = ca.idCargo
             GROUP BY ca.cargo";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
-
+        //print_r($result);
         $dataCargo = [];
         while ($row = $result->fetch_assoc()) {
             $dataCargo[$row['cargo']] = (int)$row['total'];
