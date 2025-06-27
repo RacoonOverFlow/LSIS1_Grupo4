@@ -98,12 +98,12 @@ class atualizarPerfil_DAL {
   }  
 
   function updateDadosPessoais($idDadosPessoais, $nomeCompleto, $nomeAbreviado, $dataNascimento, $moradaFiscal, $cc, $validadeCc, $nif, $niss, $genero, $idIndicativo, $contactoPessoal, $contactoEmergencia, $grauRelacionamento, $email, $idNacionalidade) {
-    $query = "UPDATE dadospessoais SET nomeCompleto=?, nomeAbreviado=?, dataNascimento=?, moradaFiscal=?, cc=?, dataValidade=?, nif=?, niss=?, genero=?, idIndicativo=?, contactoPessoal=?, contactoEmergencia=?, grauRelacionamento=?, email=?, idNacionalidade=? WHERE idDadosPessoais=?";
+    $query = "UPDATE dadospessoais SET nomeCompleto=?, nomeAbreviado=?, dataNascimento=?, moradaFiscal=?, cc=?, dataValidade=?, nif=?, niss=?, genero=?, idIndicativo=?, contactoPessoal=?, contactoEmergencia=?, grauDeRelacionamento=?, email=?, idNacionalidade=? WHERE idDadosPessoais=?";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
     }
-    $stmt->bind_param("ssssssissssssi", 
+    $stmt->bind_param("sssssssssissssii", 
       $nomeCompleto, 
       $nomeAbreviado, 
       $dataNascimento, 
@@ -124,38 +124,38 @@ class atualizarPerfil_DAL {
     return $stmt->execute();
   }
 
-  function updateDadosFinanceiros($idDadosFinanceiros, $iban, $banco, $swift) {
-    $query = "UPDATE dadosfinanceiros SET iban=?, banco=?, swift=? WHERE idDadosFinanceiros=?";
+  function updateDadosFinanceiros($idDadosFinanceiros, $iban, $situacaoIRS, $remuneracao, $numeroDeDependentes) {
+    $query = "UPDATE dadosfinanceiros SET IBAN=?, situacaoDeIRS=?, remuneracao=?, numeroDeDependentes=? WHERE idDadosFinanceiros=?";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
     }
-    $stmt->bind_param("sssi", $iban, $banco, $swift, $idDadosFinanceiros);
+    $stmt->bind_param("ssdii", $iban, $situacaoIRS, $remuneracao, $numeroDeDependentes, $idDadosFinanceiros);
     return $stmt->execute();
   }
 
-  function updateDadosContrato($idDadosContrato, $dataInicio, $dataFim, $tipoContrato, $horasSemana, $horasDia, $idCargo) {
-    $query = "UPDATE dadoscontrato SET dataInicio=?, dataFim=?, tipoContrato=?, horasSemana=?, horasDia=?, idCargo=? WHERE idDadosContrato=?";
+  function updateDadosContrato($idDadosContrato, $dataInicio, $dataFim, $tipoContrato, $regimeDeHorarioDeTrabalho) {
+    $query = "UPDATE dadoscontrato SET dataInicioDeContrato=?, dataFimDeContrato=?, tipoDeContrato=?, regimeDeHorarioDeTrabalho=? WHERE idDadosContrato=?";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
     }
-    $stmt->bind_param("sssiisi", $dataInicio, $dataFim, $tipoContrato, $horasSemana, $horasDia, $idCargo, $idDadosContrato);
+    $stmt->bind_param("ssssi", $dataInicio, $dataFim, $tipoContrato, $regimeDeHorarioDeTrabalho, $idDadosContrato);
     return $stmt->execute();
   }
   
-  function updateCV($idCV, $habilitacoesLiterarias, $curso, $frequencia) {
-    $query = "UPDATE cv SET habilitacoesLiterarias=?, curso=?, frequencia=? WHERE idCV=?";
+  function updateCV($idCV, $habilitacoesLiterarias, $curso, $frequencia, $idDocumento) {
+    $query = "UPDATE cv SET habilitacoesLiterarias=?, curso=?, frequencia=?, idDocumento=? WHERE idCV=?";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
     }
-    $stmt->bind_param("sssi", $habilitacoesLiterarias, $curso, $frequencia, $idCV);
+    $stmt->bind_param("sssii", $habilitacoesLiterarias, $curso, $frequencia, $idDocumento, $idCV);
     return $stmt->execute();
   }
 
   function updateBeneficios($idBeneficios, $cartaoContinente, $voucherNos) {
-    $query = "UPDATE beneficios SET cartaoContinente=?, voucherNos=? WHERE idBeneficios=?";
+    $query = "UPDATE beneficios SET cartaoContinente=?, voucherNOS=? WHERE idBeneficios=?";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
@@ -163,6 +163,7 @@ class atualizarPerfil_DAL {
     $stmt->bind_param("ssi", $cartaoContinente, $voucherNos, $idBeneficios);
     return $stmt->execute();
   }
+
   function updateViatura($idViatura, $tipoViatura, $matricula) {
     $query = "UPDATE viatura SET tipoViatura=?, matricula=? WHERE idViatura=?";
     $stmt = $this->conn->prepare($query);
@@ -172,6 +173,7 @@ class atualizarPerfil_DAL {
     $stmt->bind_param("ssi", $tipoViatura, $matricula, $idViatura);
     return $stmt->execute();
   }
+
   function updateFuncionario($numeroMecanografico, $idDadosPessoais, $idDadosFinanceiros, $idDadosContrato, $idCV, $idBeneficios, $idViatura) {
     $query = "UPDATE funcionario SET idDadosPessoais=?, idDadosFinanceiros=?, idDadosContrato=?, idCV=?, idBeneficios=?, idViatura=? WHERE numeroMecanografico=?";
     $stmt = $this->conn->prepare($query);
