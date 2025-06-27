@@ -63,10 +63,10 @@ function displayForm() {
 
 
   Género:
-  <select name="Genero">
+  <select name="genero">
     <option value="">Selecione um genero</option>
-    <option value="Feminino" ' . ($dadosPessoais['genero'] == "F" ? 'selected' : '') . '>Feminino</option>
-    <option value="Masculino" ' . ($dadosPessoais['genero'] == "M" ? 'selected' : '') . '>Masculino</option>
+    <option value="F" ' . ($dadosPessoais['genero'] == "F" ? 'selected' : '') . '>Feminino</option>
+    <option value="M" ' . ($dadosPessoais['genero'] == "M" ? 'selected' : '') . '>Masculino</option>
   </select><br>';
 
 
@@ -108,13 +108,13 @@ function displayForm() {
   <!-- Dados Contrato -->
   <h3>Dados do Contrato</h3>
   Data de início:
-  <input type="date" name="dataInicioContrato" value="'. htmlspecialchars($dadosContrato['dataInicioDeContrato']) .'" readonly><br>
+  <input type="date" name="dataInicioDeContrato" value="'. htmlspecialchars($dadosContrato['dataInicioDeContrato']) .'" readonly><br>
 
   Data de fim:
-  <input type="date" name="dataFimContrato" value="'. htmlspecialchars($dadosContrato['dataFimDeContrato']) .'" readonly><br>
+  <input type="date" name="dataFimDeContrato" value="'. htmlspecialchars($dadosContrato['dataFimDeContrato']) .'" readonly><br>
 
   Tipo de contrato:
-  <select name="tipoContrato" disabled>
+  <select name="tipoDeContrato" disabled>
     <option value="">Selecione um Tipo de contrato </option>
     <option value="Estagio curricular"' . ($dadosContrato['tipoDeContrato'] == "Estagio curricular" ? 'selected' : '') . '>Estagio curricular</option>
     <option value="Estagio IEFP"' . ($dadosContrato['tipoDeContrato'] == "Estagio IEFP" ? 'selected' : '') . '>Estagio IEFP</option>
@@ -124,7 +124,7 @@ function displayForm() {
   </select><br>
 
   Regime de horário de trabalho:
-  <select name="regimeHorarioTrabalho" disabled>
+  <select name="regimeDeHorarioDeTrabalho" disabled>
     <option value="">Selecione um regime de horario de trabalho </option>
     <option value="10%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "10%" ? 'selected' : '') . '>10%</option>
     <option value="20%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "20%" ? 'selected' : '') . '>20%</option>
@@ -135,7 +135,7 @@ function displayForm() {
   <!-- Dados Financeiros -->
   <h3>Dados Financeiros</h3>
   Situação de IRS:
-  <select name="situacaoIrs">
+  <select name="situacaoDeIRS">
     <option value="">Selecione uma situação de IRS</option>
     <option value="Casado"' . ($dadosFinanceiros['situacaoDeIRS'] == "Casado" ? 'selected' : '') . '>Casado</option>
     <option value="Solteiro"' . ($dadosFinanceiros['situacaoDeIRS'] == "Solteiro" ? 'selected' : '') . '>Solteiro</option>
@@ -147,10 +147,10 @@ function displayForm() {
   <input type="number" step="0.01" name="remuneracao" placeholder="€" value="'. htmlspecialchars($dadosFinanceiros['remuneracao']) .'"readonly><br>
 
   Número de dependentes:
-  <input type="number" name="numeroDependentes" placeholder="0, 1, 2..." value="'. htmlspecialchars($dadosFinanceiros['numeroDeDependentes']) .'"><br>
+  <input type="number" name="numeroDeDependentes" placeholder="0, 1, 2..." value="'. htmlspecialchars($dadosFinanceiros['numeroDeDependentes']) .'"><br>
 
   IBAN:
-  <input type="text" name="iban" placeholder="PT50..." value="'. htmlspecialchars($dadosFinanceiros['IBAN']) .'"><br><br>
+  <input type="text" name="IBAN" placeholder="PT50..." value="'. htmlspecialchars($dadosFinanceiros['IBAN']) .'"><br><br>
 
   <!-- Benefícios -->
   <h3>Benefícios</h3>
@@ -158,7 +158,7 @@ function displayForm() {
   <input type="text" name="cartaoContinente" placeholder="Número do Cartão" value="'. htmlspecialchars($beneficios['cartaoContinente']) .'"><br>
 
   Data de emissão do voucher NOS:
-  <input type="date" name="voucherNos" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"readonly><br><br>
+  <input type="date" name="voucherNOS" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"readonly><br><br>
 
 
   <!-- CV -->
@@ -198,7 +198,7 @@ function showUI(){
         $_POST['dataValidade'],
         $_POST['nif'],
         $_POST['niss'],
-        $_POST['Genero'],
+        $_POST['genero'],
         $_POST['idIndicativo'],
         $_POST['contactoPessoal'],
         $_POST['contactoEmergencia'],
@@ -208,15 +208,15 @@ function showUI(){
       );
 
       $dal->updateDadosFinanceiros(
-        $_POST['iban'],
-        $_POST['situacaoIrs'],
+        $_POST['IBAN'],
+        $_POST['situacaoDeIRS'],
         $_POST['remuneracao'],
-        $_POST['numeroDependentes']
+        $_POST['numeroDeDependentes']
       );
 
       $dal->updateDadosContrato(
-        $_POST['dataInicioContrato'],
-        $_POST['dataFimContrato'],
+        $_POST['dataInicioDeContrato'],
+        $_POST['dataFimDeContrato'],
         $_POST['tipoContrato'],
         $_POST['regimeHorarioTrabalho']
       );
