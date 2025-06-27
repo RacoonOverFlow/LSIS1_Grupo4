@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once '../DAL/perfil_dal.php';
+require_once "../DAL/perfil_dal.php";
 
 $nMeca = $_SESSION['nMeca'] ?? null;
 $dal = new Perfil_DAL();

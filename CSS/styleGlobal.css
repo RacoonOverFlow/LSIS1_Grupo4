@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Inter", sans-serif;
   }
 
 body {
@@ -52,19 +53,15 @@ body {
 }
 
 .backTemplate {
-  background-color: #40BCD8; 
-  height: 100%;
-  padding : 20px; 
-  margin: 150px 50px 30px;
-  border-radius: 25px;
-}
-
-.backTemplate2 {
-  background-color: #299DF3; 
+  background-color: #40BCD8;
   height: 100%;
   border-radius: 25px;
-  padding: 10px;
+  padding: 60px;
+  margin: 150px 50px 40px;
   display: flex;
+  justify-content: space-between; /*faz questao do espacamente entre a caivxa de cima e baixa estejam a mesma diferenca*/
+  gap: 200px; /*o gap entre as colunas da direta e da esquerda*/
+
 }
 
 button {

@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
 require_once __DIR__ . '/../BLL/equipaBLL.php';
-include "Permissoes.php";
+require_once "../BLL/Permissoes.php";
 
 if (!isset($_SESSION['nMeca']) || !isset($_SESSION['idCargo'])) {
     error_log("Redirecionando para login: Sessão incompleta");
@@ -52,7 +52,7 @@ if ($utilizadorCargo == 5) { // RHSuperior
                 exit;
         }
         ?>
-<div class="backTemplate2" >
+<div class="backTemplate" >
   <?php if (empty($equipas)): ?>
             <div class="alert">
                 <p>Nenhuma equipa encontrada</p>
