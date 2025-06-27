@@ -39,6 +39,10 @@ body {
   cursor: pointer;
 }
 
+.template-container{
+  height: 100%;
+}
+
 .header {
   display: flex;
   padding-left: 30px;
@@ -57,11 +61,10 @@ body {
   height: 100%;
   border-radius: 25px;
   padding: 60px;
-  margin: 150px 50px 40px;
+  margin: 180px 50px 40px;
   display: flex;
   justify-content: space-between; /*faz questao do espacamente entre a caivxa de cima e baixa estejam a mesma diferenca*/
   gap: 200px; /*o gap entre as colunas da direta e da esquerda*/
-
 }
 
 button {
