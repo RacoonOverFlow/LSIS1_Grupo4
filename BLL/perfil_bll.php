@@ -19,12 +19,11 @@ function setPerfil($nMeca) {
     return;
   }
   
-    mostrarHeader($cargo);
+    mostrarHeader($cargo['cargo']);
     echo '<div class="backTemplate">';
-    echo '<div class="backTemplate2">';
-    echo '<div>';  
+    echo '<div class="leftColumn">';  
     echo '<div class="perfilImg">';
-    echo '<img src="../photos/CodeKEtchers.png" alt="Profile Image">';
+    echo '<img src="../photos/Pessoa_chapeu.jpg" alt="Profile Image">';
     echo '</div>';
     echo '<div class="Alertas">';
     echo '<h2>Alertas</h2>';
@@ -75,7 +74,6 @@ function setPerfil($nMeca) {
     echo '<h3>Cargo</h3>';
     echo '<p><strong>Cargo:</strong> ' . htmlspecialchars($cargo['cargo']) . '</p>';
     echo '</div>'; 
-    echo '</div>';
     echo '</div>';
 }
 ?>

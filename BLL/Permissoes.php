@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once '../DAL/perfil_dal.php';
+require_once "../DAL/perfil_dal.php";
 
 $nMeca = $_SESSION['nMeca'] ?? null;
 $dal = new Perfil_DAL();
@@ -17,6 +17,7 @@ function mostrarHeader($cargo) {
                 <a class="links" href="perfil.php">Perfil</a>
             </div>
             <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 5): ?>
+
                 <div class="button-next-page">
                     <a class="links" href="equipas.php">Equipas</a>
                 </div>
