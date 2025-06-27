@@ -19,7 +19,7 @@ function setPerfil($nMeca) {
     return;
   }
   
-    mostrarHeader($cargo);
+    mostrarHeader($cargo['cargo']);
     echo '<div class="backTemplate">';
     echo '<div class="leftColumn">';  
     echo '<div class="perfilImg">';
