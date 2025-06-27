@@ -103,6 +103,7 @@ function displayForm() {
     . ($dadosPessoais['idNacionalidade'] === $nacionalidade['idNacionalidade'] ? 'selected' : '') 
     . '>' . htmlspecialchars($nacionalidade['nacionalidade']) . '</option>';
   }
+  echo '<input type="hidden" name="idNacionalidade" value="' . htmlspecialchars($dadosPessoais['idNacionalidade']) . '">';
 
   echo '</select><br><br>
   <!-- Dados Contrato -->
@@ -121,7 +122,9 @@ function displayForm() {
     <option value="Termo certo"' . ($dadosContrato['tipoDeContrato'] == "Termo certo" ? 'selected' : '') . '>Termo certo</option>
     <option value="Termo incerto"' . ($dadosContrato['tipoDeContrato'] == "Termo incerto" ? 'selected' : '') . '>Termo incerto</option>
     <option value="Sem incerto"' . ($dadosContrato['tipoDeContrato'] == "Sem incerto" ? 'selected' : '') . '>Sem incerto</option>
-  </select><br>
+  </select><br>';
+
+  echo '<input type="hidden" name="tipoDeContrato" value="' . htmlspecialchars($dadosContrato['tipoDeContrato']) . '">
 
   Regime de horário de trabalho:
   <select name="regimeDeHorarioDeTrabalho" disabled>
@@ -130,7 +133,9 @@ function displayForm() {
     <option value="20%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "20%" ? 'selected' : '') . '>20%</option>
     <option value="50%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "50%" ? 'selected' : '') . '>50%</option>
     <option value="100%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "100%" ? 'selected' : '') . '>100%</option>
-  </select><br><br>
+  </select><br><br>';
+
+  echo '<input type="hidden" name="regimeDeHorarioDeTrabalho" value="' . htmlspecialchars($dadosContrato['regimeDeHorarioDeTrabalho']) . '">
 
   <!-- Dados Financeiros -->
   <h3>Dados Financeiros</h3>
@@ -189,7 +194,10 @@ function showUI(){
   else{
     try{
       $dal = new atualizarPerfil_DAL();
+      
+      $funcionario = $dal->getFuncionario($_SESSION['nMeca'] ?? null);
       $dal->updateDadosPessoais(
+        $funcionario['idDadosPessoais'],
         $_POST['nomeCompleto'],
         $_POST['nomeAbreviado'],
         $_POST['dataNascimento'],
@@ -208,6 +216,7 @@ function showUI(){
       );
 
       $dal->updateDadosFinanceiros(
+        $funcionario['idDadosFinanceiros'],
         $_POST['IBAN'],
         $_POST['situacaoDeIRS'],
         $_POST['remuneracao'],
@@ -215,13 +224,15 @@ function showUI(){
       );
 
       $dal->updateDadosContrato(
+        $funcionario['idDadosContrato'],
         $_POST['dataInicioDeContrato'],
         $_POST['dataFimDeContrato'],
-        $_POST['tipoContrato'],
-        $_POST['regimeHorarioTrabalho']
+        $_POST['tipoDeContrato'],
+        $_POST['regimeDeHorarioDeTrabalho']
       );
 
       $dal->updateCV(
+        $funcionario['idCV'],
         $_POST['habilitacoesLiterarias'],
         $_POST['curso'],
         $_POST['frequencia'],
@@ -229,14 +240,11 @@ function showUI(){
       );
 
       $dal->updateBeneficios(
+        $funcionario['idBeneficios'],
         $_POST['cartaoContinente'],
-        $_POST['voucherNos']
+        $_POST['voucherNOS']
       );
 
-      $dal->updateViatura(
-        $_POST['tipoViatura'],
-        $_POST['matriculaViatura']
-      );
 
       header("Location: Perfil.php");
     }
