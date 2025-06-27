@@ -7,7 +7,9 @@
   }
 
 body {
+  font-family: Arial, sans-serif;
   margin: 0;
+  padding: 40px;
   background-color: #0B132B;
 }
 
@@ -49,22 +51,25 @@ body {
   color: white;
 }
 
-
+/*
 .imgLogo {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
+}*/
 
 .backTemplate {
-  background-color: #40BCD8;
+  background-color: #40BCD8; 
+  Box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   height: 100%;
   border-radius: 25px;
   padding: 60px;
   margin: 180px 50px 40px;
   display: flex;
+  position: relative;
   justify-content: space-between; /*faz questao do espacamente entre a caivxa de cima e baixa estejam a mesma diferenca*/
   gap: 200px; /*o gap entre as colunas da direta e da esquerda*/
+  z-index: 1;
 }
 
 button {
@@ -86,6 +91,92 @@ button {
   color: white;
   text-decoration: none;
 }
+
+/*--- PARA AS TABS  ---*/
+
+.container {
+  position: relative;
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding-top: 40px; /* leave space for tabs */
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.tabs {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  height: 40px;
+}
+
+.tab-button {
+  background: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px 6px 0 0;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  display: inline-block;
+  z-index: 10;
+}
+
+.logo {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.imgLogo {
+  height: 30px;
+}
+
+
+/*
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: -1px;
+}
+
+.tab-button {
+  background-color: #f5f5dc;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  padding: 10px 20px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  position: relative;
+  top: 1px;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  z-index: 3;
+}
+
+.tab-button:hover,
+.tab-button.active {
+  background-color: #ffffff;
+}
+
+*/
+
+
+
+
 
 .equipas{
   background-color: #E2E2E2;
