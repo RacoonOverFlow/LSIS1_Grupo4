@@ -42,8 +42,7 @@ class Equipa_DAL
         error_log("Buscando equipas para coordenador: $numeroMecanografico");
         
         // Primeiro: converter número mec para ID funcionário
-        $funcionarioId = $this->getFuncionarioIdByNumeroMecanografico($numeroMecanografico);
-        
+        $funcionarioId = $this->getFuncionarioIdByNumeroMecanografico($numeroMecanografico); 
         if (!$funcionarioId) {
             error_log("Coordenador não encontrado: $numeroMecanografico");
             return [];
@@ -52,13 +51,14 @@ class Equipa_DAL
         error_log("ID encontrado para $numeroMecanografico: $funcionarioId");
         
         $query = "SELECT 
-                    e.idEquipa, 
-                    e.nome,
-                    dp.nomeAbreviado AS nome_coordenador
-                  FROM equipa e
-                  LEFT JOIN funcionario f ON e.coordenador_id = f.idFuncionario
-                  LEFT JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
-                  WHERE e.coordenador_id = ?";
+                e.idEquipa, 
+                e.nome,
+                dp.nomeAbreviado AS nome_coordenador
+              FROM equipa e
+              INNER JOIN coordenador_equipa ce ON e.idEquipa = ce.idEquipa
+              INNER JOIN funcionario f ON ce.idCoordenador = f.idFuncionario
+              INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+              WHERE ce.idCoordenador = ?";
         
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $funcionarioId);
