@@ -9,14 +9,14 @@ $nMeca = $_SESSION['nMeca'] ?? null;
 $dal = new Perfil_DAL();
 $cargo = $dal->getCargoById($nMeca);
 
-
 function mostrarHeader($cargo) {
+    $utilizadorCargo = $_SESSION['idCargo'];
     ?>
         <div class="header">
             <div class="button-page">
                 <a class="links" href="perfil.php">Perfil</a>
             </div>
-            <?php if ($cargo['cargo'] === 'Recursos Humanos' ||$cargo['cargo'] === 'Administrador' || $cargo['cargo'] === 'Coordenador' || $cargo['cargo'] === 'Recursos Humanos Super'): ?>
+            <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 5): ?>
                 <div class="button-next-page">
                     <a class="links" href="equipas.php">Equipas</a>
                 </div>
