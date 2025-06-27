@@ -14,10 +14,8 @@ function isThisACallback(): bool {
 function displayForm() {
   $dal = new criarEquipa_DAL();
   
-  $colaboradores = $dal->getColaborador(2);
-  $coordenadores = $dal->getCoordenador(3);
-  $RH = $dal->getRH(4);
-
+  $colaboradores = $dal->getColaborador(1);
+  $coordenadores = $dal->getCoordenador(2);
 
   echo '<form method="POST" action="">';
   echo '<label>';
@@ -32,16 +30,9 @@ function displayForm() {
     echo '</label><br>';
   }
 
-  echo '<h3>Selecionar RH</h3>';
-  foreach ($RH as $rh) {
-    echo '<label>';
-    echo '<input type="checkbox" name="rh[]" value="' . $rh['idFuncionario'] . '"> ' . htmlspecialchars($rh['nomeCompleto']);
-    echo '</label><br>';
-  }
-
   // Coordenador (Dropdown)
   echo '<h3>Selecionar Coordenador</h3>';
-  echo '<select name="coordenador">';
+  echo '<select name="coordenador" required>';
   echo '<option value="">Selecione um Coordenador</option>';
   foreach ($coordenadores as $coordenador) {
     echo '<option value="' . $coordenador['idFuncionario'] . '">' . htmlspecialchars($coordenador['nomeCompleto']) . '</option>';
@@ -66,10 +57,6 @@ function showUI(){
 
       if ($idEquipa && isset($_POST['colaboradores'])) {
         $dal->associarColaboradores($idEquipa, $_POST['colaboradores']);
-      }
-
-      if ($idEquipa && isset($_POST['rh'])) {
-        $dal->associarRH($idEquipa, $_POST['rh']);
       }
 
       if ($idEquipa && isset($_POST['coordenador'])) {
