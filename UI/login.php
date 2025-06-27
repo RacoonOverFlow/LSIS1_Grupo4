@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-require_once __DIR__ . '/../BLL/handle_login.php';
+require_once __DIR__ . '/../BLL/login_bll.php';
 
 ?>
 
@@ -19,23 +19,8 @@ require_once __DIR__ . '/../BLL/handle_login.php';
 
 <div class="skewed"></div>
 
-<section class="login-box">
-  <div class="logo">
-    <img src="../photos/logo.png" alt="logo">
-  </div>
- <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-    <div class="login-form">
-      <input type="text" name="username" class="login-form-field <?php echo (!empty($nMeca_err)) ? 'is-invalid' : ''; ?>" placeholder="Username" value="<?php echo $nMeca; ?>">
-      <span class="invalid-feedback"><?php echo $nMeca_err; ?></span>
-    </div>
-    <div class="login-form">
-      <input type="password" name="password" class="login-form-field <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" placeholder="Password">
-      <span class="invalid-feedback"><?php echo $password_err; ?></span>
-    </div>
-  <input type="submit" value="Login" id="login-form-submit" >
-  </form>
-</section>
 
+<?php showUI() ?>
 
 </body>
 </html>

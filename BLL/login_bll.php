@@ -64,4 +64,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $login_err = "Invalid username or password.";
     }
 }
+
+function showUI(){
+    global $nMeca, $nMeca_err, $password_err; // Ensure these variables are accessible inside the function
+
+    echo '<section class="login-box">
+        <div class="logo">
+            <img src="../photos/logo.png" alt="logo">
+        </div>
+        <form action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '" method="post">
+            <div class="login-form">
+                <input type="text" name="username" class="login-form-field ' . (!empty($nMeca_err) ? 'is-invalid' : '') . '" placeholder="Username" value="' . htmlspecialchars($nMeca) . '">
+                <span class="invalid-feedback">' . $nMeca_err . '</span>
+            </div>
+            <div class="login-form">
+                <input type="password" name="password" class="login-form-field ' . (!empty($password_err) ? 'is-invalid' : '') . '" placeholder="Password">
+                <span class="invalid-feedback">' . $password_err . '</span>
+            </div>
+            <input type="submit" value="Login" id="login-form-submit">
+        </form>
+    </section>';
+}
+
 ?>
