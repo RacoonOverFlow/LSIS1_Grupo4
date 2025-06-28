@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
   const buttons = document.querySelectorAll('.tab-button');
-  const panels = document.querySelectorAll('.tab-panel');
 
   // Clear existing active buttons
   buttons.forEach(btn => btn.classList.remove('active'));
@@ -27,9 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
         buttons.forEach(btn => btn.classList.remove('active'));
         button.classList.add('active');
 
-        // Show corresponding content panel
-        panels.forEach(panel => panel.classList.remove('active'));
-        document.getElementById(tabId)?.classList.add('active');
       });
     }
   });
