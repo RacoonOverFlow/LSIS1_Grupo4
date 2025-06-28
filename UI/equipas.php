@@ -34,10 +34,12 @@ if ($utilizadorCargo == 5) { // RHSuperior
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="../CSS/styleGlobal.css">
+    <link rel="stylesheet" href="../CSS/styleEquipas.css">
+    <script src="../jvscript/header.js" defer></script>
 </head>
 <header><?php mostrarHeader($utilizadorCargo); ?></header>
 <body>
+    <div class="skewed"></div>
     <div class="backTemplate">
         <?php
         switch ($utilizadorCargo) {

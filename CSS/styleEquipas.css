@@ -1,0 +1,76 @@
+@import url('styleGlobal.css');
+
+
+.equipas{
+  background-color: #E2E2E2;
+  width: 100%;
+  height: 100%;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 25px;
+  align-items: center;
+}
+
+.equipasContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px; 
+  margin-bottom:20px;
+}
+
+
+
+/* CSS de criar equipa */
+
+.select_coord_section select,
+::picker(select) {
+  appearance: base-select;
+}
+
+select {
+  flex: 1;
+}
+select {
+  border: 1px solid #3a3a3a;
+  background: rgb(216, 215, 215, 0.9);
+  padding: 10px;
+  transition: 0.4s;
+}
+
+select:hover,
+select:focus {
+  background: rgb(216, 215, 215, 0.9);
+  cursor: pointer;
+}
+select::picker-icon {
+  color: #999;
+  transition: 0.4s rotate;
+}
+select:open::picker-icon {
+  rotate: 180deg;
+}
+::picker(select) {
+  border: none;
+}
+option {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  
+  border: 2px solid rgb(216, 215, 215, 0.9);
+  background: #eee;
+  padding: 10px;
+  transition: 0.4s;
+}
+
+option:nth-of-type(odd) {
+  background: #fff;
+}
+
+option:hover,
+option:focus {
+  background: rgb(216, 215, 215, 0.9);
+  cursor: pointer;
+}
+
+/* fim do CSS de criar equipa */

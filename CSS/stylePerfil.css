@@ -10,7 +10,7 @@
 
 .perfilImg {
   background-color: rgba(255, 255, 255, 0.65);
-  height: 420px;
+  height: 300px;
   width: 420px;
   border-radius: 25px;
   padding: 10px;
@@ -21,7 +21,7 @@
 
 .Alertas {
   background-color: rgba(255, 255, 255, 0.65);
-  height: 275px;
+  height: 300px;
   width: 420px;
   border-radius: 25px;
   padding: 10px;
@@ -42,21 +42,3 @@
   border-radius: 25px;
   padding: 20px;
 }
-
-.skewed {
-  position: absolute;
-  top: 0;
-  left: +61vw; /*view widht*/
-  width: 30%;
-  height: 100vh; /*view height*/
-  background-color: #4697D2;
-  transform: skewX(-8deg); /* tilta a imagem */
-  z-index: 1; /*usado para o overlay*/
-  box-shadow: 0px 0px 20px black ;
-}
-
-.perfil-container { /* ter acerteza que esta em cima do skerwer */
-  position: relative; 
-  z-index: 1;          
-}
-

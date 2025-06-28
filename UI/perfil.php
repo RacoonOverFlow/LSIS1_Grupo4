@@ -14,10 +14,12 @@ require_once "../bll/Permissoes.php";
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil</title>
   <link rel="stylesheet" href="../CSS/stylePerfil.css">
+  <script src="../jvscript/header.js" defer></script>
 </head>
 
 <body>
   <main>
-    <div class="profile-container"> <?php setPerfil($nMeca); ?></div>
+    <div class="skewed"></div>
+    <div class="global-container"> <?php setPerfil($nMeca); ?></div>
   </main>
 </body>

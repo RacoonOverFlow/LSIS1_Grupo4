@@ -1,7 +1,4 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
-}
+@import url('styleGlobal.css');
 
 #generoChart, #circulo, #cargoChart {
   position:relative;
@@ -18,5 +15,3 @@ body {
   border: 1px solid #ccc;
   background-color: #fff;
 }
-
-/*--- GENERO FILTRO---*/

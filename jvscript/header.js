@@ -8,11 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set active tab based on current URL
   const currentPage = window.location.pathname;
 
-  if (currentPage.includes('equipas.html')) {
-    document.querySelector('[data-tab="tab2"]')?.classList.add('active');
-  } else if (currentPage.includes('perfil.html')){
-    document.querySelector('[data-tab="tab1"]')?.classList.add('active');
-  }
+  if (currentPage.includes('equipas.php')) {
+    document.querySelector('[data-tab="Equipas"]')?.classList.add('active');
+  } else if (currentPage.includes('perfil.php')){
+    document.querySelector('[data-tab="Perfil"]')?.classList.add('active');
+  } else if (currentPage.includes('dashboard.php')){
+    document.querySelector('[data-tab="Dashboard"]')?.classList.add('active');
+  } 
 
   // Tab switching for same-page tabs (like Tab 1 and Tab 3)
   buttons.forEach(button => {

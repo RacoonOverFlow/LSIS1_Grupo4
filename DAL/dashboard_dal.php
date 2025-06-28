@@ -39,7 +39,6 @@ class dashboard_dal {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         $result = $stmt->get_result();
-        //print_r($result);
         $dataCargo = [];
         while ($row = $result->fetch_assoc()) {
             $dataCargo[$row['cargo']] = (int)$row['total'];
@@ -66,6 +65,7 @@ class dashboard_dal {
 
     return $dataNacionalidade;
     }
+
 
 }
 ?>
