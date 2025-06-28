@@ -18,10 +18,12 @@ function displayForm() {
   $coordenadores = $dal->getCoordenador(2);
 
   echo '<form method="POST" action="">';
-  echo '<label>';
+  echo '<div class="login-box">';
+  echo '<h1>Criar Equipa</h1>';
+  echo '<label class="login-form">';
   echo '<h2>Nome da Equipa</h2>';
   echo '<input type="text" name="nomeEquipa" placeholder="Nome da Equipa" required>';
-  echo '</label><br><br>';
+  echo '</label><br>';
 
   echo '<h3>Selecionar Colaboradores</h3>';
   foreach ($colaboradores as $colaborador) {
@@ -31,17 +33,21 @@ function displayForm() {
   }
 
   // Coordenador (Dropdown)
+  echo '<div class="select_coord_section">';
+  echo '<label>';
   echo '<h3>Selecionar Coordenador</h3>';
-  echo '<select name="coordenador" required>';
+  echo '<select required>';
   echo '<option value="">Selecione um Coordenador</option>';
   foreach ($coordenadores as $coordenador) {
     echo '<option value="' . $coordenador['idFuncionario'] . '">' . htmlspecialchars($coordenador['nomeCompleto']) . '</option>';
   }
-
-  echo '</select><br><br>';
+  echo '</select><br>';
+  echo '</label>';
+  echo '</div>';
 
   echo '<button type="submit">Criar Equipa</button>';
   echo '</form>';
+  echo '</div>';
 
 }
 

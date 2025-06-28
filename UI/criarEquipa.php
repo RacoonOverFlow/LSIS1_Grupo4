@@ -13,6 +13,7 @@ require_once "../bll/Permissoes.php"
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Criar Equipas</title>
   <link rel="stylesheet" href="../css/styleGlobal.css">
+  <link rel="stylesheet" href="../css/styleLogin.css">
 </head>
 
 <body>
