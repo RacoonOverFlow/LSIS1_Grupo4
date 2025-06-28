@@ -9,33 +9,28 @@ $nMeca = $_SESSION['nMeca'] ?? null;
 $dal = new Perfil_DAL();
 $cargo = $dal->getCargoById($nMeca);
 
-
 function mostrarHeader($cargo) {
+    $utilizadorCargo = $_SESSION['idCargo'];
     ?>
-        <div class="header">
-            <div class="button-page">
-                <a class="links" href="perfil.php">Perfil</a>
-            </div>
-            <?php if ($cargo === 'Recursos Humanos' ||$cargo === 'Administrador' || $cargo === 'Coordenador' || $cargo === 'Recursos Humanos Super'): ?>
-                <div class="button-next-page">
-                    <a class="links" href="equipas.php">Equipas</a>
-                </div>
-                <div class="button-next-page">
-                    <a class="links" href="dashboard.php">Dashboard</a>
-                </div>
-            <?php endif; ?> 
+   <div class="container">
+        <div class="tabs">
+            <a href="perfil.php" class="tab-button">Perfil</a>
+
+            <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 5): ?>
+                <a href="equipas.php" class="tab-button">Equipas</a>
+                <a href="dashboard.php" class="tab-button">Dashboard</a>
+            <?php endif; ?>
 
             <div class="logo">
-                <img clas = "imgLogo" src="../photos/logo.png" alt="Tlantic">
+                <img class="imgLogo" src="../photos/logo.png" alt="Tlantic" />
             </div>
 
-            <?php if (isset($_SESSION['nMeca'])): ?>
-                <div class="button-page">
-                    <a class="links" href="logout.php">Logout</a>
-                </div>
+            <?php if ($cargo): ?>
+                <a href="logout.php" class="tab-button">Logout</a>
             <?php else: ?>
-                <div class="button-page"><a class="links" href="login.php">Login</a></div>
+                <a href="login.php" class="tab-button">Login</a>
             <?php endif; ?>
         </div>
-    <?php
+    </div>
+<?php
 }

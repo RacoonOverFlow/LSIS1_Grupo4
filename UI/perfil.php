@@ -18,6 +18,6 @@ require_once "../bll/Permissoes.php";
 
 <body>
   <main>
-  <?php setPerfil($nMeca); ?>
+    <div class="profile-container"> <?php setPerfil($nMeca); ?></div>
   </main>
 </body>

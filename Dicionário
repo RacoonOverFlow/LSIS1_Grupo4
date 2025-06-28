@@ -9,5 +9,8 @@ branco : #FFFFFF
 
 azul tab: #4697D2
 
+ordem sql
+colaborador/coordenador/recursos humanos/recursos humanos super/administrador/ convidado
+
 Todas as variáveis, classes e funções são em inglês, utilizando camelCase.
 ####################################################################################################################################
