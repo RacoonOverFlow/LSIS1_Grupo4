@@ -195,6 +195,9 @@ button {
   margin-bottom:20px;
 }
 
+
+/* CSS de criar equipa */
+
 .select_coord_section select,
 ::picker(select) {
   appearance: base-select;
@@ -245,3 +248,5 @@ option:focus {
   background: rgb(216, 215, 215, 0.9);
   cursor: pointer;
 }
+
+/* fim do CSS de criar equipa */

@@ -31,11 +31,15 @@ function displayForm() {
   $cv = $dal->getCVById($funcionario['idCV']);
   $beneficios = $dal->getBeneficiosById($funcionario['idBeneficios']);
 
-
+  
+  echo '<div class="container_atualizarPerfil">';
+  echo '<h2>Atualizar Perfil</h2>';
   echo '<form id="formFuncionario" action="" method="post">';
 
   echo '</select><br><br>
+  
   <!-- Dados Pessoais -->
+  <div class="atualizarPerfil-form">
   <h3>Dados Pessoais</h3>
   Nome completo:
   <input type="text" name="nomeCompleto" placeholder="Nome Completo" value="' . htmlspecialchars($dadosPessoais['nomeCompleto']) .'" readonly><br>
@@ -63,17 +67,20 @@ function displayForm() {
 
 
   Género:
+  <div class="select_section">
   <select name="genero">
     <option value="">Selecione um genero</option>
     <option value="F" ' . ($dadosPessoais['genero'] == "F" ? 'selected' : '') . '>Feminino</option>
     <option value="M" ' . ($dadosPessoais['genero'] == "M" ? 'selected' : '') . '>Masculino</option>
-  </select><br>';
+  </select><br>
+  </div>';
 
 
   $indicativos = $dal->getIndicativos();
   echo 'Contacto pessoal:
+  <div class="select_section">
   <select name="idIndicativo">
-    <option value="">Selecione umm indicativo</option>';
+    <option value="">Selecione um indicativo</option>';
   
   foreach($indicativos as $indicativo){
     echo '<option value="' . htmlspecialchars($indicativo['idIndicativo']) . '" ' 
@@ -89,12 +96,14 @@ function displayForm() {
 
   Grau de relacionamento:
   <input type="text" name="grauDeRelacionamento" value="'. htmlspecialchars($dadosPessoais['grauDeRelacionamento']) .'"><br>
+  </div>
 
   Email:
   <input type="email" name="email" value="'. htmlspecialchars($dadosPessoais['email']) .'" readonly ><br>';
 
   $nacionalidades = $dal->getNacionalidades();
   echo 'Nacionalidade:
+  <div class="select_section">
   <select name="idNacionalidade" disabled>
     <option value="">Selecione uma nacionalidade</option>';
   
@@ -103,10 +112,14 @@ function displayForm() {
     . ($dadosPessoais['idNacionalidade'] === $nacionalidade['idNacionalidade'] ? 'selected' : '') 
     . '>' . htmlspecialchars($nacionalidade['nacionalidade']) . '</option>';
   }
-  echo '<input type="hidden" name="idNacionalidade" value="' . htmlspecialchars($dadosPessoais['idNacionalidade']) . '">';
+  echo '</select>';
+  echo '<input type="hidden" name="idNacionalidade" value="' . htmlspecialchars($dadosPessoais['idNacionalidade']) . '">
+  </div>
+  </div>';
 
   echo '</select><br><br>
   <!-- Dados Contrato -->
+  <div class="atualizarPerfil-form">
   <h3>Dados do Contrato</h3>
   Data de início:
   <input type="date" name="dataInicioDeContrato" value="'. htmlspecialchars($dadosContrato['dataInicioDeContrato']) .'" readonly><br>
@@ -115,6 +128,7 @@ function displayForm() {
   <input type="date" name="dataFimDeContrato" value="'. htmlspecialchars($dadosContrato['dataFimDeContrato']) .'" readonly><br>
 
   Tipo de contrato:
+  <div class="select_section">
   <select name="tipoDeContrato" disabled>
     <option value="">Selecione um Tipo de contrato </option>
     <option value="Estagio curricular"' . ($dadosContrato['tipoDeContrato'] == "Estagio curricular" ? 'selected' : '') . '>Estagio curricular</option>
@@ -122,24 +136,30 @@ function displayForm() {
     <option value="Termo certo"' . ($dadosContrato['tipoDeContrato'] == "Termo certo" ? 'selected' : '') . '>Termo certo</option>
     <option value="Termo incerto"' . ($dadosContrato['tipoDeContrato'] == "Termo incerto" ? 'selected' : '') . '>Termo incerto</option>
     <option value="Sem incerto"' . ($dadosContrato['tipoDeContrato'] == "Sem incerto" ? 'selected' : '') . '>Sem incerto</option>
-  </select><br>';
+  </select><br>
+  </div>';
 
   echo '<input type="hidden" name="tipoDeContrato" value="' . htmlspecialchars($dadosContrato['tipoDeContrato']) . '">
 
   Regime de horário de trabalho:
+  <div class="select_section">
   <select name="regimeDeHorarioDeTrabalho" disabled>
     <option value="">Selecione um regime de horario de trabalho </option>
     <option value="10%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "10%" ? 'selected' : '') . '>10%</option>
     <option value="20%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "20%" ? 'selected' : '') . '>20%</option>
     <option value="50%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "50%" ? 'selected' : '') . '>50%</option>
     <option value="100%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "100%" ? 'selected' : '') . '>100%</option>
-  </select><br><br>';
+  </select><br><br>
+  </div>';
 
   echo '<input type="hidden" name="regimeDeHorarioDeTrabalho" value="' . htmlspecialchars($dadosContrato['regimeDeHorarioDeTrabalho']) . '">
+  </div>
 
   <!-- Dados Financeiros -->
+  <div class="atualizarPerfil-form">
   <h3>Dados Financeiros</h3>
   Situação de IRS:
+  <div class="select_section">
   <select name="situacaoDeIRS">
     <option value="">Selecione uma situação de IRS</option>
     <option value="Casado"' . ($dadosFinanceiros['situacaoDeIRS'] == "Casado" ? 'selected' : '') . '>Casado</option>
@@ -147,6 +167,7 @@ function displayForm() {
     <option value="Viuvo/a"' . ($dadosFinanceiros['situacaoDeIRS'] == "Viuvo/a" ? 'selected' : '') . '>Viuvo/a</option>
     <option value="União de facto"' . ($dadosFinanceiros['situacaoDeIRS'] == "União de facto" ? 'selected' : '') . '>União de facto</option>
   </select><br>
+  </div>
 
   Remuneração:
   <input type="number" step="0.01" name="remuneracao" placeholder="€" value="'. htmlspecialchars($dadosFinanceiros['remuneracao']) .'"readonly><br>
@@ -156,34 +177,41 @@ function displayForm() {
 
   IBAN:
   <input type="text" name="IBAN" placeholder="PT50..." value="'. htmlspecialchars($dadosFinanceiros['IBAN']) .'"><br><br>
+  </div>
 
   <!-- Benefícios -->
+  <div class="atualizarPerfil-form">
   <h3>Benefícios</h3>
   Nº do Cartão Continente:
   <input type="text" name="cartaoContinente" placeholder="Número do Cartão" value="'. htmlspecialchars($beneficios['cartaoContinente']) .'"><br>
 
   Data de emissão do voucher NOS:
   <input type="date" name="voucherNOS" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"readonly><br><br>
-
+  </div>
 
   <!-- CV -->
+  <div class="atualizarPerfil-form">
   <h3>CV</h3>
-  CV:
+  Habilitações literárias:
+  <div class="select_section">
   <select name="habilitacoesLiterarias">
+  <option value="">Selecione as habilitações literárias</option>
   <option value="">Habilitações</option>
   <option value="12ºano"' . ($cv['habilitacoesLiterarias'] == "12ºano" ? 'selected' : '') . '>12º ano</option>
   <option value="Licenciatura"' . ($cv['habilitacoesLiterarias'] == "Licenciatura" ? 'selected' : '') . '>Licenciatura</option>
   <option value="Mestrado"' . ($cv['habilitacoesLiterarias'] == "Mestrado" ? 'selected' : '') . '>Mestrado</option>
   </select><br>
+  </div>
   Curso:
   <input type="text" name="curso" placeholder="Curso" value="'. htmlspecialchars($cv['curso']) .'"><br>
   Frequencia:
   <input type="text" name="frequencia" placeholder="Frequencia" value="'. htmlspecialchars($cv['frequencia']) .'"><br>
   IdDocumento:
   <input type="number" name="idDocumento" placeholder="idDocumento" value="'. htmlspecialchars($cv['idDocumento']) .'"><br><br>
+  </div>
 
   <!-- Botão -->
-  <input type="submit" value="Registar"/>
+  <input type="submit" value="Atualizar Perfil" id="atualizarPerfil-form-submit"/>
 </form>';
 }
 

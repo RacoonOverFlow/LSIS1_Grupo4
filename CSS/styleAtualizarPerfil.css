@@ -1,2 +1,99 @@
 @import url('styleGlobal.css');
 
+.container_atualizarPerfil {
+    position: flex;
+    background-color: rgb(216, 215, 215, 0.9);
+    padding: 2%; /* cleaner shorthand */
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 50%; /* Add a fixed width to control form size */
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+.atualizarPerfil-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.atualizarPerfil-form input {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  padding: 20px;
+  border: none;
+  box-sizing: border-box;
+  font-size: 18px;
+  opacity: 100%;
+}
+
+#atualizarPerfil-form-submit {
+  width: 100%;
+  padding: 14px; /* better match visually */
+  border: none;
+  border-radius: 12px;
+  color: white;
+  background-color: #19365F;
+  cursor: pointer;
+  outline: none;
+  font-size: 18px;
+  opacity: 1;
+  font-style: bold;
+}
+
+/*select section styles*/
+.select_section select,
+::picker(select) {
+  appearance: base-select;
+}
+
+select {
+  flex: 1;
+}
+select {
+  border: 1px solid #3a3a3a;
+  background: rgb(216, 215, 215, 0.9);
+  padding: 10px;
+  transition: 0.4s;
+}
+
+select:hover,
+select:focus {
+  background: rgb(216, 215, 215, 0.9);
+  cursor: pointer;
+}
+select::picker-icon {
+  color: #999;
+  transition: 0.4s rotate;
+}
+select:open::picker-icon {
+  rotate: 180deg;
+}
+::picker(select) {
+  border: none;
+}
+option {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  
+  border: 2px solid rgb(216, 215, 215, 0.9);
+  background: #eee;
+  padding: 10px;
+  transition: 0.4s;
+}
+
+option:nth-of-type(odd) {
+  background: #fff;
+}
+
+option:hover,
+option:focus {
+  background: rgb(216, 215, 215, 0.9);
+  cursor: pointer;
+}
+/*select section styles end*/
