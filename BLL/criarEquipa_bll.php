@@ -14,8 +14,8 @@ function isThisACallback(): bool {
 function displayForm() {
   $dal = new criarEquipa_DAL();
   
-  $colaboradores = $dal->getColaborador(1);
-  $coordenadores = $dal->getCoordenador(2);
+  $colaboradores = $dal->getColaborador(2);
+  $coordenadores = $dal->getCoordenador(3);
 
   echo '<form method="POST" action="">';
   echo '<div class="login-box">';
