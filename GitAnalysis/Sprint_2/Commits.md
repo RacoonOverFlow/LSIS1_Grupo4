@@ -153,7 +153,7 @@
 <summary>Commits</summary>
 
 <pre>
-commit 6087359eca6e11d88badab3c51ad24c61b2ca760	refs/heads/main (HEAD -> main, origin/main, origin/HEAD)
+commit 6087359eca6e11d88badab3c51ad24c61b2ca760	refs/heads/main
 Author: Clara Carvalho <1220893@isep.ipp.pt>
 Date:   Sun Jun 29 23:02:03 2025 +0100
 
