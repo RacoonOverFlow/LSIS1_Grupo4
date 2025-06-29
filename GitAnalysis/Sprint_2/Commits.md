@@ -4,21 +4,407 @@
 <summary>Diff</summary>
 
 <pre>
- DAL/login_dal.php      |    1 
- b/CSS/styleGlobal.css  |   72 -------------------------------------------------
- b/CSS/styleLogin.css   |   72 +++++++++++++++++++++++++++++++++++++++++++++++++
- b/DAL/login_dal.php    |    3 +!
- b/DAL/profile_dal.php  |    2 !
- b/UI/login.php         |    2 !
- b/bll/handle_login.php |    1 
- bll/handle_login.php   |    2 !
- 8 files changed, 75 insertions(+), 73 deletions(-), 7 modifications(!)
+ /BLL/dashboard_bll.php                              |   15 
+ /CSS/styleDashboard.css                             |   22 
+ /CSS/styleLogin.css                                 |   72 
+ /CSS/stylePerfil.css                                |   36 
+ /DAL/dashboard_dal.php                              |   71 
+ /UI/dashboard.php                                   |   19 
+ /jvscript/dashboardChart.js                         |  117 
+ /jvscript/header.js                                 |   34 
+ BLL/Permissoes.php                                  |   19 
+ BLL/permissoes_oldFunction.text                     |   27 
+ CSS/styleDashboard.css                              |    6 
+ CSS/styleGlobal.css                                 |  219 
+ CSS/stylePerfil.css                                 |   64 
+ DAL/login_dal.php                                   |    1 
+ Dicionário                                          |    9 
+ Permissoes.php                                      |    1 
+ UI/criarEquipa.php                                  |    1 
+ UI/dashboard.php                                    |   13 
+ UI/equipas.php                                      |    2 
+ UI/login.php                                        |    3 
+ UI/perfil.php                                       |    3 
+ UI/teste.html                                       |   57 
+ b/BLL/Permissoes.php                                |    9 
+ b/BLL/dashboard_bll.php                             |    6 
+ b/BLL/dashboard_pag_bll.php                         |   27 
+ b/BLL/perfil_bll.php                                |    4 
+ b/BLL/permissoes_oldFunction.text                   |   27 
+ b/CSS/styleDashboard.css                            |    2 
+ b/CSS/styleEquipas.css                              |   76 
+ b/CSS/styleGlobal.css                               |  151 
+ b/CSS/styleLogin.css                                |   18 
+ b/CSS/stylePerfil.css                               |   20 
+ b/CSS/styleVisualizarFuncionario.css                |    4 
+ b/DAL/dashboard_dal.php                             |    2 
+ b/DAL/login_dal.php                                 |    3 
+ b/DAL/profile_dal.php                               |    2 
+ b/Dicionário                                        |    1 
+ b/UI/atualizarPerfil.php                            |   12 
+ b/UI/criarEquipa.php                                |    3 
+ b/UI/dashboard.php                                  |   23 
+ b/UI/equipas.php                                    |    3 
+ b/UI/login.php                                      |    1 
+ b/UI/perfil.php                                     |    3 
+ b/UI/teste.html                                     |   57 
+ b/UI/teste.php                                      |   46 
+ b/UI/ttt.html                                       |   27 
+ b/bll/handle_login.php                              |    1 
+ b/bootstrap/css/bootstrap-grid.css                  | 4085 ++++++
+ b/bootstrap/css/bootstrap-grid.css.map              |    1 
+ b/bootstrap/css/bootstrap-grid.min.css              |    6 
+ b/bootstrap/css/bootstrap-grid.min.css.map          |    1 
+ b/bootstrap/css/bootstrap-grid.rtl.css              | 4084 ++++++
+ b/bootstrap/css/bootstrap-grid.rtl.css.map          |    1 
+ b/bootstrap/css/bootstrap-grid.rtl.min.css          |    6 
+ b/bootstrap/css/bootstrap-grid.rtl.min.css.map      |    1 
+ b/bootstrap/css/bootstrap-reboot.css                |  597 
+ b/bootstrap/css/bootstrap-reboot.css.map            |    1 
+ b/bootstrap/css/bootstrap-reboot.min.css            |    6 
+ b/bootstrap/css/bootstrap-reboot.min.css.map        |    1 
+ b/bootstrap/css/bootstrap-reboot.rtl.css            |  594 
+ b/bootstrap/css/bootstrap-reboot.rtl.css.map        |    1 
+ b/bootstrap/css/bootstrap-reboot.rtl.min.css        |    6 
+ b/bootstrap/css/bootstrap-reboot.rtl.min.css.map    |    1 
+ b/bootstrap/css/bootstrap-utilities.css             | 5406 ++++++++
+ b/bootstrap/css/bootstrap-utilities.css.map         |    1 
+ b/bootstrap/css/bootstrap-utilities.min.css         |    6 
+ b/bootstrap/css/bootstrap-utilities.min.css.map     |    1 
+ b/bootstrap/css/bootstrap-utilities.rtl.css         | 5397 ++++++++
+ b/bootstrap/css/bootstrap-utilities.rtl.css.map     |    1 
+ b/bootstrap/css/bootstrap-utilities.rtl.min.css     |    6 
+ b/bootstrap/css/bootstrap-utilities.rtl.min.css.map |    1 
+ b/bootstrap/css/bootstrap.css                       |12043 ++++++++++++++++++++
+ b/bootstrap/css/bootstrap.css.map                   |    1 
+ b/bootstrap/css/bootstrap.min.css                   |    6 
+ b/bootstrap/css/bootstrap.min.css.map               |    1 
+ b/bootstrap/css/bootstrap.rtl.css                   |12016 +++++++++++++++++++
+ b/bootstrap/css/bootstrap.rtl.css.map               |    1 
+ b/bootstrap/css/bootstrap.rtl.min.css               |    6 
+ b/bootstrap/css/bootstrap.rtl.min.css.map           |    1 
+ b/bootstrap/js/bootstrap.bundle.js                  | 6315 ++++++++++
+ b/bootstrap/js/bootstrap.bundle.js.map              |    1 
+ b/bootstrap/js/bootstrap.bundle.min.js              |    7 
+ b/bootstrap/js/bootstrap.bundle.min.js.map          |    1 
+ b/bootstrap/js/bootstrap.esm.js                     | 4450 +++++++
+ b/bootstrap/js/bootstrap.esm.js.map                 |    1 
+ b/bootstrap/js/bootstrap.esm.min.js                 |    7 
+ b/bootstrap/js/bootstrap.esm.min.js.map             |    1 
+ b/bootstrap/js/bootstrap.js                         | 4497 +++++++
+ b/bootstrap/js/bootstrap.js.map                     |    1 
+ b/bootstrap/js/bootstrap.min.js                     |    7 
+ b/bootstrap/js/bootstrap.min.js.map                 |    1 
+ b/jvscript/dashboardChart.js                        |    2 
+ b/jvscript/generoChart.js                           |   77 
+ b/jvscript/header.js                                |    4 
+ b/photos/Pessoa_chapeu.jpg                          |binary
+ bll/handle_login.php                                |    2 
+ bootstrap/css/bootstrap-grid.css                    | 4085 ------
+ bootstrap/css/bootstrap-grid.css.map                |    1 
+ bootstrap/css/bootstrap-grid.min.css                |    6 
+ bootstrap/css/bootstrap-grid.min.css.map            |    1 
+ bootstrap/css/bootstrap-grid.rtl.css                | 4084 ------
+ bootstrap/css/bootstrap-grid.rtl.css.map            |    1 
+ bootstrap/css/bootstrap-grid.rtl.min.css            |    6 
+ bootstrap/css/bootstrap-grid.rtl.min.css.map        |    1 
+ bootstrap/css/bootstrap-reboot.css                  |  597 
+ bootstrap/css/bootstrap-reboot.css.map              |    1 
+ bootstrap/css/bootstrap-reboot.min.css              |    6 
+ bootstrap/css/bootstrap-reboot.min.css.map          |    1 
+ bootstrap/css/bootstrap-reboot.rtl.css              |  594 
+ bootstrap/css/bootstrap-reboot.rtl.css.map          |    1 
+ bootstrap/css/bootstrap-reboot.rtl.min.css          |    6 
+ bootstrap/css/bootstrap-reboot.rtl.min.css.map      |    1 
+ bootstrap/css/bootstrap-utilities.css               | 5406 --------
+ bootstrap/css/bootstrap-utilities.css.map           |    1 
+ bootstrap/css/bootstrap-utilities.min.css           |    6 
+ bootstrap/css/bootstrap-utilities.min.css.map       |    1 
+ bootstrap/css/bootstrap-utilities.rtl.css           | 5397 --------
+ bootstrap/css/bootstrap-utilities.rtl.css.map       |    1 
+ bootstrap/css/bootstrap-utilities.rtl.min.css       |    6 
+ bootstrap/css/bootstrap-utilities.rtl.min.css.map   |    1 
+ bootstrap/css/bootstrap.css                         |12043 --------------------
+ bootstrap/css/bootstrap.css.map                     |    1 
+ bootstrap/css/bootstrap.min.css                     |    6 
+ bootstrap/css/bootstrap.min.css.map                 |    1 
+ bootstrap/css/bootstrap.rtl.css                     |12016 -------------------
+ bootstrap/css/bootstrap.rtl.css.map                 |    1 
+ bootstrap/css/bootstrap.rtl.min.css                 |    6 
+ bootstrap/css/bootstrap.rtl.min.css.map             |    1 
+ bootstrap/js/bootstrap.bundle.js                    | 6315 ----------
+ bootstrap/js/bootstrap.bundle.js.map                |    1 
+ bootstrap/js/bootstrap.bundle.min.js                |    7 
+ bootstrap/js/bootstrap.bundle.min.js.map            |    1 
+ bootstrap/js/bootstrap.esm.js                       | 4450 -------
+ bootstrap/js/bootstrap.esm.js.map                   |    1 
+ bootstrap/js/bootstrap.esm.min.js                   |    7 
+ bootstrap/js/bootstrap.esm.min.js.map               |    1 
+ bootstrap/js/bootstrap.js                           | 4497 -------
+ bootstrap/js/bootstrap.js.map                       |    1 
+ bootstrap/js/bootstrap.min.js                       |    7 
+ bootstrap/js/bootstrap.min.js.map                   |    1 
+ jvscript/generoChart.js                             |   77 
+ jvscript/header.js                                  |    7 
+ 142 files changed, 60507 insertions(+), 60014 deletions(-), 137 modifications(!)
 </pre>
 </details>
 <details>
 <summary>Commits</summary>
 
 <pre>
+commit 6087359eca6e11d88badab3c51ad24c61b2ca760	refs/heads/main (HEAD -> main, origin/main, origin/HEAD)
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Sun Jun 29 23:02:03 2025 +0100
+
+    sprint 2 realizada
+
+M	"Dicion\303\241rio"
+
+commit 965c94b9f2b3a53c0993819435de17d7baf959ba	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Sun Jun 29 17:48:57 2025 +0100
+
+    fix aspeto dashboardChart
+
+M	CSS/styleDashboard.css
+M	CSS/styleVisualizarFuncionario.css
+M	jvscript/dashboardChart.js
+
+commit f0ea28b796bc436861650dd94f7dc5d8840d4e46	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Sat Jun 28 23:43:07 2025 +0100
+
+    fix header.js
+
+M	jvscript/header.js
+
+commit e47e4e0ae27c2b94f16d58945e0863c417772e96	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Sat Jun 28 23:38:17 2025 +0100
+
+    cssGlobal, cssHeader, fix permissoes, criacao styleEquipas, criacao pagina Dashboard
+
+M	BLL/Permissoes.php
+M	BLL/dashboard_bll.php
+A	BLL/dashboard_pag_bll.php
+D	BLL/permissoes_oldFunction.text
+M	CSS/styleDashboard.css
+A	CSS/styleEquipas.css
+M	CSS/styleGlobal.css
+M	CSS/stylePerfil.css
+M	DAL/dashboard_dal.php
+M	UI/atualizarPerfil.php
+M	UI/criarEquipa.php
+M	UI/dashboard.php
+M	UI/equipas.php
+M	UI/login.php
+M	UI/perfil.php
+M	jvscript/header.js
+
+commit 506d9b9d4b3c3e7ee8928d947b46b0f3663e9ac2	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Fri Jun 27 22:01:43 2025 +0100
+
+    tabs funcionais, mas nao conectadas ainda á box
+
+M	BLL/Permissoes.php
+A	BLL/permissoes_oldFunction.text
+M	CSS/styleGlobal.css
+M	CSS/stylePerfil.css
+M	UI/perfil.php
+A	jvscript/header.js
+
+commit 11c6f4b0e2b3371aa56c9a788394042d484de074	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Fri Jun 27 20:51:06 2025 +0100
+
+    delete bootstrap local files
+
+D	bootstrap/css/bootstrap-grid.css
+D	bootstrap/css/bootstrap-grid.css.map
+D	bootstrap/css/bootstrap-grid.min.css
+D	bootstrap/css/bootstrap-grid.min.css.map
+D	bootstrap/css/bootstrap-grid.rtl.css
+D	bootstrap/css/bootstrap-grid.rtl.css.map
+D	bootstrap/css/bootstrap-grid.rtl.min.css
+D	bootstrap/css/bootstrap-grid.rtl.min.css.map
+D	bootstrap/css/bootstrap-reboot.css
+D	bootstrap/css/bootstrap-reboot.css.map
+D	bootstrap/css/bootstrap-reboot.min.css
+D	bootstrap/css/bootstrap-reboot.min.css.map
+D	bootstrap/css/bootstrap-reboot.rtl.css
+D	bootstrap/css/bootstrap-reboot.rtl.css.map
+D	bootstrap/css/bootstrap-reboot.rtl.min.css
+D	bootstrap/css/bootstrap-reboot.rtl.min.css.map
+D	bootstrap/css/bootstrap-utilities.css
+D	bootstrap/css/bootstrap-utilities.css.map
+D	bootstrap/css/bootstrap-utilities.min.css
+D	bootstrap/css/bootstrap-utilities.min.css.map
+D	bootstrap/css/bootstrap-utilities.rtl.css
+D	bootstrap/css/bootstrap-utilities.rtl.css.map
+D	bootstrap/css/bootstrap-utilities.rtl.min.css
+D	bootstrap/css/bootstrap-utilities.rtl.min.css.map
+D	bootstrap/css/bootstrap.css
+D	bootstrap/css/bootstrap.css.map
+D	bootstrap/css/bootstrap.min.css
+D	bootstrap/css/bootstrap.min.css.map
+D	bootstrap/css/bootstrap.rtl.css
+D	bootstrap/css/bootstrap.rtl.css.map
+D	bootstrap/css/bootstrap.rtl.min.css
+D	bootstrap/css/bootstrap.rtl.min.css.map
+D	bootstrap/js/bootstrap.bundle.js
+D	bootstrap/js/bootstrap.bundle.js.map
+D	bootstrap/js/bootstrap.bundle.min.js
+D	bootstrap/js/bootstrap.bundle.min.js.map
+D	bootstrap/js/bootstrap.esm.js
+D	bootstrap/js/bootstrap.esm.js.map
+D	bootstrap/js/bootstrap.esm.min.js
+D	bootstrap/js/bootstrap.esm.min.js.map
+D	bootstrap/js/bootstrap.js
+D	bootstrap/js/bootstrap.js.map
+D	bootstrap/js/bootstrap.min.js
+D	bootstrap/js/bootstrap.min.js.map
+
+commit f4df344184218bc773881117bab4bcc365e6c4f6	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Fri Jun 27 20:48:10 2025 +0100
+
+    background perfil
+
+M	CSS/styleGlobal.css
+M	CSS/stylePerfil.css
+
+commit 14e917c332f469ee63199acd2d256bf6c4513d46	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Fri Jun 27 19:31:57 2025 +0100
+
+    order dicionario
+
+M	"Dicion\303\241rio"
+
+commit 4cf363588055d4e5da1827d993b80c270f9b704b	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Fri Jun 27 19:05:20 2025 +0100
+
+    new update on stylePerfil e styleGlobal
+
+R097	UI/Permissoes.php	BLL/Permissoes.php
+M	BLL/perfil_bll.php
+M	CSS/styleGlobal.css
+M	CSS/stylePerfil.css
+M	"Dicion\303\241rio"
+M	UI/criarEquipa.php
+M	UI/equipas.php
+M	UI/perfil.php
+A	photos/Pessoa_chapeu.jpg
+
+commit f5616c97893db8f60725ba2d6744dee86b41d2ec	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Fri Jun 27 12:34:48 2025 +0100
+
+    alteraçãos no styleGlobal e stylePerfil
+
+M	CSS/styleGlobal.css
+A	CSS/stylePerfil.css
+M	"Dicion\303\241rio"
+M	UI/perfil.php
+A	UI/ttt.html
+
+commit 8bd6d4eb25d1eeae114a4cafbfde1b212c8a44e7	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Fri Jun 27 11:59:16 2025 +0100
+
+    styleLogin updated
+
+M	CSS/styleLogin.css
+M	UI/login.php
+
+commit cf1ba8ddb52dabd846c9e2bd02bf1b441dfe9828	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Fri Jun 27 10:28:34 2025 +0100
+
+    teste bootstrap
+
+M	UI/dashboard.php
+D	UI/teste.html
+A	UI/teste.php
+
+commit 34505d87bd7714f628e6402fc3eaa68231266d02	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Fri Jun 27 10:03:35 2025 +0100
+
+    bootstrap add
+
+M	"Dicion\303\241rio"
+A	bootstrap/css/bootstrap-grid.css
+A	bootstrap/css/bootstrap-grid.css.map
+A	bootstrap/css/bootstrap-grid.min.css
+A	bootstrap/css/bootstrap-grid.min.css.map
+A	bootstrap/css/bootstrap-grid.rtl.css
+A	bootstrap/css/bootstrap-grid.rtl.css.map
+A	bootstrap/css/bootstrap-grid.rtl.min.css
+A	bootstrap/css/bootstrap-grid.rtl.min.css.map
+A	bootstrap/css/bootstrap-reboot.css
+A	bootstrap/css/bootstrap-reboot.css.map
+A	bootstrap/css/bootstrap-reboot.min.css
+A	bootstrap/css/bootstrap-reboot.min.css.map
+A	bootstrap/css/bootstrap-reboot.rtl.css
+A	bootstrap/css/bootstrap-reboot.rtl.css.map
+A	bootstrap/css/bootstrap-reboot.rtl.min.css
+A	bootstrap/css/bootstrap-reboot.rtl.min.css.map
+A	bootstrap/css/bootstrap-utilities.css
+A	bootstrap/css/bootstrap-utilities.css.map
+A	bootstrap/css/bootstrap-utilities.min.css
+A	bootstrap/css/bootstrap-utilities.min.css.map
+A	bootstrap/css/bootstrap-utilities.rtl.css
+A	bootstrap/css/bootstrap-utilities.rtl.css.map
+A	bootstrap/css/bootstrap-utilities.rtl.min.css
+A	bootstrap/css/bootstrap-utilities.rtl.min.css.map
+A	bootstrap/css/bootstrap.css
+A	bootstrap/css/bootstrap.css.map
+A	bootstrap/css/bootstrap.min.css
+A	bootstrap/css/bootstrap.min.css.map
+A	bootstrap/css/bootstrap.rtl.css
+A	bootstrap/css/bootstrap.rtl.css.map
+A	bootstrap/css/bootstrap.rtl.min.css
+A	bootstrap/css/bootstrap.rtl.min.css.map
+A	bootstrap/js/bootstrap.bundle.js
+A	bootstrap/js/bootstrap.bundle.js.map
+A	bootstrap/js/bootstrap.bundle.min.js
+A	bootstrap/js/bootstrap.bundle.min.js.map
+A	bootstrap/js/bootstrap.esm.js
+A	bootstrap/js/bootstrap.esm.js.map
+A	bootstrap/js/bootstrap.esm.min.js
+A	bootstrap/js/bootstrap.esm.min.js.map
+A	bootstrap/js/bootstrap.js
+A	bootstrap/js/bootstrap.js.map
+A	bootstrap/js/bootstrap.min.js
+A	bootstrap/js/bootstrap.min.js.map
+
+commit 42347b03faa68af02ff5bcccfcffc2c9fdd996e1	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Thu Jun 26 19:02:26 2025 +0100
+
+    filtros
+
+M	UI/dashboard.php
+A	jvscript/dashboardChart.js
+D	jvscript/generoChart.js
+
+commit d88b76bf5daaa347c3b5fedc29b24bfc6cdeaba5	refs/heads/main
+Author: Clara Carvalho <1220893@isep.ipp.pt>
+Date:   Thu Jun 26 18:04:03 2025 +0100
+
+    3 graficos funcionais
+
+A	BLL/dashboard_bll.php
+A	CSS/styleDashboard.css
+A	DAL/dashboard_dal.php
+A	UI/dashboard.php
+A	UI/teste.html
+A	jvscript/generoChart.js
+
 commit 775580681753a26f3bf855d4e3bda4578ad49444	refs/heads/main
 Author: Clara Carvalho <1220893@isep.ipp.pt>
 Date:   Tue Jun 24 19:08:09 2025 +0100
@@ -49,31 +435,112 @@ M	bll/handle_login.php
 <summary>Diff</summary>
 
 <pre>
- /BLL/equipaBLL.php        |   23 +++++++
- /DAL/equipaDal.php        |   20 ++++++
- DAL/connection.php        |   11 +!!
- DAL/login_dal.php         |    2 
- UI/Equipas.html           |    2 
- UI/equipas.php            |  136 ++++!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
- UI/login.php              |    2 
- b/BLL/equipaBLL.php       |    2 
- b/BLL/handle_login.php    |    1 
- b/DAL/connection.php      |    1 
- b/DAL/equipaDal.php       |   51 ++++++++++++++!!!
- b/DAL/login_dal.php       |    2 
- b/UI/Equipas.html         |    1 
- b/UI/atualizarPerfil.html |    1 
- b/UI/equipas.php          |    2 
- b/UI/guest.html           |    1 
- b/UI/login.php            |    3 !
- b/UI/perfil.php           |    1 
- 18 files changed, 105 insertions(+), 2 deletions(-), 155 modifications(!)
+ /BLL/equipaBLL.php           |   23 ++++++
+ /DAL/equipaDal.php           |   20 +++++
+ BLL/equipaBLL.php            |   12 ++-
+ BLL/handle_login.php         |    3 
+ DAL/connection.php           |   12 -
+ DAL/equipaDal.php            |  146 ++++++++++++++++++++++++++-!!!!!!!!!!!!!
+ DAL/login_dal.php            |   44 ++++++!!!!!!
+ UI/Equipas.html              |    2 
+ UI/Permissoes.php            |    2 
+ UI/equipas.php               |  147 ++++!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ UI/login.php                 |    2 
+ UI/perfil.php                |    1 
+ b/BLL/dashboard_bll.php      |    7 ++
+ b/BLL/equipaBLL.php          |   15 --!
+ b/BLL/handle_login.php       |    3 
+ b/DAL/connection.php         |    1 
+ b/DAL/dashboard_dal.php      |    2 
+ b/DAL/equipaDal.php          |   10 !!
+ b/DAL/login_dal.php          |    1 
+ b/UI/Equipas.html            |    1 
+ b/UI/Permissoes.php          |    2 
+ b/UI/atualizarPerfil.html    |    1 
+ b/UI/dashboard.php           |    2 
+ b/UI/equipas.php             |   66 !!!!!!!!!!!!!!!!!!
+ b/UI/guest.html              |    1 
+ b/UI/login.php               |    3 
+ b/UI/perfil.php              |   10 -
+ b/jvscript/dashboardChart.js |    4 !
+ 28 files changed, 205 insertions(+), 16 deletions(-), 322 modifications(!)
 </pre>
 </details>
 <details>
 <summary>Commits</summary>
 
 <pre>
+commit 209102e1c597bf46e472602bb1ec9952410ca9c6	refs/heads/main
+Author: Jose Pereira <1230650@isep.ipp.pt>
+Date:   Fri Jun 27 20:08:36 2025 +0100
+
+    perfil changes para idcargo
+
+M	UI/Permissoes.php
+
+commit 497f378c1919a225620c44e979be4770806c5ed5	refs/heads/main
+Author: Jose Pereira <1230650@isep.ipp.pt>
+Date:   Fri Jun 27 16:28:29 2025 +0100
+
+    vista de equipa do coordenador
+
+M	DAL/equipaDal.php
+
+commit 1edd86fd34f20c29ca8521483099cd145c60e46e	refs/heads/main
+Author: Jose Pereira <1230650@isep.ipp.pt>
+Date:   Fri Jun 27 10:48:03 2025 +0100
+
+    .
+
+M	BLL/dashboard_bll.php
+M	DAL/dashboard_dal.php
+M	UI/dashboard.php
+M	jvscript/dashboardChart.js
+
+commit 6c265052dfb3f9311b955d573000d5dd842472e1	refs/heads/main
+Author: Jose Pereira <1230650@isep.ipp.pt>
+Date:   Thu Jun 26 17:57:20 2025 +0100
+
+    127.0.0.1 em vez de localhost
+
+M	DAL/connection.php
+
+commit 881b00d11e507d1bec4f8e4f7b2ca95040074544	refs/heads/main
+Author: Jose Pereira <1230650@isep.ipp.pt>
+Date:   Thu Jun 26 17:28:18 2025 +0100
+
+    equipa changes
+
+M	BLL/equipaBLL.php
+M	DAL/equipaDal.php
+M	DAL/login_dal.php
+M	UI/equipas.php
+
+commit 03a9f4ac5abb716a71acd667f75e78678d9a6078	refs/heads/main
+Author: Jose Pereira <1230650@isep.ipp.pt>
+Date:   Thu Jun 26 15:54:02 2025 +0100
+
+    login and equipas changes
+
+M	BLL/handle_login.php
+M	DAL/equipaDal.php
+M	DAL/login_dal.php
+M	UI/Permissoes.php
+M	UI/equipas.php
+
+commit 21ecc8f4869f5888771750d7e6b0eac64a7c283b	refs/heads/main
+Author: Jose Pereira <1230650@isep.ipp.pt>
+Date:   Wed Jun 25 22:05:55 2025 +0100
+
+    mudanças código equipas
+
+M	BLL/equipaBLL.php
+M	BLL/handle_login.php
+M	DAL/equipaDal.php
+M	UI/Permissoes.php
+M	UI/equipas.php
+M	UI/perfil.php
+
 commit 251312fd96b02ffcbecaf81720cb79fc16157f3b	refs/heads/main
 Author: Jose Pereira <1230650@isep.ipp.pt>
 Date:   Wed Jun 25 19:12:41 2025 +0100
@@ -198,43 +665,286 @@ M	UI/Equipas.html
 <summary>Diff</summary>
 
 <pre>
- /BLL/criarEquipa_bll.php  |   23 +++++++++++
- /DAL/criarEquipa_dal.php  |   60 ++++++++++++++++++++++++++++++
- /DAL/perfil_dal.php       |   21 ++++++++++
- /UI/Permissoes.php        |   45 ++++++++++++++++++++++
- /UI/criarEquipa.php       |   26 +++++++++++++
- /UI/profile.php           |   75 +++++++++++++++++++++++++++++++++++++
- /profile_dal.php          |    2 +
- CSS/styleGlobal.css       |    2 !
- DAL/perfil_dal.php        |   54 ++++++++++++++++++++-!!!!
- DAL/profile_dal.php       |   23 -----------
- UI/Permissoes.php         |    6 -!!
- UI/perfil.php             |   90 +++++++++++---------------------------!!!!!!
- UI/profile.html           |   65 --------------------------------
- b/BLL/criarEquipa_bll.php |   37 ++++++++++++!!!!!!
- b/CSS/styleGlobal.css     |    5 +!
- b/DAL/criarEquipa_dal.php |   38 ------------!!!!!!!
- b/DAL/login_dal.php       |    1 
- b/DAL/perfil_dal.php      |    1 
- b/DAL/profile_dal.php     |   22 +++++++++++
- b/UI/Equipas.html         |    2 !
- b/UI/Permissoes.php       |   11 -!!!!
- b/UI/criarEquipa.php      |    3 -
- b/UI/logout.php           |   22 +++++++++++
- b/UI/perfil.php           |    2 !
- b/UI/profile.php          |   12 !!!!!!
- b/UI/updateProfile.html   |    1 
- b/bll/handle_login.php    |    1 
- b/bll/perfil_bll.php      |    2 !
- b/bll/profile_bll.php     |   19 +++++++++
- bll/perfil_bll.php        |   91 ++++++++++++++++++++++++++++++!!!!!!!!!!!!!!!!
- 30 files changed, 470 insertions(+), 176 deletions(-), 116 modifications(!)
+ /BLL/criarEquipa_bll.php       |   23 +
+ /DAL/criarEquipa_dal.php       |   60 ++++
+ /DAL/perfil_dal.php            |   21 +
+ /UI/Permissoes.php             |   45 +++
+ /UI/atualizarPerfil.php        |   18 +
+ /UI/criarEquipa.php            |   26 ++
+ /UI/profile.php                |   75 +++++
+ /profile_dal.php               |    2 
+ BLL/atualizarPerfil_bll.php    |  519 +++++++++++++++++++++++++------!!!!!!!!
+ BLL/criarEquipa_bll.php        |  128 +++++--!
+ BLL/perfil_bll.php             |    2 
+ CSS/styleAtualizarPerfil.css   |    1 
+ CSS/styleGlobal.css            |   58 ++++
+ DAL/atualizarPerfil_dal.php    |  206 ++++++++++++++++
+ DAL/criarEquipa_dal.php        |  139 ++++++-!!!
+ DAL/perfil_dal.php             |   54 +++
+ DAL/profile_dal.php            |   23 -
+ UI/Permissoes.php              |   20 !
+ UI/atualizarPerfil.html        |   87 ------
+ UI/atualizarPerfil.php         |    7 
+ UI/criarEquipa.php             |    5 
+ UI/perfil.php                  |  117 +-------
+ UI/profile.html                |   65 -----
+ b/BLL/Permissoes.php           |    1 
+ b/BLL/atualizarPerfil_bll.php  |   37 ++
+ b/BLL/criarEquipa_bll.php      |    2 
+ b/BLL/login_bll.php            |   22 +
+ b/BLL/perfil_bll.php           |    1 
+ b/CSS/styleAtualizarPerfil.css |   97 +++++++
+ b/CSS/styleGlobal.css          |    6 
+ b/DAL/atualizarPerfil_dal.php  |   14 !
+ b/DAL/connection.php           |    1 
+ b/DAL/criarEquipa_dal.php      |   30 --
+ b/DAL/login_dal.php            |    1 
+ b/DAL/perfil_dal.php           |    1 
+ b/DAL/profile_dal.php          |   22 +
+ b/UI/Equipas.html              |    2 
+ b/UI/Permissoes.php            |    1 
+ b/UI/atualizarPerfil.php       |    2 
+ b/UI/criarEquipa.php           |    1 
+ b/UI/login.php                 |   17 -
+ b/UI/logout.php                |   22 +
+ b/UI/perfil.php                |   21 -
+ b/UI/profile.php               |   12 
+ b/UI/updateProfile.html        |    1 
+ b/bll/handle_login.php         |    1 
+ b/bll/perfil_bll.php           |    2 
+ b/bll/profile_bll.php          |   19 +
+ bll/perfil_bll.php             |   91 ++++!!!
+ 49 files changed, 1359 insertions(+), 440 deletions(-), 329 modifications(!)
 </pre>
 </details>
 <details>
 <summary>Commits</summary>
 
 <pre>
+commit 92d76d90b47c17ff8fedb846ed24ed9f77610a31	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Sun Jun 29 14:29:45 2025 +0100
+
+    criarEquipa
+
+M	BLL/criarEquipa_bll.php
+
+commit 98efdb8daf4349717add6ff7bac3f8645915917d	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Sat Jun 28 15:41:34 2025 +0100
+
+    styles criar equioa atualizar perfil
+
+M	BLL/atualizarPerfil_bll.php
+M	CSS/styleAtualizarPerfil.css
+M	CSS/styleGlobal.css
+M	UI/atualizarPerfil.php
+
+commit 0c9de50bffb186a2942a36b5f106dca6761789bf	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Sat Jun 28 13:47:42 2025 +0100
+
+    style Criar  equipa
+
+M	BLL/criarEquipa_bll.php
+M	CSS/styleGlobal.css
+M	UI/criarEquipa.php
+
+commit d00d40b19b008736d8a194ab3f4c41dfe46d9d99	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Fri Jun 27 19:16:34 2025 +0100
+
+    header fix
+
+M	BLL/Permissoes.php
+M	BLL/perfil_bll.php
+
+commit a6f23e3ef7c98c0edcba7a7fdbd920ad20110b94	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Fri Jun 27 11:40:58 2025 +0100
+
+    criar equipa bug fixed
+
+M	BLL/criarEquipa_bll.php
+M	DAL/criarEquipa_dal.php
+
+commit aee44661ca2267341ba72ae1b45afbcfe749ae82	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Fri Jun 27 10:34:27 2025 +0100
+
+    login bll
+
+R066	BLL/handle_login.php	BLL/login_bll.php
+M	UI/login.php
+
+commit ed06e6f92952916eadd7a06f08929b7935ae234b	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Fri Jun 27 10:12:43 2025 +0100
+
+    teste
+
+M	CSS/styleAtualizarPerfil.css
+
+commit 2a3c0bb4ab8790d2a163f1d12d0aa708ba639ae1	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Fri Jun 27 10:01:27 2025 +0100
+
+    atualizarPerfil ja atualiza
+
+M	BLL/atualizarPerfil_bll.php
+M	DAL/atualizarPerfil_dal.php
+
+commit 46f7213f185bd03b076baf742c1d8a994e1a90e9	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Fri Jun 27 09:10:15 2025 +0100
+
+    atualizar perfil
+
+M	BLL/atualizarPerfil_bll.php
+
+commit 28e4dde31437d9c4f3e5033b04a7e440d59346ea	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Thu Jun 26 18:47:08 2025 +0100
+
+    aaaaa vou descansar pausa no atualizar perfil
+
+M	BLL/atualizarPerfil_bll.php
+
+commit beb9f94533bad792ec4de13647286f9206757c1e	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Thu Jun 26 18:38:05 2025 +0100
+
+    atualizar perfil vou testar
+
+M	BLL/atualizarPerfil_bll.php
+M	DAL/atualizarPerfil_dal.php
+M	UI/atualizarPerfil.php
+
+commit 1447f45c101f4149b86afc2f28539fc4c28660c2	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Thu Jun 26 18:06:47 2025 +0100
+
+    aaaaa
+
+M	BLL/atualizarPerfil_bll.php
+
+commit 7eadfe66fdd33d542f973bf41ae238e46fa9ed9a	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Thu Jun 26 17:19:37 2025 +0100
+
+    atualizarPerfil ja mostra os dados antigos
+
+M	BLL/atualizarPerfil_bll.php
+M	DAL/atualizarPerfil_dal.php
+
+commit 997d277f4df3a5b3028a7beda542cbe011b810a5	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Thu Jun 26 16:24:00 2025 +0100
+
+    atualizar perfil dados pessoais
+
+M	BLL/atualizarPerfil_bll.php
+M	DAL/atualizarPerfil_dal.php
+M	UI/atualizarPerfil.php
+
+commit ae4382f7e4d865fd371cc09165a6e70427547c6a	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Thu Jun 26 14:32:09 2025 +0100
+
+    minor atualizar perfil
+
+M	BLL/atualizarPerfil_bll.php
+
+commit d6b26f93a5d1b8a5d2916ebdab8369cf8da5fd23	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Thu Jun 26 14:19:51 2025 +0100
+
+    atualizar perfil em pausa
+
+M	BLL/atualizarPerfil_bll.php
+M	DAL/atualizarPerfil_dal.php
+
+commit 8d7fafead9af769ad38d85cef5c4d4b15d294524	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Thu Jun 26 13:00:53 2025 +0100
+
+    hora de almoço
+
+M	UI/atualizarPerfil.php
+
+commit 9c1209eb27aff46508e17d25382f7fa8841b3e14	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Thu Jun 26 12:58:25 2025 +0100
+
+    fix perfil
+
+M	BLL/perfil_bll.php
+M	UI/perfil.php
+
+commit aa426e17399021e292a74fca3f679cc6984f508c	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Thu Jun 26 12:56:27 2025 +0100
+
+    atualizar perfil
+
+M	BLL/atualizarPerfil_bll.php
+A	DAL/atualizarPerfil_dal.php
+D	UI/atualizarPerfil.html
+A	UI/atualizarPerfil.php
+
+commit 37232a3fe7896b62cdefb2699fd4f2648b3bec82	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Thu Jun 26 11:53:33 2025 +0100
+
+    fix criar equipa
+
+M	BLL/criarEquipa_bll.php
+
+commit 1e88d9ce64b94066f75d025417e7cd19bb3b8d58	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Thu Jun 26 11:44:54 2025 +0100
+
+    criarEquipa
+
+M	BLL/criarEquipa_bll.php
+M	DAL/criarEquipa_dal.php
+M	UI/criarEquipa.php
+
+commit b4d426584b2d6bda85fa1576002984aa9ecd2ef8	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Wed Jun 25 23:25:53 2025 +0100
+
+    criarEquipa
+
+M	BLL/criarEquipa_bll.php
+M	DAL/criarEquipa_dal.php
+
+commit a051e8fe1a8a57c9deb3021a804466b0eb856799	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Wed Jun 25 21:58:55 2025 +0100
+
+    fix
+
+M	BLL/perfil_bll.php
+M	UI/Permissoes.php
+M	UI/perfil.php
+
+commit 09002af27804311e294830ac901c80afc18bd88f	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Wed Jun 25 21:54:38 2025 +0100
+
+    permissoes
+
+M	UI/Permissoes.php
+
+commit fa3338ad740543cb7c9cc76309ea989c47e4846e	refs/heads/main
+Author: Andre Goncalves <1230794@isep.ipp.pt>
+Date:   Wed Jun 25 21:39:44 2025 +0100
+
+    con
+
+M	DAL/connection.php
+
 commit c07831962dc53b4ec197d01ef81935393a0c1be4	refs/heads/main
 Author: Andre Goncalves <1230794@isep.ipp.pt>
 Date:   Wed Jun 25 18:16:48 2025 +0100
@@ -410,36 +1120,122 @@ A	bll/profile_dal.php
 <summary>Diff</summary>
 
 <pre>
- /DAL/registoFuncionario_dal.php    |  113 +++++++++++++++++++++++++++++++
- /UI/admin/registoFuncionario.html  |  133 +++++++++++++++++++++++++++++++++++++
- /UI/admin/registoFuncionario.php   |   18 +++++
- BLL/perfil_bll.php                 |    1 
- BLL/registoFuncionario_bll.php     |  101 ++++++++++-----!!!!!!!!!!!
- DAL/connection.php                 |    1 
- DAL/login_dal.php                  |    1 
- DAL/perfil_dal.php                 |   12 !!
- DAL/registoFuncionario_dal.php     |   96 ++++++++++++!!!!!!!!!!!!!!
- b/BLL/perfil_bll.php               |    1 
- b/BLL/registoFuncionario_bll.php   |   97 ++++++++++++++++++++-!!!!!
- b/CSS/styleAtualizarPerfil.css     |    3 
- b/CSS/styleLogin.css               |    2 
- b/DAL/connection.php               |    1 
- b/DAL/login_dal.php                |    1 
- b/DAL/perfil_dal.php               |    1 
- b/DAL/registoFuncionario_dal.php   |    4 
- b/UI/admin/admin.html              |   11 +++
- b/UI/admin/admin.php               |    1 
- b/UI/admin/registoFuncionario.html |   48 ++++++++++!!!
- b/UI/admin/registoFuncionario.php  |    1 
- b/UI/atualizarPerfil.html          |    1 
- b/UI/login.php                     |    1 
- 23 files changed, 477 insertions(+), 26 deletions(-), 146 modifications(!)
+ /CSS/styleAtualizarPerfil.css         |    3 
+ /DAL/registoFuncionario_dal.php       |  113 ++++++++++++++++++++++++++++
+ /UI/admin/registoFuncionario.html     |  133 ++++++++++++++++++++++++++++++++++
+ /UI/admin/registoFuncionario.php      |   18 ++++
+ BLL/atualizarPerfil_bll.php           |    2 
+ BLL/perfil_bll.php                    |    1 
+ BLL/registoFuncionario_bll.php        |  105 +++++++++-----!!!!!!!!!!
+ DAL/connection.php                    |    2 
+ DAL/login_dal.php                     |    1 
+ DAL/perfil_dal.php                    |   12 !!
+ DAL/registoFuncionario_dal.php        |  127 +++++++++++++++!!!!!!!!!!!!!!!!
+ b/BLL/atualizarPerfil_bll.php         |    2 
+ b/BLL/criarEquipa_bll.php             |    2 
+ b/BLL/perfil_bll.php                  |    1 
+ b/BLL/registoFuncionario_bll.php      |   96 ++++++++++++++++++--!!!
+ b/BLL/visualizarFuncionario_bll.php   |   41 ++++++++++
+ b/CSS/styleAtualizarPerfil.css        |    2 
+ b/CSS/styleLogin.css                  |    2 
+ b/CSS/styleVisualizarFuncionario.css  |   54 +++++++++++++
+ b/DAL/connection.php                  |    1 
+ b/DAL/login_dal.php                   |    1 
+ b/DAL/perfil_dal.php                  |    1 
+ b/DAL/registoFuncionario_dal.php      |    7 +
+ b/DAL/visualizarFuncionario_dal.php   |   47 ++++++++++++
+ b/UI/admin/admin.html                 |   11 ++
+ b/UI/admin/admin.php                  |    2 
+ b/UI/admin/registoFuncionario.html    |   48 +++++++++!!!
+ b/UI/admin/registoFuncionario.php     |    1 
+ b/UI/admin/visualizarFuncionarios.php |   17 ++++
+ b/UI/atualizarPerfil.html             |    1 
+ b/UI/login.php                        |    1 
+ b/UI/perfil.php                       |    7 -
+ 32 files changed, 659 insertions(+), 39 deletions(-), 164 modifications(!)
 </pre>
 </details>
 <details>
 <summary>Commits</summary>
 
 <pre>
+commit 8c699b7818b42ebd46e40a4b04c9dc5cc3149a73	refs/heads/main
+Author: Rui Mendes <1231060@isep.ipp.pt>
+Date:   Fri Jun 27 10:13:42 2025 +0100
+
+    teste
+    
+    teste
+
+M	CSS/styleAtualizarPerfil.css
+
+commit 14c47381880ccf87422ba559f1f0fed030c8b456	refs/heads/main
+Author: Rui Mendes <1231060@isep.ipp.pt>
+Date:   Fri Jun 27 09:11:28 2025 +0100
+
+    Update atualizarPerfil_bll.php
+    
+    teste
+
+M	BLL/atualizarPerfil_bll.php
+
+commit d2e9beeb4253d64d93810576a66252eb4e9117df	refs/heads/main
+Author: Rui Mendes <1231060@isep.ipp.pt>
+Date:   Fri Jun 27 09:10:55 2025 +0100
+
+    Update atualizarPerfil_bll.php
+
+M	BLL/atualizarPerfil_bll.php
+
+commit 8ed6b1e6a4da39d886bec1155c1d023f4065e060	refs/heads/main
+Author: Rui Mendes <1231060@isep.ipp.pt>
+Date:   Thu Jun 26 17:28:42 2025 +0100
+
+    visualizarFuncionarios
+    
+    Visualizar funcionarios está concluida parte funcional, falta melhorar css
+
+A	BLL/visualizarFuncionario_bll.php
+A	CSS/styleVisualizarFuncionario.css
+M	DAL/connection.php
+A	DAL/visualizarFuncionario_dal.php
+M	UI/admin/admin.php
+M	UI/admin/visualizarFuncionarios.php
+
+commit f75e67ae00503d28add199f7733598b4a0ec4f7f	refs/heads/main
+Author: Rui Mendes <1231060@isep.ipp.pt>
+Date:   Thu Jun 26 01:39:30 2025 +0100
+
+    inicio visualizarFuncionario
+    
+    inicio visualizarFuncionario
+
+M	BLL/criarEquipa_bll.php
+A	UI/admin/visualizarFuncionarios.php
+M	UI/perfil.php
+
+commit a13a596fb0e121582dbd1184bd45770b11486c4e	refs/heads/main
+Author: Rui Mendes <1231060@isep.ipp.pt>
+Date:   Wed Jun 25 23:44:27 2025 +0100
+
+    registoFuncionario concluida
+    
+    O registo funcionário está concluido
+
+M	BLL/registoFuncionario_bll.php
+M	DAL/registoFuncionario_dal.php
+
+commit 48f8d98346f8e243713f9c5853f02edc83644080	refs/heads/main
+Author: Rui Mendes <1231060@isep.ipp.pt>
+Date:   Wed Jun 25 20:55:40 2025 +0100
+
+    update registarFuncionario
+    
+    Ja insere os dados login, pessoais, financeiros, cv, viatura, beneficios, contrato,... Apenas falta adicionar as ligações das tabelas com FK
+
+M	BLL/registoFuncionario_bll.php
+M	DAL/registoFuncionario_dal.php
+
 commit 12f6edfafa5a7dbf1b2f8ec31b67057f11c61752	refs/heads/main
 Author: Rui Mendes <1231060@isep.ipp.pt>
 Date:   Wed Jun 25 19:09:28 2025 +0100
