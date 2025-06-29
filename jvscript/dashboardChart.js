@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function onGeneroChange() {
     const filtered = filterData(rawData.genero, "filters-genero");
-    renderChart("generoChart", "Distribuição por Gênero", filtered, "column", { M: "#36A2EB", F: "#FF6384" });
+    renderChart("generoChart", "Distribuição por Gênero", filtered, "pie", { M: "#36A2EB", F: "#FF6384" });
   }
 
   function onCargoChange() {
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cargoColors[label] = cargoColorsArray[i];
     });
 
-    renderChart("cargoChart", "Distribuição por Cargo", filtered, "pie", cargoColors);
+    renderChart("cargoChart", "Distribuição por função", filtered, "bar", cargoColors);
   }
 
   function onNacionalidadeChange() {
