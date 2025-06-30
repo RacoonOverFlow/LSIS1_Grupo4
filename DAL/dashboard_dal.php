@@ -66,6 +66,25 @@ class dashboard_dal {
     return $dataNacionalidade;
     }
 
+    function getIdadeDistribution() { 
+
+        $query = "SELECT YEAR(dp.dataNascimento) AS anoNascimento, COUNT(*) AS total
+          FROM funcionario f
+          INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+          WHERE YEAR(dp.dataNascimento)
+          GROUP BY anoNascimento";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $dataIdade = [];
+        while ($row = $result->fetch_assoc()) {
+            $dataIdade[$row['anoNascimento']] = (int)$row['total'];
+        }
+
+    return $dataIdade;
+    }
 
 }
 ?>

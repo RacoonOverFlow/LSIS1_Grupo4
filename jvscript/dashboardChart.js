@@ -99,6 +99,20 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChart("nacionalidadeChart", "Distribuição por Nacionalidade", filtered, "pie", nacionalidadeColors);
   }
 
+  /*function onIdadeChange() {
+    const data = rawData.dataNascimento;
+    const labels = Object.keys(data);
+
+    const colorsArray = generateColors(labels.length, 0, 60);
+    const colors = {};
+    labels.forEach((label, i) => {
+    colors[label] = colorsArray[i];
+  });
+
+  renderChart("idadeChart", "Distribuição por idade média", data, "pie", colors);
+  }*/
+
+
   // Fetch dados e inicialização
   fetch("../BLL/dashboard_bll.php")
     .then(res => 
@@ -107,6 +121,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       rawData = data;
       
+      if(rawData.dataNascimento) {
+      onIdadeChange();
+    }
       createCheckboxFilters("filters-genero", rawData.genero, onGeneroChange);
       createCheckboxFilters("filters-cargo", rawData.cargo, onCargoChange);
       createCheckboxFilters("filters-nacionalidade", rawData.nacionalidade, onNacionalidadeChange);
@@ -114,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
       onGeneroChange();
       onCargoChange();
       onNacionalidadeChange();
+      /*onIdadeChange();*/
     })
     .catch(err => console.error("Erro ao carregar dados:", err));
 });

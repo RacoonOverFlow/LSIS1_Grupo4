@@ -20,7 +20,10 @@ function setDashboard($nMeca) {
     echo '<h2>Filtro por Nacionalidade</h2>';
     echo '<div id="filters-nacionalidade"></div>';
     echo '<div id="nacionalidadeChart" style="height: 400px;"></div>';
-    echo '</div>';
+    echo '<div>';
+    echo '<h2>Filtro por Idade</h2>'; 
+    echo '<div id="filters-dataNascimento"></div>';
+    echo '<div id="idadeChart" style="height: 400px;"></div>';
     echo '</div>';
 }
 
