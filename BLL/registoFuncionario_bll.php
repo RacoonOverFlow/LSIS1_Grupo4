@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../DAL/registoFuncionario_dal.php';
-
-
+require_once __DIR__ . '/uploadDocumentos_bll.php';
 
 function isThisACallback(): bool{
 
@@ -53,7 +52,10 @@ function isThisACallback(): bool{
     'habilitacoesLiterarias',
     'curso',
     'frequencia',
-  'idDocumento'];
+    'documentoCC',
+    'documento'
+
+];
 
   foreach($camposObrigatorio as $campo){
     if(empty($_POST[$campo])){
@@ -63,7 +65,7 @@ function isThisACallback(): bool{
   return true;
 }
 function displayForm() {
-  echo '<form id="formFuncionario" action="" method="post">
+  echo '<form id="formFuncionario" action="" method="post" enctype="multipart/form-data">
   <!-- Dados Login -->
   <h3>Dados Login</h3>
   Numero Mecanográfico:
@@ -228,8 +230,16 @@ function displayForm() {
   <input type="text" name="curso" placeholder="Curso"><br>
   Frequencia:
   <input type="text" name="frequencia" placeholder="Frequencia"><br>
-  IdDocumento:
-  <input type="number" name="idDocumento" placeholder="idDocumento"><br><br>
+
+  <h3>Documentos</h3>
+  Comprovativo de cartão de cidadão:
+  <input id="documentoCC" type="file" name="documentoCC" required accept=".pdf"><br>
+  Comprovativo de morada fiscal:
+  <input id="documentoMod99" type="file" name="documentoMod99" required accept=".pdf"><br>
+  Documento Bancario:
+  <input id="documentoBancario" type="file" name="documentoBancario" required accept=".pdf"><br>
+  Cópia cartão continente:
+  <input id="documentoCartaoContinente" type="file" name="documentoCartaoContinente" required accept=".pdf"><br><br>
 
   <!-- Botão -->
   <input type="submit" value="Registar"/>
@@ -241,9 +251,23 @@ function showUI(){
     }
     else{
       try{
+        // Upload dos documentos (documentoCC neste exemplo)
+        $caminhosDocs = uploadDocumentos([
+          'documentoCC' => ['tipos' => ['pdf'],'destino' => 'CartaoCidadao','max' => 5],
+          'documentoMod99' => ['tipos' => ['pdf'], 'destino' => 'Mod99', 'max' => 5],
+          'documentoBancario' => ['tipos' => ['pdf'], 'destino' => 'DocumentoBancario', 'max' => 5],
+          'documentoCartaoContinente' => ['tipos '=> ['pdf'], 'destino' => ['CartaoContinente'], 'max' => 5],
+        ]);
+
+        // Guarda o caminho no $_POST para enviar à DAL
+        $_POST['caminhoDocumentoCC'] = $caminhosDocs['documentoCC'];
+        $_POST['caminhoDocumentoMod99'] = $caminhosDocs['documentoMorada'];
+        $_POST['caminhoDocumentoBancario'] = $caminhosDocs['documentoBancario'];
+        $_POST['caminhoDocumentoCartaoContinente'] = $caminhosDocs['documentoCartaoContinente'];
+
         $dal = new registoFuncionario_dal();
         if(!$dal->verificarFuncionarioExiste($_POST['nif'])) {
-          $dal->registarFuncionario($_POST);
+          $dal->registarFuncionario(dados: $_POST);
           header("Location: admin.php");
           exit;
         }

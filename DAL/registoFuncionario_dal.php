@@ -104,7 +104,7 @@ class registoFuncionario_dal{
         if(!$stmt) throw new Exception("Erro na prepare dadoscontacto". $this->conn->error);
         $stmt->bind_param("ssss", $dados['dataInicioContrato'], $dados['dataFimContrato'], $dados['tipoContrato'], $dados['regimeHorarioTrabalho']);
         if(!$stmt->execute()) throw new Exception('Erro execute dados contrato'. $stmt->error);
-        echo "Dados contacto inseridos com sucesso<br>";
+        echo "Dados de contrato inseridos com sucesso<br>";
         $idDadosContrato = $this->conn->insert_id;
 
         // 4. Inserir dados financeiros
@@ -132,9 +132,9 @@ class registoFuncionario_dal{
         $idViatura = $this->conn->insert_id;
 
         // 8. Inserir CV
-        $stmt = $this->conn->prepare("INSERT INTO cv (habilitacoesLiterarias, curso, frequencia, idDocumento) VALUES (?, ?, ?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO cv (habilitacoesLiterarias, curso, frequencia) VALUES (?, ?, ?)");
         if(!$stmt) throw new Exception("Erro na prepare execute cv". $this->conn->error);
-        $stmt->bind_param("sssi", $dados['habilitacoesLiterarias'], $dados['curso'], $dados['frequencia'], $dados["idDocumento"]);
+        $stmt->bind_param("sssi", $dados['habilitacoesLiterarias'], $dados['curso'], $dados['frequencia']);
         if(!$stmt->execute()) throw new Exception("Erro execute cv". $stmt->error);
         echo "cv inserido com sucesso<br>";
         $idCV = $this->conn->insert_id;
@@ -148,12 +148,63 @@ class registoFuncionario_dal{
         $idFuncionario = $this->conn->insert_id;
 
         // 10. inserir viatura_funcionario
-        $stmt = $this->conn->prepare("INSERT INTO viatura_funcionario (idViatura, idFuncionario) VALUE (?,?)");
+        $stmt = $this->conn->prepare("INSERT INTO viatura_funcionario (idViatura, idFuncionario) VALUES (?,?)");
         if(!$stmt) throw new Exception("Erro na prepare viatura_funcionario" . $this->conn->error);
         $stmt->bind_param("ii", $idViatura, $idFuncionario);
         if(!$stmt->execute()) throw new Exception("Erro execute viatura_funcionario" . $stmt->error);
-        echo "viatura_funcionario inserido com sucesso";
+        echo "viatura_funcionario inserido com sucesso<br>";
+
+        //11. inserir documentoCC
+        $tiposDocumentoCC = 2;
+        $stmt = $this->conn->prepare("INSERT INTO documento VALUE (?, ?)");
+        if(!$stmt) throw new Exception("Erro na prepare documentoCC" . $this->conn->error);
+        $stmt->bind_param("si", $dados["caminhoDocumentoCC"], $tiposDocumentoCC);
+        if(!$stmt->execute()) throw new Exception("Erro execute documentoCC" . $stmt->error);
+        echo "documentoCC inserido com sucesso<br>";
+        $idDocumentoCC= $this->conn->insert_id;
+
+        //12. inserir documentoMod99
+        $tipoDocumentoMod99 = 1;
+        $stmt = $this->conn->prepare("INSERT INTO documento VALUE (?, ?)");
+        if(!$stmt) throw new Exception("Erro na prepare documentoMod99" . $this->conn->error);
+        $stmt->bind_param("si", $dados["caminhoDocumentoMod99"], $tipoDocumentoMod99);
+        if(!$stmt->execute()) throw new Exception("Erro execute documentoMod99" . $stmt->error);
+        echo "documentoMod99 inserido com sucesso<br>";
+        $idDocumentoMod99 = $this->conn->insert_id;
+
+        //13. inserir documentoBancario
+        $tipoDocumentoBancario = 3;
+        $stmt = $this->conn->prepare("INSERT INTO documento VALUE (?, ?)");
+        if(!$stmt) throw new Exception("Erro na prepare documento bancario" . $this->conn->error);
+        $stmt->bind_param("si", $dados["caminhoDocumentoBancario"], $tipoDocumentoBancario);
+        if(!$stmt->execute()) throw new Exception("Erro execute documento bancario" . $stmt->error);
+        echo "documento bancario inserido com sucesso<br>";
+        $idDocumentoBancario = $this->conn->insert_id;
+
+        //14. inserir documentoCartaoContinente
+        $tipoDocumentoCartaoContinente = 4;
+        $stmt = $this->conn->prepare("INSERT INTO documento VALUE (?, ?)");
+        if(!$stmt) throw new Exception("Erro na prepare documento cartao continente" . $this->conn->error);
+        $stmt->bind_param("si", $dados["caminhoDocumentoCartaoContinente"], $tipoDocumentoCartaoContinente);
+        if(!$stmt->execute()) throw new Exception("Erro execute documento cartao continente" . $stmt->error);
+        echo "documento cartao continente inserido com sucesso<br>";
+        $idCartaoContinente = $this->conn->insert_id;
+
+        $documentosFuncionario = [$idDocumentoCC,$idDocumentoMod99,$idCartaoContinente, $idDocumentoBancario];
         
+        //15. Inserir todos os documentos relacionados ao funcionário
+        $stmt = $this->conn->prepare("INSERT INTO documento_funcionario (idDocumento, idFuncionario) VALUES (?, ?)");
+        if(!$stmt) throw new Exception("Erro na prepare documento_funcionario " . $this->conn->error);
+
+        foreach ($documentosFuncionario as $idDocumento) {
+            $stmt->bind_param("ii", $idDocumento, $idFuncionario);
+            if (!$stmt->execute()) {
+                throw new Exception("Erro ao inserir documento_funcionario (ID $idDocumento): " . $stmt->error);
+            }
+        }
+        echo "Todos os documentos inseridos em documento_funcionario com sucesso<br>";
+
+
         $this->conn->commit();
 
         } catch (Exception $e) {
