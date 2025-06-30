@@ -64,11 +64,12 @@ function showUI(){
       if ($idEquipa && isset($_POST['colaboradores'])) {
         $dal->associarColaboradores($idEquipa, $_POST['colaboradores']);
       }
+
       if ($idEquipa && isset($_POST['coordenador'])) {
         $dal->associarCoordenador($idEquipa, $_POST['coordenador']);
       }
 
-
+      header("Location: Equipas.php");
     }
     catch(RuntimeException $e){
       echo "<div>".$e->getMessage()."</div>";
