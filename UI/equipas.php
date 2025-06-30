@@ -82,7 +82,7 @@ if ($utilizadorCargo == 5) { // RHSuperior
                     <?php if ($utilizadorCargo == 5 || $utilizadorCargo == 3): ?>
                         <div class="team-actions">
                             <a href="editarEquipa.php"><button>Editar Equipa</button></a>
-                            <a href="editarEquipa.php?idEquipa='" .<?php  $equipa['idEquipa']?>. "'"><button>Editar</button></a>
+                            <a href="editarEquipa.php?idEquipa=<?php echo $equipa['idEquipa']; ?>"><button>Editar</button></a>
                             
                         </div>
                     <?php endif; ?>
