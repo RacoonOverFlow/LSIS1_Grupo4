@@ -8,11 +8,12 @@ $dal = new dashboard_dal();
 $dataGenero = $dal->getGeneroDistribution();
 $dataCargo = $dal->getCargoDistribution();
 $dataNacionalidade = $dal->getNacionalidadeDistribution();
-
+$dataIdade = $dal->getIdadeDistribution();
 echo json_encode([
     'genero' => $dataGenero,
     'cargo' => $dataCargo,
-    'nacionalidade' => $dataNacionalidade
+    'nacionalidade' => $dataNacionalidade,
+    'dataNascimento' => $dataIdade
 ]);
 
 ?>

@@ -99,6 +99,20 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChart("nacionalidadeChart", "Distribuição por Nacionalidade", filtered, "pie", nacionalidadeColors);
   }
 
+  function onIdadeChange() {
+    const filtered = filterData(rawData.dataNascimento, "filters-dataNascimento");
+    const labels = Object.keys(filtered);
+
+    // Paleta para Nacionalidade: tons quentes (hue 0-60)
+    const dataNascimentoColorsArray = generateColors(labels.length, 0, 60);
+    const dataNascimentoColors = {};
+    labels.forEach((label, i) => {
+      dataNascimentoColors[label] = dataNascimentoColorsArray[i];
+    });
+
+    renderChart("idadeChart", "Distribuição por idade media", filtered, "linear", nacionalidadeColors);
+  }
+
   // Fetch dados e inicialização
   fetch("../BLL/dashboard_bll.php")
     .then(res => 
@@ -114,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
       onGeneroChange();
       onCargoChange();
       onNacionalidadeChange();
+      onIdadeChange();
     })
     .catch(err => console.error("Erro ao carregar dados:", err));
 });
