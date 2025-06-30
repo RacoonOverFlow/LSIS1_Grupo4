@@ -1,15 +1,15 @@
 @import url('styleGlobal.css');
 
-#generoChart, #circulo, #cargoChart {
+#generoChart, #circulo, #cargoChart, #idadeChart {
   position:relative;
-  width: 500px;
+  width: 400px;
   height: 400px;
   margin: 20px auto;
   border: 1px solid #aaa;
 }
 
 .chart-container {
-  width: 600px;
+  width: 450px;
   height: 400px;
   margin: 30px auto;
   border: 1px solid #ccc;

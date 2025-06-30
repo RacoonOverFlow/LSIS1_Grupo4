@@ -114,8 +114,8 @@ function displayForm() {
   Género:
   <select name="Genero">
     <option value="">Selecione um genero</option>
-    <option value="feminino">Feminino</option>
-    <option value="Masculino">Masculino</option>
+    <option value="F">Feminino</option>
+    <option value="M">Masculino</option>
   </select><br>';
 
   $indicativos = $dal->getIndicativos();
