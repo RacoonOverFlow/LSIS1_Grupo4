@@ -66,16 +66,13 @@ class dashboard_dal {
     return $dataNacionalidade;
     }
 
-    function getIdadeDistribution() {
-        /*$query = "SELECT EXTRACT(YEAR FROM 'dp.dataNascimento'), COUNT(*) AS total
-                  FROM funcionario f
-                  INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
-                  GROUP BY dp.dataNascimento"; tentar retirar apenas o ano*/
+    function getIdadeDistribution() { 
 
-        $query = "SELECT dp.dataNascimento, COUNT(*) AS total
-                  FROM funcionario f
-                  INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
-                  GROUP BY dp.dataNascimento";/*esta a mandar a data total*/ 
+        $query = "SELECT YEAR(dp.dataNascimento) AS anoNascimento, COUNT(*) AS total
+          FROM funcionario f
+          INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+          WHERE YEAR(dp.dataNascimento)
+          GROUP BY anoNascimento";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -83,7 +80,7 @@ class dashboard_dal {
 
         $dataIdade = [];
         while ($row = $result->fetch_assoc()) {
-            $dataIdade[$row['dataNascimento']] = (int)$row['total'];
+            $dataIdade[$row['anoNascimento']] = (int)$row['total'];
         }
 
     return $dataIdade;
