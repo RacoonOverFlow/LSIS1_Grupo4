@@ -54,7 +54,6 @@ if ($utilizadorCargo == 5) { // RHSuperior
                 exit;
         }
         ?>
-<div class="backTemplate" >
   <?php if (empty($equipas)): ?>
             <div class="alert">
                 <p>Nenhuma equipa encontrada</p>
@@ -82,14 +81,14 @@ if ($utilizadorCargo == 5) { // RHSuperior
 
                     <?php if ($utilizadorCargo == 5 || $utilizadorCargo == 3): ?>
                         <div class="team-actions">
-                            <button>Editar</button>
-                            <button>Adicionar Membro</button>
+                            <a href="editarEquipa.php"><button>Editar Equipa</button></a>
+                            <a href="editarEquipa.php?idEquipa='" .<?php  $equipa['idEquipa']?>. "'"><button>Editar</button></a>
+                            
                         </div>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
-    </div>
 </div>
 </div>
         

@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
-require_once "../DAL/atualizarPerfil_dal.php";
+require_once "../DAL/editarEquipa_dal.php";
 
 function isThisACallback(): bool {
   if (empty($_POST['nomeEquipa']))  {
@@ -25,7 +25,7 @@ function displayForm() {
   echo '<h1>Criar Equipa</h1>';
   echo '<label class="login-form">';
   echo '<h2>Nome da Equipa</h2>';
-  echo '<input type="text" name="nomeEquipa" placeholder="Nome Equipa" value="' . htmlspecialchars($equipa['nome']) .'"><br>'
+  echo '<input type="text" name="nomeEquipa" placeholder="Nome Equipa" value="' . htmlspecialchars($equipa['nome']) .'"><br>';
   echo '</label><br>';
 
   echo '<h3>Selecionar Colaboradores</h3>';
@@ -33,7 +33,7 @@ function displayForm() {
     echo '<label>';
     echo '<input type="checkbox" name="colaboradores[]" value="' . htmlspecialchars($colaborador['idFuncionario']) . '" ' 
     . ($coordenadorEquipa['idFuncionario'] === $colaborador['idFuncionario'] ? 'checked' : '') 
-    . '>' . htmlspecialchars($colaborador['nomeCompleto']) . '</option>';);
+    . '>' . htmlspecialchars($colaborador['nomeCompleto']) . '</option>';
     echo '</label><br>';
   }
 
