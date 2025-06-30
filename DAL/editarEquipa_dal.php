@@ -30,16 +30,16 @@ class editarEquipa_DAL {
         $stmt=$this->conn->prepare($query);
         $stmt->bind_param("s", $idEquipa);
         $stmt->execute();
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $stmt->get_result()->fetch_assoc();
     }
 
 
     function getCoordenadorByEquipa($idEquipa) {
-        $query = "SELECT dp.nomeCompleto, f.idFuncionario FROM dadospessoais dp INNER JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais INNER JOIN coordenador_equipa ce on f.numeroMecanografico = ce.idCoordenador WHERE ce.idEquipa = ?";
+        $query = "SELECT idCoordenador FROM coordenador_equipa WHERE idEquipa = ?";
         $stmt=$this->conn->prepare($query);
         $stmt->bind_param("i", $idEquipa);
         $stmt->execute();
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $stmt->get_result()->fetch_assoc();
     }
 
     public function updateEquipa($idEquipa, $nomeEquipa) {
@@ -87,7 +87,7 @@ class editarEquipa_DAL {
 
 
     public function getIdColaboradorByEquipaId($idEquipa) {
-        $query = "SELECT f.idFuncionario FROM funcionario f INNER JOIN colaborador_equipa ce on f.idFuncionario = ce.idColaborador WHERE ce.idEquipa = ?";
+        $query = "SELECT idColaborador FROM colaborador_equipa WHERE idEquipa = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $idEquipa);
         $stmt->execute();
@@ -98,7 +98,7 @@ class editarEquipa_DAL {
         $ids[] = $row['idFuncionario'];
         }
         return $ids;*/
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        return $stmt->get_result()->fetch_assoc();
     }
 
     /* function getColaboradorById($idFuncionario) {

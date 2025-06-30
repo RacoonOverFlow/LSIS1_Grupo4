@@ -36,7 +36,7 @@ function displayForm() {
   echo '<div class="select_coord_section">';
   echo '<label>';
   echo '<h3>Selecionar Coordenador</h3>';
-  echo '<select required>';
+  echo '<select name ="coordenador" required>';
   echo '<option value="">Selecione um Coordenador</option>';
   foreach ($coordenadores as $coordenador) {
     echo '<option value="' . $coordenador['idFuncionario'] . '">' . htmlspecialchars($coordenador['nomeCompleto']) . '</option>';

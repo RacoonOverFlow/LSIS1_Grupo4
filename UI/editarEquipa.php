@@ -11,7 +11,7 @@ require_once "../bll/Permissoes.php"
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Criar Equipas</title>
+  <title>Editar Equipas</title>
   <link rel="stylesheet" href="../css/styleEquipas.css">
   <link rel="stylesheet" href="../css/styleLogin.css">
 </head>
