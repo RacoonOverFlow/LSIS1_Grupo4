@@ -2,8 +2,8 @@
 
 #generoChart, #circulo, #cargoChart {
   position:relative;
-  max-width: 600px;
-  max-height: 400px;
+  width: 500px;
+  height: 400px;
   margin: 20px auto;
   border: 1px solid #aaa;
 }
