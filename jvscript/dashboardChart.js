@@ -99,21 +99,34 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChart("nacionalidadeChart", "Distribuição por Nacionalidade", filtered, "pie", nacionalidadeColors);
   }
 
-  /*function onIdadeChange() {
-    const data = rawData.dataNascimento;
-    const labels = Object.keys(data);
 
-    const colorsArray = generateColors(labels.length, 0, 60);
-    const colors = {};
-    labels.forEach((label, i) => {
-    colors[label] = colorsArray[i];
-  });
+  function calculateAverageAge(dataNascimento) {
+    const today = new Date();
+    let totalAge = 0;
+    let totalPeople = 0;
 
-  renderChart("idadeChart", "Distribuição por idade média", data, "pie", colors);
-  }*/
+    for (const birthDateStr in dataNascimento) {
+        const count = dataNascimento[birthDateStr];
+        const birthDate = new Date(birthDateStr);
 
+        if (isNaN(birthDate)) continue; // skip a datas invalidas
 
-  // Fetch dados e inicialização
+        const age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        const dayDiff = today.getDate() - birthDate.getDate();
+
+        // Ajustar udade se o aniversario nao tiver ocorrido ainda
+        const exactAge = (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) ? age - 1 : age;
+
+        totalAge += exactAge * count;
+        totalPeople += count;
+    }
+
+    return totalPeople > 0 ? (totalAge / totalPeople).toFixed(2) : 0;
+}
+
+  
+  // Fetch de dados e inicialização
   fetch("../BLL/dashboard_bll.php")
     .then(res => 
       res.json()  // Use .json() para obter os dados como JSON
@@ -121,9 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       rawData = data;
       
-      if(rawData.dataNascimento) {
-      onIdadeChange();
-    }
+
       createCheckboxFilters("filters-genero", rawData.genero, onGeneroChange);
       createCheckboxFilters("filters-cargo", rawData.cargo, onCargoChange);
       createCheckboxFilters("filters-nacionalidade", rawData.nacionalidade, onNacionalidadeChange);
@@ -131,7 +142,11 @@ document.addEventListener("DOMContentLoaded", () => {
       onGeneroChange();
       onCargoChange();
       onNacionalidadeChange();
-      /*onIdadeChange();*/
+
+      const averageAge = calculateAverageAge(data.dataNascimento);
+      document.getElementById('average-age-value').textContent = `${averageAge} anos`;
+
+      console.log("Average Age:", averageAge);
     })
     .catch(err => console.error("Erro ao carregar dados:", err));
 });

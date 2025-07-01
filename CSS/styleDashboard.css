@@ -1,6 +1,6 @@
 @import url('styleGlobal.css');
 
-#generoChart, #circulo, #cargoChart, #idadeChart {
+#generoChart, #circulo, #cargoChart {
   position:relative;
   width: 400px;
   height: 400px;
@@ -15,3 +15,27 @@
   border: 1px solid #ccc;
   background-color: #fff;
 }
+
+.average-age-box {
+    background-color: #f0f4f8;
+    color: #333;
+    border-radius: 12px;
+    padding: 20px 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    margin: 20px auto;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.average-age-box h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #000000;
+}
+
+.average-age-box p {
+    font-size: 2rem;
+    font-weight: bold;
+}
+

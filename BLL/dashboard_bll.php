@@ -13,7 +13,7 @@ echo json_encode([
     'genero' => $dataGenero,
     'cargo' => $dataCargo,
     'nacionalidade' => $dataNacionalidade,
-    'anoNascimento' => $dataIdade
+    'dataNascimento' => $dataIdade
 ]);
 
 ?>
