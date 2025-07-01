@@ -143,67 +143,72 @@ document.addEventListener("DOMContentLoaded", () => {
     return { averageAge: parseFloat(averageAge), ageByYear };
   }
 
-
+  
   // IDADE MEDIA GRAFICO LINEAR
-  function renderAgeChart(averageAge, ageByYear) {
+  // Função externa para formatar o conteúdo do tooltip
+  function formatAgeTooltip(e) {
+    const today = new Date();
+    const year = e.entries[0].dataPoint.x.getFullYear();
+    const idade = today.getFullYear() - year;
+
+    let content = `<strong>Ano de nascimento:</strong> ${year}<br/>`;
+    e.entries.forEach(entry => {
+      content += `<span style="color:${entry.dataSeries.color}">●</span> <strong>${entry.dataSeries.name}:</strong> ${entry.dataPoint.y}<br/>`;
+    });
+
+    // Adicionando uma bolinha personalizada antes da idade hoje
+    content += `<span style="color:#6666cc">●</span> <strong>Idade hoje:</strong> ${idade} anos`;
+
+    return content;
+  }
+
+
+  // Função principal para renderizar o gráfico
+  function renderAgeChart(averageAge, ageByYear) { //nao posso tirar averageAge usada para mostrar a idade média fora do gráfico numa <div>
     const dataPoints = Object.entries(ageByYear)
-        .sort((a, b) => a[0] - b[0])
-        .map(([year, count]) => ({
-            x: new Date(`${year}-01-01`),
-            y: count
-        }));
+      .sort((a, b) => a[0] - b[0])
+      .map(([year, count]) => ({
+        x: new Date(`${year}-01-01`),
+        y: count
+      }));
 
-    const averageLine = dataPoints.map(dp => ({
-        x: dp.x,
-        y: averageAge
-    }));
-
-    const chart = new CanvasJS.Chart("ageChartContainer", { // para a animacao//grafico , isto nao é css
-        animationEnabled: true,
-        theme: "light2",
-        title: {
-            text: "Distribuição de Idades e Idade Média"
-        },
-        axisX: {
-            title: "Ano de Nascimento",
-            valueFormatString: "YYYY"
-        },
-        axisY: {
-            title: "Quantidade / Idade Média",
-            includeZero: true
-        },
-        toolTip: {
-            shared: true
-        },
-        legend: {
-            cursor: "pointer",
-            itemclick: e => {
-                e.dataSeries.visible = !e.dataSeries.visible;
-                chart.render();
-            }
-        },
-        data: [
-            {
-                type: "line",
-                name: "Quantidade por Ano",
-                showInLegend: true,
-                dataPoints: dataPoints
-            },
-            {
-                type: "line",
-                name: `Idade Média (${averageAge} anos)`,
-                showInLegend: true,
-                lineDashType: "dash",
-                color: "#f00",
-                dataPoints: averageLine
-            }
-        ]
+    const chart = new CanvasJS.Chart("ageChartContainer", {
+      animationEnabled: true,
+      theme: "light2",
+      title: {
+        text: "Distribuição de Idades e Idade Média"
+      },
+      axisX: {
+        title: "Ano de Nascimento",
+        valueFormatString: "YYYY"
+      },
+      axisY: {
+        title: "Quantidade",
+        includeZero: true
+      },
+      toolTip: {
+        shared: true,
+        contentFormatter: formatAgeTooltip // usa a função externa
+      },
+      legend: {
+        cursor: "pointer",
+        itemclick: e => {
+          e.dataSeries.visible = !e.dataSeries.visible;
+          chart.render();
+        }
+      },
+      data: [
+        {
+          type: "line",
+          name: "Quantidade por Ano",
+          showInLegend: true,
+          dataPoints: dataPoints
+        }
+      ]
     });
 
     chart.render();
-}
-
-
+  }
 
 
   
