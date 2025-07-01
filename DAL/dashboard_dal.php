@@ -68,11 +68,10 @@ class dashboard_dal {
 
     function getIdadeDistribution() { 
 
-        $query = "SELECT YEAR(dp.dataNascimento) AS anoNascimento, COUNT(*) AS total
+        $query = "SELECT dp.dataNascimento AS dataNascimento, COUNT(*) AS total
           FROM funcionario f
           INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
-          WHERE YEAR(dp.dataNascimento)
-          GROUP BY anoNascimento";
+          GROUP BY dataNascimento";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
@@ -80,7 +79,7 @@ class dashboard_dal {
 
         $dataIdade = [];
         while ($row = $result->fetch_assoc()) {
-            $dataIdade[$row['anoNascimento']] = (int)$row['total'];
+            $dataIdade[$row['dataNascimento']] = (int)$row['total'];
         }
 
     return $dataIdade;

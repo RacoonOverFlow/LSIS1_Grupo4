@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
     return key;
   }
 
+
+  //FILTROS
   function filterData(data, containerId) {
     const container = document.getElementById(containerId);
     const checkboxes = container.querySelectorAll("input[type=checkbox]");
@@ -34,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return filtered;
   }
 
+  // PARA AS CORES DE GRAFICOS QUE NAO TEEM CORES JA PREDEFENIDAS POR NOS
   function generateColors(count, hueStart = 0, hueRange = 360) {
     const colors = [];
     for (let i = 0; i < count; i++) {
@@ -43,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return colors;
   }
 
+  // PARA DAR RENDER NO CHART, COLORMAP {} ASSIM VAZIO PQ NAO ESTAMOS A DEFENIR NOS
   function renderChart(containerId, title, filteredData, type="column", colorMap = {}) {
     const labels = Object.keys(filteredData);
     const values = Object.values(filteredData);
@@ -65,12 +69,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     chart.render();
   }
+  
 
+
+  //   GENERO GRAFICO PIZZA/PIE
   function onGeneroChange() {
     const filtered = filterData(rawData.genero, "filters-genero");
     renderChart("generoChart", "Distribuição por Gênero", filtered, "pie", { M: "#36A2EB", F: "#FF6384" });
   }
 
+
+  // CARGO GRAFICO BARRAS
   function onCargoChange() {
     const filtered = filterData(rawData.cargo, "filters-cargo");
     const labels = Object.keys(filtered);
@@ -85,6 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChart("cargoChart", "Distribuição por função", filtered, "bar", cargoColors);
   }
 
+
+  // NACIONALIDADE GRAFICO PIZZA/PIE
   function onNacionalidadeChange() {
     const filtered = filterData(rawData.nacionalidade, "filters-nacionalidade");
     const labels = Object.keys(filtered);
@@ -99,21 +110,104 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChart("nacionalidadeChart", "Distribuição por Nacionalidade", filtered, "pie", nacionalidadeColors);
   }
 
-  /*function onIdadeChange() {
-    const data = rawData.dataNascimento;
-    const labels = Object.keys(data);
-
-    const colorsArray = generateColors(labels.length, 0, 60);
-    const colors = {};
-    labels.forEach((label, i) => {
-    colors[label] = colorsArray[i];
-  });
-
-  renderChart("idadeChart", "Distribuição por idade média", data, "pie", colors);
-  }*/
 
 
-  // Fetch dados e inicialização
+  //  IDADE MÉDIA DIV TEXTO
+  function calculateAverageAge(dataNascimento) {
+    const today = new Date();
+    let totalAge = 0;
+    let totalPeople = 0;
+    const ageByYear = {};
+
+    for (const birthDateStr in dataNascimento) {
+        const count = dataNascimento[birthDateStr];
+        const birthDate = new Date(birthDateStr);
+
+        if (isNaN(birthDate)) continue;
+
+        const age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        const dayDiff = today.getDate() - birthDate.getDate();
+
+        // Ajustar udade se o aniversario nao tiver ocorrido ainda
+        const exactAge = (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) ? age - 1 : age;
+
+        totalAge += exactAge * count;
+        totalPeople += count;
+
+        const year = birthDate.getFullYear();
+        ageByYear[year] = (ageByYear[year] || 0) + count;
+    }
+
+    const averageAge = totalPeople > 0 ? (totalAge / totalPeople).toFixed(2) : 0;// para agrupar diferentes data do mesmo ano, num so ano
+    return { averageAge: parseFloat(averageAge), ageByYear };
+  }
+
+
+  // IDADE MEDIA GRAFICO LINEAR
+  function renderAgeChart(averageAge, ageByYear) {
+    const dataPoints = Object.entries(ageByYear)
+        .sort((a, b) => a[0] - b[0])
+        .map(([year, count]) => ({
+            x: new Date(`${year}-01-01`),
+            y: count
+        }));
+
+    const averageLine = dataPoints.map(dp => ({
+        x: dp.x,
+        y: averageAge
+    }));
+
+    const chart = new CanvasJS.Chart("ageChartContainer", { // para a animacao//grafico , isto nao é css
+        animationEnabled: true,
+        theme: "light2",
+        title: {
+            text: "Distribuição de Idades e Idade Média"
+        },
+        axisX: {
+            title: "Ano de Nascimento",
+            valueFormatString: "YYYY"
+        },
+        axisY: {
+            title: "Quantidade / Idade Média",
+            includeZero: true
+        },
+        toolTip: {
+            shared: true
+        },
+        legend: {
+            cursor: "pointer",
+            itemclick: e => {
+                e.dataSeries.visible = !e.dataSeries.visible;
+                chart.render();
+            }
+        },
+        data: [
+            {
+                type: "line",
+                name: "Quantidade por Ano",
+                showInLegend: true,
+                dataPoints: dataPoints
+            },
+            {
+                type: "line",
+                name: `Idade Média (${averageAge} anos)`,
+                showInLegend: true,
+                lineDashType: "dash",
+                color: "#f00",
+                dataPoints: averageLine
+            }
+        ]
+    });
+
+    chart.render();
+}
+
+
+
+
+  
+  // Fetch de dados e inicialização
   fetch("../BLL/dashboard_bll.php")
     .then(res => 
       res.json()  // Use .json() para obter os dados como JSON
@@ -121,9 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       rawData = data;
       
-      if(rawData.dataNascimento) {
-      onIdadeChange();
-    }
+
       createCheckboxFilters("filters-genero", rawData.genero, onGeneroChange);
       createCheckboxFilters("filters-cargo", rawData.cargo, onCargoChange);
       createCheckboxFilters("filters-nacionalidade", rawData.nacionalidade, onNacionalidadeChange);
@@ -131,7 +223,14 @@ document.addEventListener("DOMContentLoaded", () => {
       onGeneroChange();
       onCargoChange();
       onNacionalidadeChange();
-      /*onIdadeChange();*/
+
+      
+      const { averageAge, ageByYear } = calculateAverageAge(data.dataNascimento);
+      document.getElementById('average-age-value').textContent = `${averageAge} anos`;
+      renderAgeChart(averageAge, ageByYear);
+
+
+      console.log("Average Age:", averageAge);
     })
     .catch(err => console.error("Erro ao carregar dados:", err));
 });
