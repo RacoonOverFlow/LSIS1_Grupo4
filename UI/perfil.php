@@ -20,6 +20,6 @@ require_once "../bll/Permissoes.php";
 <body>
   <main>
     <div class="skewed"></div>
-    <div class="global-container"> <?php setPerfil($nMeca); ?></div>
+    <div class="global-container"><?php setPerfil($nMeca); ?></div>
   </main>
 </body>

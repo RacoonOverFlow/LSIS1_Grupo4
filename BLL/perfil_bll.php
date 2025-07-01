@@ -14,6 +14,7 @@ function setPerfil($nMeca) {
   $beneficios = $dal->getBeneficiosById($nMeca);
   $cargo = $dal->getCargoById($nMeca);
 
+
   if (!$dadosPessoais || empty($dadosPessoais["nomeCompleto"])) {
     echo "<p>Utilizador não encontrado.</p>";
     return;
@@ -32,7 +33,9 @@ function setPerfil($nMeca) {
     echo '</div>';
     echo '<div class="perfilInfo">';
     echo '<div class="AtualizarPerfil">';
-    echo '<button onclick="location.href=\'atualizarPerfil.php\'">Atualizar Perfil</button>';
+    echo '<button onclick="location.href=\'atualizarPerfil.php?numeroMecanografico='. htmlspecialchars($nMeca) . '\'">Atualizar Perfil</button>';
+    echo '<div class="AtualizarPerfil">';
+    echo '<button onclick="location.href=\'admin/visualizarFuncionarios.php\'">Visualizar</button>';
     echo '</div>';
     echo '<br>';
     echo '<h2>Informação do Perfil</h2>';

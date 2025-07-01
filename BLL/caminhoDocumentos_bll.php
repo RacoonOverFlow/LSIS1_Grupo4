@@ -1,5 +1,5 @@
 <?php
-function uploadDocumentos(array $camposConfig): array {
+function caminhoDocumentos(array $camposConfig): array {
   $caminhos = [];
 
   foreach ($camposConfig as $nomeCampo => $config) {

@@ -21,7 +21,7 @@ function mostrarFuncionarios() {
 
     // Cada funcionário (linha clicável)
     foreach ($funcionarios as $f) {
-        $link = '../perfil.php?id=' . htmlspecialchars($f["numeroMecanografico"]);
+        $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
         echo '<a href="' . $link . '" class="linha-link">';
         echo '<div class="linha-funcionario">';
         echo '<div class="coluna id">' . htmlspecialchars($f['idFuncionario']) . '</div>';

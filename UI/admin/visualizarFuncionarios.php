@@ -1,5 +1,6 @@
 <?php 
 require_once "../../BLL/visualizarFuncionario_bll.php";
+session_start();
 ?>
 
 <!DOCTYPE html>
