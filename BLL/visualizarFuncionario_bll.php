@@ -38,5 +38,8 @@ function mostrarFuncionarios() {
 }
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f733edc80410ef1b0eade3b3e7f0d3abf4c181a2
 ?>
