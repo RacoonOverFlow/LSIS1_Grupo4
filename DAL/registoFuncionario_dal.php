@@ -134,7 +134,7 @@ class registoFuncionario_dal{
         // 8. Inserir CV
         $stmt = $this->conn->prepare("INSERT INTO cv (habilitacoesLiterarias, curso, frequencia) VALUES (?, ?, ?)");
         if(!$stmt) throw new Exception("Erro na prepare execute cv". $this->conn->error);
-        $stmt->bind_param("sssi", $dados['habilitacoesLiterarias'], $dados['curso'], $dados['frequencia']);
+        $stmt->bind_param("sss", $dados['habilitacoesLiterarias'], $dados['curso'], $dados['frequencia']);
         if(!$stmt->execute()) throw new Exception("Erro execute cv". $stmt->error);
         echo "cv inserido com sucesso<br>";
         $idCV = $this->conn->insert_id;
@@ -156,7 +156,7 @@ class registoFuncionario_dal{
 
         //11. inserir documentoCC
         $tiposDocumentoCC = 2;
-        $stmt = $this->conn->prepare("INSERT INTO documento VALUE (?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO documento(caminho,idTipoDocumento) VALUE (?, ?)");
         if(!$stmt) throw new Exception("Erro na prepare documentoCC" . $this->conn->error);
         $stmt->bind_param("si", $dados["caminhoDocumentoCC"], $tiposDocumentoCC);
         if(!$stmt->execute()) throw new Exception("Erro execute documentoCC" . $stmt->error);
@@ -165,7 +165,7 @@ class registoFuncionario_dal{
 
         //12. inserir documentoMod99
         $tipoDocumentoMod99 = 1;
-        $stmt = $this->conn->prepare("INSERT INTO documento VALUE (?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO documento(caminho,idTipoDocumento) VALUE (?, ?)");
         if(!$stmt) throw new Exception("Erro na prepare documentoMod99" . $this->conn->error);
         $stmt->bind_param("si", $dados["caminhoDocumentoMod99"], $tipoDocumentoMod99);
         if(!$stmt->execute()) throw new Exception("Erro execute documentoMod99" . $stmt->error);
@@ -174,7 +174,7 @@ class registoFuncionario_dal{
 
         //13. inserir documentoBancario
         $tipoDocumentoBancario = 3;
-        $stmt = $this->conn->prepare("INSERT INTO documento VALUE (?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO documento(caminho,idTipoDocumento) VALUE (?, ?)");
         if(!$stmt) throw new Exception("Erro na prepare documento bancario" . $this->conn->error);
         $stmt->bind_param("si", $dados["caminhoDocumentoBancario"], $tipoDocumentoBancario);
         if(!$stmt->execute()) throw new Exception("Erro execute documento bancario" . $stmt->error);
@@ -183,7 +183,7 @@ class registoFuncionario_dal{
 
         //14. inserir documentoCartaoContinente
         $tipoDocumentoCartaoContinente = 4;
-        $stmt = $this->conn->prepare("INSERT INTO documento VALUE (?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO documento(caminho,idTipoDocumento) VALUE (?, ?)");
         if(!$stmt) throw new Exception("Erro na prepare documento cartao continente" . $this->conn->error);
         $stmt->bind_param("si", $dados["caminhoDocumentoCartaoContinente"], $tipoDocumentoCartaoContinente);
         if(!$stmt->execute()) throw new Exception("Erro execute documento cartao continente" . $stmt->error);

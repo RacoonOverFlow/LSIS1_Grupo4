@@ -1,67 +1,49 @@
 <?php
 require_once __DIR__ . '/../DAL/registoFuncionario_dal.php';
-require_once __DIR__ . '/uploadDocumentos_bll.php';
+require_once __DIR__ . '/caminhoDocumentos_bll.php';
 
 function isThisACallback(): bool{
 
-  $camposObrigatorio=[
-  
+  $camposObrigatorio=[  
     //Dados Login
-    'numeroMecanografico',
-    'password',
-    'idCargo',
+    'numeroMecanografico','password','idCargo',
 
     // Dados Pessoais
-    'nomeCompleto',
-    'nomeAbreviado',
-    'dataNascimento',
-    'moradaFiscal',
-    'cc',
-    'validadeCc',
-    'nif',
-    'niss',
-    'Genero',
-    'idIndicativo',
-    'contactoPessoal',
-    'contactoEmergencia',
-    'grauRelacionamento',
-    'email',
+    'nomeCompleto','nomeAbreviado','dataNascimento','moradaFiscal',
+    'cc','validadeCc','nif','niss','Genero','idIndicativo',
+    'contactoPessoal','contactoEmergencia','grauRelacionamento','email',
     'idNacionalidade',
 
     // Dados Contrato
-    'dataInicioContrato',
-    'dataFimContrato',
-    'tipoContrato',
-    'regimeHorarioTrabalho',
+    'dataInicioContrato','dataFimContrato','tipoContrato','regimeHorarioTrabalho',
 
     // Dados Financeiros
-    'situacaoIrs',
-    'remuneracao',
-    'numeroDependentes',
-    'iban',
+    'situacaoIrs','remuneracao','numeroDependentes','iban',
 
     // Benefícios
-    'cartaoContinente',
-    'voucherNos',
+    'cartaoContinente','voucherNos',
 
     // Viatura
-    'tipoViatura',
-    'matriculaViatura',
+    'tipoViatura','matriculaViatura',
 
     // CV
-    'habilitacoesLiterarias',
-    'curso',
-    'frequencia',
-    'documentoCC',
-    'documento'
-
-];
+    'habilitacoesLiterarias','curso','frequencia'
+  ];
 
   foreach($camposObrigatorio as $campo){
     if(empty($_POST[$campo])){
       return false;
     }
   }
+
+  $ficheirosObrigatorio=['documentoCC','documentoMod99','documentoBancario','documentoCartaoContinente'];
+  
+  foreach($ficheirosObrigatorio as $file){
+    if(!isset($_FILES[$file]) || $_FILES[$file]['error'] !== UPLOAD_ERR_OK || $_FILES[$file]['size'] === 0){
+      return false;
+    }
+  }
+
   return true;
 }
 function displayForm() {
@@ -252,16 +234,16 @@ function showUI(){
     else{
       try{
         // Upload dos documentos (documentoCC neste exemplo)
-        $caminhosDocs = uploadDocumentos([
+        $caminhosDocs = caminhoDocumentos([
           'documentoCC' => ['tipos' => ['pdf'],'destino' => 'CartaoCidadao','max' => 5],
           'documentoMod99' => ['tipos' => ['pdf'], 'destino' => 'Mod99', 'max' => 5],
           'documentoBancario' => ['tipos' => ['pdf'], 'destino' => 'DocumentoBancario', 'max' => 5],
-          'documentoCartaoContinente' => ['tipos '=> ['pdf'], 'destino' => ['CartaoContinente'], 'max' => 5],
+          'documentoCartaoContinente' => ['tipos'=> ['pdf'], 'destino' => 'CartaoContinente', 'max' => 5],
         ]);
 
         // Guarda o caminho no $_POST para enviar à DAL
         $_POST['caminhoDocumentoCC'] = $caminhosDocs['documentoCC'];
-        $_POST['caminhoDocumentoMod99'] = $caminhosDocs['documentoMorada'];
+        $_POST['caminhoDocumentoMod99'] = $caminhosDocs['documentoMod99'];
         $_POST['caminhoDocumentoBancario'] = $caminhosDocs['documentoBancario'];
         $_POST['caminhoDocumentoCartaoContinente'] = $caminhosDocs['documentoCartaoContinente'];
 
