@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once "../DAL/perfil_dal.php";
 
 
-$nMeca = $_SESSION['nMeca'] ?? null;
+$nMeca = $_GET['numeroMecanografico'] ?? null;
 $dal = new Perfil_DAL();
 $cargo = $dal->getCargoById($nMeca);
 
@@ -15,7 +15,7 @@ function mostrarHeader($cargo) {
     ?>
     <div class="container">
         <div class="tabs">
-            <a href="perfil.php" class="tab-button" data-tab="Perfil">Perfil</a>
+            <a href="perfil.php?numeroMecanografico=<?php echo htmlspecialchars($_SESSION['nMeca']); ?>" class="tab-button" data-tab="Perfil">Perfil</a>
 
             <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
                 <a href="equipas.php" class="tab-button" data-tab="Equipas">Equipas</a>

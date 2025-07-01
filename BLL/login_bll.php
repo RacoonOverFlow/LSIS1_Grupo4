@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["idCargo"] = $dal->getIdCargoByNumeroMecanografico($nMeca);
 
             // Redirect user to welcome page
-            header("location: perfil.php");
+            header("location: perfil.php?numeroMecanografico=" . $nMeca);
             
         } else {
             // Username doesn't exist, display a generic error message
