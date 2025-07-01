@@ -181,8 +181,8 @@ class atualizarPerfil_DAL {
         throw new Exception("Erro na preparação da query". $this->conn->error);
     }
     $stmt->bind_param("iiiiiis", 
-      $idDadosPessoais, 
-      $idDadosFinanceiros, 
+      $idDadosPessoais,
+      $idDadosFinanceiros,
       $idDadosContrato, 
       $idCV, 
       $idBeneficios, 

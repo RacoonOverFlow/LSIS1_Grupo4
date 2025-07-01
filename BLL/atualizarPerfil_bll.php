@@ -8,7 +8,6 @@ require_once "../DAL/atualizarPerfil_dal.php";
 function isThisACallback(): bool{
 
   $camposObrigatorio=[
-  
     // Dados Pessoais
     'nomeCompleto',
 ];
@@ -24,7 +23,7 @@ function isThisACallback(): bool{
 function displayForm() {
   $dal = new atualizarPerfil_DAL();
   
-  $funcionario = $dal->getFuncionario($_SESSION['nMeca'] ?? null);
+  $funcionario = $dal->getFuncionario($_GET['numeroMecanografico'] ?? null);
   $dadosPessoais = $dal->getDadosPessoaisById($funcionario['idDadosPessoais']);
   $dadosFinanceiros = $dal->getDadosFinanceirosById($funcionario['idDadosFinanceiros']);
   $dadosContrato = $dal->getDadosContratoById($funcionario['idDadosContrato']);
