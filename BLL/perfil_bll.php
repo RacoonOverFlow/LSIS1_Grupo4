@@ -64,7 +64,7 @@ function setPerfil($nMeca) {
     echo '<br>';
     echo '<h3>Viatura</h3>';
     if (!empty($viatura)) {
-        echo '<p><strong>Modelo:</strong> ' . htmlspecialchars($viatura['tipo']) . '</p>';
+        echo '<p><strong>Modelo:</strong> ' . htmlspecialchars($viatura['tipoViatura']) . '</p>';
         echo '<p><strong>Matricula:</strong> ' . htmlspecialchars($viatura['matriculaDaViatura']) . '</p>';
     } else {
         echo '<p>Sem viatura atribuída.</p>';
