@@ -23,6 +23,7 @@ require_once __DIR__ . '/../BLL/Permissoes.php';
     <div class="layout-container">
         <main class="main-content">
             <?php setPerfil($nMeca); ?>
+        </main>
     </div>
 </body>
 </html>

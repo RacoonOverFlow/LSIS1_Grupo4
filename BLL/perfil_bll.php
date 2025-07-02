@@ -36,7 +36,6 @@ function setPerfil($nMeca) {
     echo '<div class="AtualizarPerfil">';
     echo '<button onclick="location.href=\'atualizarPerfil.php?numeroMecanografico='. htmlspecialchars($nMeca) . '\'">Atualizar Perfil</button>';
     echo '<div class="AtualizarPerfil">';
-    echo '<button onclick="location.href=\'admin/visualizarFuncionarios.php\'">Visualizar</button>';
     echo '</div>';
     echo '<br>';
     echo '<h2>Informação do Perfil</h2>';

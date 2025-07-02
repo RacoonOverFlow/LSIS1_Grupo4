@@ -12,13 +12,15 @@ require_once "../bll/Permissoes.php"
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editar Equipas</title>
+  <link rel="stylesheet" href="../css/styleGlobal.css">
   <link rel="stylesheet" href="../css/styleEquipas.css">
   <link rel="stylesheet" href="../css/styleLogin.css">
 </head>
 
 <body>
-  <main>
-    <div class="skewed"></div>
-    <?php showUI(); ?>
-  </main>
+  <div class="Layout-container">
+    <main class="main-content">
+      <?php showUI(); ?>
+    </main>
+  </div>
 </body>
