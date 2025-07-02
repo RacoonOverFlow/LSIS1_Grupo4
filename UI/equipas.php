@@ -107,6 +107,7 @@ if ($utilizadorCargo == 5) { // RHSuperior
             <li><a href="perfil.php"><i class="bi bi-person"></i> Perfil</a></li>
             <li><a href="equipas.php"><i class="bi bi-people"></i> Equipas</a></li>
             <li><a href="dashboard.php"><i class="bi bi-bar-chart-line"></i> Dashboard</a></li>
+            <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
             <?php
             switch ($utilizadorCargo) {
                 case 5:
