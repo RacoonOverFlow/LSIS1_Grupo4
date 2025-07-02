@@ -56,6 +56,15 @@ class Perfil_DAL {
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc();
   }
+
+  function getViaturaById($nMeca) {
+    $query = "SELECT v.* FROM viatura v INNER JOIN viatura_funcionario vf on v.idViatura=vf.idViatura INNER JOIN funcionario f ON vf.idFuncionario = f.idFuncionario WHERE f.numeroMecanografico = ?";
+    $stmt=$this->conn->prepare($query);
+    $stmt->bind_param("i", $nMeca);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+  }
+  
   function getCaminhoDocumentos($nMeca){
     $query = "SELECT caminho FROM documento d 
     INNER JOIN documento_funcionario df ON df.idDocumento=d.idDocumento 

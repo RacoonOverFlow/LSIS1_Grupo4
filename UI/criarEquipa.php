@@ -2,7 +2,7 @@
 
 session_start();
 include "../BLL/criarEquipa_bll.php";
-require_once "../bll/Permissoes.php"
+require_once "../BLL/Permissoes.php"
 
 ?>
 
