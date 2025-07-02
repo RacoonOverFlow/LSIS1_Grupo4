@@ -28,9 +28,9 @@
 
 .login-box {
   position: absolute;
-  background-color: rgb(216, 215, 215, 0.9);
+  background-color: rgb(216, 215, 215, 0.75);
   top: 33vh;
-  left: 58vw;
+  left: 40vw;
   padding: 2%; /* cleaner shorthand */
   border-radius: 12px;
   display: flex;
@@ -56,7 +56,6 @@
   border: none;
   box-sizing: border-box;
   font-size: 18px;
-  opacity: 50%;
 }
 
 /*login button*/
