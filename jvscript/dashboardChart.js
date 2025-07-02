@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
   let rawData = {};
 
+
+  //CRIAR O CHECKBOX DOS FILTROS. ELE VAI BUSCAR A DATA E ADICIONA O CHECKBOX COM ESTE CODIGO
   function createCheckboxFilters(containerId, data, onChange) {
     const container = document.getElementById(containerId);
     container.innerHTML = "";
@@ -46,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return colors;
   }
 
-  // PARA DAR RENDER NO CHART, COLORMAP {} ASSIM VAZIO PQ NAO ESTAMOS A DEFENIR NOS
+  // PARA DAR RENDER NO CHART, COLORMAP {} ASSIM VAZIO PQ NAO ESTAMOS A DEFENIR NOS AS CORES
   function renderChart(containerId, title, filteredData, type="column", colorMap = {}) {
     const labels = Object.keys(filteredData);
     const values = Object.values(filteredData);
@@ -72,14 +74,14 @@ document.addEventListener("DOMContentLoaded", () => {
   
 
 
-  //   GENERO GRAFICO PIZZA/PIE
+  //                             !!!!GENERO GRAFICO PIZZA/PIE!!!!
   function onGeneroChange() {
     const filtered = filterData(rawData.genero, "filters-genero");
     renderChart("generoChart", "Distribuição por Gênero", filtered, "pie", { M: "#36A2EB", F: "#FF6384" });
   }
 
 
-  // CARGO GRAFICO BARRAS
+  //                             !!!!CARGO GRAFICO BARRAS!!!!
   function onCargoChange() {
     const filtered = filterData(rawData.cargo, "filters-cargo");
     const labels = Object.keys(filtered);
@@ -95,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // NACIONALIDADE GRAFICO PIZZA/PIE
+  //                        !!!!NACIONALIDADE GRAFICO PIZZA/PIE!!!!
   function onNacionalidadeChange() {
     const filtered = filterData(rawData.nacionalidade, "filters-nacionalidade");
     const labels = Object.keys(filtered);
@@ -112,8 +114,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-  //  IDADE MÉDIA DIV TEXTO
-  function calculateAverageAge(dataNascimento) {
+  //                           !!!!IDADE MEDIA GRAFICO LINEAR!!!!
+
+  //CALCULAR A IDADE MÉDIA 
+  function calculateAverageAge(dataNascimento) { 
     const today = new Date();
     let totalAge = 0;
     let totalPeople = 0;
@@ -144,8 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   
-  // IDADE MEDIA GRAFICO LINEAR
-  // Função externa para formatar o conteúdo do tooltip
+  // Função externa para formatar o conteúdo do tooltip  !!AGE!!
   function formatAgeTooltip(e) {
     const today = new Date();
     const year = e.entries[0].dataPoint.x.getFullYear();
@@ -163,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // Função principal para renderizar o gráfico
+  // Função principal para renderizar o gráfico         !!AGE!!
   function renderAgeChart(averageAge, ageByYear) { //nao posso tirar averageAge usada para mostrar a idade média fora do gráfico numa <div>
     const dataPoints = Object.entries(ageByYear)
       .sort((a, b) => a[0] - b[0])
@@ -212,9 +215,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   
 
-   //TAXA DE INICIO
+   //                                 !!!!TAXA DE INICIO!!!!
 
-   function calculateAverageTempoInicio(dataInicioDeContrato) {
+
+  //CALCULAR A MEDIA DO TEMPO DO INICIO
+  function calculateAverageTempoInicio(dataInicioDeContrato) {
     const today = new Date();
     let totalTempo = 0;
     let totalPeople = 0;
@@ -244,7 +249,25 @@ document.addEventListener("DOMContentLoaded", () => {
     return { averageTempo: parseFloat(averageTempo), tempoByYear };
   }
 
- function renderTempoChart(averageTempo, tempoByYear) { //nao posso tirar averageAge usada para mostrar a idade média fora do gráfico numa <div>
+  //TOOLTIP PARA O GRAFICO DO TEMPO INICIO    !!!TEMPO DO INICIO!!
+  function formatTempoTooltip(e) {
+    const today = new Date();
+    const year = e.entries[0].dataPoint.x.getFullYear();
+    const idade = today.getFullYear() - year;
+
+    let content = `<strong>Ano de Inicio:</strong> ${year}<br/>`;
+    e.entries.forEach(entry => {
+      content += `<span style="color:${entry.dataSeries.color}">●</span> <strong>${entry.dataSeries.name}:</strong> ${entry.dataPoint.y}<br/>`;
+    });
+
+    // Adicionando uma bolinha personalizada antes da idade hoje
+    content += `<span style="color:#6666cc">●</span> <strong>Idade hoje:</strong> ${idade} anos`;
+
+    return content;
+  }
+  
+  //PARA DAR RENDER AO GRAFICO DO TEMPO DE INICIO
+  function renderTempoChart(averageTempo, tempoByYear) { //nao posso tirar averageTempo usada para mostrar o tempo médio fora do gráfico numa <div>
     const dataPoints = Object.entries(tempoByYear)
       .sort((a, b) => a[0] - b[0])
       .map(([year, count]) => ({
@@ -268,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       toolTip: {
         shared: true,
-        //contentFormatter: formatAgeTooltip // usa a função externa
+        contentFormatter: formatTempoTooltip // usa a função externa
       },
       legend: {
         cursor: "pointer",
@@ -289,7 +312,112 @@ document.addEventListener("DOMContentLoaded", () => {
 
     chart.render();
   }
+
+
+  //                    !!!!REMUNERACAO MEDIA!!!!
   
+  //CALCULAR A IDADE MÉDIA //nao É ASSIM A FUNCAO MUDAR
+  function calculateAverageRemuneracao(dataRemuneracao) { 
+    const today = new Date();
+    let totalAge = 0;
+    let totalPeople = 0;
+    const ageByYear = {};
+
+    for (const birthDateStr in dataNascimento) {
+        const count = dataNascimento[birthDateStr];
+        const birthDate = new Date(birthDateStr);
+
+        if (isNaN(birthDate)) continue;
+
+        const age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        const dayDiff = today.getDate() - birthDate.getDate();
+
+        // Ajustar udade se o aniversario nao tiver ocorrido ainda
+        const exactAge = (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) ? age - 1 : age;
+
+        totalAge += exactAge * count;
+        totalPeople += count;
+
+        const year = birthDate.getFullYear();
+        ageByYear[year] = (ageByYear[year] || 0) + count;
+    }
+
+    const averageAge = totalPeople > 0 ? (totalAge / totalPeople).toFixed(2) : 0;// para agrupar diferentes data do mesmo ano, num so ano
+    return { averageAge: parseFloat(averageAge), ageByYear };
+  }
+
+  
+  // Função externa para formatar o conteúdo do tooltip  !!AGE!!
+  function formatAgeTooltip(e) {
+    const today = new Date();
+    const year = e.entries[0].dataPoint.x.getFullYear();
+    const idade = today.getFullYear() - year;
+
+    let content = `<strong>Ano de nascimento:</strong> ${year}<br/>`;
+    e.entries.forEach(entry => {
+      content += `<span style="color:${entry.dataSeries.color}">●</span> <strong>${entry.dataSeries.name}:</strong> ${entry.dataPoint.y}<br/>`;
+    });
+
+    // Adicionando uma bolinha personalizada antes da idade hoje
+    content += `<span style="color:#6666cc">●</span> <strong>Idade hoje:</strong> ${idade} anos`;
+
+    return content;
+  }
+
+
+  // Função principal para renderizar o gráfico         !!AGE!!
+  function renderAgeChart(averageAge, ageByYear) { //nao posso tirar averageAge usada para mostrar a idade média fora do gráfico numa <div>
+    const dataPoints = Object.entries(ageByYear)
+      .sort((a, b) => a[0] - b[0])
+      .map(([year, count]) => ({
+        x: new Date(`${year}-01-01`),
+        y: count
+      }));
+
+    const chart = new CanvasJS.Chart("ageChartContainer", {
+      animationEnabled: true,
+      theme: "light2",
+      title: {
+        text: "Distribuição de Idades e Idade Média"
+      },
+      axisX: {
+        title: "Ano de Nascimento",
+        valueFormatString: "YYYY"
+      },
+      axisY: {
+        title: "Quantidade",
+        includeZero: true
+      },
+      toolTip: {
+        shared: true,
+        contentFormatter: formatAgeTooltip // usa a função externa
+      },
+      legend: {
+        cursor: "pointer",
+        itemclick: e => {
+          e.dataSeries.visible = !e.dataSeries.visible;
+          chart.render();
+        }
+      },
+      data: [
+        {
+          type: "line",
+          name: "Quantidade por Ano",
+          showInLegend: true,
+          dataPoints: dataPoints
+        }
+      ]
+    });
+
+    chart.render();
+  }
+
+
+
+
+
+
   // Fetch de dados e inicialização
   fetch("../BLL/dashboard_bll.php")
     .then(res => 

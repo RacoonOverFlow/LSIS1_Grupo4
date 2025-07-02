@@ -10,13 +10,16 @@ $dataCargo = $dal->getCargoDistribution();
 $dataNacionalidade = $dal->getNacionalidadeDistribution();
 $dataIdade = $dal->getIdadeDistribution();
 $dataInicioDeContrato = $dal->getTaxaInicioDistribution();
+$dataRemuneracao = $dal->getRemuneracaoDistribution();
+
 
 echo json_encode([
     'genero' => $dataGenero,
     'cargo' => $dataCargo,
     'nacionalidade' => $dataNacionalidade,
     'dataNascimento' => $dataIdade,
-    'dataInicioDeContrato' => $dataInicioDeContrato
+    'dataInicioDeContrato' => $dataInicioDeContrato,
+    'remuneracao' => $dataRemuneracao
 ]);
 
 ?>

@@ -104,6 +104,25 @@ class dashboard_dal {
     return $dataInicioDeContrato;
     }
 
+    function getRemuneracaoDistribution() { 
+
+        $query = "SELECT df.remuneracao AS remuneracao, COUNT(*) AS total
+          FROM funcionario f
+          INNER JOIN dadosfinanceiros df ON f.idDadosFinanceiros = df.idDadosFinanceiros
+          GROUP BY remuneracao";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $dataRemuneracao = [];
+        while ($row = $result->fetch_assoc()) {
+            $dataRemuneracao[$row['remuneracao']] = (int)$row['total'];
+        }
+
+    return $dataRemuneracao;
+    }
+
 
 }
 ?>
