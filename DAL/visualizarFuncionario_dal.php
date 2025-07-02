@@ -29,8 +29,7 @@ class visualizarFuncionario_dal {
         INNER JOIN dadoscontrato dc ON f.idDadosContrato = dc.idDadosContrato
         INNER JOIN dadosfinanceiros df ON f.idDadosFinanceiros = df.idDadosFinanceiros
         INNER JOIN cv ON f.idCV = cv.idCV
-        LEFT JOIN viatura_funcionario vf ON f.idFuncionario = vf.idFuncionario
-        LEFT JOIN viatura vi ON vf.idViatura = vi.idViatura
+        LEFT JOIN viatura vi ON f.idViatura = vi.idViatura
         ORDER BY dp.nomeCompleto ASC";
 
         $stmt = $this->conn->prepare($query);
