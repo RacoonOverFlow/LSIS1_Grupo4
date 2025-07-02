@@ -11,9 +11,13 @@ require_once "../BLL/atualizarPerfil_bll.php";
         <title>Atualizar Perfil</title>
         <link rel="stylesheet" href="../CSS/styleGlobal.css">
         <link rel="stylesheet" href="../CSS/styleAtualizarPerfil.css">
+        <link rel="stylesheet" href="../CSS/styleEquipas.css">
     </head>
     <body>
-        <div class="skewed"></div>
-        <?php showUI(); ?>
+        <div class="Layout-container">
+            <main class="main-content">
+                <?php showUI(); ?>
+            </main>
+        </div>
     </body>
 </html>
