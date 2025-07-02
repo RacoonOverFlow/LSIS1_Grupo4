@@ -3,7 +3,7 @@
 
 /* Container base para gráficos e boxes, para tamanho e alinhamento iguais */
 .chart-container, #generoChart, #nacionalidadeChart, #cargoChart, 
-#ageChartContainer, .average-age-box {
+#ageChartContainer, #tempoInicioChartContainer, .average-age-box, .average-tempo-inicio{
   width: 600px;
   height: 420px;          
   margin: 30px auto;      /* centraliza horizontalmente com margem vertical */
@@ -18,25 +18,30 @@
 }
 
 /* Apenas para a average-age-box ajustar o height e texto */
-.average-age-box, .avareg-taxa-inicioContrato {
-  height: auto;        
+/* Applies to both boxes */
+.average-age-box,
+.average-tempo-inicio {
+  height: auto;
   padding: 30px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   color: #333;
   text-align: center;
 }
 
-.average-age-box, .avareg-taxa-inicioContrato h2 {
+.average-age-box h2,
+.average-tempo-inicio h2 {
   font-size: 1.5rem;
   margin-bottom: 10px;
   color: #000;
 }
 
-.average-age-box, .avareg-taxa-inicioContrato p {
+.average-age-box p,
+.average-tempo-inicio p {
   font-size: 2rem;
   font-weight: bold;
   margin: 0;
 }
+
 
 
 /* Ajustes para os elementos gráficos que precisam tamanho exato */
@@ -50,7 +55,8 @@
   margin: 30px auto;
 }
 
-#ageChartContainer{
+
+#ageChartContainer, #tempoInicioChartContainer{
   height: 405px; /* para gráficos com altura fixa */
   max-width: 80%;
   padding: 10px 20px;
