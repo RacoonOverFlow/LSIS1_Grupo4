@@ -13,11 +13,17 @@ class Equipa_DAL
     }
 
     // Buscar todas as equipas 
-    function getAllEquipas() {
+ function getAllEquipas() {
     error_log("Buscando TODAS as equipas");
     
-    $query = "SELECT idEquipa, nome FROM equipa";
-
+    $query = "SELECT 
+                e.idEquipa, 
+                e.nome,
+                dp.nomeAbreviado AS nome_coordenador
+              FROM equipa e
+              LEFT JOIN coordenador_equipa ce ON e.idEquipa = ce.idEquipa
+              LEFT JOIN funcionario f ON ce.idCoordenador = f.idFuncionario
+              LEFT JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais";
     
     $result = $this->conn->query($query);
     
@@ -28,6 +34,9 @@ class Equipa_DAL
 
     $equipas = [];
     while ($equipa = $result->fetch_assoc()) {
+        // Simplify handling since there's only one coordinator
+        $equipa['nome_coordenador'] = $equipa['nome_coordenador'] ?? 'Sem coordenador';
+        
         error_log("Equipa encontrada: " . print_r($equipa, true)); 
         $equipa['colaboradores'] = $this->getMembrosEquipa($equipa['idEquipa']);
         $equipas[] = $equipa;
