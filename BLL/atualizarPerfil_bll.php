@@ -192,8 +192,8 @@ function displayForm() {
   <div class="atualizarPerfil-form">
   <h3>Viatura</h3>
   Tipo de viatura:
-  <select name="tipoViatura">
   <div class="select_section">
+  <select name="tipoViatura">
   <option value="">Selecione o tipo</option>
   <option value="empresa"' . ($viatura['tipo'] == "empresa" ? 'selected' : '') . '>Empresa</option>
   <option value="pessoal"' . ($viatura['tipo'] == "pessoal" ? 'selected' : '') . '>Pessoal</option>
