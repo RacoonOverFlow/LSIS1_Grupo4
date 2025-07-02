@@ -185,22 +185,31 @@ function displayForm() {
 
   Data de emissão do voucher NOS:
   <input type="date" name="voucherNOS" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"readonly><br><br>
-  </div>
+  </div>';
 
-
-  <!-- Viatura -->
+  if($funcionario['idViatura'] == null){
+    $viatura = [
+      'tipo' => '',
+      'matriculaDaViatura' => ''
+    ];
+  }
+  else{
+    $viatura = $dal->getViaturaById($funcionario['idViatura']);
+  }
+  
+  echo '<!-- Viatura -->
   <div class="atualizarPerfil-form">
-  <h3>Viatura</h3>
+  <h3>Viatura (em caso de não ter viatura, deixe em branco)</h3>
   Tipo de viatura:
   <div class="select_section">
-  <select name="tipoViatura">
+  <select name="tipo">
   <option value="">Selecione o tipo</option>
   <option value="empresa"' . ($viatura['tipo'] == "empresa" ? 'selected' : '') . '>Empresa</option>
   <option value="pessoal"' . ($viatura['tipo'] == "pessoal" ? 'selected' : '') . '>Pessoal</option>
   </select><br>
   </div>
   Matrícula:
-  <input type="text" name="matriculaViatura" placeholder="XX-00-XX" value="'. htmlspecialchars($viatura['matriculaDaViatura']) .'"><br><br>
+  <input type="text" name="matriculaDaViatura" placeholder="XX-00-XX" value="'. htmlspecialchars($viatura['matriculaDaViatura']) .'"><br><br>
   </div>
 
 
@@ -221,9 +230,6 @@ function displayForm() {
   <input type="text" name="curso" placeholder="Curso" value="'. htmlspecialchars($cv['curso']) .'"><br>
   Frequencia:
   <input type="text" name="frequencia" placeholder="Frequencia" value="'. htmlspecialchars($cv['frequencia']) .'"><br>
-  IdDocumento:
-  <input type="number" name="idDocumento" placeholder="idDocumento" value="'. htmlspecialchars($cv['idDocumento']) .'"><br><br>
-  </div>
 
   <!-- Botão -->
   <input type="submit" value="Atualizar Perfil" id="atualizarPerfil-form-submit"/>
@@ -252,7 +258,7 @@ function showUI(){
       $_POST['caminhoDocumentoBancario'] = $caminhosDocs['documentoBancario'];
       $_POST['caminhoDocumentoCartaoContinente'] = $caminhosDocs['documentoCartaoContinente']; */
       
-      $funcionario = $dal->getFuncionario($_SESSION['nMeca'] ?? null);
+      $funcionario = $dal->getFuncionario($_GET['numeroMecanografico'] ?? null);
       $dal->updateDadosPessoais(
         $funcionario['idDadosPessoais'],
         $_POST['nomeCompleto'],
@@ -292,8 +298,7 @@ function showUI(){
         $funcionario['idCV'],
         $_POST['habilitacoesLiterarias'],
         $_POST['curso'],
-        $_POST['frequencia'],
-        $_POST['idDocumento']
+        $_POST['frequencia']
       );
 
       $dal->updateBeneficios(
@@ -302,8 +307,21 @@ function showUI(){
         $_POST['voucherNOS']
       );
 
+      if(empty($_POST['tipo']) && empty($_POST['matriculaDaViatura'])){
+        $dal->deleteViatura($funcionario['idViatura']);
+      }
+      else if(empty($_POST['tipo']) || empty($_POST['matriculaDaViatura'])){
+        throw new RuntimeException("Tipo e matrícula da viatura são obrigatórios.");
+      }else{
+        $dal->updateViatura(
+        $funcionario['idViatura'],
+        $_POST['tipo'],
+        $_POST['matriculaDaViatura']
+      );
+      }
+      
 
-      header("Location: Perfil.php");
+      header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
     }
     catch(RuntimeException $e){
       echo "<div>".$e->getMessage()."</div>";

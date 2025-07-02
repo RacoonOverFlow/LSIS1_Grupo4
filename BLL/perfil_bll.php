@@ -10,6 +10,7 @@ function setPerfil($nMeca) {
   $dadosPessoais = $dal->getDadosPessoaisById($nMeca);
   $dadosFinanceiros = $dal->getDadosFinanceirosById($nMeca);
   $dadosContrato = $dal->getDadosContratoById($nMeca);
+  $viatura = $dal->getViaturaById($nMeca);
   $cv = $dal->getCVById($nMeca);
   $beneficios = $dal->getBeneficiosById($nMeca);
   $cargo = $dal->getCargoById($nMeca);
@@ -61,11 +62,20 @@ function setPerfil($nMeca) {
     echo '<p><strong>Remuneração:</strong> ' . htmlspecialchars($dadosFinanceiros['remuneracao']) . '€ </p>';
     echo '<p><strong>IBAN:</strong> ' . htmlspecialchars($dadosFinanceiros['IBAN']) . '</p>';
     echo '<br>';
+    echo '<h3>Viatura</h3>';
+    if (!empty($viatura)) {
+        echo '<p><strong>Modelo:</strong> ' . htmlspecialchars($viatura['tipo']) . '</p>';
+        echo '<p><strong>Matricula:</strong> ' . htmlspecialchars($viatura['matriculaDaViatura']) . '</p>';
+    } else {
+        echo '<p>Sem viatura atribuída.</p>';
+    }
+    echo '<br>';
     echo '<h3>Dados Contratuais</h3>';
     echo '<p><strong>Data De Inicio:</strong> ' . htmlspecialchars($dadosContrato['dataInicioDeContrato']) . '</p>';
     echo '<p><strong>Data De Fim:</strong> ' . htmlspecialchars($dadosContrato['dataFimDeContrato']) . '</p>';
     echo '<p><strong>Tipo De Contrato:</strong> ' . htmlspecialchars($dadosContrato['tipoDeContrato']) . '</p>';
     echo '<p><strong>Regime De Horário De Trabalho:</strong> ' . htmlspecialchars($dadosContrato['regimeDeHorarioDeTrabalho']) . '</p>';
+    echo '<br>';
     echo '<h3>Curriculum Vitae</h3>';
     echo '<p><strong>Habilitações Literárias:</strong> ' . htmlspecialchars($cv['habilitacoesLiterarias']) . '</p>';
     echo '<p><strong>Curso:</strong> ' . htmlspecialchars($cv['curso']) . '</p>';
