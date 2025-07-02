@@ -29,6 +29,7 @@ function displayForm() {
   $dadosContrato = $dal->getDadosContratoById($funcionario['idDadosContrato']);
   $cv = $dal->getCVById($funcionario['idCV']);
   $beneficios = $dal->getBeneficiosById($funcionario['idBeneficios']);
+  $viatura = $dal->getViaturaById($funcionario['idViatura']);
 
   
   echo '<div class="container_atualizarPerfil">';
@@ -188,6 +189,17 @@ function displayForm() {
   <input type="date" name="voucherNOS" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"readonly><br><br>
   </div>
 
+  <!-- Viatura -->
+  <h3>Viatura</h3>
+  Tipo de viatura:
+  <select name="tipoViatura">
+  <option value="">Selecione o tipo</option>
+  <option value="empresa"' . ($viatura['tipo'] == "empresa" ? 'selected' : '') . '>Empresa</option>
+  <option value="pessoal"' . ($viatura['tipo'] == "pessoal" ? 'selected' : '') . '>Pessoal</option>
+  </select><br>
+  Matrícula:
+  <input type="text" name="matriculaViatura" placeholder="XX-00-XX" value="'. htmlspecialchars($viatura['matriculaDaViatura']) .'"><br><br>
+
   <!-- CV -->
   <div class="atualizarPerfil-form">
   <h3>CV</h3>
@@ -221,6 +233,20 @@ function showUI(){
   else{
     try{
       $dal = new atualizarPerfil_DAL();
+
+      // Upload dos documentos (documentoCC neste exemplo)
+      $caminhosDocs = caminhoDocumentos([
+        'documentoCC' => ['tipos' => ['pdf'],'destino' => 'CartaoCidadao','max' => 5],
+        'documentoMod99' => ['tipos' => ['pdf'], 'destino' => 'Mod99', 'max' => 5],
+        'documentoBancario' => ['tipos' => ['pdf'], 'destino' => 'DocumentoBancario', 'max' => 5],
+        'documentoCartaoContinente' => ['tipos'=> ['pdf'], 'destino' => 'CartaoContinente', 'max' => 5],
+      ]);
+
+      // Guarda o caminho no $_POST para enviar à DAL
+      $_POST['caminhoDocumentoCC'] = $caminhosDocs['documentoCC'];
+      $_POST['caminhoDocumentoMod99'] = $caminhosDocs['documentoMod99'];
+      $_POST['caminhoDocumentoBancario'] = $caminhosDocs['documentoBancario'];
+      $_POST['caminhoDocumentoCartaoContinente'] = $caminhosDocs['documentoCartaoContinente'];
       
       $funcionario = $dal->getFuncionario($_SESSION['nMeca'] ?? null);
       $dal->updateDadosPessoais(
