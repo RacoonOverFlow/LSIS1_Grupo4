@@ -225,5 +225,19 @@ class registoFuncionario_dal{
         $result=$stmt->get_result();
         return $result->num_rows > 0;
     }
+    function verificarFuncionarioExisteEmail($email){
+        $query="SELECT 1 FROM funcionario WHERE email=?";
+        $stmt= $this->conn->prepare($query);
+        $stmt->bind_param("s",$email);
+        $stmt->execute();
+        $result=$stmt->get_result();
+        return $result->num_rows > 0;
+    }
+    function atualizarEstadoPorEmail($email, $estado){
+        $query="UPDATE funcionario SET estado=? WHERE email=?";
+        $stmt= $this->conn->prepare($query);
+        $stmt->bind_param("ss",$estado,$email);
+        $stmt->execute();
+    }
 }
 ?>

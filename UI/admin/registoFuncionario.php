@@ -1,7 +1,9 @@
-<?php 
+<?php
+
 require_once "../../BLL/registoFuncionario_bll.php";
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
