@@ -56,5 +56,15 @@ class Perfil_DAL {
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc();
   }
+  function getCaminhoDocumentos($nMeca){
+    $query = "SELECT caminho FROM documento d 
+    INNER JOIN documento_funcionario df ON df.idDocumento=d.idDocumento 
+    INNER JOIN funcionario f ON F.idFuncionario=df.idFuncionario WHERE numeroMecanografico=?";
+    $stmt=$this->conn->prepare($query);
+    $stmt->bind_param("i", $nMeca);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+  }
 }  
 ?>
