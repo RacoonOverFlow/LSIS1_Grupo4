@@ -117,7 +117,8 @@ class dashboard_dal {
 
         $dataRemuneracao = [];
         while ($row = $result->fetch_assoc()) {
-            $dataRemuneracao[$row['remuneracao']] = (int)$row['total'];
+            $rem = number_format((float)$row['remuneracao'], 2, '.', '');
+            $dataRemuneracao[$rem] = (int)$row['total'];
         }
 
     return $dataRemuneracao;

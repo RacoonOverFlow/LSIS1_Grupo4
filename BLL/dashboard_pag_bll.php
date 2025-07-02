@@ -13,32 +13,42 @@ function setDashboard($nMeca) {
     echo '<h2>Filtro por Gênero</h2>';
     echo '<div id="filters-genero"></div>';
     echo '<div id="generoChart";"></div>';
-    echo '<div>';
+    echo '<div>';//11*
+
     echo '<h2>Filtro por Cargo</h2>';
     echo '<div id="filters-cargo"></div>';
     echo '<div id="cargoChart""></div>';
-    echo '<div>';
-    echo '<div class="average-tempo-inicio">';
+    echo '<div>';//12*
+
+    echo '<div class="average-tempo-inicio">';//13*
     echo '<h2>Tempo Médio</h2>';
     echo '<p id="average-tempo-value"></p>';
     echo '<div id="tempoInicioChartContainer"></div>';
-    echo '</div>';
-    echo '</div>';
-    echo '</div>';
+    echo '</div>';//13*
     
-    //echo '</div>';//primeira coluna, pra ja comentado para ver melhor com a consola aberta
+    echo '</div>';//12*
+
+    echo '</div>';//11*
+    
+    echo '</div>';//primeira coluna
 
     echo '<div>';//segunda coluna
 
     echo '<h2>Filtro por Nacionalidade</h2>';
     echo '<div id="filters-nacionalidade"></div>';
     echo '<div id="nacionalidadeChart";"></div>';
-    echo '<div>';
-    echo '<div class="average-age-box">'; 
+    
+    echo '<div class="average-age-box">'; //21* tem de ser assim e nao seguido como o da primeira coluna, devido ao css dos graficos
     echo '<h2>Idade Média</h2>';
     echo '<p id="average-age-value"></p>';
     echo '<div id="ageChartContainer"></div>';
-    echo '</div>';
+    echo '</div>';//21*
+
+    echo '<div class="average-remuneracao">'; //22*
+    echo '<h2>Remuneracao Média</h2>';
+    echo '<p id="average-remuneracao-value"></p>';
+    echo '<div id="remuneracaoChartContainer"></div>';
+    echo '</div>';//22*
 
     echo '</div>';//segunda coluna
 

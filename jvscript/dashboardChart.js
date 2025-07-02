@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Adicionando uma bolinha personalizada antes da idade hoje
-    content += `<span style="color:#6666cc">●</span> <strong>Idade hoje:</strong> ${idade} anos`;
+    content += `<span style="color:#6666cc">●</span> <strong>Diferenca de anos:</strong> ${idade} anos`;
 
     return content;
   }
@@ -315,109 +315,65 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   //                    !!!!REMUNERACAO MEDIA!!!!
+
   
-  //CALCULAR A IDADE MÉDIA //nao É ASSIM A FUNCAO MUDAR
-  function calculateAverageRemuneracao(dataRemuneracao) { 
-    const today = new Date();
-    let totalAge = 0;
-    let totalPeople = 0;
-    const ageByYear = {};
+  // Calcula a média de remuneração (baseado nas keys = valores, values = contagem)
+  function calculateAverageRemuneracao(dataRemuneracao) {
+    let totalRemuneracao = 0;
+    let totalItens = 0;
 
-    for (const birthDateStr in dataNascimento) {
-        const count = dataNascimento[birthDateStr];
-        const birthDate = new Date(birthDateStr);
+    for (const key in dataRemuneracao) {
+      const valor = parseFloat(key);       // key é o valor da remuneração
+      const count = parseInt(dataRemuneracao[key], 10);  // count é a quantidade de pessoas com essa remuneração
 
-        if (isNaN(birthDate)) continue;
+      if (isNaN(valor) || isNaN(count)) continue;
 
-        const age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-        const dayDiff = today.getDate() - birthDate.getDate();
-
-        // Ajustar udade se o aniversario nao tiver ocorrido ainda
-        const exactAge = (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) ? age - 1 : age;
-
-        totalAge += exactAge * count;
-        totalPeople += count;
-
-        const year = birthDate.getFullYear();
-        ageByYear[year] = (ageByYear[year] || 0) + count;
+      totalRemuneracao += valor * count;  // soma valor * quantidade
+      totalItens += count;                 // soma total de pessoas
     }
 
-    const averageAge = totalPeople > 0 ? (totalAge / totalPeople).toFixed(2) : 0;// para agrupar diferentes data do mesmo ano, num so ano
-    return { averageAge: parseFloat(averageAge), ageByYear };
+    const averageRemuneracao = totalItens > 0 ? (totalRemuneracao / totalItens) : 0;
+    return { averageRemuneracao };
   }
 
-  
-  // Função externa para formatar o conteúdo do tooltip  !!AGE!!
-  function formatAgeTooltip(e) {
-    const today = new Date();
-    const year = e.entries[0].dataPoint.x.getFullYear();
-    const idade = today.getFullYear() - year;
+  // Renderiza o gráfico de remuneração
+  function renderRemuneracaoChart(dataRemuneracao) {
+    if (!dataRemuneracao || typeof dataRemuneracao !== 'object') {
+      console.error("Dados de remuneração inválidos:", dataRemuneracao);
+      return;
+    }
 
-    let content = `<strong>Ano de nascimento:</strong> ${year}<br/>`;
-    e.entries.forEach(entry => {
-      content += `<span style="color:${entry.dataSeries.color}">●</span> <strong>${entry.dataSeries.name}:</strong> ${entry.dataPoint.y}<br/>`;
-    });
+    // Transforma os dados para dataPoints, ordenando pelos valores (remuneração)
+    const dataPoints = Object.entries(dataRemuneracao)
+      .map(([key, count]) => ({
+        x: parseFloat(key), // aqui pode usar x como valor da remuneração (número)
+        y: count            // quantidade de pessoas
+      }))
+      .sort((a, b) => a.x - b.x);
 
-    // Adicionando uma bolinha personalizada antes da idade hoje
-    content += `<span style="color:#6666cc">●</span> <strong>Idade hoje:</strong> ${idade} anos`;
-
-    return content;
-  }
-
-
-  // Função principal para renderizar o gráfico         !!AGE!!
-  function renderAgeChart(averageAge, ageByYear) { //nao posso tirar averageAge usada para mostrar a idade média fora do gráfico numa <div>
-    const dataPoints = Object.entries(ageByYear)
-      .sort((a, b) => a[0] - b[0])
-      .map(([year, count]) => ({
-        x: new Date(`${year}-01-01`),
-        y: count
-      }));
-
-    const chart = new CanvasJS.Chart("ageChartContainer", {
+    const chart = new CanvasJS.Chart("remuneracaoChartContainer", {
       animationEnabled: true,
       theme: "light2",
       title: {
-        text: "Distribuição de Idades e Idade Média"
+        text: "Distribuição de Remuneração"
       },
       axisX: {
-        title: "Ano de Nascimento",
-        valueFormatString: "YYYY"
+        title: "Remuneração (euros)",
+        labelFormatter: e => e.value.toFixed(2),
+        includeZero: false
       },
       axisY: {
         title: "Quantidade",
         includeZero: true
       },
-      toolTip: {
-        shared: true,
-        contentFormatter: formatAgeTooltip // usa a função externa
-      },
-      legend: {
-        cursor: "pointer",
-        itemclick: e => {
-          e.dataSeries.visible = !e.dataSeries.visible;
-          chart.render();
-        }
-      },
-      data: [
-        {
-          type: "line",
-          name: "Quantidade por Ano",
-          showInLegend: true,
-          dataPoints: dataPoints
-        }
-      ]
+      data: [{
+        type: "column",
+        dataPoints: dataPoints
+      }]
     });
 
     chart.render();
   }
-
-
-  //DASHBOARD DA IDADE NAO FUNCIONA NESTE MOMENTO PORCAUSA DA FUNCAO ACIMA
-
-
-
 
 
 
@@ -428,7 +384,9 @@ document.addEventListener("DOMContentLoaded", () => {
     )
     .then(data => {
       rawData = data;
+      console.log("Dados recebidos:", data); 
       
+      // VERIFICAR se tem dataRemuneracao aqui
 
       createCheckboxFilters("filters-genero", rawData.genero, onGeneroChange);
       createCheckboxFilters("filters-cargo", rawData.cargo, onCargoChange);
@@ -442,17 +400,27 @@ document.addEventListener("DOMContentLoaded", () => {
       const { averageAge, ageByYear } = calculateAverageAge(data.dataNascimento);
       document.getElementById('average-age-value').textContent = `${averageAge} anos`;
       if (renderAgeChart(averageAge, ageByYear)){
-        console.log(nao);
+        console.log("nao age");//debug
       };
-      
-
+    
       const { averageTempo, tempoByYear } = calculateAverageTempoInicio(data.dataInicioDeContrato);
       document.getElementById('average-tempo-value').textContent = `${averageTempo} anos`;
-      renderTempoChart(averageTempo, tempoByYear);
+      if (renderTempoChart(averageTempo, tempoByYear)){
+        console.log("nao tempo inicio")
+      };
+
       
+      const { averageRemuneracao } = calculateAverageRemuneracao(data.dataRemuneracao);
+      document.getElementById("average-remuneracao-value").innerText = `Média: ${averageRemuneracao.toFixed(2)}`;
+      if (renderRemuneracaoChart(data.dataRemuneracao, averageRemuneracao)){
+        console.log("nao remuneracao")
+      };
 
       console.log("Average Age:", averageAge);
       console.log("Average Tempo:", averageTempo);
+      console.log("average remuneracao:", averageRemuneracao);    
+    
     })
     .catch(err => console.error("Erro ao carregar dados:", err));
 });
+

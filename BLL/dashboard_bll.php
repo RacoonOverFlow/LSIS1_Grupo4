@@ -19,7 +19,7 @@ echo json_encode([
     'nacionalidade' => $dataNacionalidade,
     'dataNascimento' => $dataIdade,
     'dataInicioDeContrato' => $dataInicioDeContrato,
-    'remuneracao' => $dataRemuneracao
+    'dataRemuneracao' => $dataRemuneracao
 ]);
 
 ?>
