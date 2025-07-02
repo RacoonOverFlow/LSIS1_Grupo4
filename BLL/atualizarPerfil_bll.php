@@ -187,16 +187,22 @@ function displayForm() {
   <input type="date" name="voucherNOS" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"readonly><br><br>
   </div>
 
+
   <!-- Viatura -->
+  <div class="atualizarPerfil-form">
   <h3>Viatura</h3>
   Tipo de viatura:
   <select name="tipoViatura">
+  <div class="select_section">
   <option value="">Selecione o tipo</option>
   <option value="empresa"' . ($viatura['tipo'] == "empresa" ? 'selected' : '') . '>Empresa</option>
   <option value="pessoal"' . ($viatura['tipo'] == "pessoal" ? 'selected' : '') . '>Pessoal</option>
   </select><br>
+  </div>
   Matrícula:
   <input type="text" name="matriculaViatura" placeholder="XX-00-XX" value="'. htmlspecialchars($viatura['matriculaDaViatura']) .'"><br><br>
+  </div>
+
 
   <!-- CV -->
   <div class="atualizarPerfil-form">
