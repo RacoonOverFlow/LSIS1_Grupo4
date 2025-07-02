@@ -36,59 +36,93 @@ if ($utilizadorCargo == 5) { // RHSuperior
 <head>
     <link rel="stylesheet" href="../CSS/styleEquipas.css">
     <script src="../jvscript/header.js" defer></script>
-</head>
-<header><?php mostrarHeader($utilizadorCargo); ?></header>
-<body>
-    <div class="skewed"></div>
-    <div class="backTemplate">
-        <?php
-        switch ($utilizadorCargo) {
-            case 5:
-                echo '<p class="equipas"><strong>Modo RH Superior:</strong> Visualizando todas as equipas</p>';
-                break;
-            case 3:
-                echo '<p class="equipas"><strong>Modo Coordenador:</strong> Visualizando suas equipas</p>';
-                break;
-            default:
-                header("Location: perfil.php");
-                exit;
-        }
-        ?>
-  <?php if (empty($equipas)): ?>
-            <div class="alert">
-                <p>Nenhuma equipa encontrada</p>
-                <p>Debug: 
-                    Cargo: <?= $utilizadorCargo ?>, 
-                    nMeca: <?= $numeroMecanografico ?>
-                </p>
-                <p>Total de equipes retornadas: <?= count($equipas) ?></p>
-            </div>
-        <?php else: ?>
-            <?php foreach ($equipas as $equipa): ?>
-                <div class="equipas">
-                    <h2><?= htmlspecialchars($equipa['nome']) ?></h2>
-                    
-                    <p><strong>Coordenador:</strong>
-                        <?= htmlspecialchars($equipa['nome_coordenador'] ?? 'Não definido') ?>
-                    </p>
-                    
-                    <p><strong>Membros:</strong></p>
-                    <ul>
-                        <?php foreach ($equipa['colaboradores'] as $membro): ?>
-                            <ul><?= htmlspecialchars($membro['nome']) ?></ul>
-                        <?php endforeach; ?>
-                    </ul>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="../jvscript/equipas.js"></script>
 
-                    <?php if ($utilizadorCargo == 5 || $utilizadorCargo == 3): ?>
-                        <div class="team-actions">
-                            <a href="editarEquipa.php?idEquipa=<?php echo $equipa['idEquipa']; ?>"><button>Editar</button></a>
+</head>
+<body>
+<div class="layout-container">
+    <div class="equipas-container">
+        <div class="top-bar">
+            <div class=search-container>
+                <input type="text" placeholder="Pesquisar equipa..." id="searchInput" onkeyup="filterEquipas()" />
+                <i class="bi bi-search"></i>
+            </div>   
+            <div class="action-buttons">
+                <a href="adicionarEquipa.php"><button><i class="bi bi-plus-circle-fill"></i> Nova Equipa</button></a>
+            </div>
+        </div>
+        
+<?php if (empty($equipas)): ?>
+    <div class="alert">
+        <p>Nenhuma equipa encontrada</p>
+        <p>Debug: Cargo: <?= $utilizadorCargo ?>, nMeca: <?= $numeroMecanografico ?></p>
+        <p>Total de equipes retornadas: <?= count($equipas) ?></p>
+    </div>
+<?php else: ?>
+    <div class="container-fluid">
+        <div class="row g-4">
+            <?php foreach ($equipas as $equipa): ?>
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <div class="equipas">
+                        <div>
+                            <p><strong>Coordenador:</strong> <?= htmlspecialchars($equipa['nome_coordenador'] ?? 'Não definido') ?></p>
+                            <p><strong>Membros:</strong></p>
+                            <ul>
+                                <?php foreach ($equipa['colaboradores'] as $membro): ?>
+                                    <li><?= htmlspecialchars($membro['nome']) ?></li>
+                                <?php endforeach; ?>
+                            </ul>
                         </div>
-                    <?php endif; ?>
+                        <?php if ($utilizadorCargo == 5 || $utilizadorCargo == 3): ?>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <button class="team-name-btn">
+                                    <?= htmlspecialchars($equipa['nome']) ?>
+                                </button>
+                                <div class="team-actions">
+                                    <a href="verEquipa.php?idEquipa=<?= $equipa['idEquipa'] ?>" title="Ver">
+                                        <button><i class="bi bi-eye"></i></button>
+                                    </a>
+                                    <a href="editarEquipa.php?idEquipa=<?= $equipa['idEquipa'] ?>" title="Editar">
+                                        <button><i class="bi bi-pencil-square"></i></button>
+                                    </a>
+                                    <a href="eliminarEquipa.php?idEquipa=<?= $equipa['idEquipa'] ?>" onclick="return confirm('Tem a certeza que deseja eliminar esta equipa?');" title="Eliminar">
+                                        <button><i class="bi bi-trash"></i></button>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
             <?php endforeach; ?>
-        <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>
+    </div>
+        <div class="sidebar">
+        <div class="logo">
+            <img src="../photos/logo-tlantic-header.svg" alt="Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="#"><i class="bi bi-people"></i> Equipas</a></li>
+            <li><a href="#"><i class="bi bi-person"></i> Utilizadores</a></li>
+            <li><a href="dashboard.php"><i class="bi bi-bar-chart-line"></i> Dashboard</a></li>
+            <?php
+            switch ($utilizadorCargo) {
+                case 5:
+                    echo '<p><strong>Modo RH Superior:</strong> Visualizando todas as equipas</p>';
+                    break;
+                case 3:
+                    echo '<p><strong>Modo Coordenador:</strong> Visualizando suas equipas</p>';
+                    break;
+                default:
+                    header("Location: perfil.php");
+                    exit;
+            }
+            ?>
+        </ul>
+    </div>    
 </div>
 </div>
-        
 </body>
 </html>
