@@ -33,11 +33,9 @@ function displayForm() {
   
   echo '<div class="container_atualizarPerfil">';
   echo '<h2>Atualizar Perfil</h2>';
-  echo '<form id="formFuncionario" action="" method="post">';
+  echo '<form id="formFuncionario" action="" method="post" enctype="multipart/form-data">';
 
-  echo '</select><br><br>
-  
-  <!-- Dados Pessoais -->
+  echo '<!-- Dados Pessoais -->
   <div class="atualizarPerfil-form">
   <h3>Dados Pessoais</h3>
   Nome completo:
@@ -83,7 +81,7 @@ function displayForm() {
   
   foreach($indicativos as $indicativo){
     echo '<option value="' . htmlspecialchars($indicativo['idIndicativo']) . '" ' 
-    . ($dadosPessoais['idIndicativo'] === $indicativo['idIndicativo'] ? 'selected' : '') 
+    . ($dadosPessoais['idIndicativo'] == $indicativo['idIndicativo'] ? 'selected' : '') 
     . '>' . htmlspecialchars($indicativo['indicativo']) . '</option>';
   }
 
