@@ -58,7 +58,7 @@ class Perfil_DAL {
   }
 
   function getViaturaById($nMeca) {
-    $query = "SELECT v.* FROM viatura v INNER JOIN funcionario f ON v.idViatura = f.idViatura WHERE f.numeroMecanografico = ?";
+    $query = "SELECT v.* FROM viatura v INNER JOIN viatura_funcionario vf on v.idViatura=vf.idViatura INNER JOIN funcionario f ON vf.idFuncionario = f.idFuncionario WHERE f.numeroMecanografico = ?";
     $stmt=$this->conn->prepare($query);
     $stmt->bind_param("i", $nMeca);
     $stmt->execute();
