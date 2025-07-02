@@ -14,12 +14,22 @@ require_once __DIR__ . '/../BLL/Permissoes.php';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil</title>
   <link rel="stylesheet" href="../CSS/stylePerfil.css">
+  <link rel="stylesheet" href="../CSS/styleEquipas.css">
   <script src="../jvscript/header.js" defer></script>
 </head>
 
 <body>
   <main>
-    <div class="skewed"></div>
-    <div class="global-container"><?php setPerfil($nMeca); ?></div>
+    <?php setPerfil($nMeca); ?>
+    <div class="sidebar">
+      <div class="logo">
+          <img src="../photos/logo-tlantic-header.svg" alt="Logo">
+      </div>
+      <ul class="nav-links">
+        <li><a href="perfil.php"><i class="bi bi-person"></i> Perfil</a></li>
+        <li><a href="equipas.php"><i class="bi bi-people"></i> Equipas</a></li>
+        <li><a href="dashboard.php"><i class="bi bi-bar-chart-line"></i> Dashboard</a></li>
+      </ul>
+
   </main>
 </body>

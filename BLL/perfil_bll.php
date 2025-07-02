@@ -23,7 +23,7 @@ function setPerfil($nMeca) {
   }
   
     mostrarHeader($cargo['cargo']);
-    echo '<div class="backTemplate">';
+    echo '<div class="equipas-container">';
     echo '<div class="leftColumn">';  
     echo '<div class="perfilImg">';
     echo '<img src="../photos/Pessoa_chapeu.jpg" alt="Profile Image">';
@@ -107,7 +107,7 @@ function setPerfil($nMeca) {
     } else {
         echo '<p>Sem documentos disponíveis.</p>';
     }
-
+    
     echo '</div>'; 
     echo '</div>';
 }
