@@ -87,7 +87,7 @@ class dashboard_dal {
 
     function getTaxaInicioDistribution() { 
 
-        $query = "SELECT dc.dataInicioDeContrato AS dataInicioContrato, COUNT(*) AS total
+        $query = "SELECT dc.dataInicioDeContrato AS dataInicioDeContrato, COUNT(*) AS total
           FROM funcionario f
           INNER JOIN dadoscontrato dc ON f.idDadosContrato = dc.idDadosContrato
           GROUP BY dataInicioDeContrato";
@@ -96,12 +96,12 @@ class dashboard_dal {
         $stmt->execute();
         $result = $stmt->get_result();
 
-        $dataInicioContrato = [];
+        $dataInicioDeContrato = [];
         while ($row = $result->fetch_assoc()) {
-            $dataInicioContrato[$row['dataInicioContrato']] = (int)$row['total'];
+            $dataInicioDeContrato[$row['dataInicioDeContrato']] = (int)$row['total'];
         }
 
-    return $dataInicioContrato;
+    return $dataInicioDeContrato;
     }
 
 

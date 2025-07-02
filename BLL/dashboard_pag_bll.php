@@ -7,28 +7,40 @@ function setDashboard($nMeca) {
     mostrarHeader($cargo['cargo']);
     echo '<div class="backTemplate">';
     
-    echo '<div>';
+    echo '<div>';//primeira coluna
+
+    
     echo '<h2>Filtro por Gênero</h2>';
     echo '<div id="filters-genero"></div>';
-    echo '<div id="generoChart" style="height: 400px;"></div>';
+    echo '<div id="generoChart";"></div>';
     echo '<div>';
     echo '<h2>Filtro por Cargo</h2>';
     echo '<div id="filters-cargo"></div>';
-    echo '<div id="cargoChart" style="height: 400px;"></div>';
-    echo '</div>';
-    echo '</div>';
-
+    echo '<div id="cargoChart""></div>';
     echo '<div>';
+    echo '<div class="average-tempo-inicio">';
+    echo '<h2>Tempo Médio</h2>';
+    echo '<p id="average-tempo-value"></p>';
+    echo '<div id="tempoInicioChartContainer"></div>';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+    
+    //echo '</div>';//primeira coluna, pra ja comentado para ver melhor com a consola aberta
+
+    echo '<div>';//segunda coluna
+
     echo '<h2>Filtro por Nacionalidade</h2>';
     echo '<div id="filters-nacionalidade"></div>';
-    echo '<div id="nacionalidadeChart" style="height: 400px;"></div>';
+    echo '<div id="nacionalidadeChart";"></div>';
     echo '<div>';
     echo '<div class="average-age-box">'; 
     echo '<h2>Idade Média</h2>';
     echo '<p id="average-age-value"></p>';
     echo '<div id="ageChartContainer"></div>';
     echo '</div>';
-    echo '</div>';
+
+    echo '</div>';//segunda coluna
 
     echo '</div>'; ///div da backTemplate
 }

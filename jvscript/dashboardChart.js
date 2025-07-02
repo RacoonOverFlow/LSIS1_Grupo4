@@ -210,7 +210,85 @@ document.addEventListener("DOMContentLoaded", () => {
     chart.render();
   }
 
+  
 
+   //TAXA DE INICIO
+
+   function calculateAverageTempoInicio(dataInicioDeContrato) {
+    const today = new Date();
+    let totalTempo = 0;
+    let totalPeople = 0;
+    const tempoByYear = {};
+
+    for (const InicioContratoDateStr in dataInicioDeContrato) {
+        const count = dataInicioDeContrato[InicioContratoDateStr];
+        const InicioContratoDate = new Date(InicioContratoDateStr);
+
+        if (isNaN(InicioContratoDate)) continue;
+
+        const tempoInicio = today.getFullYear() - InicioContratoDate.getFullYear();
+        const monthDiff = today.getMonth() - InicioContratoDate.getMonth();
+        const dayDiff = today.getDate() - InicioContratoDate.getDate();
+
+        // Ajustar udade se o aniversario nao tiver ocorrido ainda
+        const exactTempo = (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) ? tempoInicio - 1 : tempoInicio;
+
+        totalTempo += exactTempo * count;
+        totalPeople += count;
+
+        const year = InicioContratoDate.getFullYear();
+        tempoByYear[year] = (tempoByYear[year] || 0) + count;
+    }
+
+    const averageTempo = totalPeople > 0 ? (totalTempo / totalPeople).toFixed(2) : 0;// para agrupar diferentes data do mesmo ano, num so ano
+    return { averageTempo: parseFloat(averageTempo), tempoByYear };
+  }
+
+ function renderTempoChart(averageTempo, tempoByYear) { //nao posso tirar averageAge usada para mostrar a idade média fora do gráfico numa <div>
+    const dataPoints = Object.entries(tempoByYear)
+      .sort((a, b) => a[0] - b[0])
+      .map(([year, count]) => ({
+        x: new Date(`${year}-01-01`),
+        y: count
+      }));
+
+    const chart = new CanvasJS.Chart("tempoInicioChartContainer", {
+      animationEnabled: true,
+      theme: "light2",
+      title: {
+        text: "Distribuição de Data Inicio e Taxa Média"
+      },
+      axisX: {
+        title: "Ano de Inicio",
+        valueFormatString: "YYYY"
+      },
+      axisY: {
+        title: "Quantidade",
+        includeZero: true
+      },
+      toolTip: {
+        shared: true,
+        //contentFormatter: formatAgeTooltip // usa a função externa
+      },
+      legend: {
+        cursor: "pointer",
+        itemclick: e => {
+          e.dataSeries.visible = !e.dataSeries.visible;
+          chart.render();
+        }
+      },
+      data: [
+        {
+          type: "line",
+          name: "Quantidade por Ano",
+          showInLegend: true,
+          dataPoints: dataPoints
+        }
+      ]
+    });
+
+    chart.render();
+  }
   
   // Fetch de dados e inicialização
   fetch("../BLL/dashboard_bll.php")
@@ -232,10 +310,18 @@ document.addEventListener("DOMContentLoaded", () => {
       
       const { averageAge, ageByYear } = calculateAverageAge(data.dataNascimento);
       document.getElementById('average-age-value').textContent = `${averageAge} anos`;
-      renderAgeChart(averageAge, ageByYear);
+      if (renderAgeChart(averageAge, ageByYear)){
+        console.log(nao);
+      };
+      
 
+      const { averageTempo, tempoByYear } = calculateAverageTempoInicio(data.dataInicioDeContrato);
+      document.getElementById('average-tempo-value').textContent = `${averageTempo} anos`;
+      renderTempoChart(averageTempo, tempoByYear);
+      
 
       console.log("Average Age:", averageAge);
+      console.log("Average Tempo:", averageTempo);
     })
     .catch(err => console.error("Erro ao carregar dados:", err));
 });
