@@ -49,7 +49,7 @@ if ($utilizadorCargo == 5) { // RHSuperior
                 <i class="bi bi-search"></i>
             </div>   
             <div class="action-buttons">
-                <a href="adicionarEquipa.php"><button><i class="bi bi-plus-circle-fill"></i> Nova Equipa</button></a>
+                <a href="criarEquipa.php"><button><i class="bi bi-plus-circle-fill"></i> Nova Equipa</button></a>
             </div>
         </div>
         
@@ -104,8 +104,8 @@ if ($utilizadorCargo == 5) { // RHSuperior
             <img src="../photos/logo-tlantic-header.svg" alt="Logo">
         </div>
         <ul class="nav-links">
-            <li><a href="#"><i class="bi bi-people"></i> Equipas</a></li>
-            <li><a href="#"><i class="bi bi-person"></i> Utilizadores</a></li>
+            <li><a href="perfil.php"><i class="bi bi-person"></i> Perfil</a></li>
+            <li><a href="equipas.php"><i class="bi bi-people"></i> Equipas</a></li>
             <li><a href="dashboard.php"><i class="bi bi-bar-chart-line"></i> Dashboard</a></li>
             <?php
             switch ($utilizadorCargo) {
