@@ -22,7 +22,6 @@ function setPerfil($nMeca) {
     return;
   }
   
-    mostrarHeader($cargo['cargo']);
     echo '<div class="equipas-container">';
     echo '<div class="leftColumn">';  
     echo '<div class="perfilImg">';
@@ -108,7 +107,11 @@ function setPerfil($nMeca) {
         echo '<p>Sem documentos disponíveis.</p>';
     }
     
+
     echo '</div>'; 
     echo '</div>';
+    echo '</main>';
+    mostrarHeader($cargo['cargo']);
+
 }
 ?>

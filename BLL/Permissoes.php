@@ -13,28 +13,25 @@ $cargo = $dal->getCargoById($nMeca);
 function mostrarHeader($cargo) {
     $utilizadorCargo = $_SESSION['idCargo'];
     ?>
-    <div class="container">
-        <div class="tabs">
-            <a href="perfil.php?numeroMecanografico=<?php echo htmlspecialchars($_SESSION['nMeca']); ?>" class="tab-button" data-tab="Perfil">Perfil</a>
-
-            <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
-                <a href="equipas.php" class="tab-button" data-tab="Equipas">Equipas</a>
-            <?php endif; ?>
-
-            <?php if ($utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
-                <a href="dashboard.php" class="tab-button" data-tab="Dashboard">Dashboard</a>
-            <?php endif; ?>
-
+        <div class="sidebar">
             <div class="logo">
-                <img class="imgLogo" src="../photos/logo.png" alt="Tlantic" />
+                <img src="../photos/logo-tlantic-header.svg" alt="Logo">
             </div>
+            <ul class="nav-links">
 
-            <?php if ($cargo): ?>
-                <a href="logout.php" class="tab-button">Logout</a>
-            <?php else: ?>
-                <a href="login.php" class="tab-button">Login</a>
-            <?php endif; ?>
+                <li><a href="perfil.php?numeroMecanografico=<?php echo htmlspecialchars($_SESSION['nMeca']); ?>"><i class="bi bi-person"></i> Perfil</a></li>
+                <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
+                    <li><a href="equipas.php"><i class="bi bi-people"></i> Equipas</a></li>
+                <?php endif; ?>
+                <?php if ($utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
+                    <li><a href="dashboard.php"><i class="bi bi-bar-chart-line"></i> Dashboard</a></li>
+                <?php endif; ?>
+                <?php if ($cargo): ?>
+                    <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                <?php else: ?>
+                    <a href="login.php" class="tab-button">Login</a>
+                <?php endif; ?>
+            </ul>
         </div>
-    </div>
 <?php
 }

@@ -18,18 +18,11 @@ require_once __DIR__ . '/../BLL/Permissoes.php';
   <script src="../jvscript/header.js" defer></script>
 </head>
 
-<body>
-  <main>
-    <?php setPerfil($nMeca); ?>
-    <div class="sidebar">
-      <div class="logo">
-          <img src="../photos/logo-tlantic-header.svg" alt="Logo">
-      </div>
-      <ul class="nav-links">
-        <li><a href="perfil.php"><i class="bi bi-person"></i> Perfil</a></li>
-        <li><a href="equipas.php"><i class="bi bi-people"></i> Equipas</a></li>
-        <li><a href="dashboard.php"><i class="bi bi-bar-chart-line"></i> Dashboard</a></li>
-      </ul>
 
-  </main>
+<body>
+    <div class="layout-container">
+        <main class="perfil-content">
+            <?php setPerfil($nMeca); ?>
+    </div>
 </body>
+</html>
