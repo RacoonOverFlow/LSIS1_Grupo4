@@ -59,7 +59,7 @@ class Perfil_DAL {
   function getCaminhoDocumentos($nMeca){
     $query = "SELECT caminho FROM documento d 
     INNER JOIN documento_funcionario df ON df.idDocumento=d.idDocumento 
-    INNER JOIN funcionario f ON F.idFuncionario=df.idFuncionario WHERE numeroMecanografico=?";
+    INNER JOIN funcionario f ON f.idFuncionario=df.idFuncionario WHERE numeroMecanografico=?";
     $stmt=$this->conn->prepare($query);
     $stmt->bind_param("i", $nMeca);
     $stmt->execute();
