@@ -238,7 +238,7 @@ function showUI(){
     try{
       $dal = new atualizarPerfil_DAL();
 
-      // Upload dos documentos (documentoCC neste exemplo)
+      /* // Upload dos documentos (documentoCC neste exemplo)
       $caminhosDocs = caminhoDocumentos([
         'documentoCC' => ['tipos' => ['pdf'],'destino' => 'CartaoCidadao','max' => 5],
         'documentoMod99' => ['tipos' => ['pdf'], 'destino' => 'Mod99', 'max' => 5],
@@ -250,7 +250,7 @@ function showUI(){
       $_POST['caminhoDocumentoCC'] = $caminhosDocs['documentoCC'];
       $_POST['caminhoDocumentoMod99'] = $caminhosDocs['documentoMod99'];
       $_POST['caminhoDocumentoBancario'] = $caminhosDocs['documentoBancario'];
-      $_POST['caminhoDocumentoCartaoContinente'] = $caminhosDocs['documentoCartaoContinente'];
+      $_POST['caminhoDocumentoCartaoContinente'] = $caminhosDocs['documentoCartaoContinente']; */
       
       $funcionario = $dal->getFuncionario($_SESSION['nMeca'] ?? null);
       $dal->updateDadosPessoais(
