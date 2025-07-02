@@ -19,8 +19,6 @@ class visualizarFuncionario_dal {
             dc.tipoDeContrato,
             df.remuneracao,
             cv.habilitacoesLiterarias,
-            vi.tipo AS tipoViatura,
-            vi.matriculaDaViatura,
             c.cargo
         FROM funcionario f
         INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
@@ -29,7 +27,6 @@ class visualizarFuncionario_dal {
         INNER JOIN dadoscontrato dc ON f.idDadosContrato = dc.idDadosContrato
         INNER JOIN dadosfinanceiros df ON f.idDadosFinanceiros = df.idDadosFinanceiros
         INNER JOIN cv ON f.idCV = cv.idCV
-        LEFT JOIN viatura vi ON f.idViatura = vi.idViatura
         ORDER BY dp.nomeCompleto ASC";
 
         $stmt = $this->conn->prepare($query);

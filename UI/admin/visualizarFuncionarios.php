@@ -10,9 +10,14 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../../CSS/stylevisualizarFuncionario.css">
+    <link rel="stylesheet" href="../../CSS/styleEquipas.css">
 
 </head>
 <body>
-    <?php mostrarFuncionarios(); ?>
+    <div class="layout-container">
+        <main class="main-content">
+            <?php mostrarFuncionarios(); ?>
+        </main>
+    </div>
 </body>
 </html>

@@ -26,6 +26,9 @@ function mostrarHeader($cargo) {
                 <?php if ($utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
                     <li><a href="dashboard.php"><i class="bi bi-bar-chart-line"></i> Dashboard</a></li>
                 <?php endif; ?>
+                <?php if ($utilizadorCargo == 5): ?>
+                    <li><a href="admin/visualizarFuncionarios.php"><i class="bi bi-people-fill"></i> Visualizar Funcionários</a></li>
+                <?php endif; ?>
                 <?php if ($cargo): ?>
                     <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                 <?php else: ?>
