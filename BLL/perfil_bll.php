@@ -13,6 +13,7 @@ function setPerfil($nMeca) {
   $cv = $dal->getCVById($nMeca);
   $beneficios = $dal->getBeneficiosById($nMeca);
   $cargo = $dal->getCargoById($nMeca);
+  $caminhoDocumentos = $dal->getCaminhoDocumentos($nMeca);
 
 
   if (!$dadosPessoais || empty($dadosPessoais["nomeCompleto"])) {
@@ -75,7 +76,28 @@ function setPerfil($nMeca) {
     echo '<p><strong>Voucher NOS:</strong> ' . htmlspecialchars($beneficios['voucherNOS']) . '</p>';
     echo '<br>';
     echo '<h3>Cargo</h3>';
-    echo '<p><strong>Cargo:</strong> ' . htmlspecialchars($cargo['cargo']) . '</p>';
+    echo '<p><strong>Cargo:</strong> ' . htmlspecialchars($cargo['cargo']) . '</p><br>';
+    echo '<h3>Documentos</h3>';
+    // Lista dos nomes descritivos dos documentos
+    $nomesDocumentos = [
+        'Cartão de Cidadão',
+        'Comprovativo Mod99',
+        'Cartão Continente',
+        'Comprovativo Bancário'
+    ];
+
+    if (!empty($caminhoDocumentos)) {
+        for ($i = 0; $i < count($caminhoDocumentos); $i++) {
+            $nome = $nomesDocumentos[$i] ?? 'Documento Desconhecido';
+            $caminho = $caminhoDocumentos[$i]['caminho'];
+
+            echo '<strong>' . htmlspecialchars($nome) . ':</strong>';
+            echo ' <a href="../' . htmlspecialchars($caminho) . '" target="_blank">Ver PDF</a></p><br>';
+        }
+    } else {
+        echo '<p>Sem documentos disponíveis.</p>';
+    }
+
     echo '</div>'; 
     echo '</div>';
 }

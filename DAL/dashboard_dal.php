@@ -85,5 +85,25 @@ class dashboard_dal {
     return $dataIdade;
     }
 
+    function getTaxaInicioDistribution() { 
+
+        $query = "SELECT dc.dataInicioDeContrato AS dataInicioContrato, COUNT(*) AS total
+          FROM funcionario f
+          INNER JOIN dadoscontrato dc ON f.idDadosContrato = dc.idDadosContrato
+          GROUP BY dataInicioDeContrato";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $dataInicioContrato = [];
+        while ($row = $result->fetch_assoc()) {
+            $dataInicioContrato[$row['dataInicioContrato']] = (int)$row['total'];
+        }
+
+    return $dataInicioContrato;
+    }
+
+
 }
 ?>
