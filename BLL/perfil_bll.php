@@ -15,6 +15,7 @@ function setPerfil($nMeca) {
   $beneficios = $dal->getBeneficiosById($nMeca);
   $cargo = $dal->getCargoById($nMeca);
   $caminhoDocumentos = $dal->getCaminhoDocumentos($nMeca);
+  $indicativo = $dal->getIndicativos($dadosPessoais['idIndicativo']);
 
 
   if (!$dadosPessoais || empty($dadosPessoais["nomeCompleto"])) {
@@ -51,7 +52,7 @@ function setPerfil($nMeca) {
     echo '<p><strong>NIF:</strong> ' . htmlspecialchars($dadosPessoais['nif']) . '</p>';
     echo '<p><strong>NISS:</strong> ' . htmlspecialchars($dadosPessoais['niss']) . '</p>';
     echo '<p><strong>Genero:</strong> ' . htmlspecialchars($dadosPessoais['genero']) . '</p>';
-    echo '<p><strong>Contacto De Emergencia: </strong> +' . htmlspecialchars($dadosPessoais['idIndicativo']) .' '. htmlspecialchars($dadosPessoais['contactoEmergencia']) . '</p>';
+    echo '<p><strong>Contacto De Emergencia: </strong> ' . htmlspecialchars($indicativo['indicativo']) .' '. htmlspecialchars($dadosPessoais['contactoEmergencia']) . '</p>';
     echo '<p><strong>Grau De Relacionamento:</strong> ' . htmlspecialchars($dadosPessoais['grauDeRelacionamento']) . '</p>';
     echo '<br>';
     echo '<h3>Dados Financeiros</h3>';

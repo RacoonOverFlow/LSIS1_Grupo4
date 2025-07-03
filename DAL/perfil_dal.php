@@ -75,5 +75,13 @@ class Perfil_DAL {
     $result = $stmt->get_result();
     return $result->fetch_all(MYSQLI_ASSOC);
   }
+
+  function getIndicativos($idIndicativo){
+    $query = "SELECT * FROM indicativocontacto WHERE idIndicativo=?";
+    $stmt=$this->conn->prepare($query);
+    $stmt->bind_param("i", $idIndicativo);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+  }
 }  
 ?>
