@@ -38,7 +38,6 @@ if ($utilizadorCargo == 5) { // RHSuperior
     <script src="../jvscript/header.js" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="../jvscript/equipas.js"></script>
-
 </head>
 <body>
 <div class="layout-container">
@@ -60,42 +59,39 @@ if ($utilizadorCargo == 5) { // RHSuperior
         <p>Total de equipes retornadas: <?= count($equipas) ?></p>
     </div>
 <?php else: ?>
-    <div class="container-fluid">
-        <div class="row g-4">
-            <?php foreach ($equipas as $equipa): ?>
-                <div class="col-sm-12 col-md-6 col-lg-4">
-                    <div class="equipas">
-                        <div>
-                            <p><strong>Coordenador:</strong> <?= htmlspecialchars($equipa['nome_coordenador'] ?? 'Não definido') ?></p>
-                            <p><strong>Membros:</strong></p>
-                            <ul>
-                                <?php foreach ($equipa['colaboradores'] as $membro): ?>
-                                    <li><?= htmlspecialchars($membro['nome']) ?></li>
-                                <?php endforeach; ?>
-                            </ul>
-                        </div>
-                        <?php if ($utilizadorCargo == 5 || $utilizadorCargo == 3): ?>
-                            <div class="d-flex justify-content-between align-items-center mt-3">
-                                <button class="team-name-btn">
-                                    <?= htmlspecialchars($equipa['nome']) ?>
-                                </button>
-                                <div class="team-actions">
-                                    <a href="verEquipa.php?idEquipa=<?= $equipa['idEquipa'] ?>" title="Ver">
-                                        <button><i class="bi bi-eye"></i></button>
-                                    </a>
-                                    <a href="editarEquipa.php?idEquipa=<?= $equipa['idEquipa'] ?>" title="Editar">
-                                        <button><i class="bi bi-pencil-square"></i></button>
-                                    </a>
-                                    <a href="eliminarEquipa.php?idEquipa=<?= $equipa['idEquipa'] ?>" onclick="return confirm('Tem a certeza que deseja eliminar esta equipa?');" title="Eliminar">
-                                        <button><i class="bi bi-trash"></i></button>
-                                    </a>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                    </div>
+    <div class="equipas-grid">  
+        <?php foreach ($equipas as $equipa): ?>
+            <div class="equipas">
+                <div>
+                    <h2><?=  htmlspecialchars($equipa['nome']) ?></h2>
                 </div>
-            <?php endforeach; ?>
-        </div>
+                <div>
+                    <p><strong>Coordenador:</strong> <?= htmlspecialchars($equipa['nome_coordenador'] ?? 'Não definido') ?></p>
+                    <p><strong>Membros:</strong></p>
+                    <ul>
+                        <?php foreach ($equipa['colaboradores'] as $membro): ?>
+                            <li><?= htmlspecialchars($membro['nome']) ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <?php if ($utilizadorCargo == 5 || $utilizadorCargo == 3): ?>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+
+                        <div class="team-actions">
+                            <a href="verEquipa.php?idEquipa=<?= $equipa['idEquipa'] ?>" title="Ver">
+                                <button><i class="bi bi-eye"></i></button>
+                            </a>
+                            <a href="editarEquipa.php?idEquipa=<?= $equipa['idEquipa'] ?>" title="Editar">
+                                <button><i class="bi bi-pencil-square"></i></button>
+                            </a>
+                            <a href="eliminarEquipa.php?idEquipa=<?= $equipa['idEquipa'] ?>" onclick="return confirm('Tem a certeza que deseja eliminar esta equipa?');" title="Eliminar">
+                                <button><i class="bi bi-trash"></i></button>
+                            </a>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
     </div>
 <?php endif; ?>
     </div>
