@@ -192,10 +192,10 @@ function displayForm() {
   <h3>Viatura</h3>
   Tipo de viatura:
   <div class="select_section">
-  <select name="tipo">
+  <select name="tipoViatura">
   <option value="">Selecione o tipo</option>
-  <option value="empresa"' . ($viatura['tipoViatura'] == "empresa" ? 'selected' : '') . '>Empresa</option>
-  <option value="pessoal"' . ($viatura['tipoViatura'] == "pessoal" ? 'selected' : '') . '>Pessoal</option>
+  <option value="Empresa"' . ($viatura['tipoViatura'] == "Empresa" ? 'selected' : '') . '>Empresa</option>
+  <option value="Pessoal"' . ($viatura['tipoViatura'] == "Pessoal" ? 'selected' : '') . '>Pessoal</option>
   </select><br>
   </div>
   Matrícula da viatura:
@@ -297,18 +297,12 @@ function showUI(){
         $_POST['voucherNOS']
       );
 
-      if(empty($_POST['tipo']) && empty($_POST['matriculaDaViatura'])){
-        $dal->deleteViatura($funcionario['idViatura']);
-      }
-      else if(empty($_POST['tipo']) || empty($_POST['matriculaDaViatura'])){
-        throw new RuntimeException("Tipo e matrícula da viatura são obrigatórios.");
-      }else{
-        $dal->updateViatura(
-        $funcionario['idViatura'],
-        $_POST['tipo'],
+      $viatura = $dal->getViaturaByIdFuncionario($funcionario['idFuncionario']);
+      $dal->updateViatura(
+        $viatura['idViatura'],
+        $_POST['tipoViatura'],
         $_POST['matriculaDaViatura']
       );
-      }
       
 
       header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));

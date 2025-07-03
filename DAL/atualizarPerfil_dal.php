@@ -116,7 +116,7 @@ class atualizarPerfil_DAL {
       $idIndicativo,
       $contactoPessoal,
       $contactoEmergencia,
-      $grauRelacionamento,
+      $grauDeRelacionamento,
       $email,
       $idNacionalidade,
       $idDadosPessoais
@@ -165,43 +165,31 @@ class atualizarPerfil_DAL {
   }
 
   function updateViatura($idViatura, $tipoViatura, $matricula) {
-    $query = "UPDATE viatura SET tipoViatura=?, matriculaDaViatura=? WHERE idViatura=?";
+    $query = "UPDATE viatura SET matriculaDaViatura=?, tipoViatura=? WHERE idViatura=?";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
     }
-    $stmt->bind_param("ssi", $tipoViatura, $matricula, $idViatura);
+    $stmt->bind_param("ssi", $matricula, $tipoViatura, $idViatura);
     return $stmt->execute();
   }
 
-  function updateFuncionario($numeroMecanografico, $idDadosPessoais, $idDadosFinanceiros, $idDadosContrato, $idCV, $idBeneficios, $idViatura) {
+  function updateFuncionario($numeroMecanografico, $idDadosPessoais, $idDadosFinanceiros, $idDadosContrato, $idCV, $idBeneficios) {
     $query = "UPDATE funcionario SET idDadosPessoais=?, idDadosFinanceiros=?, idDadosContrato=?, idCV=?, idBeneficios=?, idViatura=? WHERE numeroMecanografico=?";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
     }
-    $stmt->bind_param("iiiiiis", 
+    $stmt->bind_param("iiiiis", 
       $idDadosPessoais,
       $idDadosFinanceiros,
       $idDadosContrato, 
       $idCV, 
       $idBeneficios, 
-      $idViatura, 
       $numeroMecanografico
     );
     return $stmt->execute();
   }
-
-  function updateViaturaFuncionario($idViatura, $numeroMecanografico) {
-    $query = "UPDATE viatura_funcionario SET idViatura=? WHERE numeroMecanografico=?";
-    $stmt = $this->conn->prepare($query);
-    if (!$stmt) {
-        throw new Exception("Erro na preparação da query". $this->conn->error);
-    }
-    $stmt->bind_param("is", $idViatura, $numeroMecanografico);
-    return $stmt->execute();
-  }
-  
 
 }  
 ?>

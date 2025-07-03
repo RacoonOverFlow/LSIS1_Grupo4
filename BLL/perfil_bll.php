@@ -34,10 +34,13 @@ function setPerfil($nMeca) {
     echo '</div>';
     echo '</div>';
     echo '<div class="perfilInfo">';
-    echo '<div class="AtualizarPerfil">';
-    echo '<button onclick="location.href=\'atualizarPerfil.php?numeroMecanografico='. htmlspecialchars($nMeca) . '\'">Atualizar Perfil</button>';
-    echo '<div class="AtualizarPerfil">';
-    echo '</div>';
+    if ($_SESSION['idCargo'] == 5|| $_SESSION['nMeca'] == $_GET['numeroMecanografico']) {
+        echo '<div class="AtualizarPerfil">';
+        echo '<button onclick="location.href=\'atualizarPerfil.php?numeroMecanografico='. htmlspecialchars($nMeca) . '\'">Atualizar Perfil</button>';
+        echo '<div class="AtualizarPerfil">';
+        echo '</div>';
+    }
+    
     echo '<br>';
     echo '<h2>Informação do Perfil</h2>';
     echo '<br>';
