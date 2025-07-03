@@ -56,3 +56,7 @@ h2 {
 .nome           { flex: 3; }
 .nif            { flex: 2; }
 .email          { flex: 3; }
+
+.button-export{
+    background-color: black;
+}

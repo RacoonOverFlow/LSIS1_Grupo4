@@ -9,6 +9,12 @@ function mostrarFuncionarios() {
     // Container principal
     echo '<div class="tabela-funcionarios">';
 
+    //butao para exportar
+    echo '<a href="/LSIS1_Grupo4/BLL/exportData_bll.php">';
+    echo '<button class="button-export">EXPORT</button>';
+    echo '</a>';
+
+
     // Cabeçalho
     echo '<div class="linha-funcionario cabecalho">
             <div class="coluna id">ID</div>
