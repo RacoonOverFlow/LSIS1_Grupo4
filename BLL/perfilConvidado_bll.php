@@ -3,8 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
-require_once "../DAL/atualizarPerfil_dal.php";
-require_once __DIR__ . '/caminhoDocumentos_bll.php';
+require_once "../../DAL/perfilConvidado_dal.php";
 
 function isThisACallback(): bool{
 
@@ -34,17 +33,15 @@ function isThisACallback(): bool{
 }
 
 function displayForm() {
-  $dal = new atualizarPerfil_DAL();
-  
-  $funcionario = $dal->getFuncionario($_GET['numeroMecanografico'] ?? null);
-  $dadosPessoais = $dal->getDadosPessoaisById($funcionario['idDadosPessoais']);
-  $dadosFinanceiros = $dal->getDadosFinanceirosById($funcionario['idDadosFinanceiros']);
-  $dadosContrato = $dal->getDadosContratoById($funcionario['idDadosContrato']);
-  $cv = $dal->getCVById($funcionario['idCV']);
-  $beneficios = $dal->getBeneficiosById($funcionario['idBeneficios']);
-  $viatura = $dal->getViaturaByIdFuncionario($funcionario['idFuncionario']);
-  $dadosLogin = $dal->getDadosLogin($funcionario['numeroMecanografico']);
-  $documentos = $dal->getDocumentoByFuncionario($funcionario['idFuncionario']);
+  $dal = new perfilConvidado_dal();
+
+  $convidado = $dal->getConvidado($_GET['idFuncionario']);
+  $dadosPessoais = $dal->getDadosPessoaisById($convidado['idDadosPessoais']);
+  $dadosFinanceiros = $dal->getDadosFinanceirosById($convidado['idDadosFinanceiros']);
+  $cv = $dal->getCVById($convidado['idCV']);
+  $beneficios = $dal->getBeneficiosById($convidado['idBeneficios']);
+  $viatura = $dal->getViaturaByIdFuncionario($convidado['idFuncionario']);
+  $documentos = $dal->getDocumentoByFuncionario($convidado['idFuncionario']);
   
   echo '<div class="container_atualizarPerfil">';
   echo '<h2>Atualizar Perfil</h2>';
@@ -54,25 +51,23 @@ function displayForm() {
   <div class="atualizarPerfil-form">
 
   Numero Mecanográfico:
-  <input type="text" name="numeroMecanografico" placeholder="Numero Mecanografico" value="' . htmlspecialchars($funcionario['numeroMecanografico']).'" readonly><br>';
+  <input type="text" name="numeroMecanografico" placeholder="Numero Mecanografico"><br>
+
+  Password:
+  <input type="password" name="password" placeholder="Password"><br>';
 
   $cargos = $dal->getCargos();
   echo '
   <div class="select_section">
   Cargo:
-  <select name="idCargo" disabled>
-    <option value="">Selecione um cargo</option>';
+  <select name="idCargo">
+    <option value="">Selecione um cargo</option>';  
   foreach($cargos as $cargo){
-    echo '<option value="' . htmlspecialchars($cargo['idCargo'])
-    . '"' . ($dadosLogin['idCargo'] === $cargo['idCargo'] ? 'selected' : '') 
-    . '>' . htmlspecialchars($cargo['cargo']) .'</option>';
-  };
+    echo '<option value="' . htmlspecialchars($cargo['idCargo']) 
+    . '">' . htmlspecialchars($cargo['cargo']) .'</option>';
+  }
 
-  echo '
-  <input type="hidden" name="idCargo" value="'.htmlspecialchars($dadosLogin['cargo']).'">
-  
-  </div>
-  <br>
+  echo '</select></div><br>
 
   <h3>Dados Pessoais</h3>
   Nome completo:
@@ -138,7 +133,7 @@ function displayForm() {
   $nacionalidades = $dal->getNacionalidades();
   echo 'Nacionalidade:
   <div class="select_section">
-  <select name="idNacionalidade" disabled>
+  <select name="idNacionalidade">
     <option value="">Selecione uma nacionalidade</option>';
   
   foreach($nacionalidades as $nacionalidade){
@@ -153,41 +148,31 @@ function displayForm() {
 
   echo '</select><br><br>
   <!-- Dados Contrato -->
-  <div class="atualizarPerfil-form">
   <h3>Dados do Contrato</h3>
   Data de início:
-  <input type="date" name="dataInicioDeContrato" value="'. htmlspecialchars($dadosContrato['dataInicioDeContrato']) .'" readonly><br>
+  <input type="date" name="dataInicioContrato"><br>
 
   Data de fim:
-  <input type="date" name="dataFimDeContrato" value="'. htmlspecialchars($dadosContrato['dataFimDeContrato']) .'" readonly><br>
+  <input type="date" name="dataFimContrato"><br>
 
   Tipo de contrato:
-  <div class="select_section">
-  <select name="tipoDeContrato" disabled>
+  <select name="tipoContrato">
     <option value="">Selecione um Tipo de contrato </option>
-    <option value="Estagio curricular"' . ($dadosContrato['tipoDeContrato'] == "Estagio curricular" ? 'selected' : '') . '>Estagio curricular</option>
-    <option value="Estagio IEFP"' . ($dadosContrato['tipoDeContrato'] == "Estagio IEFP" ? 'selected' : '') . '>Estagio IEFP</option>
-    <option value="Termo certo"' . ($dadosContrato['tipoDeContrato'] == "Termo certo" ? 'selected' : '') . '>Termo certo</option>
-    <option value="Termo incerto"' . ($dadosContrato['tipoDeContrato'] == "Termo incerto" ? 'selected' : '') . '>Termo incerto</option>
-    <option value="Sem incerto"' . ($dadosContrato['tipoDeContrato'] == "Sem incerto" ? 'selected' : '') . '>Sem incerto</option>
+    <option value="Estagio curricular">Estagio curricular</option>
+    <option value="Estagio IEFP">Estagio IEFP</option>
+    <option value="Termo certo">Termo certo</option>
+    <option value="Termo incerto">Termo incerto</option>
+    <option value="Sem incerto">Sem incerto</option>
   </select><br>
-  </div>';
-
-  echo '<input type="hidden" name="tipoDeContrato" value="' . htmlspecialchars($dadosContrato['tipoDeContrato']) . '">
 
   Regime de horário de trabalho:
-  <div class="select_section">
-  <select name="regimeDeHorarioDeTrabalho" disabled>
+  <select name="regimeHorarioTrabalho">
     <option value="">Selecione um regime de horario de trabalho </option>
-    <option value="10%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "10%" ? 'selected' : '') . '>10%</option>
-    <option value="20%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "20%" ? 'selected' : '') . '>20%</option>
-    <option value="50%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "50%" ? 'selected' : '') . '>50%</option>
-    <option value="100%"' . ($dadosContrato['regimeDeHorarioDeTrabalho'] == "100%" ? 'selected' : '') . '>100%</option>
+    <option value="10%">10%</option>
+    <option value="20%">20%</option>
+    <option value="50%">50%</option>
+    <option value="100%">100%</option>
   </select><br><br>
-  </div>';
-
-  echo '<input type="hidden" name="regimeDeHorarioDeTrabalho" value="' . htmlspecialchars($dadosContrato['regimeDeHorarioDeTrabalho']) . '">
-  </div>
 
   <!-- Dados Financeiros -->
   <div class="atualizarPerfil-form">
@@ -204,7 +189,7 @@ function displayForm() {
   </div>
 
   Remuneração:
-  <input type="number" step="0.01" name="remuneracao" placeholder="€" value="'. htmlspecialchars($dadosFinanceiros['remuneracao']) .'"readonly><br>
+  <input type="number" step="0.01" name="remuneracao" placeholder="€"><br>
 
   Número de dependentes:
   <input type="number" name="numeroDeDependentes" placeholder="0, 1, 2..." value="'. htmlspecialchars($dadosFinanceiros['numeroDeDependentes']) .'"><br>
@@ -257,7 +242,7 @@ function displayForm() {
   Frequencia:
   <input type="text" name="frequencia" placeholder="Frequencia" value="'. htmlspecialchars($cv['frequencia']) .'"><br>';
 
-
+  
   $documentosMap = [];
   foreach ($documentos as $doc) {
     $tipo = strtolower($doc['idTipoDocumento']); // e.g. 1 = CartaoCidadao, etc.
@@ -275,28 +260,28 @@ function displayForm() {
   $ccPath = $documentosMap['2'] ?? null;
   echo 'Comprovativo de cartão de cidadão:';
   if ($ccPath) {
-      echo '<a href="../' . htmlspecialchars($ccPath) . '" target="_blank">Ver documento atual</a><br>';
+      echo '<a href="../../' . htmlspecialchars($ccPath) . '" target="_blank">Ver documento atual</a><br>';
   }
   echo '<input id="documentoCC" type="file" name="documentoCC" accept=".pdf"><br>'; 
 
   $mod99Path = $documentosMap['1'] ?? null;
   echo 'Comprovativo de morada fiscal:';
   if ($mod99Path) {
-      echo '<a href="../' . htmlspecialchars($mod99Path) . '" target="_blank">Ver documento atual</a><br>';
+      echo '<a href="../../' . htmlspecialchars($mod99Path) . '" target="_blank">Ver documento atual</a><br>';
   }
   echo '<input id="documentoMod99" type="file" name="documentoMod99" accept=".pdf"><br>';
 
   $documentoBancario = $documentosMap['3'] ?? null;
   echo 'Documento Bancario:';
   if ($documentoBancario) {
-      echo '<a href="../' . htmlspecialchars($documentoBancario) . '" target="_blank">Ver documento atual</a><br>';
+      echo '<a href="../../' . htmlspecialchars($documentoBancario) . '" target="_blank">Ver documento atual</a><br>';
   }
   echo '<input id="documentoBancario" type="file" name="documentoBancario" accept=".pdf"><br>';
 
   $documentoCartaoContinente = $documentosMap['4'] ?? null;
   echo 'Cópia cartão continente:';
   if ($documentoCartaoContinente) {
-      echo '<a href="../' . htmlspecialchars($documentoCartaoContinente) . '" target="_blank">Ver documento atual</a><br>';
+      echo '<a href="../../' . htmlspecialchars($documentoCartaoContinente) . '" target="_blank">Ver documento atual</a><br>';
   }
   echo '<input id="documentoCartaoContinente" type="file" name="documentoCartaoContinente" accept=".pdf"><br>
 
@@ -311,29 +296,11 @@ function showUI(){
   }
   else{
     try{
-      $dal = new atualizarPerfil_DAL();
-
-      $documentos = [
-        'documentoCC' => ['destino' => 'CartaoCidadao', 'tipos' => ['pdf']],
-        'documentoMod99' => ['destino' => 'Mod99', 'tipos' => ['pdf']],
-        'documentoBancario' => ['destino' => 'DocumentoBancario', 'tipos' => ['pdf']],
-        'documentoCartaoContinente' => ['destino' => 'CartaoContinente', 'tipos' => ['pdf']],
-      ];
-
-
-    
-      $caminhosDocs = [];
-
-      foreach ($documentos as $campo => $config) {
-        if (!empty($_FILES[$campo]['tmp_name'])) {
-          $ficheiro = $_FILES[$campo];
-          $caminhosDocs["caminho" . ucfirst(substr($campo, 9))] = guardarFicheiro($ficheiro, $config['destino'], $config['tipos']);
-        }
-      }
-
-      $funcionario = $dal->getFuncionario($_GET['numeroMecanografico'] ?? null);
+      $dal = new perfilConvidado_dal();
+      
+      $convidado = $dal->getConvidado($_GET['idFuncionario']);
       $dal->updateDadosPessoais(
-        $funcionario['idDadosPessoais'],
+        $convidado['idDadosPessoais'],
         $_POST['nomeCompleto'],
         $_POST['nomeAbreviado'],
         $_POST['dataNascimento'],
@@ -352,7 +319,7 @@ function showUI(){
       );
 
       $dal->updateDadosFinanceiros(
-        $funcionario['idDadosFinanceiros'],
+        $convidado['idDadosFinanceiros'],
         $_POST['IBAN'],
         $_POST['situacaoDeIRS'],
         $_POST['remuneracao'],
@@ -360,7 +327,7 @@ function showUI(){
       );
 
       $dal->updateDadosContrato(
-        $funcionario['idDadosContrato'],
+        $convidado['idDadosContrato'],
         $_POST['dataInicioDeContrato'],
         $_POST['dataFimDeContrato'],
         $_POST['tipoDeContrato'],
@@ -368,28 +335,32 @@ function showUI(){
       );
 
       $dal->updateCV(
-        $funcionario['idCV'],
+        $convidado['idCV'],
         $_POST['habilitacoesLiterarias'],
         $_POST['curso'],
         $_POST['frequencia']
       );
 
       $dal->updateBeneficios(
-        $funcionario['idBeneficios'],
+        $convidado['idBeneficios'],
         $_POST['cartaoContinente'],
         $_POST['voucherNOS']
       );
+      
+      $estadoFuncionario='aceite';
+      $dal->updateFuncionario($convidado['idFuncionario'],$_POST['numeroMecanografico'],
+      $convidado['idDadosPessoais'], $convidado['idDadosFinanceiros'], $convidado['idDadosContrato'], 
+      $convidado['idCV'], $convidado['idBeneficios'],$estadoFuncionario);
 
-      $viatura = $dal->getViaturaByIdFuncionario($funcionario['idFuncionario']);
+      $viatura = $dal->getViaturaByIdFuncionario($convidado['idFuncionario']);
       $dal->updateViatura(
         $viatura['idViatura'],
         $_POST['tipoViatura'],
         $_POST['matriculaDaViatura']
       );
       
-      $dal->updateDocumentos($caminhosDocs, $funcionario['idFuncionario']);
 
-      header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
+      header("Location: perfil.php?numeroMecanografico=" . htmlspecialchars($_POST['numeroMecanografico']));
     }
     catch(RuntimeException $e){
       echo "<div>".$e->getMessage()."</div>";
@@ -422,5 +393,3 @@ function guardarFicheiro($ficheiro, $subpasta, $tiposPermitidos = ['pdf']){
 
     return $urlPublica;
 }
-
-
