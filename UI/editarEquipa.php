@@ -18,7 +18,7 @@ require_once "../bll/Permissoes.php"
 </head>
 
 <body>
-  <div class="Layout-container">
+  <div class="layout-container">
     <main class="main-content">
       <?php showUI(); ?>
     </main>
