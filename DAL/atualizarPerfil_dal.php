@@ -16,6 +16,14 @@ class atualizarPerfil_DAL {
     return $stmt->get_result()->fetch_assoc();
   }
 
+  function getDadosLogin($numMecanografico) {
+    $query = "SELECT * FROM dadoslogin WHERE numeroMecanografico = ?";
+    $stmt=$this->conn->prepare($query);
+    $stmt->bind_param("i", $numMecanografico);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+  }
+
   function getDadosPessoaisById($idDadosPessoais) {
     $query = "SELECT * FROM dadospessoais WHERE idDadosPessoais = ?";
     $stmt=$this->conn->prepare($query);
@@ -77,9 +85,8 @@ class atualizarPerfil_DAL {
     while($row = $result->fetch_assoc()){
         $indicativos[] = $row;
     }
-    return $indicativos;//devolve array com idNacionalidade e nacionalidade
+    return $indicativos;
   }
-
 
   function getNacionalidades(){
     $query = "SELECT * FROM nacionalidade";
@@ -94,8 +101,31 @@ class atualizarPerfil_DAL {
     while($row = $result->fetch_assoc()){
         $nacionalidades[] = $row;
     }
-    return $nacionalidades;//devolve array com idNacionalidade e nacionalidade
+    return $nacionalidades;
   }  
+
+  function getCargos(){
+    $query = "SELECT * FROM cargo";
+    $stmt= $this->conn->prepare($query);
+    if (!$stmt) {
+      throw new Exception("Erro na preparação da query". $this->conn->error);
+   }
+    $stmt->execute();
+    $result= $stmt->get_result();
+    $cargos=[];
+    while($row = $result->fetch_assoc()){
+      $cargos[] = $row;
+   }
+    return $cargos;//devolve array com idCargo e cargo
+  }
+
+  function getCargoById($idCargo) {
+    $query = "SELECT * FROM cargo WHERE idCargo = ?";
+    $stmt=$this->conn->prepare($query);
+    $stmt->bind_param("i", $idCargo);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+  }
 
   function updateDadosPessoais($idDadosPessoais, $nomeCompleto, $nomeAbreviado, $dataNascimento, $moradaFiscal, $cc, $validadeCc, $nif, $niss, $genero, $idIndicativo, $contactoPessoal, $contactoEmergencia, $grauDeRelacionamento, $email, $idNacionalidade) {
     $query = "UPDATE dadospessoais SET nomeCompleto=?, nomeAbreviado=?, dataNascimento=?, moradaFiscal=?, cc=?, dataValidade=?, nif=?, niss=?, genero=?, idIndicativo=?, contactoPessoal=?, contactoEmergencia=?, grauDeRelacionamento=?, email=?, idNacionalidade=? WHERE idDadosPessoais=?";
@@ -180,7 +210,7 @@ class atualizarPerfil_DAL {
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
     }
-    $stmt->bind_param("iiiiis", 
+    $stmt->bind_param("iiiiii", 
       $idDadosPessoais,
       $idDadosFinanceiros,
       $idDadosContrato, 

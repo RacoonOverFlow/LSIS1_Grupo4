@@ -43,9 +43,10 @@ function isThisACallback(): bool{
       return false;
     }
   }
-
   return true;
 }
+
+
 function displayForm() {
   echo '<form id="formFuncionario" action="" method="post" enctype="multipart/form-data">
   <!-- Dados Login -->
@@ -227,6 +228,7 @@ function displayForm() {
   <input type="submit" value="Registar"/>
 </form>';
 }
+
 function showUI(){
     if(!isThisACallback()){
         displayForm();
