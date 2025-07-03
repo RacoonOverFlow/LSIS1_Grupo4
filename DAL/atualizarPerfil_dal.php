@@ -56,10 +56,10 @@ class atualizarPerfil_DAL {
     return $stmt->get_result()->fetch_assoc();
   }
 
-  function getViaturaById($idViatura) {
-    $query = "SELECT * FROM viatura WHERE idViatura = ?";
+  function getViaturaByIdFuncionario($idFuncionario) {
+    $query = "SELECT * FROM viatura v INNER JOIN viatura_funcionario vf on vf.idViatura = v.idViatura WHERE idFuncionario = ?";
     $stmt=$this->conn->prepare($query);
-    $stmt->bind_param("i", $idViatura);
+    $stmt->bind_param("i", $idFuncionario);
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc();
   }
@@ -144,13 +144,13 @@ class atualizarPerfil_DAL {
     return $stmt->execute();
   }
   
-  function updateCV($idCV, $habilitacoesLiterarias, $curso, $frequencia, $idDocumento) {
-    $query = "UPDATE cv SET habilitacoesLiterarias=?, curso=?, frequencia=?, idDocumento=? WHERE idCV=?";
+  function updateCV($idCV, $habilitacoesLiterarias, $curso, $frequencia) {
+    $query = "UPDATE cv SET habilitacoesLiterarias=?, curso=?, frequencia=? WHERE idCV=?";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
     }
-    $stmt->bind_param("sssii", $habilitacoesLiterarias, $curso, $frequencia, $idDocumento, $idCV);
+    $stmt->bind_param("sssi", $habilitacoesLiterarias, $curso, $frequencia, $idCV);
     return $stmt->execute();
   }
 
@@ -165,7 +165,7 @@ class atualizarPerfil_DAL {
   }
 
   function updateViatura($idViatura, $tipoViatura, $matricula) {
-    $query = "UPDATE viatura SET tipoViatura=?, matricula=? WHERE idViatura=?";
+    $query = "UPDATE viatura SET tipoViatura=?, matriculaDaViatura=? WHERE idViatura=?";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);

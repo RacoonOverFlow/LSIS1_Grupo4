@@ -29,7 +29,7 @@ function displayForm() {
   $dadosContrato = $dal->getDadosContratoById($funcionario['idDadosContrato']);
   $cv = $dal->getCVById($funcionario['idCV']);
   $beneficios = $dal->getBeneficiosById($funcionario['idBeneficios']);
-  $viatura = $dal->getViaturaById($funcionario['idViatura']);
+  $viatura = $dal->getViaturaByIdFuncionario($funcionario['idFuncionario']);
 
   
   echo '<div class="container_atualizarPerfil">';
@@ -185,30 +185,20 @@ function displayForm() {
 
   Data de emissão do voucher NOS:
   <input type="date" name="voucherNOS" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"readonly><br><br>
-  </div>';
+  </div>
 
-  if($funcionario['idViatura'] == null){
-    $viatura = [
-      'tipo' => '',
-      'matriculaDaViatura' => ''
-    ];
-  }
-  else{
-    $viatura = $dal->getViaturaById($funcionario['idViatura']);
-  }
-  
-  echo '<!-- Viatura -->
+  <!-- Viatura -->
   <div class="atualizarPerfil-form">
-  <h3>Viatura (em caso de não ter viatura, deixe em branco)</h3>
+  <h3>Viatura</h3>
   Tipo de viatura:
   <div class="select_section">
   <select name="tipo">
   <option value="">Selecione o tipo</option>
-  <option value="empresa"' . ($viatura['tipo'] == "empresa" ? 'selected' : '') . '>Empresa</option>
-  <option value="pessoal"' . ($viatura['tipo'] == "pessoal" ? 'selected' : '') . '>Pessoal</option>
+  <option value="empresa"' . ($viatura['tipoViatura'] == "empresa" ? 'selected' : '') . '>Empresa</option>
+  <option value="pessoal"' . ($viatura['tipoViatura'] == "pessoal" ? 'selected' : '') . '>Pessoal</option>
   </select><br>
   </div>
-  Matrícula:
+  Matrícula da viatura:
   <input type="text" name="matriculaDaViatura" placeholder="XX-00-XX" value="'. htmlspecialchars($viatura['matriculaDaViatura']) .'"><br><br>
   </div>
 
