@@ -4,6 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once "../DAL/atualizarPerfil_dal.php";
+require_once __DIR__ . '/caminhoDocumentos_bll.php';
 
 function isThisACallback(): bool{
 
@@ -43,7 +44,7 @@ function displayForm() {
   $beneficios = $dal->getBeneficiosById($funcionario['idBeneficios']);
   $viatura = $dal->getViaturaByIdFuncionario($funcionario['idFuncionario']);
   $dadosLogin = $dal->getDadosLogin($funcionario['numeroMecanografico']);
-  //$documentos = $dal->getCaminhoDocumentos($funcionario['numeroMecanografico']);
+  $documentos = $dal->getDocumentoByFuncionario($funcionario['idFuncionario']);
   
   echo '<div class="container_atualizarPerfil">';
   echo '<h2>Atualizar Perfil</h2>';
@@ -68,7 +69,7 @@ function displayForm() {
   };
 
   echo '
-  <input type="hidden" name"idCargo" value="'.htmlspecialchars($dadosLogin['cargo']).'">
+  <input type="hidden" name="idCargo" value="'.htmlspecialchars($dadosLogin['cargo']).'">
   
   </div>
   <br>
@@ -254,17 +255,50 @@ function displayForm() {
   Curso:
   <input type="text" name="curso" placeholder="Curso" value="'. htmlspecialchars($cv['curso']) .'"><br>
   Frequencia:
-  <input type="text" name="frequencia" placeholder="Frequencia" value="'. htmlspecialchars($cv['frequencia']) .'"><br>
+  <input type="text" name="frequencia" placeholder="Frequencia" value="'. htmlspecialchars($cv['frequencia']) .'"><br>';
 
-  <h3>Documentos</h3>
-  Comprovativo de cartão de cidadão:
-  <input id="documentoCC" type="file" name="documentoCC" required accept=".pdf"><br>
-  Comprovativo de morada fiscal:
-  <input id="documentoMod99" type="file" name="documentoMod99" required accept=".pdf"><br>
-  Documento Bancario:
-  <input id="documentoBancario" type="file" name="documentoBancario" required accept=".pdf"><br>
-  Cópia cartão continente:
-  <input id="documentoCartaoContinente" type="file" name="documentoCartaoContinente" required accept=".pdf"><br><br>
+
+  $documentosMap = [];
+  foreach ($documentos as $doc) {
+    $tipo = strtolower($doc['idTipoDocumento']); // e.g. 1 = CartaoCidadao, etc.
+    $documentosMap[$tipo] = $doc['caminho'];
+  }
+
+  $tiposDocumento = [
+    '2' => 'documentoCC',
+    '1' => 'documentoMod99',
+    '3' => 'documentoBancario',
+    '4' => 'documentoCartaoContinente'
+  ];
+
+  echo '<h3>Documentos</h3>';
+  $ccPath = $documentosMap['2'] ?? null;
+  echo 'Comprovativo de cartão de cidadão:';
+  if ($ccPath) {
+      echo '<a href="../' . htmlspecialchars($ccPath) . '" target="_blank">Ver documento atual</a><br>';
+  }
+  echo '<input id="documentoCC" type="file" name="documentoCC" accept=".pdf"><br>'; 
+
+  $mod99Path = $documentosMap['1'] ?? null;
+  echo 'Comprovativo de morada fiscal:';
+  if ($mod99Path) {
+      echo '<a href="../' . htmlspecialchars($mod99Path) . '" target="_blank">Ver documento atual</a><br>';
+  }
+  echo '<input id="documentoMod99" type="file" name="documentoMod99" accept=".pdf"><br>';
+
+  $documentoBancario = $documentosMap['3'] ?? null;
+  echo 'Documento Bancario:';
+  if ($documentoBancario) {
+      echo '<a href="../' . htmlspecialchars($documentoBancario) . '" target="_blank">Ver documento atual</a><br>';
+  }
+  echo '<input id="documentoBancario" type="file" name="documentoBancario" accept=".pdf"><br>';
+
+  $documentoCartaoContinente = $documentosMap['4'] ?? null;
+  echo 'Cópia cartão continente:';
+  if ($documentoCartaoContinente) {
+      echo '<a href="../' . htmlspecialchars($documentoCartaoContinente) . '" target="_blank">Ver documento atual</a><br>';
+  }
+  echo '<input id="documentoCartaoContinente" type="file" name="documentoCartaoContinente" accept=".pdf"><br>
 
   <!-- Botão -->
   <input type="submit" value="Atualizar Perfil" id="atualizarPerfil-form-submit"/>
@@ -279,13 +313,23 @@ function showUI(){
     try{
       $dal = new atualizarPerfil_DAL();
 
-      //Upload dos documentos (documentoCC neste exemplo)
-      $caminhosDocs = caminhoDocumentos([
-        'documentoCC' => ['tipos' => ['pdf'],'destino' => 'CartaoCidadao','max' => 5],
-        'documentoMod99' => ['tipos' => ['pdf'], 'destino' => 'Mod99', 'max' => 5],
-        'documentoBancario' => ['tipos' => ['pdf'], 'destino' => 'DocumentoBancario', 'max' => 5],
-        'documentoCartaoContinente' => ['tipos'=> ['pdf'], 'destino' => 'CartaoContinente', 'max' => 5],
-      ]);
+      $documentos = [
+        'documentoCC' => ['destino' => 'CartaoCidadao', 'tipos' => ['pdf']],
+        'documentoMod99' => ['destino' => 'Mod99', 'tipos' => ['pdf']],
+        'documentoBancario' => ['destino' => 'DocumentoBancario', 'tipos' => ['pdf']],
+        'documentoCartaoContinente' => ['destino' => 'CartaoContinente', 'tipos' => ['pdf']],
+      ];
+
+
+    
+      $caminhosDocs = [];
+
+      foreach ($documentos as $campo => $config) {
+        if (!empty($_FILES[$campo]['tmp_name'])) {
+          $ficheiro = $_FILES[$campo];
+          $caminhosDocs["caminho" . ucfirst(substr($campo, 9))] = guardarFicheiro($ficheiro, $config['destino'], $config['tipos']);
+        }
+      }
 
       $funcionario = $dal->getFuncionario($_GET['numeroMecanografico'] ?? null);
       $dal->updateDadosPessoais(
@@ -343,8 +387,7 @@ function showUI(){
         $_POST['matriculaDaViatura']
       );
       
-      $dal->deleteDocumentosAntigos();
-      $dal->updateDocumentos($caminhosDocs,$funcionario['idFuncionario']);
+      $dal->updateDocumentos($caminhosDocs, $funcionario['idFuncionario']);
 
       header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
     }
@@ -353,3 +396,32 @@ function showUI(){
     }
   }
 }
+
+function guardarFicheiro($ficheiro, $subpasta, $tiposPermitidos = ['pdf'])
+{
+    if (!in_array(strtolower(pathinfo($ficheiro['name'], PATHINFO_EXTENSION)), $tiposPermitidos)) {
+        throw new Exception("Tipo de ficheiro inválido: " . $ficheiro['name']);
+    }
+
+    // Caminhos corretos
+    $pastaBase = '../documentos/';
+    $pastaDestino = rtrim($pastaBase, '/') . '/' . trim($subpasta, '/');
+    $nomeOriginal = basename($ficheiro['name']);
+    $nomeFinal = uniqid() . '_' . preg_replace('/\s+/', '_', $nomeOriginal);
+    $caminhoFinal = $pastaDestino . '/' . $nomeFinal;
+
+    // Criar diretório se não existir
+    if (!is_dir($pastaDestino)) {
+        mkdir($pastaDestino, 0777, true);
+    }
+
+    if (!move_uploaded_file($ficheiro['tmp_name'], $caminhoFinal)) {
+        throw new Exception("Erro ao guardar o ficheiro: " . $ficheiro['name']);
+    }
+
+    $urlPublica = 'documentos/' . trim($subpasta, '/') . '/' . $nomeFinal;
+
+    return $urlPublica;
+}
+
+

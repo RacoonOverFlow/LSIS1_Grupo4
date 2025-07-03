@@ -205,7 +205,7 @@ class atualizarPerfil_DAL {
   }
 
   function updateFuncionario($numeroMecanografico, $idDadosPessoais, $idDadosFinanceiros, $idDadosContrato, $idCV, $idBeneficios) {
-    $query = "UPDATE funcionario SET idDadosPessoais=?, idDadosFinanceiros=?, idDadosContrato=?, idCV=?, idBeneficios=?, idViatura=? WHERE numeroMecanografico=?";
+    $query = "UPDATE funcionario SET idDadosPessoais=?, idDadosFinanceiros=?, idDadosContrato=?, idCV=?, idBeneficios=? WHERE numeroMecanografico=?";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
@@ -221,56 +221,103 @@ class atualizarPerfil_DAL {
     return $stmt->execute();
   }
 
-  function updateDocumentos($caminhosDocs, $idFuncionario){
-    //11. inserir documentoCC
-    $tiposDocumentoCC = 2;
-    $stmt = $this->conn->prepare("INSERT INTO documento(caminho,idTipoDocumento) VALUE (?, ?)");
-    if(!$stmt) throw new Exception("Erro na prepare documentoCC" . $this->conn->error);
-    $stmt->bind_param("si", $caminhosDocs["caminhoDocumentoCC"], $tiposDocumentoCC);
-    if(!$stmt->execute()) throw new Exception("Erro execute documentoCC" . $stmt->error);
-    echo "documentoCC inserido com sucesso<br>";
-    $idDocumentoCC= $this->conn->insert_id;
+function updateDocumentos($caminhosDocs, $idFuncionario){
+    // Map document types to their keys
+    $documentTypes = [
+      1 => 'caminhoMod99',
+      2 => 'caminhoCC',
+      3 => 'caminhoBancario',
+      4 => 'caminhoCartaoContinente',
+    ];
 
-    //12. inserir documentoMod99
-    $tipoDocumentoMod99 = 1;
-    $stmt = $this->conn->prepare("INSERT INTO documento(caminho,idTipoDocumento) VALUE (?, ?)");
-    if(!$stmt) throw new Exception("Erro na prepare documentoMod99" . $this->conn->error);
-    $stmt->bind_param("si", $caminhosDocs["caminhoDocumentoMod99"], $tipoDocumentoMod99);
-    if(!$stmt->execute()) throw new Exception("Erro execute documentoMod99" . $stmt->error);
-    echo "documentoMod99 inserido com sucesso<br>";
-    $idDocumentoMod99 = $this->conn->insert_id;
+    foreach ($documentTypes as $tipo => $caminhoKey){
+      if (!isset($caminhosDocs[$caminhoKey]) || empty($caminhosDocs[$caminhoKey])) {
+          // Pula esse documento se o caminho não foi fornecido
+          continue;
+      }
 
-    //13. inserir documentoBancario
-    $tipoDocumentoBancario = 3;
-    $stmt = $this->conn->prepare("INSERT INTO documento(caminho,idTipoDocumento) VALUE (?, ?)");
-    if(!$stmt) throw new Exception("Erro na prepare documento bancario" . $this->conn->error);
-    $stmt->bind_param("si", $caminhosDocs["caminhoDocumentoBancario"], $tipoDocumentoBancario);
-    if(!$stmt->execute()) throw new Exception("Erro execute documento bancario" . $stmt->error);
-    echo "documento bancario inserido com sucesso<br>";
-    $idDocumentoBancario = $this->conn->insert_id;
+      $caminho = $caminhosDocs[$caminhoKey];
 
-    //14. inserir documentoCartaoContinente
-    $tipoDocumentoCartaoContinente = 4;
-    $stmt = $this->conn->prepare("INSERT INTO documento(caminho,idTipoDocumento) VALUE (?, ?)");
-    if(!$stmt) throw new Exception("Erro na prepare documento cartao continente" . $this->conn->error);
-    $stmt->bind_param("si", $caminhosDocs["caminhoDocumentoCartaoContinente"], $tipoDocumentoCartaoContinente);
-    if(!$stmt->execute()) throw new Exception("Erro execute documento cartao continente" . $stmt->error);
-    echo "documento cartao continente inserido com sucesso<br>";
-    $idCartaoContinente = $this->conn->insert_id;
+      // Check if document exists for this type and funcionario
+      $query = "SELECT d.idDocumento FROM documento d 
+                INNER JOIN documento_funcionario df ON d.idDocumento = df.idDocumento 
+                WHERE df.idFuncionario = ? AND d.idTipoDocumento = ?";
+      $stmt = $this->conn->prepare($query);
+      if (!$stmt) throw new Exception("Erro na preparação da query de verificação: " . $this->conn->error);
+      $stmt->bind_param("ii", $idFuncionario, $tipo);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      $existing = $result->fetch_assoc();
 
-    $documentosFuncionario = [$idDocumentoCC,$idDocumentoMod99,$idCartaoContinente, $idDocumentoBancario];
-    
-    //15. Inserir todos os documentos relacionados ao funcionário
-    $stmt = $this->conn->prepare("INSERT INTO documento_funcionario (idDocumento, idFuncionario) VALUES (?, ?)");
-    if(!$stmt) throw new Exception("Erro na prepare documento_funcionario " . $this->conn->error);
+      if ($existing) {
+          // Update existing document
+          $idDocumento = $existing['idDocumento'];
+          $updateQuery = "UPDATE documento SET caminho = ? WHERE idDocumento = ?";
+          $updateStmt = $this->conn->prepare($updateQuery);
+          if (!$updateStmt) throw new Exception("Erro na preparação do update: " . $this->conn->error);
+          $updateStmt->bind_param("si", $caminho, $idDocumento);
+          if (!$updateStmt->execute()) throw new Exception("Erro ao atualizar documento: " . $updateStmt->error);
+      } else {
+          // Insert new document
+          $insertDocQuery = "INSERT INTO documento(caminho, idTipoDocumento) VALUES (?, ?)";
+          $insertDocStmt = $this->conn->prepare($insertDocQuery);
+          if (!$insertDocStmt) throw new Exception("Erro na preparação do insert: " . $this->conn->error);
+          $insertDocStmt->bind_param("si", $caminho, $tipo);
+          if (!$insertDocStmt->execute()) throw new Exception("Erro ao inserir novo documento: " . $insertDocStmt->error);
+          $idDocumento = $this->conn->insert_id;
 
-    foreach ($documentosFuncionario as $idDocumento) {
-        $stmt->bind_param("ii", $idDocumento, $idFuncionario);
-        if (!$stmt->execute()) {
-            throw new Exception("Erro ao inserir documento_funcionario (ID $idDocumento): " . $stmt->error);
-        }
+          // Link new document to funcionario
+          $linkQuery = "INSERT INTO documento_funcionario (idDocumento, idFuncionario) VALUES (?, ?)";
+          $linkStmt = $this->conn->prepare($linkQuery);
+          if (!$linkStmt) throw new Exception("Erro ao preparar ligação documento_funcionario: " . $this->conn->error);
+          $linkStmt->bind_param("ii", $idDocumento, $idFuncionario);
+          if (!$linkStmt->execute()) throw new Exception("Erro ao ligar documento ao funcionário: " . $linkStmt->error);
+      }
     }
-    echo "Todos os documentos inseridos em documento_funcionario com sucesso<br>";
+
+    return true;
+}
+
+  function getDocumentoByFuncionario($idFuncionario) {
+      $query = "SELECT d.idDocumento, d.caminho, d.idTipoDocumento FROM documento d INNER JOIN documento_funcionario df ON df.idDocumento = d.idDocumento WHERE df.idFuncionario = ?";
+      $stmt = $this->conn->prepare($query);
+      if (!$stmt) {
+          throw new Exception("Erro na preparação da query para obter documento: " . $this->conn->error);
+      }
+      $stmt->bind_param("i", $idFuncionario);
+      $stmt->execute();
+      return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+  }
+
+  function deleteDocumento($idDocumento) {
+    $this->conn->begin_transaction();
+    try {
+        $queryDf = "DELETE FROM documento_funcionario WHERE idDocumento = ?";
+        $stmtDf = $this->conn->prepare($queryDf);
+        if (!$stmtDf) {
+            throw new Exception("Erro na preparação da query para deletar documento_funcionario: " . $this->conn->error);
+        }
+        $stmtDf->bind_param("i", $idDocumento);
+        if (!$stmtDf->execute()) {
+            throw new Exception("Erro ao deletar documento_funcionario: " . $stmtDf->error);
+        }
+
+        $queryDoc = "DELETE FROM documento WHERE idDocumento = ?";
+        $stmtDoc = $this->conn->prepare($queryDoc);
+        if (!$stmtDoc) {
+            throw new Exception("Erro na preparação da query para deletar documento: " . $this->conn->error);
+        }
+        $stmtDoc->bind_param("i", $idDocumento);
+        if (!$stmtDoc->execute()) {
+            throw new Exception("Erro ao deletar documento: " . $stmtDoc->error);
+        }
+
+        $this->conn->commit();
+        return true;
+    } catch (Exception $e) {
+        $this->conn->rollback();
+        throw $e; // 
+    }
   }
 
 }  
