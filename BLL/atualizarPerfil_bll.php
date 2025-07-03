@@ -42,7 +42,8 @@ function displayForm() {
   $cv = $dal->getCVById($funcionario['idCV']);
   $beneficios = $dal->getBeneficiosById($funcionario['idBeneficios']);
   $viatura = $dal->getViaturaByIdFuncionario($funcionario['idFuncionario']);
-
+  $dadosLogin = $dal->getDadosLogin($funcionario['numeroMecanografico']);
+  //$documentos = $dal->getCaminhoDocumentos($funcionario['numeroMecanografico']);
   
   echo '<div class="container_atualizarPerfil">';
   echo '<h2>Atualizar Perfil</h2>';
@@ -50,6 +51,28 @@ function displayForm() {
 
   echo '<!-- Dados Pessoais -->
   <div class="atualizarPerfil-form">
+
+  Numero Mecanográfico:
+  <input type="text" name="numeroMecanografico" placeholder="Numero Mecanografico" value="' . htmlspecialchars($funcionario['numeroMecanografico']).'" readonly><br>';
+
+  $cargos = $dal->getCargos();
+  echo '
+  <div class="select_section">
+  Cargo:
+  <select name="idCargo" disabled>
+    <option value="">Selecione um cargo</option>';
+  foreach($cargos as $cargo){
+    echo '<option value="' . htmlspecialchars($cargo['idCargo'])
+    . '"' . ($dadosLogin['idCargo'] === $cargo['idCargo'] ? 'selected' : '') 
+    . '>' . htmlspecialchars($cargo['cargo']) .'</option>';
+  };
+
+  echo '
+  <input type="hidden" name"idCargo" value="'.htmlspecialchars($dadosLogin['cargo']).'">
+  
+  </div>
+  <br>
+
   <h3>Dados Pessoais</h3>
   Nome completo:
   <input type="text" name="nomeCompleto" placeholder="Nome Completo" value="' . htmlspecialchars($dadosPessoais['nomeCompleto']) .'" readonly><br>
@@ -222,16 +245,26 @@ function displayForm() {
   <div class="select_section">
   <select name="habilitacoesLiterarias">
   <option value="">Selecione as habilitações literárias</option>
-  <option value="">Habilitações</option>
   <option value="12ºano"' . ($cv['habilitacoesLiterarias'] == "12ºano" ? 'selected' : '') . '>12º ano</option>
   <option value="Licenciatura"' . ($cv['habilitacoesLiterarias'] == "Licenciatura" ? 'selected' : '') . '>Licenciatura</option>
   <option value="Mestrado"' . ($cv['habilitacoesLiterarias'] == "Mestrado" ? 'selected' : '') . '>Mestrado</option>
+  <option value="Outro"'.($cv['habilitacoesLiterarias'] == "Outro" ? 'selected' : '') . '>Outro</option>
   </select><br>
   </div>
   Curso:
   <input type="text" name="curso" placeholder="Curso" value="'. htmlspecialchars($cv['curso']) .'"><br>
   Frequencia:
   <input type="text" name="frequencia" placeholder="Frequencia" value="'. htmlspecialchars($cv['frequencia']) .'"><br>
+
+  <h3>Documentos</h3>
+  Comprovativo de cartão de cidadão:
+  <input id="documentoCC" type="file" name="documentoCC" required accept=".pdf"><br>
+  Comprovativo de morada fiscal:
+  <input id="documentoMod99" type="file" name="documentoMod99" required accept=".pdf"><br>
+  Documento Bancario:
+  <input id="documentoBancario" type="file" name="documentoBancario" required accept=".pdf"><br>
+  Cópia cartão continente:
+  <input id="documentoCartaoContinente" type="file" name="documentoCartaoContinente" required accept=".pdf"><br><br>
 
   <!-- Botão -->
   <input type="submit" value="Atualizar Perfil" id="atualizarPerfil-form-submit"/>
