@@ -228,4 +228,24 @@ option:focus {
 }
 /*select section styles end*/
 
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
 
+.action-buttons button {
+    background-color: #0077ff;
+    color: white;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.action-buttons button:hover {
+    background-color: #005fcc;
+}
