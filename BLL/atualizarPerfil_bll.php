@@ -7,10 +7,22 @@ require_once "../DAL/atualizarPerfil_dal.php";
 
 function isThisACallback(): bool{
 
-  $camposObrigatorio=[
-    // Dados Pessoais
+  $camposObrigatorio = [
     'nomeCompleto',
-];
+    'moradaFiscal',
+    'dataValidade',
+    'idIndicativo',
+    'contactoPessoal',
+    'contactoEmergencia',
+    'grauDeRelacionamento',
+    'email',
+    'idNacionalidade',
+    'IBAN',
+    'situacaoDeIRS',
+    'numeroDeDependentes',
+    'cartaoContinente',
+    'voucherNOS'
+  ];
 
   foreach($camposObrigatorio as $campo){
     if(empty($_POST[$campo])){
