@@ -2,28 +2,51 @@
 require_once __DIR__ . '/../../BLL/enviarEmail_bll.php';
 require_once __DIR__ . '/../../BLL/token_bll.php';
 
+$mensagem = "";
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
     if (!$email) {
-        die("Email inválido.");
-    }
-
-    // Gerar e salvar token
-    $tokenService = new token_bll();
-    $token = $tokenService->gerarTokenParaEmail($email);
-
-    // Criar o email e enviar
-    $emailService = new enviarEmail_bll('lsis1.grupo4@gmail.com',smtpPass: 'gcierwvapbbcymhf');
-
-    $link = "http://localhost/LSIS1_Grupo4/UI/admin/validarToken.php?token=$token";
-    $corpo = "<p>Olá! Clique no link para confirmar: <a href='$link'>$link</a></p>";
-
-    if ($emailService->enviarEmail($email, "Email de Teste", $corpo)) {
-        echo "<p>Email enviado com sucesso para $email!</p>";
+        $mensagem = "<p style='color:red;'>Email inválido.</p>";
     } else {
-        echo "<p>Erro ao enviar email.</p>";
+        // Gerar e salvar token
+        $tokenService = new token_bll();
+        $token = $tokenService->gerarTokenParaEmail($email);
+
+        // Criar o email e enviar
+        $emailService = new enviarEmail_bll('lsis1.grupo4@gmail.com',smtpPass: 'gcierwvapbbcymhf');
+
+        $link = "http://localhost/LSIS1_Grupo4/UI/admin/validarToken.php?token=$token";
+        $corpo = "<p>Olá! Clique no link para confirmar: <a href='$link'>$link</a></p>";
+
+        if ($emailService->enviarEmail($email, "Email de Teste", $corpo)) {
+            $mensagem = "<p style='color:green;'>Email enviado com sucesso para $email!</p>";
+        } else {
+            $mensagem = "<p style='color:red;'>Erro ao enviar email.</p>";
+        }
     }
-} else {
-    echo "<p>Por favor, envie o formulário primeiro.</p>";
 }
 ?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Enviar Email</title>
+</head>
+<body>
+    <h2>Enviar email com token</h2>
+    <form action="" method="post">
+        <label for="email">Digite o email da pessoa:</label>
+        <input type="email" name="email" required>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <!-- Mensagem de retorno -->
+    <?php
+    if (!empty($mensagem)) {
+        echo $mensagem;
+    }
+    ?>
+</body>
+</html>
+

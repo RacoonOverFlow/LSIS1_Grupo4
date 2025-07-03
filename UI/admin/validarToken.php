@@ -13,7 +13,7 @@ $email = $tokenBLL->selecionarTokenValido($token);
 if ($email) {
     $tokenBLL->marcarTokenUsado($token);
     // Redireciona para o formTeste.php e passa o email como parâmetro (opcional)
-    header("Location: formTeste.php?email=" . urlencode($email));
+    header("Location: formularioConvidado.php?email=" . $email . "&token=" . $token);
     exit();
 } else {
     echo "<p>Token inválido ou já utilizado.</p>";
