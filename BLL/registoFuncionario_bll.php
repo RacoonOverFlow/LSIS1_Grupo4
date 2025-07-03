@@ -226,7 +226,7 @@ function displayForm() {
 
   <!-- Botão -->
   <input type="submit" value="Registar"/>
-</form>';
+  </form>';
 }
 
 function showUI(){

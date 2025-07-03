@@ -279,7 +279,7 @@ function showUI(){
     try{
       $dal = new atualizarPerfil_DAL();
 
-      /* // Upload dos documentos (documentoCC neste exemplo)
+      //Upload dos documentos (documentoCC neste exemplo)
       $caminhosDocs = caminhoDocumentos([
         'documentoCC' => ['tipos' => ['pdf'],'destino' => 'CartaoCidadao','max' => 5],
         'documentoMod99' => ['tipos' => ['pdf'], 'destino' => 'Mod99', 'max' => 5],
@@ -287,12 +287,6 @@ function showUI(){
         'documentoCartaoContinente' => ['tipos'=> ['pdf'], 'destino' => 'CartaoContinente', 'max' => 5],
       ]);
 
-      // Guarda o caminho no $_POST para enviar à DAL
-      $_POST['caminhoDocumentoCC'] = $caminhosDocs['documentoCC'];
-      $_POST['caminhoDocumentoMod99'] = $caminhosDocs['documentoMod99'];
-      $_POST['caminhoDocumentoBancario'] = $caminhosDocs['documentoBancario'];
-      $_POST['caminhoDocumentoCartaoContinente'] = $caminhosDocs['documentoCartaoContinente']; */
-      
       $funcionario = $dal->getFuncionario($_GET['numeroMecanografico'] ?? null);
       $dal->updateDadosPessoais(
         $funcionario['idDadosPessoais'],
@@ -349,6 +343,8 @@ function showUI(){
         $_POST['matriculaDaViatura']
       );
       
+      $dal->deleteDocumentosAntigos();
+      $dal->updateDocumentos($caminhosDocs,$funcionario['idFuncionario']);
 
       header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
     }
