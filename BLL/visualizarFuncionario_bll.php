@@ -10,9 +10,16 @@ function mostrarFuncionarios() {
     echo '<div class="tabela-funcionarios">';
 
     //butao para exportar
-    echo '<a href="/LSIS1_Grupo4/BLL/exportData_bll.php">';
+    echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php">';
     echo '<button class="button-export">EXPORT</button>';
     echo '</a>';
+
+    //butao para exportar
+    echo'<form action="/LSIS1_Grupo4/BLL/export_importData_bll.php" method="POST" enctype="multipart/form-data">';
+    echo'<label>Import CSV:</label>';
+    echo'<input type="file" name="csv_file" accept=".csv" required>';
+    echo'<button type="submit" name="import" class="button-export">Import</button>';
+    echo'</form>';
 
 
     // Cabeçalho
