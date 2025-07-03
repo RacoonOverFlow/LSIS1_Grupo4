@@ -228,6 +228,7 @@ function displayForm() {
   <input type="submit" value="Registar"/>
 </form>';
 }
+
 function showUI(){
     if(!isThisACallback()){
         displayForm();
