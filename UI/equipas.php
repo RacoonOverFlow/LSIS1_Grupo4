@@ -109,7 +109,7 @@ if ($utilizadorCargo == 5) { // RHSuperior
                 <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
                     <li><a href="dashboard.php"><i class="bi bi-bar-chart-line"></i> Dashboard</a></li>
                 <?php endif; ?>
-                <?php if ($utilizadorCargo == 5): ?>
+                <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 5): ?>
                     <li><a href="admin/visualizarFuncionarios.php"><i class="bi bi-people-fill"></i> Visualizar Funcionários</a></li>
                 <?php endif; ?>
                 <?php if ($_SESSION['nMeca'] != null): ?>
