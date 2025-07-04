@@ -102,20 +102,20 @@ if ($utilizadorCargo == 5) { // RHSuperior
         </div>
         <ul class="nav-links">
             <?php $utilizadorCargo = $_SESSION['idCargo'];?>
-            <li><a href="perfil.php?numeroMecanografico=<?php echo htmlspecialchars($_SESSION['nMeca']); ?>"><i class="bi bi-person"></i> Perfil</a></li>
-                <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 5): ?>
-                    <li><a href="equipas.php"><i class="bi bi-people"></i> Equipas</a></li>
+            <li><a href="perfil.php?numeroMecanografico=<?php echo htmlspecialchars($_SESSION['nMeca']); ?>"><i class="bi bi-person"></i><strong>Perfil</strong></a></li>
+                <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
+                    <li><a  href="equipas.php"><i class="bi bi-people"></i><strong>Equipas</strong> </a></li>
                 <?php endif; ?>
                 <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
-                    <li><a href="dashboard.php"><i class="bi bi-bar-chart-line"></i> Dashboard</a></li>
+                    <li><a href="dashboard.php"><i class="bi bi-bar-chart-line"></i><strong>Dashboard</strong></a></li>
                 <?php endif; ?>
-                <?php if ($utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
-                    <li><a href="admin/visualizarFuncionarios.php"><i class="bi bi-people-fill"></i> Visualizar Funcionários</a></li>
+                <?php if ($utilizadorCargo == 5): ?>
+                    <li><a href="admin/visualizarFuncionarios.php"><i class="bi bi-people-fill"></i><strong>Visualizar Funcionários</strong></a></li>
                 <?php endif; ?>
                 <?php if ($_SESSION['nMeca'] != null): ?>
-                    <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                    <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i><strong>Logout</strong></a></li>
                 <?php else: ?>
-                    <a href="login.php" class="tab-button">Login</a>
+                    <a href="login.php" class="tab-button"><strong>Login</strong></a>
                 <?php endif; ?>
             <?php
             switch ($utilizadorCargo) {
