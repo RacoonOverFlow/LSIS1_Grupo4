@@ -278,7 +278,7 @@ class perfilConvidado_dal {
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
     }
-    $stmt->bind_param("iiiiii", 
+    $stmt->bind_param("iiiiiisi", 
 $numeroMecanografico,
 $idDadosPessoais,
       $idDadosFinanceiros,
@@ -290,6 +290,24 @@ $idDadosPessoais,
     );
     return $stmt->execute();
   }
-
+  function registarDadosContrato($dataInicio, $dataFim, $tipoContrato, $regimeDeHorarioDeTrabalho) {
+    $query = "INSERT INTO dadoscontrato(dataInicioDeContrato, dataFimDeContrato, tipoDeContrato, regimeDeHorarioDeTrabalho) VALUES (?,?,?,?)";
+    $stmt = $this->conn->prepare($query);
+    if (!$stmt) {
+        throw new Exception("Erro na preparação da query". $this->conn->error);
+    }
+    $stmt->bind_param("ssss", $dataInicio, $dataFim, $tipoContrato, $regimeDeHorarioDeTrabalho);
+    $stmt->execute();
+    return $this->conn->insert_id;
+  }
+  function registarDadosLogin($numeroMecanografico, $password,$idCargo){
+    $query = "INSERT INTO dadoslogin (numeroMecanografico, password, idCargo) VALUES (?, ?, ?)";
+    $stmt = $this->conn->prepare($query);
+    if(!$stmt) {
+      throw new Exception("Erro na prepare dadoslogin ". $this->conn->error);
+    }
+    $stmt->bind_param("ssi", $numeroMecanografico, $password, $idCargo);
+    $stmt->execute();
+  }
 }  
 ?>

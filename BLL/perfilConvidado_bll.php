@@ -150,13 +150,13 @@ function displayForm() {
   <!-- Dados Contrato -->
   <h3>Dados do Contrato</h3>
   Data de início:
-  <input type="date" name="dataInicioContrato"><br>
+  <input type="date" name="dataInicioDeContrato"><br>
 
   Data de fim:
-  <input type="date" name="dataFimContrato"><br>
+  <input type="date" name="dataFimDeContrato"><br>
 
   Tipo de contrato:
-  <select name="tipoContrato">
+  <select name="tipoDeContrato">
     <option value="">Selecione um Tipo de contrato </option>
     <option value="Estagio curricular">Estagio curricular</option>
     <option value="Estagio IEFP">Estagio IEFP</option>
@@ -166,7 +166,7 @@ function displayForm() {
   </select><br>
 
   Regime de horário de trabalho:
-  <select name="regimeHorarioTrabalho">
+  <select name="regimeDeHorarioDeTrabalho">
     <option value="">Selecione um regime de horario de trabalho </option>
     <option value="10%">10%</option>
     <option value="20%">20%</option>
@@ -326,8 +326,7 @@ function showUI(){
         $_POST['numeroDeDependentes']
       );
 
-      $dal->registarDadosContrato(
-        $convidado['idDadosContrato'],
+      $idDadosContrato = $dal->registarDadosContrato(
         $_POST['dataInicioDeContrato'],
         $_POST['dataFimDeContrato'],
         $_POST['tipoDeContrato'],
@@ -346,11 +345,6 @@ function showUI(){
         $_POST['cartaoContinente'],
         $_POST['voucherNOS']
       );
-      
-      $estadoFuncionario='aceite';
-      $dal->updateFuncionario($convidado['idFuncionario'],$_POST['numeroMecanografico'],
-      $convidado['idDadosPessoais'], $convidado['idDadosFinanceiros'], $convidado['idDadosContrato'], 
-      $convidado['idCV'], $convidado['idBeneficios'],$estadoFuncionario);
 
       $viatura = $dal->getViaturaByIdFuncionario($convidado['idFuncionario']);
       $dal->updateViatura(
@@ -358,9 +352,15 @@ function showUI(){
         $_POST['tipoViatura'],
         $_POST['matriculaDaViatura']
       );
-      
 
-      header("Location: perfil.php?numeroMecanografico=" . htmlspecialchars($_POST['numeroMecanografico']));
+      $dal->registarDadosLogin($_POST['numeroMecanografico'], $_POST['password'],$_POST['idCargo']);
+      
+      $estadoFuncionario='aceite';
+      $dal->updateFuncionario($convidado['idFuncionario'],$_POST['numeroMecanografico'],
+      $convidado['idDadosPessoais'], $convidado['idDadosFinanceiros'], $idDadosContrato, 
+      $convidado['idCV'], $convidado['idBeneficios'],$estadoFuncionario);
+      
+      header("Location: ../perfil.php?numeroMecanografico=" . htmlspecialchars($_POST['numeroMecanografico']));
     }
     catch(RuntimeException $e){
       echo "<div>".$e->getMessage()."</div>";
