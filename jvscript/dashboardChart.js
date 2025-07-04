@@ -112,6 +112,22 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChart("nacionalidadeChart", "Distribuição por Nacionalidade", filtered, "pie", nacionalidadeColors);
   }
 
+  
+  //                           !!!!GREOGRAFIA GRAFICO BARRAS!!!!
+
+  function onDistritoChange() {
+    const filtered = filterData(rawData.moradaFiscal, "filters-moradaFiscal");
+    const labels = Object.keys(filtered);
+
+    // Paleta para Cargo: azul-esverdeado (hue 150-210)
+    const cargoColorsArray = generateColors(labels.length, 150, 60);
+    const cargoColors = {};
+    labels.forEach((label, i) => {
+      moradaFiscalColors[label] = moradaFiscalColorsArray[i];
+    });
+
+    renderChart("moradaFiscalchart", "Distribuição por geografia", filtered, "bar", moradaFiscalColors);
+  }
 
 
   //                           !!!!IDADE MEDIA GRAFICO LINEAR!!!!
@@ -215,7 +231,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   
 
-   //                                 !!!!TAXA DE INICIO!!!!
+  //                                 !!!!TAXA DE RETENCAO!!!!
+
+
+  
+  
+
+
+
+
+
+
+  
+
+//ORIGINAL
+
+  //                                 !!!!TAXA DE INICIO!!!!
 
 
   //CALCULAR A MEDIA DO TEMPO DO INICIO

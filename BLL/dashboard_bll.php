@@ -2,17 +2,14 @@
 
 session_start();
 require_once "../DAL/dashboard_dal.php";
-require_once "../DAL/login_dal.php";
+
 
 header('Content-Type: application/json');
 
 //                                      !!DEBUGS!!
 //var_dump($_SESSION['idCargo']);  // usar isto caso dados nao estejam a ser enviados
 //var_dump($_SESSION['nMeca']);
-//var_dump($_SESSION['idEquipa']);
 
-$loginDal = new Login_DAL();
-$sessionEquipaId = $_SESSION['idEquipa'];
 
 $dal = new dashboard_dal();
 
@@ -20,40 +17,43 @@ $sessionCargoId = $_SESSION['idCargo'];
 $sessionNumeroMecanografico = $_SESSION['nMeca'];
 
 
-$filterData = $dal->getFilteredUserIdsForSession($sessionCargoId, $sessionNumeroMecanografico);
+$allowedIds = $dal->getFilteredUserIdsForSession($sessionCargoId, $sessionNumeroMecanografico);
 
+var_dump($allowedIds);
 
-$allowedIds = $filterData['numerosMecanograficos'];
-$equipaIds = $filterData['equipas'];
-//var_dump($filterData);
+if ($allowedIds || $sessionCargoId == 5){
 
-if ($allowedIds){
+    $dataGenero = $dal->getGeneroDistribution($allowedIds);
+    $dataCargo = $dal->getCargoDistribution($allowedIds);
+    $dataNacionalidade = $dal->getNacionalidadeDistribution($allowedIds);
+    $dataIdade = $dal->getIdadeDistribution($allowedIds);
+    $dataInicioDeContrato = $dal->getTaxaInicioDistribution($allowedIds);
+    $dataRemuneracao = $dal->getRemuneracaoDistribution($allowedIds);
+    $dataFimDeContrato = $dal->getTaxaFimDistribution($allowedIds);
+    $dataMoradaFiscal = $dal->getDistritoDistribution($allowedIds);
 
-    $dataGenero = $dal->getGeneroDistribution($allowedIds,$sessionEquipaId);
-    $dataCargo = $dal->getCargoDistribution($allowedIds,$sessionEquipaId);
-    $dataNacionalidade = $dal->getNacionalidadeDistribution($allowedIds,$sessionEquipaId);
-    $dataIdade = $dal->getIdadeDistribution($allowedIds,$sessionEquipaId);
-    $dataInicioDeContrato = $dal->getTaxaInicioDistribution($allowedIds,$sessionEquipaId);
-    $dataRemuneracao = $dal->getRemuneracaoDistribution($allowedIds,$sessionEquipaId);
 
     echo json_encode([
-        'teams' => array_unique($filterData['equipas']),  // unique team IDs for dropdown
         'genero' => $dataGenero,
         'cargo' => $dataCargo,
         'nacionalidade' => $dataNacionalidade,
         'dataNascimento' => $dataIdade,
         'dataInicioDeContrato' => $dataInicioDeContrato,
-        'dataRemuneracao' => $dataRemuneracao
+        'dataRemuneracao' => $dataRemuneracao,
+        'dataFimDeContrato' => $dataFimDeContrato,
+        'moradaFiscal' => $dataMoradaFiscal
     ]);
-    } else{
-        echo json_encode([
+}
+else{
+    echo json_encode([
         'genero' => [],
         'cargo' => [],
         'nacionalidade' => [],
         'dataNascimento' => [],
         'dataInicioDeContrato' => [],
-        'dataRemuneracao' => []
+        'dataRemuneracao' => [],
+        'dataFimDeContrato' => [],
+        'moradaFiscal' => [],
     ]);
 }
-
 ?>
