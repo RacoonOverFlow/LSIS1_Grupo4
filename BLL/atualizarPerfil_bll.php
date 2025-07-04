@@ -396,10 +396,134 @@ function showUI(){
         header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
       
       }else{
-        
-        
+        $dal = new atualizarPerfil_DAL();
 
+        $funcionario = $dal->getFuncionario($_GET['numeroMecanografico'] ?? null);
+        $dadosPessoais = $dal->getDadosPessoaisById($funcionario['idDadosPessoais']);
+        $dadosFinanceiros = $dal->getDadosFinanceirosById($funcionario['idDadosFinanceiros']);
+        $dadosContrato = $dal->getDadosContratoById($funcionario['idDadosContrato']);
+        $cv = $dal->getCVById($funcionario['idCV']);
+        $beneficios = $dal->getBeneficiosById($funcionario['idBeneficios']);
+        $viatura = $dal->getViaturaByIdFuncionario($funcionario['idFuncionario']);
+        $dadosLogin = $dal->getDadosLogin($funcionario['numeroMecanografico']);
+        $documentos = $dal->getDocumentoByFuncionario($funcionario['idFuncionario']);
+        $idFuncionario = $funcionario['idFuncionario'];
+        
+        $dataAtualizacao = date("Y-m-d");
+        $estado = "pendente";
+
+        if($_POST['moradaFiscal'] != $dadosPessoais['moradaFiscal']){
+          $idPedido = $dal->pedidoPendente($dadosPessoais['moradaFiscal'], $_POST['moradaFiscal'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['genero'] != $dadosPessoais['genero']){
+          $idPedido = $dal->pedidoPendente($dadosPessoais['genero'], $_POST['genero'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['idIndicativo'] != $dadosPessoais['idIndicativo']){
+          $idPedido = $dal->pedidoPendente($dadosPessoais['idIndicativo'], $_POST['idIndicativo'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['contactoPessoal'] != $dadosPessoais['contactoPessoal']){
+          $idPedido = $dal->pedidoPendente($dadosPessoais['contactoPessoal'], $_POST['contactoPessoal'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['contactoEmergencia'] != $dadosPessoais['contactoEmergencia']){
+          $idPedido = $dal->pedidoPendente($dadosPessoais['contactoEmergencia'], $_POST['contactoEmergencia'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['grauDeRelacionamento'] != $dadosPessoais['grauDeRelacionamento']){
+          $idPedido = $dal->pedidoPendente($dadosPessoais['grauDeRelacionamento'], $_POST['grauDeRelacionamento'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['situacaoDeIRS'] != $dadosFinanceiros['situacaoDeIRS']){
+          $idPedido = $dal->pedidoPendente($dadosFinanceiros['situacaoDeIRS'], $_POST['situacaoDeIRS'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['numeroDeDependentes'] != $dadosFinanceiros['numeroDeDependentes']){
+          $idPedido = $dal->pedidoPendente($dadosFinanceiros['numeroDeDependentes'], $_POST['numeroDeDependentes'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['IBAN'] != $dadosFinanceiros['IBAN']){
+          $idPedido = $dal->pedidoPendente($dadosFinanceiros['IBAN'], $_POST['IBAN'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['cartaoContinente'] != $beneficios['cartaoContinente']){
+          $idPedido = $dal->pedidoPendente($beneficios['cartaoContinente'], $_POST['cartaoContinente'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['voucherNOS'] != $beneficios['voucherNOS']){
+          $idPedido = $dal->pedidoPendente($beneficios['voucherNOS'], $_POST['voucherNOS'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['tipoViatura'] != $viatura['tipoViatura']){
+          $idPedido = $dal->pedidoPendente($viatura['tipoViatura'], $_POST['tipoViatura'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['matriculaDaViatura'] != $viatura['matriculaDaViatura']){
+          $idPedido = $dal->pedidoPendente($viatura['matriculaDaViatura'], $_POST['matriculaDaViatura'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['habilitacoesLiterarias'] != $cv['habilitacoesLiterarias']){
+          $idPedido = $dal->pedidoPendente($cv['habilitacoesLiterarias'], $_POST['habilitacoesLiterarias'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+        
+        if($_POST['curso'] != $cv['curso']){
+          $idPedido = $dal->pedidoPendente($cv['curso'], $_POST['curso'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        if($_POST['frequencia'] != $cv['frequencia']){
+          $idPedido = $dal->pedidoPendente($cv['frequencia'], $_POST['frequencia'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        }
+
+        $documentosMap = [];
+        foreach ($documentos as $doc) {
+          $tipo = strtolower($doc['idTipoDocumento']); // e.g. 1 = CartaoCidadao, etc.
+          $documentosMap[$tipo] = $doc['caminho'];
+        }
+
+        $tiposDocumento = [
+          '2' => 'documentoCC',
+          '1' => 'documentoMod99',
+          '3' => 'documentoBancario',
+          '4' => 'documentoCartaoContinente'
+        ];
+
+        /* $ccPath = $documentosMap['2'] ?? null;
+        $idPedido = $dal->pedidoPendente($ccPath, $_POST['documentoCC'], $dataAtualizacao, $estado);
+        $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+
+        $mod99Path = $documentosMap['1'] ?? null;
+        $idPedido = $dal->pedidoPendente($mod99Path, $_POST['documentoMod99'], $dataAtualizacao, $estado);
+        $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+
+        $documentoBancario = $documentosMap['3'] ?? null;
+        $idPedido = $dal->pedidoPendente($documentoBancario, $_POST['documentoBancario'], $dataAtualizacao, $estado);
+        $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+
+        $documentoCartaoContinente = $documentosMap['4'] ?? null;
+        $idPedido = $dal->pedidoPendente($documentoCartaoContinente, $_POST['documentoCartaoContinente'], $dataAtualizacao, $estado);
+        $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido); */
+        header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
       }
+
+      
 
     }catch(RuntimeException $e){
       echo "<div>".$e->getMessage()."</div>";
