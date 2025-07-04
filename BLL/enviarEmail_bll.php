@@ -33,8 +33,8 @@ class enviarEmail_bll {
             $this->mail->Subject = $assunto;
             $this->mail->Body = $corpoHtml;
 
-            $this->mail->SMTPDebug = 1; // Ativa debug detalhado (pode usar 1 ou 2 para mais ou menos detalhes)
-            $this->mail->Debugoutput = 'html'; // Para exibir no navegador em formato HTML
+            //$this->mail->SMTPDebug = 1; // Ativa debug detalhado (pode usar 1 ou 2 para mais ou menos detalhes)
+            //$this->mail->Debugoutput = 'html'; // Para exibir no navegador em formato HTML
 
             $this->mail->send();
             return true;
