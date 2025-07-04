@@ -105,7 +105,7 @@ class dashboard_dal {
         return [];
     }
 
-    
+    /*
     public function getGeneroDistribution($allowedIds = null, $idEquipa = null) {
 
         $query = "SELECT dp.genero, COUNT(*) AS total
@@ -137,7 +137,57 @@ class dashboard_dal {
         }
 
         return $dataGenero;
+    }*/
+
+    public function getGeneroDistribution($allowedIds = null, $idEquipas = null) {
+        $query = "SELECT dp.genero, COUNT(*) AS total
+                FROM funcionario f
+                INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+                INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+                LEFT JOIN coordenador_equipa ce ON f.idFuncionario = ce.idCoordenador
+                LEFT JOIN colaborador_equipa cole ON f.idFuncionario = cole.idColaborador
+                WHERE 1=1";
+
+        $params = [];
+        $types = '';
+
+        // Filter by allowedIds (who can see what)
+        if (!empty($allowedIds)) {
+            $placeholders = implode(',', array_fill(0, count($allowedIds), '?'));
+            $query .= " AND f.numeroMecanografico IN ($placeholders)";
+            $types .= str_repeat('i', count($allowedIds));
+            $params = array_merge($params, $allowedIds);
+        }
+
+        // Filter by teams (multiple)
+        if (!empty($idEquipas)) {
+            $placeholders = implode(',', array_fill(0, count($idEquipas), '?'));
+            $query .= " AND (ce.idEquipa IN ($placeholders) OR cole.idEquipa IN ($placeholders))";
+            $types .= str_repeat('i', count($idEquipas) * 2);
+            $params = array_merge($params, $idEquipas, $idEquipas);
+        }
+
+        $query .= " GROUP BY dp.genero";
+
+        $stmt = $this->conn->prepare($query);
+
+        // Bind params if needed
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $dataGenero = [];
+        while ($row = $result->fetch_assoc()) {
+            $dataGenero[$row['genero']] = (int)$row['total'];
+        }
+
+        return $dataGenero;
     }
+
+
   
     function getCargoDistribution($allowedIds = null) { //MUDADO PARA MANTER CONSISTENCIA MAS SO VISIVEL PARA RHSUPER
         $query = "SELECT ca.cargo, COUNT(*) AS total
