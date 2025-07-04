@@ -3,6 +3,7 @@ require_once __DIR__ . '/../DAL/visualizarFuncionario_dal.php';
 function mostrarFuncionarios() {
     $dal = new visualizarFuncionario_dal();
     $funcionarios = $dal->getTodosFuncionarios();
+    $colaboradores =$dal->getColaboradores(2);
 
     echo '<h2>Lista de Funcionários</h2>';
 
@@ -32,19 +33,35 @@ function mostrarFuncionarios() {
             <div class="coluna email">Email</div>
           </div>';
 
-    // Cada funcionário (linha clicável)
-    foreach ($funcionarios as $f) {
-        $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
-        echo '<a href="' . $link . '" class="linha-link">';
-        echo '<div class="linha-funcionario">';
-        echo '<div class="coluna id">' . htmlspecialchars($f['idFuncionario']) . '</div>';
-        echo '<div class="coluna mecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
-        echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '</div>';
-        echo '<div class="coluna nome">' . htmlspecialchars($f['nomeCompleto']) . '</div>';
-        echo '<div class="coluna nif">' . htmlspecialchars($f['nif']) . '</div>';
-        echo '<div class="coluna email">' . htmlspecialchars($f['email']) . '</div>';
-        echo '</div>';
-        echo '</a>';
+    if($_SESSION['idCargo'] == 5){
+        // Cada funcionário (linha clicável)
+        foreach ($funcionarios as $f) {
+            $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
+            echo '<a href="' . $link . '" class="linha-link">';
+            echo '<div class="linha-funcionario">';
+            echo '<div class="coluna id">' . htmlspecialchars($f['idFuncionario']) . '</div>';
+            echo '<div class="coluna mecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
+            echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '</div>';
+            echo '<div class="coluna nome">' . htmlspecialchars($f['nomeCompleto']) . '</div>';
+            echo '<div class="coluna nif">' . htmlspecialchars($f['nif']) . '</div>';
+            echo '<div class="coluna email">' . htmlspecialchars($f['email']) . '</div>';
+            echo '</div>';
+            echo '</a>';
+        }
+    }else if($_SESSION['idCargo'] == 4){
+        foreach ($colaboradores as $c) {
+            $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
+            echo '<a href="' . $link . '" class="linha-link">';
+            echo '<div class="linha-funcionario">';
+            echo '<div class="coluna id">' . htmlspecialchars($c['idFuncionario']) . '</div>';
+            echo '<div class="coluna mecanografico">' . htmlspecialchars($c['numeroMecanografico']) . '</div>';
+            echo '<div class="coluna cargo">' . htmlspecialchars($c['cargo']) . '</div>';
+            echo '<div class="coluna nome">' . htmlspecialchars($c['nomeCompleto']) . '</div>';
+            echo '<div class="coluna nif">' . htmlspecialchars($c['nif']) . '</div>';
+            echo '<div class="coluna email">' . htmlspecialchars($c['email']) . '</div>';
+            echo '</div>';
+            echo '</a>';
+        }
     }
 
     echo '</div>';

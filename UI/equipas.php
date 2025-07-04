@@ -103,13 +103,13 @@ if ($utilizadorCargo == 5) { // RHSuperior
         <ul class="nav-links">
             <?php $utilizadorCargo = $_SESSION['idCargo'];?>
             <li><a href="perfil.php?numeroMecanografico=<?php echo htmlspecialchars($_SESSION['nMeca']); ?>"><i class="bi bi-person"></i> Perfil</a></li>
-                <?php if ($utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
+                <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 5): ?>
                     <li><a href="equipas.php"><i class="bi bi-people"></i> Equipas</a></li>
                 <?php endif; ?>
                 <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
                     <li><a href="dashboard.php"><i class="bi bi-bar-chart-line"></i> Dashboard</a></li>
                 <?php endif; ?>
-                <?php if ($utilizadorCargo == 3 || $utilizadorCargo == 5): ?>
+                <?php if ($utilizadorCargo == 4 || $utilizadorCargo == 5): ?>
                     <li><a href="admin/visualizarFuncionarios.php"><i class="bi bi-people-fill"></i> Visualizar Funcionários</a></li>
                 <?php endif; ?>
                 <?php if ($_SESSION['nMeca'] != null): ?>
