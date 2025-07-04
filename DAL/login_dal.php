@@ -35,17 +35,46 @@ class Login_DAL {
         return false;
     }
 
-    function getIdCargoByNumeroMecanografico($numeroMecanografico){
-    $query = "SELECT idCargo FROM dadoslogin WHERE numeroMecanografico = ?";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bind_param("s", $numeroMecanografico);
-    $stmt->execute();
-    $stmt->bind_result($cargoId);
-    $stmt->fetch();
-    $stmt->close();
+    function getIdCargoByNumeroMecanografico($numeroMecanografico, $cargoId=null){
+        $query = "SELECT idCargo FROM dadoslogin WHERE numeroMecanografico = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $numeroMecanografico);
+        $stmt->execute();
+        $stmt->bind_result($cargoId);
+        $stmt->fetch();
+        $stmt->close();
 
-    return $cargoId;
-}
+        return $cargoId;
+    }   
+    
+    function getIdEquipaByNumMeca($nMeca) {
+        $query = "SELECT e.idEquipa 
+            FROM dadoslogin dl
+            INNER JOIN funcionario f ON dl.numeroMecanografico = f.numeroMecanografico
+            LEFT JOIN coordenador_equipa ce ON f.idFuncionario = ce.idCoordenador
+            LEFT JOIN colaborador_equipa cole ON f.idFuncionario = cole.idColaborador
+            LEFT JOIN equipa e ON (ce.idEquipa = e.idEquipa OR cole.idEquipa = e.idEquipa)
+            WHERE dl.numeroMecanografico = ?";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $nMeca);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $idEquipas = [];
+        while ($row = $result->fetch_assoc()) {
+            if ($row['idEquipa'] !== null) {
+                $idEquipas[] = $row['idEquipa'];
+            }
+        }
+
+        $stmt->close();
+
+        return $idEquipas;  // returns an array of team IDs
+    }
+
+
 
 }
 ?>

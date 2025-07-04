@@ -289,6 +289,31 @@ class atualizarPerfil_DAL {
       return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
   }
 
+
+  function pedidoPendente($dadoAntigo, $dadoNovo, $dataAtualizacao, $estado){
+    $query = "INSERT INTO alteracoespendentes(dadoAntigo, dadoNovo, dataAtualizacao, estadoAlteracao) VALUES (?, ?, ?, ?)";
+    $stmt = $this->conn->prepare($query);
+    if (!$stmt) throw new Exception("Erro na preparação do insert: " . $this->conn->error);
+    $stmt->bind_param("ssss", $dadoAntigo, $dadoNovo, $dataAtualizacao, $estado);
+    
+    if (!$stmt->execute()) { // Add this line
+        throw new Exception("Erro ao executar o insert: " . $stmt->error); 
+    }
+
+    return $this->conn->insert_id;
+}
+
+  function associarAlteracaoAFuncionario($idFuncionario, $idAlteracaoPendente){
+    $query = "INSERT INTO alteracoespendentes_funcionario (idFuncionario, idAlteracaoPendente) VALUES (?, ?)";
+    $stmt = $this->conn->prepare($query);
+    if (!$stmt) throw new Exception("Erro ao preparar ligação documento_funcionario: " . $this->conn->error);
+    $stmt->bind_param("ii", $idFuncionario, $idAlteracaoPendente);
+    
+    if (!$stmt->execute()) {
+        throw new Exception("Erro ao executar a associação: " . $stmt->error);
+    }
+  }
+
   function deleteDocumento($idDocumento) {
     $this->conn->begin_transaction();
     try {

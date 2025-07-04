@@ -49,7 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //$_SESSION["id"] = $id;
             $_SESSION["nMeca"] = $nMeca;
             $_SESSION["idCargo"] = $dal->getIdCargoByNumeroMecanografico($nMeca);
-
+            $_SESSION['idEquipa'] = $dal->getIdEquipaByNumMeca($nMeca);
+            
             // Redirect user to welcome page
             header("location: perfil.php?numeroMecanografico=" . $nMeca);
             
