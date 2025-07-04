@@ -283,10 +283,15 @@ function displayForm() {
   if ($documentoCartaoContinente) {
       echo '<a href="../../' . htmlspecialchars($documentoCartaoContinente) . '" target="_blank">Ver documento atual</a><br>';
   }
-  echo '<input id="documentoCartaoContinente" type="file" name="documentoCartaoContinente" accept=".pdf"><br>
+  echo '<input id="documentoCartaoContinente" type="file" name="documentoCartaoContinente" accept=".pdf"><br><br>
 
-  <!-- Botão -->
+  <!-- Botão de aceitar-->
   <input type="submit" value="Atualizar Perfil" id="atualizarPerfil-form-submit"/>
+
+   <!-- Botão de recusar -->
+  <button type="submit" name="eliminarPerfil" value="1">
+    Eliminar Perfil
+  </button>
 </form>';
 }
 
@@ -297,8 +302,14 @@ function showUI(){
   else{
     try{
       $dal = new perfilConvidado_dal();
-      
       $convidado = $dal->getConvidado($_GET['idFuncionario']);
+
+      //Eliminar perfil
+      if (isset($_POST['eliminarPerfil'])) {
+        $dal->eliminarConvidado($convidado['idFuncionario']);
+        header("Location: visualizarConvidados.php");
+        exit;
+      }
       $dal->updateDadosPessoais(
         $convidado['idDadosPessoais'],
         $_POST['nomeCompleto'],

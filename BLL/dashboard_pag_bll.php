@@ -7,6 +7,11 @@ function setDashboard($nMeca) {
     mostrarHeader($cargo['cargo']);
     echo '<div class="backTemplate">';
     
+    echo '<select id="teamFilter">';
+    echo '<option value="all">todas as Equipas</option>';
+    echo '<!-- dynamically add teams here -->';
+    echo '</select>';
+
     echo '<div>';//primeira coluna
 
     
