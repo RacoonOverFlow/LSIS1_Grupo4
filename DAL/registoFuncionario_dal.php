@@ -124,7 +124,7 @@ class registoFuncionario_dal{
         $idBeneficios = $this->conn->insert_id;
 
         // 7. Inserir viatura
-        $stmt = $this->conn->prepare("INSERT INTO viatura (matriculaDaViatura, tipo) VALUES (?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO viatura (matriculaDaViatura, tipoViatura) VALUES (?, ?)");
         if(!$stmt) throw new Exception("Erro na prepare viatura". $this->conn->error);
         $stmt->bind_param("ss",  $dados['matriculaViatura'], $dados['tipoViatura']);
         if(!$stmt->execute()) throw new Exception('Erro execute viatura'. $stmt->error);

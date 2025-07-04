@@ -326,7 +326,7 @@ function showUI(){
         $_POST['numeroDeDependentes']
       );
 
-      $dal->updateDadosContrato(
+      $dal->registarDadosContrato(
         $convidado['idDadosContrato'],
         $_POST['dataInicioDeContrato'],
         $_POST['dataFimDeContrato'],
