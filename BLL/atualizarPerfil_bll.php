@@ -406,7 +406,6 @@ function showUI(){
         $beneficios = $dal->getBeneficiosById($funcionario['idBeneficios']);
         $viatura = $dal->getViaturaByIdFuncionario($funcionario['idFuncionario']);
         $dadosLogin = $dal->getDadosLogin($funcionario['numeroMecanografico']);
-        $documentos = $dal->getDocumentoByFuncionario($funcionario['idFuncionario']);
         $idFuncionario = $funcionario['idFuncionario'];
         
         $dataAtualizacao = date("Y-m-d");
@@ -492,35 +491,110 @@ function showUI(){
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
+/*         $documentosAtuais = $dal->getDocumentoByFuncionario($funcionario['idFuncionario']);
         $documentosMap = [];
-        foreach ($documentos as $doc) {
+        foreach ($documentosAtuais as $doc) {
           $tipo = strtolower($doc['idTipoDocumento']); // e.g. 1 = CartaoCidadao, etc.
           $documentosMap[$tipo] = $doc['caminho'];
         }
 
-        $tiposDocumento = [
-          '2' => 'documentoCC',
-          '1' => 'documentoMod99',
-          '3' => 'documentoBancario',
-          '4' => 'documentoCartaoContinente'
+        $documentos = [
+          'documentoCC' => ['destino' => 'CartaoCidadao', 'tipos' => ['pdf']],
+          'documentoMod99' => ['destino' => 'Mod99', 'tipos' => ['pdf']],
+          'documentoBancario' => ['destino' => 'DocumentoBancario', 'tipos' => ['pdf']],
+          'documentoCartaoContinente' => ['destino' => 'CartaoContinente', 'tipos' => ['pdf']],
         ];
+      
+        $caminhosDocs = [];
 
-        /* $ccPath = $documentosMap['2'] ?? null;
-        $idPedido = $dal->pedidoPendente($ccPath, $_POST['documentoCC'], $dataAtualizacao, $estado);
-        $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+        foreach ($documentos as $campo => $config) {
+          if (!empty($_FILES[$campo]['tmp_name'])) {
+            $ficheiro = $_FILES[$campo];
+            $caminhosDocs["caminho" . ucfirst(substr($campo, 9))] = guardarFicheiro($ficheiro, $config['destino'], $config['tipos']);
+          }
+        }
 
-        $mod99Path = $documentosMap['1'] ?? null;
-        $idPedido = $dal->pedidoPendente($mod99Path, $_POST['documentoMod99'], $dataAtualizacao, $estado);
-        $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+          $documentosMap = [];
+          foreach ($documentosAtuais as $doc) {
+            $tipo = strtolower($doc['idTipoDocumento']); // e.g. 1 = CartaoCidadao, etc.
+            $documentosMap[$tipo] = $doc['caminho'];
+          }
 
-        $documentoBancario = $documentosMap['3'] ?? null;
-        $idPedido = $dal->pedidoPendente($documentoBancario, $_POST['documentoBancario'], $dataAtualizacao, $estado);
-        $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+          $tiposDocumento = [
+            '2' => 'documentoCC',
+            '1' => 'documentoMod99',
+            '3' => 'documentoBancario',
+            '4' => 'documentoCartaoContinente'
+          ];
 
-        $documentoCartaoContinente = $documentosMap['4'] ?? null;
-        $idPedido = $dal->pedidoPendente($documentoCartaoContinente, $_POST['documentoCartaoContinente'], $dataAtualizacao, $estado);
-        $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido); */
-        header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
+          $ccPath = $documentosMap['2'] ?? null;
+          $idPedido = $dal->pedidoPendente($ccPath, $caminhosDocs['2'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+
+          $mod99Path = $documentosMap['1'] ?? null;
+          $idPedido = $dal->pedidoPendente($mod99Path, $caminhosDocs['1'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+
+          $documentoBancario = $documentosMap['3'] ?? null;
+          $idPedido = $dal->pedidoPendente($documentoBancario, $caminhosDocs['3'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+
+          $documentoCartaoContinente = $documentosMap['4'] ?? null;
+          $idPedido = $dal->pedidoPendente($documentoCartaoContinente, $caminhosDocs['4'], $dataAtualizacao, $estado);
+          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+           */
+
+
+          $documentosAtuais = $dal->getDocumentoByFuncionario($funcionario['idFuncionario']);
+          $documentosMap = [];
+          foreach ($documentosAtuais as $doc) {
+              $tipo = strtolower($doc['idTipoDocumento']); // ← esse pode ser um problema
+              $documentosMap[$tipo] = $doc['caminho'];
+          }
+          
+          $documentos = [
+            'documentoCC' => ['destino' => 'CartaoCidadao', 'tipos' => ['pdf']],
+            'documentoMod99' => ['destino' => 'Mod99', 'tipos' => ['pdf']],
+            'documentoBancario' => ['destino' => 'DocumentoBancario', 'tipos' => ['pdf']],
+            'documentoCartaoContinente' => ['destino' => 'CartaoContinente', 'tipos' => ['pdf']],
+          ];
+
+          $tiposDocumento = [
+            1 => 'documentoMod99',
+            2 => 'documentoCC',
+            3 => 'documentoBancario',
+            4 => 'documentoCartaoContinente',
+          ];
+
+          $documentoToTipo = array_flip($tiposDocumento);
+          $caminhosDocs = [];
+          foreach ($documentos as $campo => $config) {
+            if (!empty($_FILES[$campo]['tmp_name'])) {
+              $ficheiro = $_FILES[$campo];
+              $tipo = $documentoToTipo[$campo] ?? null;
+              if (!$tipo) continue;
+
+              $caminho = guardarFicheiro($ficheiro, $config['destino'], $config['tipos']);
+              if ($caminho) {
+                  $caminhosDocs[$tipo] = $caminho;
+              }
+            }
+          }
+
+          foreach ($caminhosDocs as $tipo => $caminhoNovo) {
+              if (empty($caminhoNovo)) continue;
+
+              $caminhoAntigo = $documentosMap[(string)$tipo] ?? null;
+
+              if (!empty($caminhoNovo) && $caminhoNovo !== $caminhoAntigo) {
+                $idPedido = $dal->pedidoPendente($caminhoAntigo, $caminhoNovo, $dataAtualizacao, $estado);
+                if ($idPedido) {
+                    $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
+                }
+              }
+          }
+
+/*         header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico'])); */
       }
 
       

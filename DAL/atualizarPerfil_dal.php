@@ -296,7 +296,7 @@ class atualizarPerfil_DAL {
     if (!$stmt) throw new Exception("Erro na preparação do insert: " . $this->conn->error);
     $stmt->bind_param("ssss", $dadoAntigo, $dadoNovo, $dataAtualizacao, $estado);
     
-    if (!$stmt->execute()) { // Add this line
+    if (!$stmt->execute()) {
         throw new Exception("Erro ao executar o insert: " . $stmt->error); 
     }
 
