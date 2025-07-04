@@ -31,11 +31,24 @@ function mostrarFuncionarios() {
             <div class="coluna nome">Nome</div>
             <div class="coluna nif">NIF</div>
             <div class="coluna email">Email</div>
+            <div class="coluna aniversário">Aniversário (dd/mm/yyyy)</div>
           </div>';
 
     if($_SESSION['idCargo'] == 5){
         // Cada funcionário (linha clicável)
         foreach ($funcionarios as $f) {
+            $dataNascimento = new DateTime($f['dataNascimento']);
+            $hoje = new DateTime();
+
+            $proximoAniversario = new DateTime($hoje->format('Y') . '-' . $dataNascimento->format('m-d'));
+
+            // Se o aniversário deste ano já passou, usa o próximo ano
+            if ($proximoAniversario < $hoje) {
+                $proximoAniversario->modify('+1 year');
+            }
+
+            $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
+
             $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
@@ -45,11 +58,24 @@ function mostrarFuncionarios() {
             echo '<div class="coluna nome">' . htmlspecialchars($f['nomeCompleto']) . '</div>';
             echo '<div class="coluna nif">' . htmlspecialchars($f['nif']) . '</div>';
             echo '<div class="coluna email">' . htmlspecialchars($f['email']) . '</div>';
+            echo '<div class="coluna aniversário">' . $aniversarioFuncionario . '</div>';
             echo '</div>';
             echo '</a>';
         }
     }else if($_SESSION['idCargo'] == 4){
         foreach ($colaboradores as $c) {
+            $dataNascimento = new DateTime($c['dataNascimento']);
+            $hoje = new DateTime();
+
+            $proximoAniversario = new DateTime($hoje->format('Y') . '-' . $dataNascimento->format('m-d'));
+
+            // Se o aniversário deste ano já passou, usa o próximo ano
+            if ($proximoAniversario < $hoje) {
+                $proximoAniversario->modify('+1 year');
+            }
+
+            $aniversarioColaborador = $proximoAniversario->format('d/m/Y');
+
             $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
@@ -59,11 +85,11 @@ function mostrarFuncionarios() {
             echo '<div class="coluna nome">' . htmlspecialchars($c['nomeCompleto']) . '</div>';
             echo '<div class="coluna nif">' . htmlspecialchars($c['nif']) . '</div>';
             echo '<div class="coluna email">' . htmlspecialchars($c['email']) . '</div>';
+            echo '<div class="coluna aniversário">' . $aniversarioColaborador . '</div>';
             echo '</div>';
             echo '</a>';
         }
     }
-
     echo '</div>';
 }
 
