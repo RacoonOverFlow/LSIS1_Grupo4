@@ -13,97 +13,100 @@ class dashboard_dal {
     // USAR UMA UNICA FUNCAO DE FILTRAGEM PARA TODOS OS CARGOS, COORDENADOR, RH E RH SUPER
 
     public function getFilteredUserIdsForSession($cargoId, $numeroMecanografico) {
-    $allowed = [];
+        $allowed = [];
 
-    if ($cargoId == 4) {
-        // RECURSOS HUMANOS VE SÓ COLABORADORES
-        $query = "
-            SELECT dl.numeroMecanografico
-            FROM funcionario f
-            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-            WHERE dl.idCargo = 2
-        ";
-        $stmt = $this->conn->prepare($query);
-        if (!$stmt->execute()) return [];
+        if ($cargoId == 4) {
+            // RECURSOS HUMANOS VE SÓ COLABORADORES
+            $query = "
+                SELECT dl.numeroMecanografico
+                FROM funcionario f
+                INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+                WHERE dl.idCargo = 2
+            ";
+            $stmt = $this->conn->prepare($query);
+            if (!$stmt->execute()) return [];
 
-        $result = $stmt->get_result();
-        while ($row = $result->fetch_assoc()) {
-            $allowed[] = $row['numeroMecanografico'];
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $allowed[] = $row['numeroMecanografico'];
+            }
+            return $allowed;
         }
-        return $allowed;
-    }
 
-    if ($cargoId == 5) {
-        // RECURSOS HUMANOS SUPER VE TODA A GENTE
-        $query = "
-            SELECT dl.numeroMecanografico
-            FROM funcionario f
-            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-            WHERE dl.idCargo = ?
-        ";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $cargoId); // This was missing
-        if (!$stmt->execute()) return [];
+        if ($cargoId == 5) {
+            // RECURSOS HUMANOS SUPER VE TODA A GENTE
+            $query = "
+                SELECT dl.numeroMecanografico
+                FROM funcionario f
+                INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+                WHERE dl.idCargo = ?
+            ";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("i", $cargoId); // This was missing
+            if (!$stmt->execute()) return [];
 
-        $result = $stmt->get_result();
-        while ($row = $result->fetch_assoc()) {
-            $allowed[] = $row['numeroMecanografico'];
+            $result = $stmt->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $allowed[] = $row['numeroMecanografico'];
+            }
+            return $allowed;
         }
-        return $allowed;
-    }
 
-    if ($cargoId == 3) {
-        // COORDENADOR — ENCONTRAR IDFUNCIONARIO PELO NMEC
-        $subQuery = "
-            SELECT f.idFuncionario
-            FROM funcionario f
-            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-            WHERE dl.numeroMecanografico = ?
-        ";
-        $stmt = $this->conn->prepare($subQuery);
-        $stmt->bind_param("i", $numeroMecanografico);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
+        if ($cargoId == 3) {
+            // COORDENADOR — ENCONTRAR IDFUNCIONARIO PELO NMEC
+            $subQuery = "
+                SELECT f.idFuncionario
+                FROM funcionario f
+                INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+                WHERE dl.numeroMecanografico = ?
+            ";
+            $stmt = $this->conn->prepare($subQuery);
+            $stmt->bind_param("i", $numeroMecanografico);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $row = $result->fetch_assoc();
 
-        if (!$row) return null; // Coordenador não encontrado
+            if (!$row) return null; // Coordenador não encontrado
 
-        $idFuncionario = $row['idFuncionario'];
+            $idFuncionario = $row['idFuncionario'];
 
-        // BUSCAR MEMBROS DA MESMA EQUIPA
-        $query = "
-            SELECT dl.numeroMecanografico
-            FROM colaborador_equipa ce
-            INNER JOIN funcionario f ON ce.idColaborador = f.idFuncionario
-            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-            WHERE ce.idEquipa IN (
-                SELECT idEquipa FROM coordenador_equipa WHERE idCoordenador = ?
-            )
-        ";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("i", $idFuncionario);
-        if (!$stmt->execute()) return [];
+            // BUSCAR MEMBROS DA MESMA EQUIPA
+            $query = "
+                SELECT dl.numeroMecanografico, ce.idEquipa
+                FROM colaborador_equipa ce
+                INNER JOIN funcionario f ON ce.idColaborador = f.idFuncionario
+                INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+                WHERE ce.idEquipa IN (
+                    SELECT idEquipa FROM coordenador_equipa WHERE idCoordenador = ?
+                )
+            ";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("i", $idFuncionario);
+            if (!$stmt->execute()) return [];
 
-        $result = $stmt->get_result();
-        if ($result->num_rows === 0) return [];
+            $result = $stmt->get_result();
+            if ($result->num_rows === 0) return [];
 
-        while ($row = $result->fetch_assoc()) {
-            $allowed[] = $row['numeroMecanografico'];
+            $allowed=[];
+            $equipaMap=[];   
+
+            while ($row = $result->fetch_assoc()) {
+                $allowed[] = $row['numeroMecanografico'];
+                $equipaMap[] = $row['idEquipa'];
+            }
+
+            return [
+                "numerosMecanograficos" => $allowed,
+                "equipas" => $equipaMap
+            ];
         }
-        return $allowed;
-    }
 
     // CARGO NÃO AUTORIZADO
-    return [];
-}
+        return [];
+    }
 
-
-
-    public function getGeneroDistribution($allowedIds = null) {
-
-    //     if (is_array($allowedIds) && count($allowedIds) === 0) {
-    //     return []; // No allowed IDs, return empty result
-    // }
+    
+    public function getGeneroDistribution($allowedIds = null, $idEquipa = null) {
 
         $query = "SELECT dp.genero, COUNT(*) AS total
                 FROM funcionario f
@@ -134,7 +137,7 @@ class dashboard_dal {
         }
 
         return $dataGenero;
-        }
+    }
   
     function getCargoDistribution($allowedIds = null) { //MUDADO PARA MANTER CONSISTENCIA MAS SO VISIVEL PARA RHSUPER
         $query = "SELECT ca.cargo, COUNT(*) AS total
@@ -298,7 +301,7 @@ class dashboard_dal {
 
         return $dataRemuneracao;
     }  
-
+    
 
 
     /*function getGeneroDistribution($cargo = null) {

@@ -9,7 +9,7 @@ header('Content-Type: application/json');
 //                                      !!DEBUGS!!
 //var_dump($_SESSION['idCargo']);  // usar isto caso dados nao estejam a ser enviados
 //var_dump($_SESSION['nMeca']);
-//var_dump($allowedIds);
+
 
 $dal = new dashboard_dal();
 
@@ -17,9 +17,12 @@ $sessionCargoId = $_SESSION['idCargo'];
 $sessionNumeroMecanografico = $_SESSION['nMeca'];
 
 
-$allowedIds = $dal->getFilteredUserIdsForSession($sessionCargoId, $sessionNumeroMecanografico);
+$filterData = $dal->getFilteredUserIdsForSession($sessionCargoId, $sessionNumeroMecanografico);
 
 
+$allowedIds = $filterData['numerosMecanograficos'];
+$equipaIds = $filterData['equipas'];
+//var_dump($filterData);
 
 if ($allowedIds){
 
@@ -31,6 +34,7 @@ $dataInicioDeContrato = $dal->getTaxaInicioDistribution($allowedIds);
 $dataRemuneracao = $dal->getRemuneracaoDistribution($allowedIds);
 
 echo json_encode([
+    'teams' => array_unique($filterData['equipas']),  // unique team IDs for dropdown
     'genero' => $dataGenero,
     'cargo' => $dataCargo,
     'nacionalidade' => $dataNacionalidade,
