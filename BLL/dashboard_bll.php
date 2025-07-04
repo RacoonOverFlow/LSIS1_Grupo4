@@ -29,6 +29,9 @@ if ($allowedIds || $sessionCargoId == 5){
     $dataIdade = $dal->getIdadeDistribution($allowedIds);
     $dataInicioDeContrato = $dal->getTaxaInicioDistribution($allowedIds);
     $dataRemuneracao = $dal->getRemuneracaoDistribution($allowedIds);
+    $dataFimDeContrato = $dal->getTaxaFimDistribution($allowedIds);
+    $dataMoradaFiscal = $dal->getDistritoDistribution($allowedIds);
+
 
     echo json_encode([
         'genero' => $dataGenero,
@@ -36,18 +39,21 @@ if ($allowedIds || $sessionCargoId == 5){
         'nacionalidade' => $dataNacionalidade,
         'dataNascimento' => $dataIdade,
         'dataInicioDeContrato' => $dataInicioDeContrato,
-        'dataRemuneracao' => $dataRemuneracao
+        'dataRemuneracao' => $dataRemuneracao,
+        'dataFimDeContrato' => $dataFimDeContrato,
+        'moradaFiscal' => $dataMoradaFiscal
     ]);
 }
 else{
-        echo json_encode([
+    echo json_encode([
         'genero' => [],
         'cargo' => [],
         'nacionalidade' => [],
         'dataNascimento' => [],
         'dataInicioDeContrato' => [],
-        'dataRemuneracao' => []
+        'dataRemuneracao' => [],
+        'dataFimDeContrato' => [],
+        'moradaFiscal' => [],
     ]);
-
 }
 ?>
