@@ -194,8 +194,8 @@ function displayForm() {
   Tipo de viatura:
   <select name="tipoViatura">
   <option value="">Selecione o tipo</option>
-  <option value="empresa">Empresa</option>
-  <option value="pessoal">Pessoal</option>
+  <option value="Empresa">Empresa</option>
+  <option value="Pessoal">Pessoal</option>
   </select><br>
   Matrícula:
   <input type="text" name="matriculaViatura" placeholder="XX-00-XX"><br><br>

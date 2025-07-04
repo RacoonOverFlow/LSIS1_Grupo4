@@ -309,5 +309,11 @@ $idDadosPessoais,
     $stmt->bind_param("ssi", $numeroMecanografico, $password, $idCargo);
     $stmt->execute();
   }
+  function eliminarConvidado($idFuncionario){
+    $query = "DELETE FROM funcionario WHERE idFuncionario =?";
+    $stmt=$this->conn->prepare($query);
+    $stmt->bind_param("i", $idFuncionario);
+    $stmt->execute();
+  }
 }  
 ?>

@@ -32,6 +32,7 @@ function isThisACallback(): bool{
 
   foreach($camposObrigatorio as $campo){
     if(empty($_POST[$campo])){
+      //echo "campo:" . $campo; //debug registo convidado
       return false;
     }
   }
@@ -40,6 +41,7 @@ function isThisACallback(): bool{
   
   foreach($ficheirosObrigatorio as $file){
     if(!isset($_FILES[$file]) || $_FILES[$file]['error'] !== UPLOAD_ERR_OK || $_FILES[$file]['size'] === 0){
+      //echo "documentos"; debug registo convidado
       return false;
     }
   }
@@ -196,8 +198,8 @@ function displayForm($email) {
   Tipo de viatura:
   <select name="tipoViatura">
   <option value="">Selecione o tipo</option>
-  <option value="empresa">Empresa</option>
-  <option value="pessoal">Pessoal</option>
+  <option value="Empresa">Empresa</option>
+  <option value="Pessoal">Pessoal</option>
   </select><br>
   Matrícula:
   <input type="text" name="matriculaViatura" placeholder="XX-00-XX"><br><br>
@@ -233,6 +235,7 @@ function displayForm($email) {
 function showUI($email, $token){
     if(!isThisACallback()){
         displayForm($email);
+        echo "callback";
     }
     else{
       try{
