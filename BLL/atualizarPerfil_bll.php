@@ -491,11 +491,11 @@ function showUI(){
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
-/*         $documentosAtuais = $dal->getDocumentoByFuncionario($funcionario['idFuncionario']);
+        $documentosAtuais = $dal->getDocumentoByFuncionario($funcionario['idFuncionario']);
         $documentosMap = [];
         foreach ($documentosAtuais as $doc) {
-          $tipo = strtolower($doc['idTipoDocumento']); // e.g. 1 = CartaoCidadao, etc.
-          $documentosMap[$tipo] = $doc['caminho'];
+            $tipo = strtolower($doc['idTipoDocumento']); // ← esse pode ser um problema
+            $documentosMap[$tipo] = $doc['caminho'];
         }
 
         $documentos = [
@@ -504,100 +504,43 @@ function showUI(){
           'documentoBancario' => ['destino' => 'DocumentoBancario', 'tipos' => ['pdf']],
           'documentoCartaoContinente' => ['destino' => 'CartaoContinente', 'tipos' => ['pdf']],
         ];
-      
-        $caminhosDocs = [];
 
+        $tiposDocumento = [
+          1 => 'documentoMod99',
+          2 => 'documentoCC',
+          3 => 'documentoBancario',
+          4 => 'documentoCartaoContinente',
+        ];
+
+        $documentoToTipo = array_flip($tiposDocumento);
+        $caminhosDocs = [];
         foreach ($documentos as $campo => $config) {
           if (!empty($_FILES[$campo]['tmp_name'])) {
             $ficheiro = $_FILES[$campo];
-            $caminhosDocs["caminho" . ucfirst(substr($campo, 9))] = guardarFicheiro($ficheiro, $config['destino'], $config['tipos']);
+            $tipo = $documentoToTipo[$campo] ?? null;
+            if (!$tipo) continue;
+
+            $caminho = guardarFicheiro($ficheiro, $config['destino'], $config['tipos']);
+            if ($caminho) {
+                $caminhosDocs[$tipo] = $caminho;
+            }
           }
         }
 
-          $documentosMap = [];
-          foreach ($documentosAtuais as $doc) {
-            $tipo = strtolower($doc['idTipoDocumento']); // e.g. 1 = CartaoCidadao, etc.
-            $documentosMap[$tipo] = $doc['caminho'];
-          }
+        foreach ($caminhosDocs as $tipo => $caminhoNovo) {
+            if (empty($caminhoNovo)) continue;
 
-          $tiposDocumento = [
-            '2' => 'documentoCC',
-            '1' => 'documentoMod99',
-            '3' => 'documentoBancario',
-            '4' => 'documentoCartaoContinente'
-          ];
+            $caminhoAntigo = $documentosMap[(string)$tipo] ?? null;
 
-          $ccPath = $documentosMap['2'] ?? null;
-          $idPedido = $dal->pedidoPendente($ccPath, $caminhosDocs['2'], $dataAtualizacao, $estado);
-          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
-
-          $mod99Path = $documentosMap['1'] ?? null;
-          $idPedido = $dal->pedidoPendente($mod99Path, $caminhosDocs['1'], $dataAtualizacao, $estado);
-          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
-
-          $documentoBancario = $documentosMap['3'] ?? null;
-          $idPedido = $dal->pedidoPendente($documentoBancario, $caminhosDocs['3'], $dataAtualizacao, $estado);
-          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
-
-          $documentoCartaoContinente = $documentosMap['4'] ?? null;
-          $idPedido = $dal->pedidoPendente($documentoCartaoContinente, $caminhosDocs['4'], $dataAtualizacao, $estado);
-          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
-           */
-
-
-          $documentosAtuais = $dal->getDocumentoByFuncionario($funcionario['idFuncionario']);
-          $documentosMap = [];
-          foreach ($documentosAtuais as $doc) {
-              $tipo = strtolower($doc['idTipoDocumento']); // ← esse pode ser um problema
-              $documentosMap[$tipo] = $doc['caminho'];
-          }
-          
-          $documentos = [
-            'documentoCC' => ['destino' => 'CartaoCidadao', 'tipos' => ['pdf']],
-            'documentoMod99' => ['destino' => 'Mod99', 'tipos' => ['pdf']],
-            'documentoBancario' => ['destino' => 'DocumentoBancario', 'tipos' => ['pdf']],
-            'documentoCartaoContinente' => ['destino' => 'CartaoContinente', 'tipos' => ['pdf']],
-          ];
-
-          $tiposDocumento = [
-            1 => 'documentoMod99',
-            2 => 'documentoCC',
-            3 => 'documentoBancario',
-            4 => 'documentoCartaoContinente',
-          ];
-
-          $documentoToTipo = array_flip($tiposDocumento);
-          $caminhosDocs = [];
-          foreach ($documentos as $campo => $config) {
-            if (!empty($_FILES[$campo]['tmp_name'])) {
-              $ficheiro = $_FILES[$campo];
-              $tipo = $documentoToTipo[$campo] ?? null;
-              if (!$tipo) continue;
-
-              $caminho = guardarFicheiro($ficheiro, $config['destino'], $config['tipos']);
-              if ($caminho) {
-                  $caminhosDocs[$tipo] = $caminho;
+            if (!empty($caminhoNovo) && $caminhoNovo !== $caminhoAntigo) {
+              $idPedido = $dal->pedidoPendente($caminhoAntigo, $caminhoNovo, $dataAtualizacao, $estado);
+              if ($idPedido) {
+                  $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
               }
             }
-          }
-
-          foreach ($caminhosDocs as $tipo => $caminhoNovo) {
-              if (empty($caminhoNovo)) continue;
-
-              $caminhoAntigo = $documentosMap[(string)$tipo] ?? null;
-
-              if (!empty($caminhoNovo) && $caminhoNovo !== $caminhoAntigo) {
-                $idPedido = $dal->pedidoPendente($caminhoAntigo, $caminhoNovo, $dataAtualizacao, $estado);
-                if ($idPedido) {
-                    $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
-                }
-              }
-          }
-
-/*         header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico'])); */
+        }
+        header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
       }
-
-      
 
     }catch(RuntimeException $e){
       echo "<div>".$e->getMessage()."</div>";
