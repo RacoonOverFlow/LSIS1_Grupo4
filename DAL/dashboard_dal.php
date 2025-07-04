@@ -13,8 +13,10 @@ class dashboard_dal {
     // USAR UMA UNICA FUNCAO DE FILTRAGEM PARA TODOS OS CARGOS, COORDENADOR, RH E RH SUPER
 
     public function getFilteredUserIdsForSession($cargoId, $numeroMecanografico) {
+    $allowed = [];
+
     if ($cargoId == 4) {
-        // RECURSOS HUMANOS VE SO COLABORADORES
+        // RECURSOS HUMANOS VE SÓ COLABORADORES
         $query = "
             SELECT dl.numeroMecanografico
             FROM funcionario f
@@ -22,10 +24,36 @@ class dashboard_dal {
             WHERE dl.idCargo = 2
         ";
         $stmt = $this->conn->prepare($query);
-        $stmt->execute();
+        if (!$stmt->execute()) return [];
 
-    } elseif ($cargoId == 3) {
-        // COORDENADOR ENCONTRA O IDFUNCIONARIO NMECA 
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            $allowed[] = $row['numeroMecanografico'];
+        }
+        return $allowed;
+    }
+
+    if ($cargoId == 5) {
+        // RECURSOS HUMANOS SUPER VE TODA A GENTE
+        $query = "
+            SELECT dl.numeroMecanografico
+            FROM funcionario f
+            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+            WHERE dl.idCargo = ?
+        ";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $cargoId); // This was missing
+        if (!$stmt->execute()) return [];
+
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            $allowed[] = $row['numeroMecanografico'];
+        }
+        return $allowed;
+    }
+
+    if ($cargoId == 3) {
+        // COORDENADOR — ENCONTRAR IDFUNCIONARIO PELO NMEC
         $subQuery = "
             SELECT f.idFuncionario
             FROM funcionario f
@@ -38,11 +66,11 @@ class dashboard_dal {
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
 
-        if (!$row) return []; // Coordinator not found
+        if (!$row) return null; // Coordenador não encontrado
 
         $idFuncionario = $row['idFuncionario'];
 
-        // AGORA VAI BUSCAR TODOS OS MEMBROS DA MESMA EQUIPA
+        // BUSCAR MEMBROS DA MESMA EQUIPA
         $query = "
             SELECT dl.numeroMecanografico
             FROM colaborador_equipa ce
@@ -54,53 +82,59 @@ class dashboard_dal {
         ";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $idFuncionario);
-        $stmt->execute();
+        if (!$stmt->execute()) return [];
 
-    } else {
-        return []; // NO ACESS
+        $result = $stmt->get_result();
+        if ($result->num_rows === 0) return [];
+
+        while ($row = $result->fetch_assoc()) {
+            $allowed[] = $row['numeroMecanografico'];
+        }
+        return $allowed;
     }
 
-    $res = $stmt->get_result();
-    $allowed = [];
-    while ($row = $res->fetch_assoc()) {
-        $allowed[] = $row['numeroMecanografico'];
-    }
+    // CARGO NÃO AUTORIZADO
+    return [];
+}
 
-    return $allowed;
-    }
 
 
     public function getGeneroDistribution($allowedIds = null) {
-    $query = "SELECT dp.genero, COUNT(*) AS total
-            FROM funcionario f
-            INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
-            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-            INNER JOIN cargo ca ON dl.idCargo = ca.idCargo";
 
-    if (!empty($allowedIds)) {
-        $placeholders = implode(',', array_fill(0, count($allowedIds), '?'));
-        $query .= " WHERE f.numeroMecanografico IN ($placeholders)";
-    }
+    //     if (is_array($allowedIds) && count($allowedIds) === 0) {
+    //     return []; // No allowed IDs, return empty result
+    // }
 
-    $query .= " GROUP BY dp.genero";
+        $query = "SELECT dp.genero, COUNT(*) AS total
+                FROM funcionario f
+                INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+                INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+                INNER JOIN cargo ca ON dl.idCargo = ca.idCargo";
 
-    $stmt = $this->conn->prepare($query);
+        if (!empty($allowedIds)) {
+            $placeholders = implode(',', array_fill(0, count($allowedIds), '?'));
+            $query .= " WHERE f.numeroMecanografico IN ($placeholders)";
+        }
 
-    if (!empty($allowedIds)) {
-        $types = str_repeat('i', count($allowedIds));
-        $stmt->bind_param($types, ...$allowedIds);
-    }
+        $query .= " GROUP BY dp.genero";
 
-    $stmt->execute();
-    $result = $stmt->get_result();
+        $stmt = $this->conn->prepare($query);
 
-    $dataGenero = [];
-    while ($row = $result->fetch_assoc()) {
-        $dataGenero[$row['genero']] = (int)$row['total'];
-    }
+        if (!empty($allowedIds)) {
+            $types = str_repeat('i', count($allowedIds));
+            $stmt->bind_param($types, ...$allowedIds);
+        }
 
-    return $dataGenero;
-    }
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $dataGenero = [];
+        while ($row = $result->fetch_assoc()) {
+            $dataGenero[$row['genero']] = (int)$row['total'];
+        }
+
+        return $dataGenero;
+        }
   
     function getCargoDistribution($allowedIds = null) { //MUDADO PARA MANTER CONSISTENCIA MAS SO VISIVEL PARA RHSUPER
         $query = "SELECT ca.cargo, COUNT(*) AS total
