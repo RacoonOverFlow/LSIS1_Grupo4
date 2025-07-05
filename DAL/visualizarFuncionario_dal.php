@@ -77,4 +77,37 @@ class visualizarFuncionario_dal {
         }
         return $colaboradores;
     }
+    
+    function getMembrosEquipa($idEquipa){
+        $query = "
+            SELECT f.idFuncionario,
+                dl.numeroMecanografico,
+                dp.nomeCompleto,
+                dp.dataNascimento,
+                c.cargo
+            FROM funcionario f
+            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+            INNER JOIN cargo c ON dl.idCargo = c.idCargo
+            INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+            LEFT JOIN colaborador_equipa ce ON f.idFuncionario = ce.idColaborador
+            LEFT JOIN coordenador_equipa coe ON f.idFuncionario = coe.idCoordenador  
+            WHERE ce.idEquipa = ? OR coe.idEquipa = ?
+            ORDER BY dp.nomeCompleto ASC
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        if(!$stmt) throw new Exception("Erro na preparação da query: " . $this->conn->error);
+
+        // O mesmo idEquipa é usado duas vezes no WHERE
+        $stmt->bind_param("ii", $idEquipa, $idEquipa);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $membros = [];
+        while ($row = $result->fetch_assoc()) {
+            $membros[] = $row;
+        }
+        return $membros;
+    }
+
 }
