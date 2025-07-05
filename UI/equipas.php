@@ -115,6 +115,9 @@ if ($utilizadorCargo == 5) { // RHSuperior
                 <?php if ($utilizadorCargo == 6 || $utilizadorCargo== 5): ?>
                     <li><a href="alertas.php"><i class="bi bi-exclamation-triangle-fill"></i> Alertas</a></li>
                 <?php endif; ?>
+                <?php if ($utilizadorCargo == 4 || $utilizadorCargo== 5): ?>
+                    <li><a href="pedidosPendentes.php"><i class="bi-file-earmark-text"></i> Pedidos Pendentes de Alteração de Dados</a></li>
+                <?php endif; ?>
                 <?php if ($_SESSION['nMeca'] != null): ?>
                     <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i><strong>Logout</strong></a></li>
                 <?php else: ?>
