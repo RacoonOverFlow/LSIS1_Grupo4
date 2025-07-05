@@ -120,13 +120,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const labels = Object.keys(filtered);
 
     // Paleta para Cargo: azul-esverdeado (hue 150-210)
-    const cargoColorsArray = generateColors(labels.length, 150, 60);
-    const cargoColors = {};
+    const moradaFiscalColorsArray = generateColors(labels.length, 150, 60);
+    const moradaFiscalColors = {};
     labels.forEach((label, i) => {
       moradaFiscalColors[label] = moradaFiscalColorsArray[i];
     });
 
-    renderChart("moradaFiscalchart", "Distribuição por geografia", filtered, "bar", moradaFiscalColors);
+    renderChart("moradaFiscalChart", "Distribuição por geografia", filtered, "bar", moradaFiscalColors);
   }
 
 
@@ -234,12 +234,70 @@ document.addEventListener("DOMContentLoaded", () => {
   //                                 !!!!TAXA DE RETENCAO!!!!
 
 
+
+
+  function formatTempoTooltip(e) {
+    const today = new Date();
+    const year = e.entries[0].dataPoint.x.getFullYear();
+    const idade = today.getFullYear() - year;
+
+    let content = `<strong>Ano de Fim:</strong> ${year}<br/>`;
+    e.entries.forEach(entry => {
+      content += `<span style="color:${entry.dataSeries.color}">●</span> <strong>${entry.dataSeries.name}:</strong> ${entry.dataPoint.y}<br/>`;
+    });
+
+    // Adicionando uma bolinha personalizada antes da idade hoje
+    content += `<span style="color:#6666cc">●</span> <strong>Diferenca de anos:</strong> ${idade} anos`;
+
+    return content;
+  }
   
-  
+  // PARA DAR RENDER AO GRAFICO DO TEMPO DE INICIO
+  function renderTempoChart(averageTempo, tempoByYear) { // nao posso tirar averageTempo usada para mostrar o tempo médio fora do gráfico numa <div>
+    const dataPoints = Object.entries(tempoByYear)
+      .sort((a, b) => a[0] - b[0])
+      .map(([year, count]) => ({
+        x: new Date(`${year}-01-01`),
+        y: count
+      }));
 
+    const chart = new CanvasJS.Chart("tempoInicioChartContainer", {
+      animationEnabled: true,
+      theme: "light2",
+      title: {
+        text: "Distribuição de Data Inicio e Taxa Média"
+      },
+      axisX: {
+        title: "Ano de Inicio",
+        valueFormatString: "YYYY"
+      },
+      axisY: {
+        title: "Quantidade",
+        includeZero: true
+      },
+      toolTip: {
+        shared: true,
+        contentFormatter: formatTempoTooltip // usa a função externa
+      },
+      legend: {
+        cursor: "pointer",
+        itemclick: e => {
+          e.dataSeries.visible = !e.dataSeries.visible;
+          chart.render();
+        }
+      },
+      data: [
+        {
+          type: "line",
+          name: "Quantidade por Ano",
+          showInLegend: true,
+          dataPoints: dataPoints
+        }
+      ]
+    });
 
-
-
+    chart.render();
+  }
 
 
   
@@ -279,6 +337,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const averageTempo = totalPeople > 0 ? (totalTempo / totalPeople).toFixed(2) : 0;// para agrupar diferentes data do mesmo ano, num so ano
     return { averageTempo: parseFloat(averageTempo), tempoByYear };
   }
+
+
 
   //TOOLTIP PARA O GRAFICO DO TEMPO INICIO    !!!TEMPO DO INICIO!!
   function formatTempoTooltip(e) {
@@ -422,10 +482,13 @@ document.addEventListener("DOMContentLoaded", () => {
       createCheckboxFilters("filters-genero", rawData.genero, onGeneroChange);
       createCheckboxFilters("filters-cargo", rawData.cargo, onCargoChange);
       createCheckboxFilters("filters-nacionalidade", rawData.nacionalidade, onNacionalidadeChange);
+      createCheckboxFilters("filters-moradaFiscal", rawData.moradaFiscal, onDistritoChange);
+
 
       onGeneroChange();
       onCargoChange();
       onNacionalidadeChange();
+      onDistritoChange();
 
       
       const { averageAge, ageByYear } = calculateAverageAge(data.dataNascimento);
@@ -434,13 +497,13 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("nao age");//debug
       };
     
+      //AJSHFIUASHFA
       const { averageTempo, tempoByYear } = calculateAverageTempoInicio(data.dataInicioDeContrato);
       document.getElementById('average-tempo-value').textContent = `${averageTempo} anos`;
       if (renderTempoChart(averageTempo, tempoByYear)){
         console.log("nao tempo inicio")
       };
 
-      
       const { averageRemuneracao } = calculateAverageRemuneracao(data.dataRemuneracao);
       document.getElementById("average-remuneracao-value").innerText = `Média: ${averageRemuneracao.toFixed(2)}`;
       if (renderRemuneracaoChart(data.dataRemuneracao, averageRemuneracao)){

@@ -42,7 +42,11 @@ function setDashboard($nMeca) {
     echo '<h2>Filtro por Nacionalidade</h2>';
     echo '<div id="filters-nacionalidade"></div>';
     echo '<div id="nacionalidadeChart";"></div>';
-    
+
+    echo '<h2>Filtro por Distrito</h2>';//23*
+    echo '<div id="filters-moradaFiscal"></div>';
+    echo '<div id="moradaFiscalChart";"></div>';
+
     echo '<div class="average-age-box">'; //21* tem de ser assim e nao seguido como o da primeira coluna, devido ao css dos graficos
     echo '<h2>Idade Média</h2>';
     echo '<p id="average-age-value"></p>';
@@ -55,6 +59,8 @@ function setDashboard($nMeca) {
     echo '<div id="remuneracaoChartContainer"></div>';
     echo '</div>';//22*
 
+    echo '</div>';//23*
+    
     echo '</div>';//segunda coluna
 
     echo '</div>'; ///div da backTemplate
