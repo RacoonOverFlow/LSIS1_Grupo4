@@ -1,0 +1,82 @@
+@import url('styleGlobal.css');
+
+/* Headings */
+h2 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Container da lista */
+.tabela-funcionarios {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin-top: 20px;
+}
+
+/* Linha base */
+.linha-funcionario {
+    display: flex;
+    background-color: #ffffff;
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    transition: background-color 0.2s ease;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* Cabeçalho */
+.linha-funcionario.cabecalho {
+    font-weight: bold;
+    background-color: #f5f5f5;
+    border: 2px solid #ccc;
+}
+
+
+/* Links sem decoração */
+.linha-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Hover */
+.linha-link:hover .linha-funcionario {
+    background-color: #f0f8ff;
+}
+
+/* Colunas base */
+.coluna {
+    padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Tamanhos das colunas (ajustados) */
+.mecanografico    { flex: 1; }
+.cargo            { flex: 1.5; }
+.nome             { flex: 2.5; }
+.alteracao        { flex: 2; }
+.dadoAtual        { flex: 2; }
+.dadoNovo         { flex: 2; }
+.dataDeAtualizacao { flex: 2; }
+
+/* Document links */
+.document-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.document-links a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.document-links a:hover {
+    text-decoration: underline;
+}

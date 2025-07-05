@@ -32,6 +32,9 @@ function mostrarHeader($cargo) {
                 <?php if ($utilizadorCargo == 6 || $utilizadorCargo== 5): ?>
                     <li><a href="alertas.php"><i class="bi bi-exclamation-triangle-fill"></i> Alertas</a></li>
                 <?php endif; ?>
+                <?php if ($utilizadorCargo == 4 || $utilizadorCargo== 5): ?>
+                    <li><a href="pedidosPendentes.php"><i class="bi-file-earmark-text"></i> Pedidos Pendentes de Alteração de Dados</a></li>
+                <?php endif; ?>
                 <?php if ($cargo): ?>
                     <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                 <?php else: ?>
