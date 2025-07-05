@@ -27,9 +27,9 @@ if ($allowedIds || $sessionCargoId == 5){
     $dataCargo = $dal->getCargoDistribution($allowedIds);
     $dataNacionalidade = $dal->getNacionalidadeDistribution($allowedIds);
     $dataIdade = $dal->getIdadeDistribution($allowedIds);
-    $dataInicioDeContrato = $dal->getTaxaInicioDistribution($allowedIds);
+    $dataTempoDeContrato = $dal->getTempoMedioDistribution($allowedIds);
     $dataRemuneracao = $dal->getRemuneracaoDistribution($allowedIds);
-    $dataFimDeContrato = $dal->getTaxaFimDistribution($allowedIds);
+    //$dataFimDeContrato = $dal->getTaxaFimDistribution($allowedIds);
     $dataMoradaFiscal = $dal->getDistritoDistribution($allowedIds);
 
 
@@ -38,9 +38,9 @@ if ($allowedIds || $sessionCargoId == 5){
         'cargo' => $dataCargo,
         'nacionalidade' => $dataNacionalidade,
         'dataNascimento' => $dataIdade,
-        'dataInicioDeContrato' => $dataInicioDeContrato,
+        //'dataInicioDeContrato' => $dataInicioDeContrato,
         'dataRemuneracao' => $dataRemuneracao,
-        'dataFimDeContrato' => $dataFimDeContrato,
+        'dataTempoDeContrato' => $dataTempoDeContrato,
         'moradaFiscal' => $dataMoradaFiscal
     ]);
 }
@@ -50,9 +50,9 @@ else{
         'cargo' => [],
         'nacionalidade' => [],
         'dataNascimento' => [],
-        'dataInicioDeContrato' => [],
+        //'dataInicioDeContrato' => [],
         'dataRemuneracao' => [],
-        'dataFimDeContrato' => [],
+        'dataTempoDeContrato' => [],
         'moradaFiscal' => [],
     ]);
 }

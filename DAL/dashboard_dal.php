@@ -221,10 +221,10 @@ class dashboard_dal {
     }
 
 
-    //                                                          !!!!TAXAINICIO!!!!
+    //                                                          !!!!DATA INICIO && DATA FINAL PARA O TEMPO MEDIA NA TLANTIC!!!!
 
-    function getTaxaInicioDistribution($allowedIds = null) {
-        $query = "SELECT dc.dataInicioDeContrato AS dataInicioDeContrato, COUNT(*) AS total
+    function getTempoMedioDistribution($allowedIds = null) {
+        $query = "SELECT dc.dataInicioDeContrato, dc.dataFimDeContrato AS dataTempoDeContrato, COUNT(*) AS total
             FROM funcionario f
             INNER JOIN dadoscontrato dc ON f.idDadosContrato = dc.idDadosContrato
             INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
@@ -235,7 +235,7 @@ class dashboard_dal {
             $query .= " WHERE f.numeroMecanografico IN ($placeholders)";
         }
 
-        $query .= " GROUP BY dc.dataInicioDeContrato";
+        $query .= " GROUP BY dc.dataInicioDeContrato, dc.dataFimDeContrato";
 
         $stmt = $this->conn->prepare($query);
 
@@ -247,12 +247,15 @@ class dashboard_dal {
         $stmt->execute();
         $result = $stmt->get_result();
 
-        $dataInicioDeContrato = [];
         while ($row = $result->fetch_assoc()) {
-            $dataInicioDeContrato[$row['dataInicioDeContrato']] = (int)$row['total'];
-        }
+            $dataTempoDeContrato[] = [
+            'inicio' => $row['dataInicioDeContrato'],
+            'fim' => $row['dataTempoDeContrato'], // aliased name
+            'total' => (int)$row['total']
+        ];
+}
 
-        return $dataInicioDeContrato;
+        return $dataTempoDeContrato;
     }
 
 
@@ -294,7 +297,7 @@ class dashboard_dal {
 
 
     //                                                                  !!!!TAXAFIM!!!!
-
+/*
     function getTaxaFimDistribution($allowedIds = null) {
         $query = "SELECT dc.dataFimDeContrato AS dataFimDeContrato, COUNT(*) AS total
             FROM funcionario f
@@ -325,7 +328,7 @@ class dashboard_dal {
         }
 
         return $dataFimDeContrato;
-    }
+    }*/
     
 
     //                                                                             !!!!GEOGRAFIA!!!!

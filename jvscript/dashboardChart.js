@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     chart.render();
   }
   
-
+  /////////////////////////////////////
 
   //                             !!!!GENERO GRAFICO PIZZA/PIE!!!!
   function onGeneroChange() {
@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChart("generoChart", "Distribuição por Gênero", filtered, "pie", { M: "#36A2EB", F: "#FF6384" });
   }
 
+  /////////////////////////////////
 
   //                             !!!!CARGO GRAFICO BARRAS!!!!
   function onCargoChange() {
@@ -96,6 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChart("cargoChart", "Distribuição por função", filtered, "bar", cargoColors);
   }
 
+  //////////////////////////
 
   //                        !!!!NACIONALIDADE GRAFICO PIZZA/PIE!!!!
   function onNacionalidadeChange() {
@@ -112,8 +114,9 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChart("nacionalidadeChart", "Distribuição por Nacionalidade", filtered, "pie", nacionalidadeColors);
   }
 
-  
-  //                           !!!!GREOGRAFIA GRAFICO BARRAS!!!!
+  //////////////////////////
+
+  //                           !!!!GREOGRAFIA/DISTRITO GRAFICO BARRAS!!!!
 
   function onDistritoChange() {
     const filtered = filterData(rawData.moradaFiscal, "filters-moradaFiscal");
@@ -129,6 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
     renderChart("moradaFiscalChart", "Distribuição por geografia", filtered, "bar", moradaFiscalColors);
   }
 
+
+  ///////////////////////////////////
 
   //                           !!!!IDADE MEDIA GRAFICO LINEAR!!!!
 
@@ -182,6 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
+
   // Função principal para renderizar o gráfico         !!AGE!!
   function renderAgeChart(averageAge, ageByYear) { //nao posso tirar averageAge usada para mostrar a idade média fora do gráfico numa <div>
     const dataPoints = Object.entries(ageByYear)
@@ -229,30 +235,131 @@ document.addEventListener("DOMContentLoaded", () => {
     chart.render();
   }
 
+  //////////////////////////////////////////////////
+
+  //                                 !!!!TEMPO MEDIO NA EMPRESA!!!!
+
+
+  function calculateAverageContractDuration(tempoDeContrato) {
+    let totalDuration = 0;
+    let totalPeople = 0;
+
+    for (const contrato of tempoDeContrato) {
+      const start = new Date(contrato.inicio);
+      const end = new Date(contrato.fim);
+      const count = contrato.total || 1;
+
+      if (isNaN(start) || isNaN(end)) continue;
+      if (end < start) continue; // skip invalid cases
+
+      // Calculate duration in years with decimals
+      const durationMs = end - start;
+      const durationYears = durationMs / (1000 * 60 * 60 * 24 * 365.25);
+
+      totalDuration += durationYears * count;
+      totalPeople += count;
+    }
+
+    const averageYears = totalPeople > 0 ? (totalDuration / totalPeople).toFixed(2) : 0;
+
+    return parseFloat(averageYears);
+  }
+
   
+  function groupContractYears(tempoDeContrato) {
+    const inicioPorAno = {};
+    const fimPorAno = {};
 
-  //                                 !!!!TAXA DE RETENCAO!!!!
+    for (const contrato of tempoDeContrato) {
+      const total = Number(contrato.total) || 1;
 
+      const inicioAno = new Date(contrato.inicio).getFullYear();
+      const fimAno = new Date(contrato.fim).getFullYear();
 
+      if (!isNaN(inicioAno)) {
+        inicioPorAno[inicioAno] = (inicioPorAno[inicioAno] || 0) + total;
+      }
 
+      if (!isNaN(fimAno)) {
+        fimPorAno[fimAno] = (fimPorAno[fimAno] || 0) + total;
+      }
+    }
 
-  function formatTempoTooltip(e) {
-    const today = new Date();
-    const year = e.entries[0].dataPoint.x.getFullYear();
-    const idade = today.getFullYear() - year;
+    return { inicioPorAno, fimPorAno };
+  }
 
-    let content = `<strong>Ano de Fim:</strong> ${year}<br/>`;
-    e.entries.forEach(entry => {
-      content += `<span style="color:${entry.dataSeries.color}">●</span> <strong>${entry.dataSeries.name}:</strong> ${entry.dataPoint.y}<br/>`;
+  function renderTempoMedioChart(tempoDeContrato, averageTempo) {
+    const { inicioPorAno, fimPorAno } = groupContractYears(tempoDeContrato);
+
+    const allYears = Array.from(
+      new Set([
+        ...Object.keys(inicioPorAno),
+        ...Object.keys(fimPorAno)
+      ])
+    ).sort((a, b) => a - b);
+
+    const inicioDataPoints = allYears.map(year => ({
+      x: new Date(`${year}-01-01`),
+      y: inicioPorAno[year] || 0
+    }));
+
+    const fimDataPoints = allYears.map(year => ({
+      x: new Date(`${year}-01-01`),
+      y: fimPorAno[year] || 0
+    }));
+
+    const chart = new CanvasJS.Chart("tempoMedioChartContainer", {
+      animationEnabled: true,
+      theme: "light2",
+      title: {
+        text: "Distribuição de Início e Fim de Contrato (por Ano)"
+      },
+      /*subtitles: [
+        {
+          text: `Tempo médio de contrato: ${averageTempo} anos`
+        }
+      ],*/
+      axisX: {
+        title: "Ano",
+        valueFormatString: "YYYY"
+      },
+      axisY: {
+        title: "Número de Contratos",
+        includeZero: true
+      },
+      legend: {
+        cursor: "pointer",
+        itemclick: function (e) {
+          e.dataSeries.visible = !e.dataSeries.visible;
+          chart.render();
+        }
+      },
+      toolTip: {
+        shared: true,
+      },
+      data: [
+        {
+          type: "line",
+          name: "Início de Contrato",
+          showInLegend: true,
+          dataPoints: inicioDataPoints
+        },
+        {
+          type: "line",
+          name: "Fim de Contrato",
+          showInLegend: true,
+          dataPoints: fimDataPoints
+        }
+      ]
     });
 
-    // Adicionando uma bolinha personalizada antes da idade hoje
-    content += `<span style="color:#6666cc">●</span> <strong>Diferenca de anos:</strong> ${idade} anos`;
-
-    return content;
+    chart.render();
   }
-  
-  // PARA DAR RENDER AO GRAFICO DO TEMPO DE INICIO
+
+
+
+  /*
+  // PARA DAR RENDER AO GRAFICO DO TEMPO DE INICIO E FIM
   function renderTempoChart(averageTempo, tempoByYear) { // nao posso tirar averageTempo usada para mostrar o tempo médio fora do gráfico numa <div>
     const dataPoints = Object.entries(tempoByYear)
       .sort((a, b) => a[0] - b[0])
@@ -277,7 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       toolTip: {
         shared: true,
-        contentFormatter: formatTempoTooltip // usa a função externa
+        //contentFormatter: formatTempoTooltip // usa a função externa
       },
       legend: {
         cursor: "pointer",
@@ -297,16 +404,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     chart.render();
-  }
+  }*/
 
-
-  
 
 //ORIGINAL
 
   //                                 !!!!TAXA DE INICIO!!!!
 
-
+  /*
   //CALCULAR A MEDIA DO TEMPO DO INICIO
   function calculateAverageTempoInicio(dataInicioDeContrato) {
     const today = new Date();
@@ -402,7 +507,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     chart.render();
-  }
+  }*/
 
 
   //                    !!!!REMUNERACAO MEDIA!!!!
@@ -497,21 +602,32 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("nao age");//debug
       };
     
-      //AJSHFIUASHFA
-      const { averageTempo, tempoByYear } = calculateAverageTempoInicio(data.dataInicioDeContrato);
+      //AJSHFIUASHFA JA N ESTA A SER USADO
+      /*const { averageTempo, tempoByYear } = calculateAverageTempoInicio(data.dataInicioDeContrato);
       document.getElementById('average-tempo-value').textContent = `${averageTempo} anos`;
       if (renderTempoChart(averageTempo, tempoByYear)){
         console.log("nao tempo inicio")
-      };
+      };*/
 
       const { averageRemuneracao } = calculateAverageRemuneracao(data.dataRemuneracao);
       document.getElementById("average-remuneracao-value").innerText = `Média: ${averageRemuneracao.toFixed(2)}`;
       if (renderRemuneracaoChart(data.dataRemuneracao, averageRemuneracao)){
-        console.log("nao remuneracao")
+        console.log("nao remuneracao")        
       };
 
+      console.log("Raw input:", data.dataTempoDeContrato);
+
+      const avgContractDuration = calculateAverageContractDuration(data.dataTempoDeContrato);
+      document.getElementById("average-tempo-value").innerText = `Média: ${avgContractDuration}`;
+      if (renderTempoMedioChart(data.dataTempoDeContrato, avgContractDuration)){
+        console.log("nao duracap")        
+      };
+
+
+
+      console.log("Average contract duration (years):", avgContractDuration);
       console.log("Average Age:", averageAge);
-      console.log("Average Tempo:", averageTempo);
+      //console.log("Average Tempo:", averageTempo);
       console.log("average remuneracao:", averageRemuneracao);    
     
     })
