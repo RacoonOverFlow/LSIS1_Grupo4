@@ -18,7 +18,7 @@ session_start();
     <div class="layout-container">
         <main class="main-content">
             <?php
-            if($_GET['idEquipa'] && $_SESSION['idCargo'] > 2){
+            if (isset($_GET['idEquipa']) && $_SESSION['idCargo'] > 2) {
                 mostrarMembrosEquipa();
             }else{
                 mostrarFuncionarios();
