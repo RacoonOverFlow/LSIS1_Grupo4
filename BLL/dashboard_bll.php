@@ -19,7 +19,7 @@ $sessionNumeroMecanografico = $_SESSION['nMeca'];
 
 $allowedIds = $dal->getFilteredUserIdsForSession($sessionCargoId, $sessionNumeroMecanografico);
 
-var_dump($allowedIds);
+//var_dump($allowedIds);
 
 if ($allowedIds || $sessionCargoId == 5){
 
