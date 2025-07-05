@@ -79,7 +79,7 @@ if ($utilizadorCargo == 5) { // RHSuperior
                     <div class="d-flex justify-content-between align-items-center mt-3">
 
                         <div class="team-actions">
-                            <a href="verEquipa.php?idEquipa=<?= $equipa['idEquipa'] ?>" title="Ver">
+                            <a href="admin/visualizarFuncionarios.php?idEquipa=<?= $equipa['idEquipa'] ?>" title="Ver">
                                 <button><i class="bi bi-eye"></i></button>
                             </a>
                             <a href="editarEquipa.php?idEquipa=<?= $equipa['idEquipa'] ?>" title="Editar">

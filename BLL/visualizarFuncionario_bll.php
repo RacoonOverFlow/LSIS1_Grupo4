@@ -93,5 +93,61 @@ function mostrarFuncionarios() {
     echo '</div>';
 }
 
-    
+function mostrarMembrosEquipa(){
+    $idEquipa = $_GET['idEquipa'];
+    $dal = new visualizarFuncionario_dal();
+    $membros = $dal->getMembrosEquipa($idEquipa);
+
+    echo '<h2>Lista de Funcionários</h2>';
+
+    // Container principal
+    echo '<div class="tabela-funcionarios">';
+
+    //butao para exportar
+    echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php">';
+    echo '<button class="button-export">EXPORT</button>';
+    echo '</a>';
+
+    //butao para exportar
+    echo'<form action="/LSIS1_Grupo4/BLL/export_importData_bll.php" method="POST" enctype="multipart/form-data">';
+    echo'<label>Import CSV:</label>';
+    echo'<input type="file" name="csv_file" accept=".csv" required>';
+    echo'<button type="submit" name="import" class="button-export">Import</button>';
+    echo'</form>';
+
+
+    // Cabeçalho
+    echo '<div class="linha-funcionario cabecalho">
+            <div class="coluna id">ID</div>
+            <div class="coluna mecanografico">Número Mecanográfico</div>
+            <div class="coluna cargo">Cargo</div>
+            <div class="coluna nome">Nome</div>
+            <div class="coluna aniversário">Aniversário (dd/mm/yyyy)</div>
+          </div>';
+
+    foreach ($membros as $m) {
+        $dataNascimento = new DateTime($m['dataNascimento']);
+        $hoje = new DateTime();
+
+        $proximoAniversario = new DateTime($hoje->format('Y') . '-' . $dataNascimento->format('m-d'));
+
+        // Se o aniversário deste ano já passou, usa o próximo ano
+        if ($proximoAniversario < $hoje) {
+            $proximoAniversario->modify('+1 year');
+        }
+
+        $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
+
+        $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
+        echo '<a href="' . $link . '" class="linha-link">';
+        echo '<div class="linha-funcionario">';
+        echo '<div class="coluna id">' . htmlspecialchars($m['idFuncionario']) . '</div>';
+        echo '<div class="coluna mecanografico">' . htmlspecialchars($m['numeroMecanografico']) . '</div>';
+        echo '<div class="coluna cargo">' . htmlspecialchars($m['cargo']) . '</div>';
+        echo '<div class="coluna nome">' . htmlspecialchars($m['nomeCompleto']) . '</div>';
+        echo '<div class="coluna aniversário">' . $aniversarioFuncionario . '</div>';
+        echo '</div>';
+        echo '</a>';
+    }
+}  
 ?>
