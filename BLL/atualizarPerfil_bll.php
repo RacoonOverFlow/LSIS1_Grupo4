@@ -412,89 +412,89 @@ function showUI(){
         $estado = "pendente";
 
         if($_POST['moradaFiscal'] != $dadosPessoais['moradaFiscal']){
-          $idPedido = $dal->pedidoPendente($dadosPessoais['moradaFiscal'], $_POST['moradaFiscal'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('moradaFiscal', $dadosPessoais['moradaFiscal'], $_POST['moradaFiscal'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['genero'] != $dadosPessoais['genero']){
-          $idPedido = $dal->pedidoPendente($dadosPessoais['genero'], $_POST['genero'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('genero', $dadosPessoais['genero'], $_POST['genero'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['idIndicativo'] != $dadosPessoais['idIndicativo']){
-          $idPedido = $dal->pedidoPendente($dadosPessoais['idIndicativo'], $_POST['idIndicativo'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Indicativo Telemóvel', $dadosPessoais['idIndicativo'], $_POST['idIndicativo'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['contactoPessoal'] != $dadosPessoais['contactoPessoal']){
-          $idPedido = $dal->pedidoPendente($dadosPessoais['contactoPessoal'], $_POST['contactoPessoal'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Contacto Pessoal', $dadosPessoais['contactoPessoal'], $_POST['contactoPessoal'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['contactoEmergencia'] != $dadosPessoais['contactoEmergencia']){
-          $idPedido = $dal->pedidoPendente($dadosPessoais['contactoEmergencia'], $_POST['contactoEmergencia'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Contacto Emergencia', $dadosPessoais['contactoEmergencia'], $_POST['contactoEmergencia'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['grauDeRelacionamento'] != $dadosPessoais['grauDeRelacionamento']){
-          $idPedido = $dal->pedidoPendente($dadosPessoais['grauDeRelacionamento'], $_POST['grauDeRelacionamento'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Grau De Relacionamento', $dadosPessoais['grauDeRelacionamento'], $_POST['grauDeRelacionamento'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['situacaoDeIRS'] != $dadosFinanceiros['situacaoDeIRS']){
-          $idPedido = $dal->pedidoPendente($dadosFinanceiros['situacaoDeIRS'], $_POST['situacaoDeIRS'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Situaçao IRS', $dadosFinanceiros['situacaoDeIRS'], $_POST['situacaoDeIRS'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['numeroDeDependentes'] != $dadosFinanceiros['numeroDeDependentes']){
-          $idPedido = $dal->pedidoPendente($dadosFinanceiros['numeroDeDependentes'], $_POST['numeroDeDependentes'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Numero Dependentes', $dadosFinanceiros['numeroDeDependentes'], $_POST['numeroDeDependentes'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['IBAN'] != $dadosFinanceiros['IBAN']){
-          $idPedido = $dal->pedidoPendente($dadosFinanceiros['IBAN'], $_POST['IBAN'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('IBAN', $dadosFinanceiros['IBAN'], $_POST['IBAN'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['cartaoContinente'] != $beneficios['cartaoContinente']){
-          $idPedido = $dal->pedidoPendente($beneficios['cartaoContinente'], $_POST['cartaoContinente'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Cartão Continente', $beneficios['cartaoContinente'], $_POST['cartaoContinente'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['voucherNOS'] != $beneficios['voucherNOS']){
-          $idPedido = $dal->pedidoPendente($beneficios['voucherNOS'], $_POST['voucherNOS'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Voucher NOS', $beneficios['voucherNOS'], $_POST['voucherNOS'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['tipoViatura'] != $viatura['tipoViatura']){
-          $idPedido = $dal->pedidoPendente($viatura['tipoViatura'], $_POST['tipoViatura'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Tipo Viatura', $viatura['tipoViatura'], $_POST['tipoViatura'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['matriculaDaViatura'] != $viatura['matriculaDaViatura']){
-          $idPedido = $dal->pedidoPendente($viatura['matriculaDaViatura'], $_POST['matriculaDaViatura'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Matrícula Viatura', $viatura['matriculaDaViatura'], $_POST['matriculaDaViatura'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['habilitacoesLiterarias'] != $cv['habilitacoesLiterarias']){
-          $idPedido = $dal->pedidoPendente($cv['habilitacoesLiterarias'], $_POST['habilitacoesLiterarias'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Habilitações Literárias', $cv['habilitacoesLiterarias'], $_POST['habilitacoesLiterarias'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
         
         if($_POST['curso'] != $cv['curso']){
-          $idPedido = $dal->pedidoPendente($cv['curso'], $_POST['curso'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Curso', $cv['curso'], $_POST['curso'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         if($_POST['frequencia'] != $cv['frequencia']){
-          $idPedido = $dal->pedidoPendente($cv['frequencia'], $_POST['frequencia'], $dataAtualizacao, $estado);
+          $idPedido = $dal->pedidoPendente('Frequência', $cv['frequencia'], $_POST['frequencia'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
         $documentosAtuais = $dal->getDocumentoByFuncionario($funcionario['idFuncionario']);
         $documentosMap = [];
         foreach ($documentosAtuais as $doc) {
-            $tipo = strtolower($doc['idTipoDocumento']); // ← esse pode ser um problema
+            $tipo = strtolower($doc['idTipoDocumento']);
             $documentosMap[$tipo] = $doc['caminho'];
         }
 
@@ -526,14 +526,23 @@ function showUI(){
             }
           }
         }
+        
+        $tipoDados=[
+          1 => 'docMod99',
+          2 => 'docCC',
+          3 => 'docBancario',
+          4 => 'docCartaoContinente',
+        ];
 
         foreach ($caminhosDocs as $tipo => $caminhoNovo) {
             if (empty($caminhoNovo)) continue;
 
             $caminhoAntigo = $documentosMap[(string)$tipo] ?? null;
+            $documentoLabel = $tipoDados[$tipo] ?? null;
+            if (!$documentoLabel) continue;
 
             if (!empty($caminhoNovo) && $caminhoNovo !== $caminhoAntigo) {
-              $idPedido = $dal->pedidoPendente($caminhoAntigo, $caminhoNovo, $dataAtualizacao, $estado);
+              $idPedido = $dal->pedidoPendente($documentoLabel, $caminhoAntigo, $caminhoNovo, $dataAtualizacao, $estado);
               if ($idPedido) {
                   $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
               }
