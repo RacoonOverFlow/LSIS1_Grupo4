@@ -11,12 +11,91 @@ function mostrarPedidosPendentes() {
         $dataAtualizacao = date("Y-m-d");
         if ($acao === 'aceitar') {
             $dal->updatePedido($_POST['idAlteracaoPendente'], $dataAtualizacao, "aceite");
-            /* $dal->aprovarAlteracoesFuncionario($_POST('idFuncionario'), $_POST('idAlteracaoPendente')); */
-        } elseif ($acao === 'rejeitar') {
-            $dal->updatePedido($_POST['idAlteracaoPendente'], $dataAtualizacao, "rejeitado");
-           /*  $dal->rejeitarAlteracoesFuncionario($_POST('idFuncionario'), $_POST('idAlteracaoPendente')); */
+            if($_POST['TipoDeDado'] === 'moradaFiscal'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateMoradaFiscalFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'genero'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateGeneroFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'Indicativo Telemóvel'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateIndicativoTelemovelFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'Contacto Pessoal'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateContactoPessoalFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'Contacto Emergencia'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateContactoEmergenciaFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'Grau De Relacionamento'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateGrauDeRelacionamentoFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'Situaçao IRS'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateSituacaoIRSFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'Numero Dependentes'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateNumeroDependentesFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+
+            if($_POST['TipoDeDado'] === 'IBAN'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateIBANFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'Cartão Continente'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateCartaoContinenteFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'Voucher NOS'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateVoucherNOSFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'Tipo Viatura'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateTipoViaturaFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'Matrícula Viatura'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateMatriculaViaturaFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'Habilitações Literárias'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateHabilitacoesLiterariasFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+            
+            if($_POST['TipoDeDado'] === 'Curso'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateCursoFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+            if($_POST['TipoDeDado'] === 'Frequência'){
+                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente'])
+                $dal->updateFrequenciaFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+            }
+
+        } elseif ($acao === 'recusar') {
+            $dal->updatePedido($_POST['idAlteracaoPendente'], $dataAtualizacao, "recusado");
         }
     }
+
+
     $dal = new pedidosPendentes_dal();
     $funcionarios = $dal->getTodosFuncionariosComPedidosPendentes("pendente");
     $colaboradores =$dal->getColaboradoresComPedidosPendentes(2, "pendente");
@@ -38,7 +117,6 @@ function mostrarPedidosPendentes() {
           </div>';
 
     if($_SESSION['idCargo'] == 5){
-        // Cada funcionário (linha clicável)
         foreach ($funcionarios as $f) {
 
             if ($f['TipoDeDado'] === "docCC" ||
@@ -71,7 +149,7 @@ function mostrarPedidosPendentes() {
                 <input type="hidden" name="idFuncionario" value="' . htmlspecialchars($f['idFuncionario']) . '">
                 <input type="hidden" name="idAlteracaoPendente" value="' . htmlspecialchars($f['idAlteracaoPendente']) . '">
                 <button type="submit" name="acao" value="aceitar" class="">Aceitar Alterações</button>
-                <button type="submit" name="acao" value="rejeitar" class="">Rejeitar Alterações</button>
+                <button type="submit" name="acao" value="recusar" class="">Recusar Alterações</button>
                 </form>';  
                 
             }else{
@@ -89,38 +167,68 @@ function mostrarPedidosPendentes() {
                 echo '<form method="post" action="">
                 <input type="hidden" name="idFuncionario" value="' . htmlspecialchars($f['idFuncionario']) . '">
                 <input type="hidden" name="idAlteracaoPendente" value="' . htmlspecialchars($f['idAlteracaoPendente']) . '">
+                <input type="hidden" name="TipoDeDado" value="' . htmlspecialchars($f['TipoDeDado']) . '">
                 <button type="submit" name="acao" value="aceitar">Aceitar Alterações</button>
-                <button type="submit" name="acao" value="rejeitar">Rejeitar Alterações</button>
+                <button type="submit" name="acao" value="recusar">Recusar Alterações</button>
                 </form>';
             }
         }
 
     }else if($_SESSION['idCargo'] == 4){
         foreach ($colaboradores as $c) {
-            $dataNascimento = new DateTime($c['dataNascimento']);
-            $hoje = new DateTime();
+            if ($f['TipoDeDado'] === "docCC" ||
+                $f['TipoDeDado'] === "docMod99" ||
+                $f['TipoDeDado'] === "docBancario" ||
+                $f['TipoDeDado'] === "docCartaoContinente"
+            ){
+                $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
+                echo '<div class="linha-funcionario">';
+                echo '<div class="coluna mecanografico"><a href="' . $link . '" class="linha-link">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
+                echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '
+                <a href="' . $link . '" class="linha-link"></div>';
+                echo '<div class="coluna nome">' . htmlspecialchars($f['nomeAbreviado']) . '
+                <a href="' . $link . '" class="linha-link"></div>';
+                echo '<div class="coluna alteracao">' . htmlspecialchars($f['TipoDeDado']) . '
+                <a href="' . $link . '" class="linha-link"></div>';
 
-            $proximoAniversario = new DateTime($hoje->format('Y') . '-' . $dataNascimento->format('m-d'));
+                echo '<div class="coluna dadoAtual document-links">';
+                echo '<a href="../' . htmlspecialchars($f['dadoAntigo']) . '" target="_blank">Ver doc atual</a>';
+                echo '</div>';
 
-            // Se o aniversário deste ano já passou, usa o próximo ano
-            if ($proximoAniversario < $hoje) {
-                $proximoAniversario->modify('+1 year');
+                echo '<div class="coluna dadoNovo document-links">';
+                echo '<a href="../' . htmlspecialchars($f['dadoNovo']) . '" target="_blank">Ver doc novo</a>';
+                echo '</div>';
+
+                echo '<div class="coluna dataDeAtualizacao"><a href="' . $link . '" class="linha-link"> ' . htmlspecialchars($f['dataAtualizacao']) . '</div>';
+                echo '</div>';
+                echo '</a>';
+                echo '<form method="post" action="">
+                <input type="hidden" name="idFuncionario" value="' . htmlspecialchars($f['idFuncionario']) . '">
+                <input type="hidden" name="idAlteracaoPendente" value="' . htmlspecialchars($f['idAlteracaoPendente']) . '">
+                <button type="submit" name="acao" value="aceitar" class="">Aceitar Alterações</button>
+                <button type="submit" name="acao" value="recusar" class="">Recusar Alterações</button>
+                </form>';  
+                
+            }else{
+                $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
+                echo '<a href="' . $link . '" class="linha-link">';
+                echo '<div class="linha-funcionario">';
+                echo '<div class="coluna mecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
+                echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '</div>';
+                echo '<div class="coluna nome">' . htmlspecialchars($f['nomeAbreviado']) . '</div>';
+                echo '<div class="coluna alteracao">' . htmlspecialchars($f['TipoDeDado']) . '</div>';
+                echo '<div class="coluna dadoAtual">' . htmlspecialchars($f['dadoAntigo']) . '</div>';
+                echo '<div class="coluna dadoNovo">' . htmlspecialchars($f['dadoNovo']) . '</div>';
+                echo '<div class="coluna dataDeAtualizacao">' . htmlspecialchars($f['dataAtualizacao']) . '</div>';
+                echo '</div></a>';
+                echo '<form method="post" action="">
+                <input type="hidden" name="idFuncionario" value="' . htmlspecialchars($f['idFuncionario']) . '">
+                <input type="hidden" name="idAlteracaoPendente" value="' . htmlspecialchars($f['idAlteracaoPendente']) . '">
+                <input type="hidden" name="TipoDeDado" value="' . htmlspecialchars($f['TipoDeDado']) . '">
+                <button type="submit" name="acao" value="aceitar">Aceitar Alterações</button>
+                <button type="submit" name="acao" value="recusar">Recusar Alterações</button>
+                </form>';
             }
-
-            $aniversarioColaborador = $proximoAniversario->format('d/m/Y');
-
-            $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
-            echo '<a href="' . $link . '" class="linha-link">';
-            echo '<div class="linha-funcionario">';
-            echo '<div class="coluna id">' . htmlspecialchars($c['idFuncionario']) . '</div>';
-            echo '<div class="coluna mecanografico">' . htmlspecialchars($c['numeroMecanografico']) . '</div>';
-            echo '<div class="coluna cargo">' . htmlspecialchars($c['cargo']) . '</div>';
-            echo '<div class="coluna nome">' . htmlspecialchars($c['nomeAbreviado']) . '</div>';
-            echo '<div class="coluna nif">' . htmlspecialchars($c['nif']) . '</div>';
-            echo '<div class="coluna email">' . htmlspecialchars($c['email']) . '</div>';
-            echo '<div class="coluna aniversário">' . $aniversarioColaborador . '</div>';
-            echo '</div>';
-            echo '</a>';
         }
     }
     echo '</div>';

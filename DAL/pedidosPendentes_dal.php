@@ -80,7 +80,14 @@ class pedidosPendentes_dal {
         return $stmt->execute();
     }
 
-    function rejeitarAlteracoesFuncionario($idFuncionario, $idAlteracaoPendente){
-        
+    function getPedidoByid($idPedido){
+        $query = "SELECT * FROM alteracoespendentes WHERE idAlteracaoPendente = ?";
+
+        $stmt = $this->conn->prepare($query);
+        if(!$stmt) throw new Exception("Erro na preparação da query: " . $this->conn->error);
+
+        $stmt->bind_param("i", $idPedido);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
     }
 }
