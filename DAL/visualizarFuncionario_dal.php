@@ -109,7 +109,7 @@ class visualizarFuncionario_dal {
         }
         return $membros;
     }
-    function getAlertas(){
+    /* function getAlertas(){
         $query = "SELECT * FROM alertas";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();  
@@ -127,5 +127,5 @@ class visualizarFuncionario_dal {
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("iis", $idAlerta, $idFuncionario, $visualizado);
         return $stmt->execute();
-    }
+    } */
 }

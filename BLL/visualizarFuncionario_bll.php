@@ -4,7 +4,7 @@ function mostrarFuncionarios() {
     $dal = new visualizarFuncionario_dal();
     $funcionarios = $dal->getTodosFuncionarios();
     $colaboradores =$dal->getColaboradores(2);
-    $alertas = $dal->getAlertas();
+    /* $alertas = $dal->getAlertas(); */
 
 
     echo '<h2>Lista de Funcionários</h2>';
@@ -69,7 +69,7 @@ function mostrarFuncionarios() {
             echo '</div>';
             echo '</a>';
 
-            echo '<form action="/LSIS1_Grupo4/BLL/atribuirAlerta_bll.php" method="POST" class="form-alerta">';
+            /* echo '<form action="/LSIS1_Grupo4/BLL/atribuirAlerta_bll.php" method="POST" class="form-alerta">';
             echo '<input type="hidden" name="idFuncionario" value="' . $f['idFuncionario'] . '">';
             echo '<select name="idAlerta" required>';
             echo '<option value="">Selecionar alerta</option>';
@@ -78,7 +78,7 @@ function mostrarFuncionarios() {
             }
             echo '</select>';
             echo '<button type="submit">Atribuir</button>';
-            echo '</form>';
+            echo '</form>'; */
         }
     }else if($_SESSION['idCargo'] == 4){
         foreach ($colaboradores as $c) {
@@ -109,7 +109,7 @@ function mostrarFuncionarios() {
             echo '</div>';
             echo '</a>';
 
-            echo '<form action="/LSIS1_Grupo4/BLL/atribuirAlerta_bll.php" method="POST" class="form-alerta">';
+            /* echo '<form action="/LSIS1_Grupo4/BLL/atribuirAlerta_bll.php" method="POST" class="form-alerta">';
             echo '<input type="hidden" name="idFuncionario" value="' . $c['idFuncionario'] . '">';
             echo '<select name="idAlerta" required>';
             echo '<option value="">Selecionar alerta</option>';
@@ -118,7 +118,7 @@ function mostrarFuncionarios() {
             }
             echo '</select>';
             echo '<button type="submit">Atribuir</button>';
-            echo '</form>';
+            echo '</form>'; */
         }
     }
     echo '</div>';
@@ -168,9 +168,6 @@ function mostrarMembrosEquipa(){
         }
 
         $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
-
-        
-
 
         $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
         echo '<a href="' . $link . '" class="linha-link">';
