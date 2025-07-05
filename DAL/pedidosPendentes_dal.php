@@ -12,7 +12,7 @@ class pedidosPendentes_dal {
     public function getTodosFuncionariosComPedidosPendentes($estadoAlteracao) {
         $query = "SELECT f.idFuncionario,
             dl.numeroMecanografico,
-            dp.nomeCompleto,
+            dp.nomeAbreviado,
             c.cargo,
             ap.*
         FROM funcionario f
@@ -43,7 +43,7 @@ class pedidosPendentes_dal {
       $query = "SELECT 
           f.idFuncionario,
           dl.numeroMecanografico,
-          dp.nomeCompleto,
+          dp.nomeAbreviado,
           c.cargo,
           ap.*
         FROM funcionario f
@@ -69,5 +69,18 @@ class pedidosPendentes_dal {
           $colaboradores[] = $row;
       }
       return $colaboradores;
+    }
+
+    function updatePedido($idAlteracaoPendente, $dataAtualizacao, $estado){
+        $query = "UPDATE alteracoespendentes SET dataAtualizacao = ?, estadoAlteracao = ? WHERE idAlteracaoPendente = ?";
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) throw new Exception("Erro na preparação do insert: " . $this->conn->error);
+        $stmt->bind_param("ssi", $dataAtualizacao, $estado, $idAlteracaoPendente);
+        
+        return $stmt->execute();
+    }
+
+    function rejeitarAlteracoesFuncionario($idFuncionario, $idAlteracaoPendente){
+        
     }
 }
