@@ -4,6 +4,8 @@ function mostrarFuncionarios() {
     $dal = new visualizarFuncionario_dal();
     $funcionarios = $dal->getTodosFuncionarios();
     $colaboradores =$dal->getColaboradores(2);
+    $alertas = $dal->getAlertas();
+
 
     echo '<h2>Lista de Funcionários</h2>';
 
@@ -61,6 +63,17 @@ function mostrarFuncionarios() {
             echo '<div class="coluna aniversário">' . $aniversarioFuncionario . '</div>';
             echo '</div>';
             echo '</a>';
+
+            echo '<form action="/LSIS1_Grupo4/BLL/atribuirAlerta_bll.php" method="POST" class="form-alerta">';
+            echo '<input type="hidden" name="idFuncionario" value="' . $f['idFuncionario'] . '">';
+            echo '<select name="idAlerta" required>';
+            echo '<option value="">Selecionar alerta</option>';
+            foreach ($alertas as $a) {
+                echo '<option value="' . $a['idAlerta'] . '">' . htmlspecialchars($a['mensagem']) . '</option>';
+            }
+            echo '</select>';
+            echo '<button type="submit">Atribuir</button>';
+            echo '</form>';
         }
     }else if($_SESSION['idCargo'] == 4){
         foreach ($colaboradores as $c) {
@@ -88,6 +101,17 @@ function mostrarFuncionarios() {
             echo '<div class="coluna aniversário">' . $aniversarioColaborador . '</div>';
             echo '</div>';
             echo '</a>';
+
+            echo '<form action="/LSIS1_Grupo4/BLL/atribuirAlerta_bll.php" method="POST" class="form-alerta">';
+            echo '<input type="hidden" name="idFuncionario" value="' . $c['idFuncionario'] . '">';
+            echo '<select name="idAlerta" required>';
+            echo '<option value="">Selecionar alerta</option>';
+            foreach ($alertas as $a) {
+                echo '<option value="' . $a['idAlerta'] . '">' . htmlspecialchars($a['mensagem']) . '</option>';
+            }
+            echo '</select>';
+            echo '<button type="submit">Atribuir</button>';
+            echo '</form>';
         }
     }
     echo '</div>';
