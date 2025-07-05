@@ -290,11 +290,11 @@ class atualizarPerfil_DAL {
   }
 
 
-  function pedidoPendente($dadoAntigo, $dadoNovo, $dataAtualizacao, $estado){
-    $query = "INSERT INTO alteracoespendentes(dadoAntigo, dadoNovo, dataAtualizacao, estadoAlteracao) VALUES (?, ?, ?, ?)";
+  function pedidoPendente($tipoDado, $dadoAntigo, $dadoNovo, $dataAtualizacao, $estado){
+    $query = "INSERT INTO alteracoespendentes(dadoAntigo, dadoNovo, dataAtualizacao, estadoAlteracao, TipoDeDado) VALUES (?, ?, ?, ?, ?)";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) throw new Exception("Erro na preparação do insert: " . $this->conn->error);
-    $stmt->bind_param("ssss", $dadoAntigo, $dadoNovo, $dataAtualizacao, $estado);
+    $stmt->bind_param("sssss", $dadoAntigo, $dadoNovo, $dataAtualizacao, $estado, $tipoDado);
     
     if (!$stmt->execute()) {
         throw new Exception("Erro ao executar o insert: " . $stmt->error); 
