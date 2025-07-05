@@ -11,20 +11,59 @@ class exportData_DAL {
         $this->conn = $dal->getConn();
     }
 
-    function exportData() {
+    /*function exportData($filter = 'all', $idEquipa = null) {
+        $whereClause = "";
 
-        $query = "
-            SELECT f.*,dl.*,dc.*,dp.*,df.*,cv.*,b.*
+        if ($filter === 'colaboradores') {
+            $whereClause = "WHERE f.idCargo = 2"; // Or whatever defines 'colaborador'
+        } elseif ($filter === 'equipa' && $idEquipa !== null) {
+            $whereClause = "JOIN coordenador_equipa ce ON f.idFuncionario = ef.idCoordenador WHERE ce.idEquipa = ?";
+        }
+
+        /*$query = "
+            SELECT f.*, dl.*, dc.*, dp.*, df.*, cv.*, b.*
             FROM funcionario f
             LEFT JOIN dadosLogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-            LEFT JOIN dadosContrato dc on f.idDadosContrato = dc.idDadosContrato
-            LEFT JOIN dadosPessoais dp on f.idDadosPessoais = dp.idDadosPessoais
-            LEFT JOIN dadosFinanceiros df on f.idDadosFinanceiros = df.idDadosFinanceiros
-            LEFT JOIN cv cv on f.idCV = cv.idCV
-            LEFT JOIN beneficios b on f.idBeneficios= b.idBeneficios
+            LEFT JOIN dadosContrato dc ON f.idDadosContrato = dc.idDadosContrato
+            LEFT JOIN dadosPessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+            LEFT JOIN dadosFinanceiros df ON f.idDadosFinanceiros = df.idDadosFinanceiros
+            LEFT JOIN cv cv ON f.idCV = cv.idCV
+            LEFT JOIN beneficios b ON f.idBeneficios = b.idBeneficios
+            " . ($filter === 'equipa' ? "JOIN coordenador_equipa ce ON f.idFuncionario = ce.idCoordenador" : "") . "
+            " . ($filter === 'colaboradores' ? "WHERE f.idCargo = 2" : "") . "
+            " . ($filter === 'equipa' ? "WHERE ce.idEquipa = ?" : "") . "
+        ";*/
+
+/*
+        $query = "
+            SELECT f.*, dl.*, dc.*, dp.*, df.*, cv.*, b.*
+            FROM funcionario f
+            LEFT JOIN dadosLogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+            LEFT JOIN dadosContrato dc ON f.idDadosContrato = dc.idDadosContrato
+            LEFT JOIN dadosPessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+            LEFT JOIN dadosFinanceiros df ON f.idDadosFinanceiros = df.idDadosFinanceiros
+            LEFT JOIN cv cv ON f.idCV = cv.idCV
+            LEFT JOIN beneficios b ON f.idBeneficios = b.idBeneficios
         ";
 
+        if ($filter === 'colaboradores') {
+            $query .= " WHERE f.idCargo = 2";
+        } elseif ($filter === 'equipa') {
+            $query .= "
+            JOIN colaborador_equipa ce ON f.idFuncionario = ce.idColaborador
+                WHERE ce.idEquipa = (
+                SELECT idEquipa
+                FROM coordenador_equipa
+                WHERE idCoordenador = ?
+                )
+            ";
+        }
         $stmt = $this->conn->prepare($query);
+
+        /*if ($filter === 'equipa') {/*
+           *//* $stmt->bind_param("i", $idFuncionario);/*
+        }*/
+/*
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -44,6 +83,68 @@ class exportData_DAL {
                 $headersWritten = true;
             }
             fputcsv($output, array_values($row), ';');  
+        }
+
+        fclose($output);
+        $stmt->close();
+        exit();
+    }
+
+
+*/
+
+    function exportData($filter = 'all', $idCoordenador = null) {
+        $query = "
+            SELECT f.*, dl.*, dc.*, dp.*, df.*, cv.*, b.*
+            FROM funcionario f
+            LEFT JOIN dadosLogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+            LEFT JOIN dadosContrato dc ON f.idDadosContrato = dc.idDadosContrato
+            LEFT JOIN dadosPessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+            LEFT JOIN dadosFinanceiros df ON f.idDadosFinanceiros = df.idDadosFinanceiros
+            LEFT JOIN cv cv ON f.idCV = cv.idCV
+            LEFT JOIN beneficios b ON f.idBeneficios = b.idBeneficios
+        ";
+
+        $params = [];
+        $param_types = '';
+
+        if ($filter === 'colaboradores') {
+            $query .= " WHERE dl.idCargo = 2";
+        } elseif ($filter === 'equipa' && $idCoordenador !== null) {
+            // Use IN in case coordinator belongs to multiple teams
+            $query .= "
+                   JOIN colaborador_equipa ce ON f.idFuncionario = ce.idColaborador
+                    WHERE ce.idEquipa = ?
+                ";
+            $param_types = 'i';
+            $params[] = $idCoordenador;
+        }
+
+        $stmt = $this->conn->prepare($query);
+
+        if ($param_types) {
+            $stmt->bind_param($param_types, ...$params);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Set CSV headers - must be before any output
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=colaborador_export.csv');
+
+        // UTF-8 BOM for Excel
+        echo "\xEF\xBB\xBF";
+
+        $output = fopen('php://output', 'w');
+
+        $headersWritten = false;
+        while ($row = $result->fetch_assoc()) {
+            if (!$headersWritten) {
+                fputcsv($output, array_keys($row), ';');
+                $headersWritten = true;
+            }
+            fputcsv($output, array_values($row), ';');
         }
 
         fclose($output);

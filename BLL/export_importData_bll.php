@@ -6,10 +6,16 @@ require_once "../DAL/export_importData_dal.php";
 
 $handler = new exportData_DAL();
 
+
+
+
 // Handle export (via GET link)
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $handler->exportData();
-    exit(); // Important to stop execution after download
+    $filter = $_GET['filter'] ?? 'all';
+    $idEquipa = isset($_GET['idEquipa']) ? (int)$_GET['idEquipa'] : null;
+
+    $handler->exportData($filter, $idEquipa);
+exit();
 }
 
 // Handle import (via POST form)

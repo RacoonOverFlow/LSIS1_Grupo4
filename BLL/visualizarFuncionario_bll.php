@@ -11,7 +11,11 @@ function mostrarFuncionarios() {
     echo '<div class="tabela-funcionarios">';
 
     //butao para exportar
-    echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php">';
+    if($_SESSION['idCargo'] == 5){
+        echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php">';}
+    elseif($_SESSION['idCargo'] == 4) {
+        echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">';}
+    
     echo '<button class="button-export">EXPORT</button>';
     echo '</a>';
 
@@ -49,6 +53,7 @@ function mostrarFuncionarios() {
 
             $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
 
+
             $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
@@ -75,6 +80,8 @@ function mostrarFuncionarios() {
             }
 
             $aniversarioColaborador = $proximoAniversario->format('d/m/Y');
+
+            echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">';
 
             $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
@@ -104,7 +111,7 @@ function mostrarMembrosEquipa(){
     echo '<div class="tabela-funcionarios">';
 
     //butao para exportar
-    echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php">';
+    echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=equipa&idEquipa=' . urlencode($idEquipa) . '">';
     echo '<button class="button-export">EXPORT</button>';
     echo '</a>';
 
@@ -137,6 +144,9 @@ function mostrarMembrosEquipa(){
         }
 
         $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
+
+        
+
 
         $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
         echo '<a href="' . $link . '" class="linha-link">';
