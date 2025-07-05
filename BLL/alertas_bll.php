@@ -22,7 +22,6 @@ function mostrarFuncionarios() {
     if($_SESSION['idCargo'] == 5){
         // Cada funcionário (linha clicável)
         foreach ($funcionarios as $f) {
-        
             $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
@@ -53,8 +52,6 @@ function mostrarFuncionarios() {
         }
     }else if($_SESSION['idCargo'] == 4){
         foreach ($colaboradores as $c) {
-            echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">';
-
             $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
