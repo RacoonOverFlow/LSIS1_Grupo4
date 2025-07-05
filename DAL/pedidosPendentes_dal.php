@@ -90,4 +90,528 @@ class pedidosPendentes_dal {
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
     }
+
+    function updateMoradaFiscalFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE dadosPessoais dp
+                    JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais
+                    SET dp.moradaFiscal = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateGeneroFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE dadosPessoais dp
+                    JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais
+                    SET dp.genero = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateIndicativoTelemovelFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE dadosPessoais dp
+                    JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais
+                    SET dp.idIndicativo = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateContactoPessoalFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE dadosPessoais dp
+                    JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais
+                    SET dp.contactoPessoal = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateContactoEmergenciaFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE dadosPessoais dp
+                    JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais
+                    SET dp.contactoEmergencia = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateGrauDeRelacionamentoFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE dadosPessoais dp
+                    JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais
+                    SET dp.grauDeRelacionamento = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateSituacaoIRSFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE dadosfinanceiros df
+                    JOIN funcionario f ON df.idDadosFinanceiros = f.idDadosFinanceiros
+                    SET df.situacaoDeIRS = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateNumeroDependentesFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE dadosfinanceiros df
+                    JOIN funcionario f ON df.idDadosFinanceiros = f.idDadosFinanceiros
+                    SET df.numeroDeDependentes = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateIBANFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE dadosfinanceiros df
+                    JOIN funcionario f ON df.idDadosFinanceiros = f.idDadosFinanceiros
+                    SET df.IBAN = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateCartaoContinenteFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE beneficios b
+                    JOIN funcionario f ON b.idBeneficios = f.idBeneficios
+                    SET b.cartaoContinente = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateVoucherNOSFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE beneficios b
+                    JOIN funcionario f ON b.idBeneficios = f.idBeneficios
+                    SET b.voucherNOS = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateTipoViaturaFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE viatura v
+                    JOIN viatura_funcionario vf ON v.idViatura = vf.idViatura
+                    SET v.tipoViatura = ?
+                    WHERE vf.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateMatriculaViaturaFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE viatura v
+                    JOIN viatura_funcionario vf ON v.idViatura = vf.idViatura
+                    SET v.matriculaDaViatura = ?
+                    WHERE vf.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateHabilitacoesLiterariasFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE cv cv
+                    JOIN funcionario f ON cv.idCV = f.idCV
+                    SET cv.habilitacoesLiterarias = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateCursoFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE cv cv
+                    JOIN funcionario f ON cv.idCV = f.idCV
+                    SET cv.curso = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateFrequenciaFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE cv cv
+                    JOIN funcionario f ON cv.idCV = f.idCV
+                    SET cv.frequencia = ?
+                    WHERE f.idFuncionario = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updatDocMod99Funcionario($idFuncionario, $dadoNovo, $dataAtualizacao, $TipoDocumento) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE documento d
+                    JOIN documento_funcionario df ON d.idDocumento = df.idDocumento
+                    JOIN tipodocumento td ON d.idTipoDocumento = td.idTipoDocumento
+                    SET d.caminho = ?
+                    WHERE df.idFuncionario = ? AND td.nome = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("sis", $dadoNovo, $idFuncionario, $TipoDocumento);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+        function updateDocCCFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao, $TipoDocumento) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE documento d
+                    JOIN documento_funcionario df ON d.idDocumento = df.idDocumento
+                    JOIN tipodocumento td ON d.idTipoDocumento = td.idTipoDocumento
+                    SET d.caminho = ?
+                    WHERE df.idFuncionario = ? AND td.nome = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("sis", $dadoNovo, $idFuncionario, $TipoDocumento);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+        function updateDocBancarioFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao, $TipoDocumento) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE documento d
+                    JOIN documento_funcionario df ON d.idDocumento = df.idDocumento
+                    JOIN tipodocumento td ON d.idTipoDocumento = td.idTipoDocumento
+                    SET d.caminho = ?
+                    WHERE df.idFuncionario = ? AND td.nome = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("sis", $dadoNovo, $idFuncionario, $TipoDocumento);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
+
+    function updateDocCartaoContinenteFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao, $TipoDocumento) {
+        $this->conn->begin_transaction();
+        try {
+            $query1 = "UPDATE documento d
+                    JOIN documento_funcionario df ON d.idDocumento = df.idDocumento
+                    JOIN tipodocumento td ON d.idTipoDocumento = td.idTipoDocumento
+                    SET d.caminho = ?
+                    WHERE df.idFuncionario = ? AND td.nome = ?";
+            $stmt1 = $this->conn->prepare($query1);
+            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
+            $stmt1->bind_param("sis", $dadoNovo, $idFuncionario, $TipoDocumento);
+            $stmt1->execute();
+
+            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
+            $stmt2 = $this->conn->prepare($query2);
+            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
+            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
+            $stmt2->execute();
+
+            $this->conn->commit();
+            return true;
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
+        }
+    }
 }
