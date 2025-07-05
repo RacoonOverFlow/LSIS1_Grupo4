@@ -173,6 +173,7 @@ function mostrarPedidosPendentes() {
                 echo '<form method="post" action="">
                 <input type="hidden" name="idFuncionario" value="' . htmlspecialchars($f['idFuncionario']) . '">
                 <input type="hidden" name="idAlteracaoPendente" value="' . htmlspecialchars($f['idAlteracaoPendente']) . '">
+                <input type="hidden" name="TipoDeDado" value="' . htmlspecialchars($f['TipoDeDado']) . '">
                 <button type="submit" name="acao" value="aceitar" class="">Aceitar Alterações</button>
                 <button type="submit" name="acao" value="recusar" class="">Recusar Alterações</button>
                 </form>';  
@@ -206,50 +207,51 @@ function mostrarPedidosPendentes() {
                 $f['TipoDeDado'] === "docBancario" ||
                 $f['TipoDeDado'] === "docCartaoContinente"
             ){
-                $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
+                $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
                 echo '<div class="linha-funcionario">';
-                echo '<div class="coluna mecanografico"><a href="' . $link . '" class="linha-link">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
-                echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '
+                echo '<div class="coluna mecanografico"><a href="' . $link . '" class="linha-link">' . htmlspecialchars($c['numeroMecanografico']) . '</div>';
+                echo '<div class="coluna cargo">' . htmlspecialchars($c['cargo']) . '
                 <a href="' . $link . '" class="linha-link"></div>';
-                echo '<div class="coluna nome">' . htmlspecialchars($f['nomeAbreviado']) . '
+                echo '<div class="coluna nome">' . htmlspecialchars($c['nomeAbreviado']) . '
                 <a href="' . $link . '" class="linha-link"></div>';
-                echo '<div class="coluna alteracao">' . htmlspecialchars($f['TipoDeDado']) . '
+                echo '<div class="coluna alteracao">' . htmlspecialchars($c['TipoDeDado']) . '
                 <a href="' . $link . '" class="linha-link"></div>';
 
                 echo '<div class="coluna dadoAtual document-links">';
-                echo '<a href="../' . htmlspecialchars($f['dadoAntigo']) . '" target="_blank">Ver doc atual</a>';
+                echo '<a href="../' . htmlspecialchars($c['dadoAntigo']) . '" target="_blank">Ver doc atual</a>';
                 echo '</div>';
 
                 echo '<div class="coluna dadoNovo document-links">';
-                echo '<a href="../' . htmlspecialchars($f['dadoNovo']) . '" target="_blank">Ver doc novo</a>';
+                echo '<a href="../' . htmlspecialchars($c['dadoNovo']) . '" target="_blank">Ver doc novo</a>';
                 echo '</div>';
 
-                echo '<div class="coluna dataDeAtualizacao"><a href="' . $link . '" class="linha-link"> ' . htmlspecialchars($f['dataAtualizacao']) . '</div>';
+                echo '<div class="coluna dataDeAtualizacao"><a href="' . $link . '" class="linha-link"> ' . htmlspecialchars($c['dataAtualizacao']) . '</div>';
                 echo '</div>';
                 echo '</a>';
                 echo '<form method="post" action="">
-                <input type="hidden" name="idFuncionario" value="' . htmlspecialchars($f['idFuncionario']) . '">
-                <input type="hidden" name="idAlteracaoPendente" value="' . htmlspecialchars($f['idAlteracaoPendente']) . '">
+                <input type="hidden" name="idFuncionario" value="' . htmlspecialchars($c['idFuncionario']) . '">
+                <input type="hidden" name="idAlteracaoPendente" value="' . htmlspecialchars($c['idAlteracaoPendente']) . '">
+                <input type="hidden" name="TipoDeDado" value="' . htmlspecialchars($c['TipoDeDado']) . '">
                 <button type="submit" name="acao" value="aceitar" class="">Aceitar Alterações</button>
                 <button type="submit" name="acao" value="recusar" class="">Recusar Alterações</button>
                 </form>';  
                 
             }else{
-                $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
+                $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
                 echo '<a href="' . $link . '" class="linha-link">';
                 echo '<div class="linha-funcionario">';
-                echo '<div class="coluna mecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
-                echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '</div>';
-                echo '<div class="coluna nome">' . htmlspecialchars($f['nomeAbreviado']) . '</div>';
-                echo '<div class="coluna alteracao">' . htmlspecialchars($f['TipoDeDado']) . '</div>';
-                echo '<div class="coluna dadoAtual">' . htmlspecialchars($f['dadoAntigo']) . '</div>';
-                echo '<div class="coluna dadoNovo">' . htmlspecialchars($f['dadoNovo']) . '</div>';
+                echo '<div class="coluna mecanografico">' . htmlspecialchars($c['numeroMecanografico']) . '</div>';
+                echo '<div class="coluna cargo">' . htmlspecialchars($c['cargo']) . '</div>';
+                echo '<div class="coluna nome">' . htmlspecialchars($c['nomeAbreviado']) . '</div>';
+                echo '<div class="coluna alteracao">' . htmlspecialchars($c['TipoDeDado']) . '</div>';
+                echo '<div class="coluna dadoAtual">' . htmlspecialchars($c['dadoAntigo']) . '</div>';
+                echo '<div class="coluna dadoNovo">' . htmlspecialchars($c['dadoNovo']) . '</div>';
                 echo '<div class="coluna dataDeAtualizacao">' . htmlspecialchars($f['dataAtualizacao']) . '</div>';
                 echo '</div></a>';
                 echo '<form method="post" action="">
-                <input type="hidden" name="idFuncionario" value="' . htmlspecialchars($f['idFuncionario']) . '">
-                <input type="hidden" name="idAlteracaoPendente" value="' . htmlspecialchars($f['idAlteracaoPendente']) . '">
-                <input type="hidden" name="TipoDeDado" value="' . htmlspecialchars($f['TipoDeDado']) . '">
+                <input type="hidden" name="idFuncionario" value="' . htmlspecialchars($c['idFuncionario']) . '">
+                <input type="hidden" name="idAlteracaoPendente" value="' . htmlspecialchars($c['idAlteracaoPendente']) . '">
+                <input type="hidden" name="TipoDeDado" value="' . htmlspecialchars($c['TipoDeDado']) . '">
                 <button type="submit" name="acao" value="aceitar">Aceitar Alterações</button>
                 <button type="submit" name="acao" value="recusar">Recusar Alterações</button>
                 </form>';
