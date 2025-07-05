@@ -25,10 +25,11 @@ function setDashboard($nMeca) {
     echo '<div id="cargoChart""></div>';
     echo '<div>';//12*
 
-    echo '<div class="average-tempo-inicio">';//13*
+    // CORRETO
+    echo '<div class="average-tempo-medio">';//13*
     echo '<h2>Tempo Médio</h2>';
     echo '<p id="average-tempo-value"></p>';
-    echo '<div id="tempoInicioChartContainer"></div>';
+    echo '<div id="tempoMedioChartContainer"></div>';
     echo '</div>';//13*
     
     echo '</div>';//12*
