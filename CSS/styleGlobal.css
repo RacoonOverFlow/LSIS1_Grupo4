@@ -251,7 +251,7 @@ option:focus {
 
 .sidebar {
     min-width: 240px;
-    max-width: 290px;
+    max-width: 265px;
     background: linear-gradient(135deg, #5ac8fa 0% , #299df3 30%,#1579d0 100%);
     border-right: 2px solid #ccc;
     padding: 1rem;
