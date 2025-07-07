@@ -9,6 +9,14 @@ class Perfil_DAL {
     $this->conn = $dal->getConn();
   }
 
+  function geFuncionarioByMeca($nMeca){
+    $query = "SELECT * FROM funcionario  WHERE numeroMecanografico = ?";
+    $stmt=$this->conn->prepare($query);
+    $stmt->bind_param("i", $nMeca);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+  }
+
   function getDadosPessoaisById($nMeca) {
     $query = "SELECT dp.* FROM dadospessoais dp INNER JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais WHERE f.numeroMecanografico = ?";
     $stmt=$this->conn->prepare($query);
@@ -84,15 +92,25 @@ class Perfil_DAL {
     return $stmt->get_result()->fetch_assoc();
   }
 
-  function getAlertasById($nMeca){
+  function getAlertasById($nMeca, $visualizado){
     $query = "SELECT a.* FROM alertas a 
     INNER JOIN alertas_funcionario af ON af.idAlerta = a.idAlerta 
-    INNER JOIN funcionario f ON f.idFuncionario = af.idFuncionario WHERE numeroMecanografico=?";
+    INNER JOIN funcionario f ON f.idFuncionario = af.idFuncionario WHERE numeroMecanografico=? AND visualizado = ?";
     $stmt=$this->conn->prepare($query);
-    $stmt->bind_param("i", $nMeca);
+    $stmt->bind_param("ii", $nMeca, $visualizado);
     $stmt->execute();
     $result = $stmt->get_result();
     return $result->fetch_all(MYSQLI_ASSOC);
+  }
+
+  public function marcarAlertaComoVisto($idAlerta, $idFuncionario, $visualizado) {
+    $query = "UPDATE alertas_funcionario SET visualizado=? WHERE idAlerta=? AND idFuncionario=?";
+    $stmt = $this->conn->prepare($query);
+    if (!$stmt) {
+        throw new Exception("Erro na preparação da query". $this->conn->error);
+    }
+    $stmt->bind_param("iii", $visualizado, $idAlerta, $idFuncionario);
+    return $stmt->execute();
   }
 }  
 ?>

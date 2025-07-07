@@ -202,10 +202,10 @@ function mostrarPedidosPendentes() {
 
     }else if($_SESSION['idCargo'] == 4){
         foreach ($colaboradores as $c) {
-            if ($f['TipoDeDado'] === "docCC" ||
-                $f['TipoDeDado'] === "docMod99" ||
-                $f['TipoDeDado'] === "docBancario" ||
-                $f['TipoDeDado'] === "docCartaoContinente"
+            if ($c['TipoDeDado'] === "docCC" ||
+                $c['TipoDeDado'] === "docMod99" ||
+                $c['TipoDeDado'] === "docBancario" ||
+                $c['TipoDeDado'] === "docCartaoContinente"
             ){
                 $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
                 echo '<div class="linha-funcionario">';
@@ -246,7 +246,7 @@ function mostrarPedidosPendentes() {
                 echo '<div class="coluna alteracao">' . htmlspecialchars($c['TipoDeDado']) . '</div>';
                 echo '<div class="coluna dadoAtual">' . htmlspecialchars($c['dadoAntigo']) . '</div>';
                 echo '<div class="coluna dadoNovo">' . htmlspecialchars($c['dadoNovo']) . '</div>';
-                echo '<div class="coluna dataDeAtualizacao">' . htmlspecialchars($f['dataAtualizacao']) . '</div>';
+                echo '<div class="coluna dataDeAtualizacao">' . htmlspecialchars($c['dataAtualizacao']) . '</div>';
                 echo '</div></a>';
                 echo '<form method="post" action="">
                 <input type="hidden" name="idFuncionario" value="' . htmlspecialchars($c['idFuncionario']) . '">

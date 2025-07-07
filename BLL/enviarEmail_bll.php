@@ -1,15 +1,19 @@
 <?php
-// BLL/EmailService.php
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require_once __DIR__ . '/../vendor/autoload.php';  // carrega o PHPMailer via Composer
+require_once __DIR__ . '/../DAL/enviarEmail_dal.php';
 
 class enviarEmail_bll {
     private $mail;
 
-    public function __construct($smtpUser, $smtpPass) {
+    public function __construct() {
+        $dal = new enviarEmail_dal();
+        $credenciais = $dal->getCredenciaisEnvioAlertas();
+        $smtpUser=$credenciais['email'];
+        $smtpPass=$credenciais['password'];
+
         $this->mail = new PHPMailer(true);
         try {
             $this->mail->isSMTP();
@@ -45,3 +49,21 @@ class enviarEmail_bll {
         }
     }
 }
+function mostrarCredenciaisEnvioAlertas() {
+        $dal = new enviarEmail_dal();
+        $credenciais = $dal->getCredenciaisEnvioAlertas();
+        echo '<form action="" method ="post">
+            <label for="emailEnvioAlerta">Email Envio Alerta: </label>
+            <input type="email" name="emailEnvioAlerta" value="'. $credenciais['email'] .'"><br>
+            <label for="passwordEnvioAlerta">Password: </label>
+            <input type="password" name="passwordEnvioAlerta"><br>
+            <button type="submit" name="botaoEmailEnvioAlertas">Editar</button>
+        </form><br>';
+}
+function updateCredenciaisEnvioAlertas(){
+    $email =$_POST['emailEnvioAlerta'];
+    $password=$_POST['passwordEnvioAlerta'];
+    $dal= new enviarEmail_dal();
+    return $dal->updateCredenciaisEnvioAlertas($email, $password);
+}
+

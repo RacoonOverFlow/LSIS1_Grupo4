@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once "../DAL/atualizarPerfil_dal.php";
-require_once __DIR__ . '/caminhoDocumentos_bll.php';
+require_once __DIR__ . "/../BLL/caminhoDocumentos_bll.php";
 
 function isThisACallback(): bool{
 
