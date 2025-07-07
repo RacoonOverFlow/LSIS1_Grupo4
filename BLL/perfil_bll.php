@@ -16,7 +16,7 @@ function setPerfil($nMeca) {
   $cargo = $dal->getCargoById($nMeca);
   $caminhoDocumentos = $dal->getCaminhoDocumentos($nMeca);
   $indicativo = $dal->getIndicativos($dadosPessoais['idIndicativo']);
-
+  $alertas = $dal->getAlertasById($nMeca);
 
   if (!$dadosPessoais || empty($dadosPessoais["nomeCompleto"])) {
     echo "<p>Utilizador não encontrado.</p>";
@@ -30,7 +30,21 @@ function setPerfil($nMeca) {
     echo '</div>';
     echo '<div class="Alertas">';
     echo '<h2>Alertas</h2>';
-    echo '<p>Sem Alertas</p>';
+    if($alertas==NULL){
+        echo '<p>Sem Alertas</p>';
+    }else{
+        foreach($alertas as $alerta){
+            echo '<div class="alertas">';
+            echo '<p>'. htmlspecialchars($alerta['mensagem']) . '</p>';
+            echo '<form method="post" action="">
+                    <input type="hidden" name="idAlerta" value="'. htmlspecialchars($alerta['idAlerta']) . '">
+                    <input type="hidden" name="alerta" value="' . htmlspecialchars($alerta['mensagem']) . '">
+                    <button type="submit" name="acao" value="visto"> X </button>
+                </form>';
+            echo '</div>';
+        }
+    }
+    
     echo '</div>';
     echo '</div>';
     echo '<div class="perfilInfo">';
