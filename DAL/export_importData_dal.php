@@ -107,14 +107,19 @@ class exportData_DAL {
 
         $params = [];
         $param_types = '';
-
-        if ($filter === 'colaboradores') {
+        if ($filter === 'perfil' && isset($_GET['numeroMecanografico'])) {
+            $numeroMecanografico = intval($_GET['numeroMecanografico']);
+            $query .= " WHERE dl.numeroMecanografico = ?";
+            $param_types = 'i';
+            $params[] = $numeroMecanografico;
+        }
+        elseif ($filter === 'colaboradores') {
             $query .= " WHERE dl.idCargo = 2";
         } elseif ($filter === 'equipa' && $idCoordenador !== null) {
             // Use IN in case coordinator belongs to multiple teams
             $query .= "
                    JOIN colaborador_equipa ce ON f.idFuncionario = ce.idColaborador
-                    WHERE ce.idEquipa = ?
+                   WHERE ce.idEquipa = ?
                 ";
             $param_types = 'i';
             $params[] = $idCoordenador;

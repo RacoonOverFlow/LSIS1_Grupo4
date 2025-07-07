@@ -18,6 +18,8 @@ function setPerfil($nMeca) {
   $indicativo = $dal->getIndicativos($dadosPessoais['idIndicativo']);
   $alertas = $dal->getAlertasById($nMeca);
 
+
+
   if (!$dadosPessoais || empty($dadosPessoais["nomeCompleto"])) {
     echo "<p>Utilizador não encontrado.</p>";
     return;
@@ -49,8 +51,11 @@ function setPerfil($nMeca) {
     echo '</div>';
     echo '<div class="perfilInfo">';
     if ($_SESSION['idCargo'] == 4 || $_SESSION['idCargo'] == 5 || $_SESSION['nMeca'] == $_GET['numeroMecanografico']) {
+        
         echo '<div class="action-buttons">';
         echo '<button onclick="location.href=\'atualizarPerfil.php?numeroMecanografico='. htmlspecialchars($nMeca) . '\'">Atualizar Perfil</button>';
+        echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=perfil&numeroMecanografico=' . $nMeca . '">';
+        echo '<button class="button-export">EXPORT</button></a>';
         echo '</div>';
     }
     
