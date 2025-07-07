@@ -83,5 +83,16 @@ class Perfil_DAL {
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc();
   }
+
+  function getAlertasById($nMeca){
+    $query = "SELECT a.* FROM alertas a 
+    INNER JOIN alertas_funcionario af ON af.idAlerta = a.idAlerta 
+    INNER JOIN funcionario f ON f.idFuncionario = af.idFuncionario WHERE numeroMecanografico=?";
+    $stmt=$this->conn->prepare($query);
+    $stmt->bind_param("i", $nMeca);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
+  }
 }  
 ?>
