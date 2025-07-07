@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //                             !!!!GENERO GRAFICO PIZZA/PIE!!!!
   function onGeneroChange(filteredGenero = null) {
     const dataToUse = filteredGenero || aggregateByKey(rawData.genero, "genero", teamFilter.value);
-    renderChart("generoChart", "Distribuição por Gênero", dataToUse, "pie", { M: "#36A2EB", F: "#FF6384" });
+    renderChart("generoChart", "Género", dataToUse, "pie", { M: "#36A2EB", F: "#FF6384" });
   }
 
   /////////////////////////////////
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cargoColors[label] = cargoColorsArray[i];
     });
 
-    renderChart("cargoChart", "Distribuição por função", dataToUse, "bar", cargoColors);
+    renderChart("cargoChart", "Cargo", dataToUse, "bar", cargoColors);
 }
 
 
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
       nacionalidadeColors[label] = nacionalidadeColorsArray[i];
     });
 
-    renderChart("nacionalidadeChart", "Distribuição por Nacionalidade", dataToUse, "pie", nacionalidadeColors);
+    renderChart("nacionalidadeChart", "Nacionalidade", dataToUse, "pie", nacionalidadeColors);
   }
 
   //////////////////////////
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
       moradaFiscalColors[label] = moradaFiscalColorsArray[i];
     });
 
-    renderChart("moradaFiscalChart", "Distribuição por geografia", dataToUse, "bar", moradaFiscalColors);
+    renderChart("moradaFiscalChart", "Geografia", dataToUse, "bar", moradaFiscalColors);
   }
 
 
@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
       animationEnabled: true,
       theme: "light2",
       title: {
-        text: "Distribuição de Idades e Idade Média"
+        text: "Idades"
       },
       axisX: {
         title: "Ano de Nascimento",
@@ -356,7 +356,7 @@ document.addEventListener("DOMContentLoaded", () => {
       animationEnabled: true,
       theme: "light2",
       title: {
-        text: "Distribuição de Início e Fim de Contrato (por Ano)"
+        text: "Contrato"
       },
       /*subtitles: [
         {
@@ -444,7 +444,7 @@ document.addEventListener("DOMContentLoaded", () => {
       animationEnabled: true,
       theme: "light2",
       title: {
-        text: "Distribuição de Remuneração"
+        text: "Remuneração"
       },
       axisX: {
         title: "Remuneração (euros)",
