@@ -14,10 +14,9 @@ require_once __DIR__ . '/../BLL/login_bll.php';
   <title>Login</title>
   <link rel="stylesheet" href="../CSS/styleGlobal.css">
   <link rel="stylesheet" href="../CSS/styleLogin.css">
-  <link rel="stylesheet" href="../CSS/styleEquipas.css">
 </head>
   <body>
-      <div class="Layout-container">
+      <div class="layout-container-login">
         <main class="main-content">
           <?php showUI(); ?>
        </main>
