@@ -17,6 +17,7 @@ $cargo = $_SESSION['idCargo'];
   <meta charset="UTF-8" />
   <title>Dashboard</title>
   <link rel="stylesheet" href="../CSS/styleDashboard.css" />
+  <link rel="stylesheet" href="../CSS/styleGlobal.css" />
   <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
   <script src="../jvscript/dashboardChart.js" defer></script>
 </head>

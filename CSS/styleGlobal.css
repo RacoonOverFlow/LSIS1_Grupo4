@@ -299,3 +299,11 @@ option:focus {
 .nav-links a:hover {
     color: black;
 }
+
+.layout-container {
+    display: flex;
+    height: 96vh;
+    overflow: hidden;
+    width: 85%;
+    border-radius: 25px;
+}
