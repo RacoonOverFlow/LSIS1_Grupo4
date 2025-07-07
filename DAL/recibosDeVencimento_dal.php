@@ -1,0 +1,105 @@
+<?php
+require_once "connection.php";
+
+class recibosDeVencimento_DAL {
+    private $conn;
+
+    function __construct() {
+        $dal= new connection();
+        $this->conn = $dal->getConn();
+    }
+
+    public function getTodosFuncionarios() {
+        $query = "SELECT f.idFuncionario,
+            dl.numeroMecanografico,
+            dp.nomeCompleto,
+            c.cargo
+        FROM funcionario f
+        INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+        INNER JOIN cargo c ON dl.idCargo = c.idCargo
+        INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+        ORDER BY dp.nomeCompleto ASC";
+
+        $stmt = $this->conn->prepare($query);
+        if(!$stmt) throw new Exception("Erro na preparação da query: " . $this->conn->error);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $funcionarios = [];
+        while ($row = $result->fetch_assoc()) {
+            $funcionarios[] = $row;
+        }
+        return $funcionarios;
+    }
+
+        public function getFuncionarios($idFuncionario) {
+        $query = "SELECT
+            dl.numeroMecanografico,
+            dp.nomeCompleto,
+            c.cargo
+        FROM funcionario f
+        INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+        INNER JOIN cargo c ON dl.idCargo = c.idCargo
+        INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+        WHERE idFuncionario = ?";
+        
+        $stmt=$this->conn->prepare($query);
+        $stmt->bind_param("i", $idFuncionario);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    function getMes() {
+        $query = "SELECT DISTINCT mes FROM recibovencimento ORDER BY mes ASC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    function getAno() {
+        $query = "SELECT DISTINCT ano FROM recibovencimento ORDER BY ano DESC";
+        $stmt=$this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+    function getRecibosDeVencimento($numeroMecanografico = null, $ano = null, $mes = null) {
+        $query = "SELECT d.caminho, f.idFuncionario
+                FROM documento d
+                INNER JOIN documento_funcionario df ON df.idFuncionario = f.idFuncionario 
+                INNER JOIN recibovencimento rv ON rv.idDocumento = d.idDocumento 
+                WHERE 1=1";
+        
+        $params = [];
+        $types = "";
+
+        if ($numeroMecanografico !== null) {
+            $query .= " AND f.numeroMecanografico = ?";
+            $params[] = $numeroMecanografico;
+            $types .= "i";
+        }
+
+        if ($ano !== null) {
+            $query .= " AND rv.ano = ?";
+            $params[] = $ano;
+            $types .= "i";
+        }
+
+        if ($mes !== null) {
+            $query .= " AND rv.mes = ?";
+            $params[] = $mes;
+            $types .= "i";
+        }
+
+        $stmt = $this->conn->prepare($query);
+
+        if (!empty($params)) {
+            $stmt->bind_param($types, ...$params);
+        }
+
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+}  
+?>
