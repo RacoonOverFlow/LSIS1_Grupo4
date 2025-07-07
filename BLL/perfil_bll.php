@@ -6,7 +6,8 @@ require_once "../DAL/perfil_dal.php";
 
 function setPerfil($nMeca) {
   $dal = new Perfil_DAL();
-  
+
+  $funcionario = $dal->geFuncionarioByMeca($nMeca);
   $dadosPessoais = $dal->getDadosPessoaisById($nMeca);
   $dadosFinanceiros = $dal->getDadosFinanceirosById($nMeca);
   $dadosContrato = $dal->getDadosContratoById($nMeca);
@@ -16,9 +17,15 @@ function setPerfil($nMeca) {
   $cargo = $dal->getCargoById($nMeca);
   $caminhoDocumentos = $dal->getCaminhoDocumentos($nMeca);
   $indicativo = $dal->getIndicativos($dadosPessoais['idIndicativo']);
-  $alertas = $dal->getAlertasById($nMeca);
+  $alertas = $dal->getAlertasById($nMeca, 0);
 
-
+   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $idFuncionario = $_POST['idFuncionario'] ?? null;
+    $idAlerta = $_POST['idAlerta'] ?? null;
+    if ($idAlerta) {
+        $dal->marcarAlertaComoVisto($idAlerta, $idFuncionario, 1);
+    }
+  }
 
   if (!$dadosPessoais || empty($dadosPessoais["nomeCompleto"])) {
     echo "<p>Utilizador não encontrado.</p>";
@@ -32,7 +39,7 @@ function setPerfil($nMeca) {
     echo '</div>';
     echo '<div class="Alertas">';
     echo '<h2>Alertas</h2>';
-    if($alertas==NULL){
+   if($alertas==NULL){
         echo '<p>Sem Alertas</p>';
     }else{
         foreach($alertas as $alerta){
@@ -40,13 +47,12 @@ function setPerfil($nMeca) {
             echo '<p>'. htmlspecialchars($alerta['mensagem']) . '</p>';
             echo '<form method="post" action="">
                     <input type="hidden" name="idAlerta" value="'. htmlspecialchars($alerta['idAlerta']) . '">
-                    <input type="hidden" name="alerta" value="' . htmlspecialchars($alerta['mensagem']) . '">
+                    <input type="hidden" name="idFuncionario" value="' . htmlspecialchars($funcionario['idFuncionario']) . '">
                     <button type="submit" name="acao" value="visto"> X </button>
                 </form>';
             echo '</div>';
         }
     }
-    
     echo '</div>';
     echo '</div>';
     echo '<div class="perfilInfo">';
