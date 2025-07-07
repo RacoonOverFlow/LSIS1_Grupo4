@@ -36,13 +36,14 @@ if ($utilizadorCargo == 5) { // RHSuperior
 <html>
 <head>
     <link rel="stylesheet" href="../CSS/styleEquipas.css">
+    <link rel="stylesheet" href="../CSS/styleGlobal.css">
     <script src="../jvscript/header.js" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="../jvscript/equipas.js"></script>
 </head>
 <body>
 <div class="layout-container">
-    <div class="equipas-container">
+    <div class="main-container">
         <div class="top-bar">
             <div class=search-container>
                 <input type="text" placeholder="Pesquisar equipa..." id="searchInput" onkeyup="filterEquipas()" />

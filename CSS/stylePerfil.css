@@ -1,7 +1,7 @@
 /* stylePerfil.css */
 @import url('styleGlobal.css');
 
-/* Consistent layout with equipas page */
+
 .perfil-container {
     flex: 1;
     overflow-y: auto;
@@ -11,6 +11,8 @@
     border-radius: 25px;
     display: flex;
     gap: 25px;
+    padding-bottom: 2rem
+    ;
 }
 
 /* Left column styling */
@@ -28,7 +30,7 @@
     border-radius: 20px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    
 }
 
 .perfilImg img {
@@ -179,4 +181,11 @@
     .perfilInfo {
         padding: 20px;
     }
+}
+.layout-container {
+    display: flex;
+    height: 96vh;
+    overflow: hidden;
+    width: 85%;
+    border-radius: 25px;
 }
