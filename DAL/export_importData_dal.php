@@ -119,7 +119,7 @@ class exportData_DAL {
             // Use IN in case coordinator belongs to multiple teams
             $query .= "
                    JOIN colaborador_equipa ce ON f.idFuncionario = ce.idColaborador
-                    WHERE ce.idEquipa = ?
+                   WHERE ce.idEquipa = ?
                 ";
             $param_types = 'i';
             $params[] = $idCoordenador;
