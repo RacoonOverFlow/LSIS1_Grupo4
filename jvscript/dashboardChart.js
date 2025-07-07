@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //                             !!!!GENERO GRAFICO PIZZA/PIE!!!!
   function onGeneroChange(filteredGenero = null) {
     const dataToUse = filteredGenero || aggregateByKey(rawData.genero, "genero", teamFilter.value);
-    renderChart("generoChart", "Distribuição por Gênero", dataToUse, "pie", { M: "#36A2EB", F: "#FF6384" });
+    renderChart("generoChart", "Género", dataToUse, "pie", { M: "#36A2EB", F: "#FF6384" });
   }
 
   /////////////////////////////////
@@ -88,9 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const dataToUse = filteredCargo || aggregateByKey(rawData.cargo, "cargo", teamFilter.value);
 
     // Aplica o filtro dos checkboxes (se houver)
-    const finalData = filterData(dataToUse, "filters-cargo");
+    //const finalData = filterData(dataToUse, "filters-cargo");
     
-    const labels = Object.keys(finalData);
+    const labels = Object.keys(dataToUse);
 
     // Paleta para Cargo: azul-esverdeado (hue 150-210)
     const cargoColorsArray = generateColors(labels.length, 150, 60);
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cargoColors[label] = cargoColorsArray[i];
     });
 
-    renderChart("cargoChart", "Distribuição por função", finalData, "bar", cargoColors);
+    renderChart("cargoChart", "Cargo", dataToUse, "bar", cargoColors);
 }
 
 
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function onNacionalidadeChange(filteredNacionalidade = null) {
     const dataToUse = filteredNacionalidade || aggregateByKey(rawData.nacionalidade, "nacionalidade", teamFilter.value);
     
-    const finalData = filterData(dataToUse, "filters-nacionalidade");
+    //const finalData = filterData(dataToUse, "filters-nacionalidade");
 
     const labels = Object.keys(dataToUse);
 
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
       nacionalidadeColors[label] = nacionalidadeColorsArray[i];
     });
 
-    renderChart("nacionalidadeChart", "Distribuição por Nacionalidade", finalData, "pie", nacionalidadeColors);
+    renderChart("nacionalidadeChart", "Nacionalidade", dataToUse, "pie", nacionalidadeColors);
   }
 
   //////////////////////////
@@ -131,9 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const dataToUse = filteredDistrito || aggregateByKey(rawData.moradaFiscal, "cargo", teamFilter.value);
     
-    const finalData = filterData(dataToUse, "filters-moradaFiscal");
+    //const finalData = filterData(dataToUse, "filters-moradaFiscal");
     
-    const labels = Object.keys(finalData);
+    const labels = Object.keys(dataToUse);
 
     // Paleta para Cargo: azul-esverdeado (hue 150-210)
     const moradaFiscalColorsArray = generateColors(labels.length, 150, 60);
@@ -142,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
       moradaFiscalColors[label] = moradaFiscalColorsArray[i];
     });
 
-    renderChart("moradaFiscalChart", "Distribuição por geografia", finalData, "bar", moradaFiscalColors);
+    renderChart("moradaFiscalChart", "Geografia", dataToUse, "bar", moradaFiscalColors);
   }
 
 
@@ -151,35 +151,52 @@ document.addEventListener("DOMContentLoaded", () => {
   //                           !!!!IDADE MEDIA GRAFICO LINEAR!!!!
 
   //CALCULAR A IDADE MÉDIA 
-  function calculateAverageAge(dataNascimento) { 
+  function calculateAverageAge(dataNascimento, filterTeam = null) {
     const today = new Date();
     let totalAge = 0;
     let totalPeople = 0;
     const ageByYear = {};
 
-    for (const birthDateStr in dataNascimento) {
-        const count = dataNascimento[birthDateStr];
-        const birthDate = new Date(birthDateStr);
+    for (const id in dataNascimento) {
+      const entry = dataNascimento[id];
+      const birthDateStr = entry.dataNascimento;
+      const teams = entry.teams || [];
 
-        if (isNaN(birthDate)) continue;
+      if (filterTeam === "no-team") {
+        if (teams.length !== 0) continue; // só entra se a pessoa NÃO tiver equipa
+      } else if (filterTeam !== null && filterTeam !== "all") {
+        const teamFilterInt = parseInt(filterTeam, 10);
+        const teamIds = teams.map(t => parseInt(t, 10));
+        if (!teamIds.includes(teamFilterInt)) continue;
+      }
 
-        const age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-        const dayDiff = today.getDate() - birthDate.getDate();
 
-        // Ajustar udade se o aniversario nao tiver ocorrido ainda
-        const exactAge = (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) ? age - 1 : age;
+      const birthDate = new Date(birthDateStr);
+      if (isNaN(birthDate)) continue;
 
-        totalAge += exactAge * count;
-        totalPeople += count;
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      const dayDiff = today.getDate() - birthDate.getDate();
 
-        const year = birthDate.getFullYear();
-        ageByYear[year] = (ageByYear[year] || 0) + count;
+      if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age -= 1;
+      }
+
+      totalAge += age;
+      totalPeople++;
+
+      const birthYear = birthDate.getFullYear();
+      ageByYear[birthYear] = (ageByYear[birthYear] || 0) + 1;
     }
 
-    const averageAge = totalPeople > 0 ? (totalAge / totalPeople).toFixed(2) : 0;// para agrupar diferentes data do mesmo ano, num so ano
-    return { averageAge: parseFloat(averageAge), ageByYear };
+    const averageAge = totalPeople > 0 ? (totalAge / totalPeople).toFixed(2) : 0;
+
+    return {
+      averageAge: parseFloat(averageAge),
+      ageByYear
+    };
   }
+
 
   
   // Função externa para formatar o conteúdo do tooltip  !!AGE!!
@@ -214,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
       animationEnabled: true,
       theme: "light2",
       title: {
-        text: "Distribuição de Idades e Idade Média"
+        text: "Idades"
       },
       axisX: {
         title: "Ano de Nascimento",
@@ -253,41 +270,54 @@ document.addEventListener("DOMContentLoaded", () => {
   //                                 !!!!TEMPO MEDIO NA EMPRESA!!!!
 
 
-  function calculateAverageContractDuration(tempoDeContrato) {
+  function calculateAverageContractDuration(tempoDeContrato, filterTeam = null) {
     let totalDuration = 0;
     let totalPeople = 0;
 
-    for (const contrato of tempoDeContrato) {
-      const start = new Date(contrato.inicio);
-      const end = new Date(contrato.fim);
-      const count = contrato.total || 1;
+    for (const id in tempoDeContrato) {
+      const contrato = tempoDeContrato[id];
+      const start = new Date(contrato.dataInicioDeContrato);
+      const end = new Date(contrato.dataFimDeContrato);
+      const teams = contrato.teams || [];
+
+      // Apply team filter if needed
+      if (filterTeam !== null && filterTeam !== "all") {
+        if (filterTeam === "no-team") {
+          if (teams.length !== 0) continue; // só passa contratos sem equipa
+        } else {
+          const teamFilterInt = parseInt(filterTeam, 10);
+          const teamIds = teams.map(t => parseInt(t, 10));
+          if (!teamIds.includes(teamFilterInt)) continue;
+        }
+      }
+
 
       if (isNaN(start) || isNaN(end)) continue;
-      if (end < start) continue; // skip invalid cases
+      if (end < start) continue; // skip invalid contracts
 
-      // Calculate duration in years with decimals
       const durationMs = end - start;
       const durationYears = durationMs / (1000 * 60 * 60 * 24 * 365.25);
 
-      totalDuration += durationYears * count;
-      totalPeople += count;
+      totalDuration += durationYears;
+      totalPeople += 1;
     }
 
-    const averageYears = totalPeople > 0 ? (totalDuration / totalPeople).toFixed(2) : 0;
-
-    return parseFloat(averageYears);
+    const averageTempo = totalPeople > 0 ? (totalDuration / totalPeople).toFixed(2) : 0;
+    return parseFloat(averageTempo);
   }
+
 
   
   function groupContractYears(tempoDeContrato) {
     const inicioPorAno = {};
     const fimPorAno = {};
 
-    for (const contrato of tempoDeContrato) {
-      const total = Number(contrato.total) || 1;
+    for (const id in tempoDeContrato) {
+      const contrato = tempoDeContrato[id];
+      const total = 1; // Cada contrato representa 1 pessoa
 
-      const inicioAno = new Date(contrato.inicio).getFullYear();
-      const fimAno = new Date(contrato.fim).getFullYear();
+      const inicioAno = new Date(contrato.dataInicioDeContrato).getFullYear();
+      const fimAno = new Date(contrato.dataFimDeContrato).getFullYear();
 
       if (!isNaN(inicioAno)) {
         inicioPorAno[inicioAno] = (inicioPorAno[inicioAno] || 0) + total;
@@ -300,6 +330,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return { inicioPorAno, fimPorAno };
   }
+
 
   function renderTempoMedioChart(tempoDeContrato, averageTempo) {
     const { inicioPorAno, fimPorAno } = groupContractYears(tempoDeContrato);
@@ -325,7 +356,7 @@ document.addEventListener("DOMContentLoaded", () => {
       animationEnabled: true,
       theme: "light2",
       title: {
-        text: "Distribuição de Início e Fim de Contrato (por Ano)"
+        text: "Contrato"
       },
       /*subtitles: [
         {
@@ -355,12 +386,14 @@ document.addEventListener("DOMContentLoaded", () => {
           type: "line",
           name: "Início de Contrato",
           showInLegend: true,
+          xValueFormatString: "YYYY",
           dataPoints: inicioDataPoints
         },
         {
           type: "line",
           name: "Fim de Contrato",
           showInLegend: true,
+          xValueFormatString: "YYYY",
           dataPoints: fimDataPoints
         }
       ]
@@ -411,7 +444,7 @@ document.addEventListener("DOMContentLoaded", () => {
       animationEnabled: true,
       theme: "light2",
       title: {
-        text: "Distribuição de Remuneração"
+        text: "Remuneração"
       },
       axisX: {
         title: "Remuneração (euros)",
@@ -458,29 +491,42 @@ document.addEventListener("DOMContentLoaded", () => {
     allTeams.forEach(teamId => {
       teamFilter.innerHTML += `<option value="${teamId}">Equipa ${teamId}</option>`;
     });
+    
 
-    function aggregateByKey(data, keyName, filterTeam = null) {
-    const result = {};
+    // Verifica se há pelo menos uma pessoa sem equipa
+    const hasNoTeam = Object.values(rawData.dataTempoDeContrato).some(contrato => 
+      Array.isArray(contrato.teams) && contrato.teams.length === 0
+    );
 
-    for (const id in data) {
-      const entry = data[id];
-      if (!entry || !Array.isArray(entry.teams)) continue;
-
-      if (filterTeam !== null && filterTeam !== "all") {
-        const teamFilterInt = parseInt(filterTeam, 10);
-        // Converter todas as equipas para inteiros antes de comparar
-        const teamIds = entry.teams.map(t => parseInt(t, 10));
-        if (!teamIds.includes(teamFilterInt)) continue;
-      }
-
-      const key = entry[keyName];
-      if (!key) continue;
-
-      result[key] = (result[key] || 0) + 1;
+    if (hasNoTeam) {
+      teamFilter.innerHTML += '<option value="no-team">Sem Equipa</option>';
     }
 
-    return result;
-  }
+
+    function aggregateByKey(data, keyName, filterTeam = null) {
+      const result = {};
+
+      for (const id in data) {
+        const entry = data[id];
+        if (!entry || !Array.isArray(entry.teams)) continue;
+
+        const teamIds = entry.teams.map(t => parseInt(t, 10));
+
+        if (filterTeam === "no-team") {
+          if (teamIds.length !== 0) continue; // Ignora se tem equipa
+        } else if (filterTeam !== null && filterTeam !== "all") {
+          const teamFilterInt = parseInt(filterTeam, 10);
+          if (!teamIds.includes(teamFilterInt)) continue;
+        }
+
+        const key = entry[keyName];
+        if (!key) continue;
+
+        result[key] = (result[key] || 0) + 1;
+      }
+
+      return result;
+    }
 
     function updateCharts(selectedTeam) {
       // Use rawData to avoid overwriting the original data object
@@ -489,10 +535,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const nacionalidade = aggregateByKey(rawData.nacionalidade, "nacionalidade", selectedTeam);
       const moradaFiscal = aggregateByKey(rawData.moradaFiscal, "moradaFiscal", selectedTeam);
 
-      createCheckboxFilters("filters-genero", genero, onGeneroChange);
-      createCheckboxFilters("filters-cargo", cargo, onCargoChange);
-      createCheckboxFilters("filters-nacionalidade", nacionalidade, onNacionalidadeChange);
-      createCheckboxFilters("filters-moradaFiscal", moradaFiscal, onDistritoChange);
+      //createCheckboxFilters("filters-genero", genero, onGeneroChange); //comentados na pagina mas pq é que ao tirar param de funcionar
+      //createCheckboxFilters("filters-cargo", cargo, onCargoChange);
+      //createCheckboxFilters("filters-nacionalidade", nacionalidade, onNacionalidadeChange);
+      //createCheckboxFilters("filters-moradaFiscal", moradaFiscal, onDistritoChange);
 
       // DO NOT overwrite rawData properties here!
 
@@ -502,18 +548,34 @@ document.addEventListener("DOMContentLoaded", () => {
       onDistritoChange(moradaFiscal);
 
       // Use rawData for these calculations (unfiltered)
-      // const { averageAge, ageByYear } = calculateAverageAge(rawData.dataNascimento);
-      // document.getElementById('average-age-value').textContent = `${averageAge} anos`;
-      // renderAgeChart(averageAge, ageByYear);
+       const { averageAge, ageByYear } = calculateAverageAge(rawData.dataNascimento,selectedTeam);
+       document.getElementById('average-age-value').textContent = `${averageAge} anos`;
+       renderAgeChart(averageAge, ageByYear);
+       console.log("averare idade:",averageAge);
 
       // const { averageRemuneracao } = calculateAverageRemuneracao(rawData.dataRemuneracao);
       // document.getElementById("average-remuneracao-value").innerText = `Média: ${averageRemuneracao.toFixed(2)}`;
       // renderRemuneracaoChart(rawData.dataRemuneracao);
 
-      // Uncomment and fix if you want average contract duration
-      // const avgContractDuration = calculateAverageContractDuration(rawData.dataTempoDeContrato);
-      // document.getElementById("average-tempo-value").innerText = `Média: ${avgContractDuration.toFixed(2)}`;
-      // renderTempoMedioChart(rawData.dataTempoDeContrato, avgContractDuration);
+      // necessario porque estava a ser mandado rawdata no renderchart e nao atualizava com os filtros das equipas
+      const filteredContractData = Object.values(rawData.dataTempoDeContrato).filter((contrato) => {
+        if (!selectedTeam || selectedTeam === "all") return true;
+
+        if (selectedTeam === "no-team") {
+          return contrato.teams.length === 0;  // only contracts with empty teams array
+        }
+
+        return contrato.teams.includes(parseInt(selectedTeam));
+      });
+
+
+      const avgContractDuration = calculateAverageContractDuration(filteredContractData, selectedTeam);
+      document.getElementById("average-tempo-value").innerText = `Média: ${avgContractDuration.toFixed(2)}`;
+
+      renderTempoMedioChart(filteredContractData, avgContractDuration); 
+      console.log("average tempo:", avgContractDuration);
+
+
     }
 
     // Initial load with all teams
@@ -523,7 +585,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Dropdown #teamFilter not found");
       return;
     }
-updateCharts("all");
+    updateCharts("all");
     teamFilter.addEventListener("change", (e) => {
       console.log("Selected team:", e.target.value);
       updateCharts(e.target.value);

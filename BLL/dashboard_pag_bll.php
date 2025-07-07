@@ -4,6 +4,7 @@ require_once "../DAL/perfil_dal.php";
 function setDashboard($nMeca) {
     $perfdal = new Perfil_DAL();
     $cargo = $perfdal->getCargoById($nMeca);
+
     mostrarHeader($cargo['cargo']);
     echo '<div class="backTemplate">';
     
@@ -15,13 +16,13 @@ function setDashboard($nMeca) {
     echo '<option value="all">Todas as Equipas</option>';
     echo '</select>';
     
-    echo '<h2>Filtro por Gênero</h2>';
-    echo '<div id="filters-genero"></div>';
+    echo '<h2>Género</h2>';
+    //echo '<div id="filters-genero"></div>';
     echo '<div id="generoChart";"></div>';
     echo '<div>';//11*
 
-    echo '<h2>Filtro por Cargo</h2>';
-    echo '<div id="filters-cargo"></div>';
+    echo '<h2>Cargo</h2>';
+    //echo '<div id="filters-cargo"></div>';
     echo '<div id="cargoChart""></div>';
     echo '<div>';//12*
 
@@ -40,12 +41,12 @@ function setDashboard($nMeca) {
 
     echo '<div>';//segunda coluna
 
-    echo '<h2>Filtro por Nacionalidade</h2>';
-    echo '<div id="filters-nacionalidade"></div>';
+    echo '<h2>Nacionalidade</h2>';
+    //echo '<div id="filters-nacionalidade"></div>';
     echo '<div id="nacionalidadeChart";"></div>';
 
-    echo '<h2>Filtro por Distrito</h2>';//23*
-    echo '<div id="filters-moradaFiscal"></div>';
+    echo '<h2>Distrito</h2>';//23*
+    //echo '<div id="filters-moradaFiscal"></div>';
     echo '<div id="moradaFiscalChart";"></div>';
 
     echo '<div class="average-age-box">'; //21* tem de ser assim e nao seguido como o da primeira coluna, devido ao css dos graficos

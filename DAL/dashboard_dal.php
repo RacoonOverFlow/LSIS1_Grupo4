@@ -166,9 +166,7 @@ class dashboard_dal {
     public function getGeneroDistribution($allowedIds = null) {
         $query = "
             SELECT 
-                f.idFuncionario, 
-                dp.genero, 
-                GROUP_CONCAT(equipes.idEquipa ORDER BY equipes.idEquipa SEPARATOR ',') AS teams
+                f.idFuncionario, dp.genero, equipes.idEquipa
             FROM funcionario f
             INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
             LEFT JOIN (
@@ -183,7 +181,7 @@ class dashboard_dal {
             $query .= " WHERE f.numeroMecanografico IN ($placeholders)";
         }
 
-        $query .= " GROUP BY f.idFuncionario, dp.genero";
+        //$query .= " GROUP BY f.idFuncionario, dp.genero";
 
         $stmt = $this->conn->prepare($query);
 
@@ -195,18 +193,27 @@ class dashboard_dal {
         $stmt->execute();
         $result = $stmt->get_result();
 
-        $data = [];
+        $dataGenero = [];
+
         while ($row = $result->fetch_assoc()) {
             $idFuncionario = $row['idFuncionario'];
             $genero = $row['genero'];
-            $teams = array_map('intval', explode(',', $row['teams'] ?? ''));
-            $data[$idFuncionario] = [
+            $equipa = $row['idEquipa'] ?? null;
+
+        if (!isset($dataGenero[$idFuncionario])) {
+            $dataGenero[$idFuncionario] = [
                 'genero' => $genero,
-                'teams' => $teams,
+                'teams' => [],
             ];
         }
 
-        return $data;
+        if ($equipa !== null && !in_array($equipa, $dataGenero[$idFuncionario]['teams'])) {
+            $dataGenero[$idFuncionario]['teams'][] = $equipa;
+        }
+
+    }
+
+        return $dataGenero;
 
     }
     
