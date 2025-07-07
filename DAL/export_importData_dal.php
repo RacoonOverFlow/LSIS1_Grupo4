@@ -95,11 +95,13 @@ class exportData_DAL {
 
     function exportData($filter = 'all') {
         $query = "
-            SELECT f.*, dl.*, dc.*, dp.*, df.*, cv.*, b.*
+            SELECT f.*, dl.*,ca.*, dc.*, dp.*,ic.*, df.*, cv.*, b.*
             FROM funcionario f
             LEFT JOIN dadosLogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+            LEFT JOIN cargo ca ON dl.idCargo = ca.idCargo
             LEFT JOIN dadosContrato dc ON f.idDadosContrato = dc.idDadosContrato
             LEFT JOIN dadosPessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+            LEFT JOIN indicativocontacto ic ON dp.idIndicativo = ic.idIndicativo
             LEFT JOIN dadosFinanceiros df ON f.idDadosFinanceiros = df.idDadosFinanceiros
             LEFT JOIN cv cv ON f.idCV = cv.idCV
             LEFT JOIN beneficios b ON f.idBeneficios = b.idBeneficios
