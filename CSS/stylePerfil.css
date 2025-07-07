@@ -1,70 +1,182 @@
+/* stylePerfil.css */
 @import url('styleGlobal.css');
 
+/* Consistent layout with equipas page */
+.perfil-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 3rem;
+    background: linear-gradient(135deg, #5ac8fa 0% , #299df3 70%,#1579d0 100%);
+    height: 96vh;
+    border-radius: 25px;
+    display: flex;
+    gap: 25px;
+}
+
+/* Left column styling */
 .leftColumn {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  gap: 150px; /* espaco entre a caixa da imagem e da alerta */
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
 }
 
 .perfilImg {
-  background-color: rgba(255, 255, 255, 0.65);
-  height: 300px;
-  width: 420px;
-  border-radius: 25px;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.Alertas {
-  background-color: rgba(255, 255, 255, 0.65);
-  height: 300px;
-  width: 420px;
-  border-radius: 25px;
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  text-align: center;
-  overflow-y: auto;
-  flex-direction: column;
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .perfilImg img {
-  height: 80%;
-  object-fit: contain;
+    max-width: 100%;
+    border-radius: 10px;
 }
 
-.perfilInfo {
-  background-color: rgba(255, 255, 255, 0.65);
-  flex: 1;
-  border-radius: 25px;
-  padding: 20px;
+.Alertas {
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 20px;
+    flex: 1;
 }
 
-.alerta-card {
-    background: white;
+.Alertas h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #0077ff;
+}
+
+.alertas {
+    background-color: #e9f0ff;
+    border-left: 4px solid #0077ff;
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid black;
-    border-radius: 5px;
-    position: flex;
-    flex-direction: row;
+    position: relative;
 }
 
-.fechar-alerta {
-    transition: all 0.2s ease-in-out;
-    position: flex;
+.alertas p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.alertas form {
+    margin-top: 5px;
+}
+
+.alertas button {
+    background-color: #0077ff;
+    color: white;
     border: none;
-    background: transparent;
+    padding: 5px 10px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-.fechar-alerta:hover {
-  color: red;
-  transform: scale(1.1);
+/* Right column styling */
+.perfilInfo {
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 20px;
+    flex: 1;
+    overflow-y: auto;
 }
 
+.perfilInfo h2 {
+    color: #0077ff;
+    margin-top: 0;
+    font-size: 1.8rem;
+}
+
+.perfilInfo h3 {
+    color: #005f73;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.perfilInfo p {
+    margin: 8px 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.perfilInfo strong {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Buttons styling */
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.action-buttons button {
+    background-color: #0077ff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.action-buttons button:hover {
+    background-color: #005fcc;
+}
+
+.button-export {
+    background-color: #28a745 !important;
+}
+
+.button-export:hover {
+    background-color: #218838 !important;
+}
+
+/* Document links */
+.perfilInfo a {
+    color: #0077ff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.perfilInfo a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .perfil-container {
+        flex-direction: column;
+    }
+    
+    .leftColumn, .perfilInfo {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .perfil-container {
+        padding: 1.5rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .perfilInfo {
+        padding: 20px;
+    }
+}
