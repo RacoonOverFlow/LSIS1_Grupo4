@@ -12,9 +12,9 @@ $handler = new exportData_DAL();
 // Handle export (via GET link)
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $filter = $_GET['filter'] ?? 'all';
-    $idEquipa = isset($_GET['idEquipa']) ? (int)$_GET['idEquipa'] : null;
+    //$idEquipa = isset($_GET['idEquipa']) ? (int)$_GET['idEquipa'] : null;
 
-    $handler->exportData($filter, $idEquipa);
+    $handler->exportData($filter);
 exit();
 }
 
