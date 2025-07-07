@@ -93,7 +93,7 @@ class exportData_DAL {
 
 */
 
-    function exportData($filter = 'all', $idCoordenador = null) {
+    function exportData($filter = 'all') {
         $query = "
             SELECT f.*, dl.*, dc.*, dp.*, df.*, cv.*, b.*
             FROM funcionario f
@@ -107,18 +107,26 @@ class exportData_DAL {
 
         $params = [];
         $param_types = '';
-
-        if ($filter === 'colaboradores') {
-            $query .= " WHERE dl.idCargo = 2";
-        } elseif ($filter === 'equipa' && $idCoordenador !== null) {
-            // Use IN in case coordinator belongs to multiple teams
-            $query .= "
-                   JOIN colaborador_equipa ce ON f.idFuncionario = ce.idColaborador
-                    WHERE ce.idEquipa = ?
-                ";
+        if ($filter === 'perfil' && isset($_GET['numeroMecanografico'])) {
+            $numeroMecanografico = intval($_GET['numeroMecanografico']);
+            $query .= " WHERE dl.numeroMecanografico = ?";
             $param_types = 'i';
-            $params[] = $idCoordenador;
+            $params[] = $numeroMecanografico;
         }
+        elseif ($filter === 'colaboradores') {
+            $query .= " WHERE dl.idCargo = 2";
+        } elseif ($filter === 'equipa' && isset($_GET['idEquipa'])) {
+            $idEquipa = intval($_GET['idEquipa']);
+            $query .= "
+                LEFT JOIN colaborador_equipa ce ON f.idFuncionario = ce.idColaborador AND ce.idEquipa = ?
+                LEFT JOIN coordenador_equipa coe ON f.idFuncionario = coe.idCoordenador AND coe.idEquipa = ?
+                WHERE ce.idEquipa IS NOT NULL OR coe.idEquipa IS NOT NULL
+            ";
+            $param_types = 'ii';
+            $params[] = $idEquipa;
+            $params[] = $idEquipa;
+        }
+
 
         $stmt = $this->conn->prepare($query);
 
