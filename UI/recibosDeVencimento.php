@@ -2,8 +2,6 @@
 
 session_start();
 include "../BLL/recibosDeVencimento_bll.php";
-require_once "../BLL/Permissoes.php"
-
 ?>
 
 <!DOCTYPE html>
