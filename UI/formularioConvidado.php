@@ -1,6 +1,6 @@
 <?php
 
-require_once "../../BLL/registoConvidado_bll.php";
+require_once "../BLL/registoConvidado_bll.php";
 
 ?>
 <!DOCTYPE html>

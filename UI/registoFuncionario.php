@@ -1,7 +1,9 @@
 <?php
-require_once "../../BLL/voucher_bll.php"
+
+require_once "../BLL/registoFuncionario_bll.php";
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,6 +13,8 @@ require_once "../../BLL/voucher_bll.php"
     <title>Document</title>
 </head>
 <body>
-    <?php showUI(); ?>
+
+<?php showUI(); ?>
+
 </body>
 </html>

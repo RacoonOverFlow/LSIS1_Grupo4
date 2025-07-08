@@ -336,7 +336,7 @@ class exportData_DAL {
         }
 
         fclose($handle);
-        header("Location: /LSIS1_Grupo4/UI/admin/visualizarFuncionarios.php");
+        header("Location: /LSIS1_Grupo4/UI/visualizarFuncionarios.php");
         exit();  // Adjust path as needed
     } else {
         echo " Failed to open CSV file.";

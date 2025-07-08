@@ -23,13 +23,18 @@ function mostrarSidebar() {
     
     // Visualizar Funcionários for RH Superior
     if ($utilizadorCargo == 5) {
-        echo '<li><a href="/LSIS1_Grupo4/UI/admin/visualizarFuncionarios.php">';
-        echo '<i class="bi bi-people-fill"></i><strong>Visualizar Funcionários</strong></a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/visualizarFuncionarios.php"><i class="bi bi-people-fill"></i><strong>Visualizar Funcionários</strong></a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/visualizarConvidados.php"><i class="bi bi-people-fill"></i><strong>Visualizar convidados</strong></a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/alertas.php"><i class="bi bi-exclamation-triangle-fill"></i> Alertas</a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/enviarEmail.php"><i class="bi bi-exclamation-triangle-fill"></i> Enviar email ao convidado</a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/voucher.php"><i class="bi bi-exclamation-triangle-fill"></i> Criar e atribuir vouchers</a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/registoFuncionario.php"><i class="bi bi-exclamation-triangle-fill"></i> Registar Funcionário</a></li>';
     }
     
-    // Alertas for roles 5 and 6
-    if ($utilizadorCargo == 5 || $utilizadorCargo == 6) {
-        echo '<li><a href="/LSIS1_Grupo4/UI/alertas.php"><i class="bi bi-exclamation-triangle-fill"></i> Alertas</a></li>';
+    // Alertas admin 6
+    if ($utilizadorCargo == 6) {
+        echo '<li><a href="/LSIS1_Grupo4/UI/alertasAdmin.php"><i class="bi bi-exclamation-triangle-fill"></i> Gerir Alertas</a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/editarEmailAlertas.php"><i class="bi bi-exclamation-triangle-fill"></i> Editar email alertas</a></li>';
     }
     
     // Pedidos Pendentes for roles 4 and 5
