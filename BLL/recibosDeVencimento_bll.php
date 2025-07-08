@@ -11,79 +11,76 @@ function showUI() {
 
     echo '<h2>Lista de Recibos De Vencimento</h2>';
 
-    // Container principal
     echo '<div class="tabela-funcionarios">';
     
-    echo'<form method="GET">';
-        if($_SESSION['idCargo'] == 5){
+    echo '<form method="GET">';
+        if ($_SESSION['idCargo'] == 5) {
             echo '<select name="numeroMecanografico">';
+            echo '<option value="">Selecione um funcionario</option>';
             foreach ($funcionarios as $f) {
-                    echo '<option value="' . $f['numeroMecanografico'] . '">' . htmlspecialchars($f['numeroMecanografico']) . '</option>';
+                echo '<option value="' . htmlspecialchars($f['numeroMecanografico']) . '">' . 
+                    htmlspecialchars($f['numeroMecanografico']) . 
+                    '</option>';
             }
-            echo '</select>
+            echo '</select>';
+        }else{
+            echo '<input type="hidden" name="numeroMecanografico" value="'.htmlspecialchars($_SESSION['nMeca']).'">';
         }
-        <select name="ano">';
+        echo '<select name="ano">';
+        echo '<option value="">Selecione um ano</option>';
         foreach ($anos as $ano) {
-                echo '<option value="' . $ano['ano'] . '">' . htmlspecialchars($ano['ano']) . '</option>';
+            echo '<option value="' . htmlspecialchars($ano['ano']) . '">' . 
+                htmlspecialchars($ano['ano']) . 
+                '</option>';
         }
-        echo '</select>
-        <select name="mes">';
+        echo '</select>';
+
+        echo '<select name="mes">';
+        echo '<option value="">Selecione um mes</option>';
         foreach ($meses as $mes) {
-                echo '<option value="' . $mes['mes'] . '">' . htmlspecialchars($mes['mes']) . '</option>';
+            echo '<option value="' . htmlspecialchars($mes['mes']) . '">' . 
+                htmlspecialchars($mes['mes']) . 
+                '</option>';
         }
-        echo '</select>
-        <button type="submit">Ver Recibos</button>
-    </form>';
+        echo '</select>';
 
+        echo '<button type="submit">Ver Recibos</button>';
+    echo '</form>';
+    
+    if ($_SESSION['idCargo'] == 5) {
     echo '<div class="action-buttons">';
-    echo '<button onclick="location.href=\'associarRecibosDeVencimento.php">Upload Recibo</button>';
+    echo '<button onclick="location.href=\'associarRecibosDeVencimento.php\'">Upload Recibo</button>';
     echo '</div>';
-
+    
 
     // Cabeçalho
     echo '<div class="linha-funcionario cabecalho">
-            <div class="coluna id">ID</div>
             <div class="coluna mecanografico">Número Mecanográfico</div>
             <div class="coluna cargo">Cargo</div>
             <div class="coluna nome">Nome</div>
-            <div class="ano">ano</div>
-            <div class="mes">mes</div>
-            <div class="recibo">recibo</div>
+            <div class="coluna ano">ano</div>
+            <div class="coluna mes">mes</div>
+            <div class="coluna recibo">recibo</div>
           </div>';
 
-    if($_SESSION['idCargo'] == 5 || $_GET['numeroMecanografico'] == NULL){
-        // Cada funcionário (linha clicável)
-        foreach ($funcionarios as $f) {
+    $recibosVencimento = $dal->getRecibosDeVencimento($_GET['numeroMecanografico'], $_GET['ano'], $_GET['mes']);
+    foreach ($recibosVencimento as $recibo) {
+        $funcionario = $dal->getFuncionario($recibo['idFuncionario']);
+        $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($funcionario["numeroMecanografico"]);
+        echo '<a href="' . $link . '" class="linha-link">';
+        echo '<div class="linha-funcionario">';
+        echo '<div class="coluna mecanografico">' . htmlspecialchars($funcionario['numeroMecanografico']) . '</div>';
+        echo '<div class="coluna cargo">' . htmlspecialchars($funcionario['cargo']) . '</div>';
+        echo '<div class="coluna nome">' . htmlspecialchars($funcionario['nomeCompleto']) . '</div>';
+        echo '<div class="coluna ano">' . htmlspecialchars($recibo['ano']) . '</div>';
+        echo '<div class="coluna mes">' . htmlspecialchars($recibo['mes']) . '</div>';
+        echo '<div class="coluna recibo">' . htmlspecialchars($recibo['caminho']) . '</div>';
+        echo '</div>';
+        echo '</a>';
 
-            $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
-            echo '<a href="' . $link . '" class="linha-link">';
-            echo '<div class="linha-funcionario">';
-            echo '<div class="coluna id">' . htmlspecialchars($f['idFuncionario']) . '</div>';
-            echo '<div class="coluna mecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
-            echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '</div>';
-            echo '<div class="coluna nome">' . htmlspecialchars($f['nomeCompleto']) . '</div>';
-            echo '</div>';
-            echo '</a>';
-        }
-
-    }else{
-        header("Location: recibosDeVencimento.php?numeroMecanografico=" . $_SESSION['numeroMecanografico']);
-        $recibosVencimento = $dal->getRecibosDeVencimento($_GET['numeroMecanografico'], $_GET['ano'], $_GET['mes']);
-        $funcionario = $dal->getFuncionario($recibosVencimento['idFuncionario']);
-        foreach ($recibosVencimento as $recibo) {
-            $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($funcionario["numeroMecanografico"]);
-            echo '<a href="' . $link . '" class="linha-link">';
-            echo '<div class="linha-funcionario">';
-            echo '<div class="coluna id">' . htmlspecialchars($funcionario['idFuncionario']) . '</div>';
-            echo '<div class="coluna mecanografico">' . htmlspecialchars($funcionario['numeroMecanografico']) . '</div>';
-            echo '<div class="coluna cargo">' . htmlspecialchars($funcionario['cargo']) . '</div>';
-            echo '<div class="coluna nome">' . htmlspecialchars($funcionario['nomeCompleto']) . '</div>';
-            echo '</div>';
-            echo '</a>';
-
-        }
     }
+    
     echo '</div>';
 }
-}
+
 ?>

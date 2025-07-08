@@ -32,7 +32,7 @@ class recibosDeVencimento_DAL {
         return $funcionarios;
     }
 
-        public function getFuncionarios($idFuncionario) {
+    public function getFuncionario($idFuncionario) {
         $query = "SELECT
             dl.numeroMecanografico,
             dp.nomeCompleto,
@@ -64,9 +64,10 @@ class recibosDeVencimento_DAL {
     }
 
     function getRecibosDeVencimento($numeroMecanografico = null, $ano = null, $mes = null) {
-        $query = "SELECT d.caminho, f.idFuncionario
+        $query = "SELECT d.caminho, f.idFuncionario, rv.mes, rv.ano
                 FROM documento d
-                INNER JOIN documento_funcionario df ON df.idFuncionario = f.idFuncionario 
+                INNER JOIN documento_funcionario df ON df.idDocumento = d.idDocumento 
+                INNER JOIN funcionario f ON df.idFuncionario = f.idFuncionario
                 INNER JOIN recibovencimento rv ON rv.idDocumento = d.idDocumento 
                 WHERE 1=1";
         
