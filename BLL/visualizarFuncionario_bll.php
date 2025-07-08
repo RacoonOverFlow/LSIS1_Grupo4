@@ -56,7 +56,7 @@ function mostrarFuncionarios() {
             $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
 
 
-            $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
+            $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
             echo '<div class="coluna id">' . htmlspecialchars($f['idFuncionario']) . '</div>';
@@ -96,7 +96,7 @@ function mostrarFuncionarios() {
 
             echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">';
 
-            $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
+            $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
             echo '<div class="coluna id">' . htmlspecialchars($c['idFuncionario']) . '</div>';
@@ -169,7 +169,7 @@ function mostrarMembrosEquipa(){
 
         $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
 
-        $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
+        $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
         echo '<a href="' . $link . '" class="linha-link">';
         echo '<div class="linha-funcionario">';
         echo '<div class="coluna id">' . htmlspecialchars($m['idFuncionario']) . '</div>';
