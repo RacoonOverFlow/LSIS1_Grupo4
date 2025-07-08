@@ -11,5 +11,6 @@
     <a href="visualizarConvidados.php"><button>Visualizar convidados</button></a>
     <a href="enviarEmail.php"><button>Enviar email Convidado</button></a>
     <a href="alertasAdmin.php"><button>Ver alertas</button></a>
+    <a href="voucher.php"><button>Ver vouchers</button></a>
 </body>
 </html>

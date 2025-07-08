@@ -32,7 +32,7 @@ class recibosDeVencimento_DAL {
         return $funcionarios;
     }
 
-        public function getFuncionarios($idFuncionario) {
+    public function getFuncionarios($idFuncionario) {
         $query = "SELECT
             dl.numeroMecanografico,
             dp.nomeCompleto,
