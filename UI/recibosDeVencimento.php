@@ -2,6 +2,7 @@
 
 session_start();
 include "../BLL/recibosDeVencimento_bll.php";
+include "../BLL/sidebar.php";
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +21,9 @@ include "../BLL/recibosDeVencimento_bll.php";
 <body>
   <div class="Layout-container">
     <main class="main-content">
-      <?php showUI(); ?>
+      <?php showUI(); 
+      mostrarSidebar();
+      ?>
     </main>
   </div>
 </body>
