@@ -77,16 +77,20 @@ function showUI(){
             displayForm();
         }else{
             try{
-
+            $dal = new associarRecibosDeVencimento_DAL();
+            
             $idFuncionario = $_POST['funcionario'];
             $mes = $_POST['mes'];
             $ano = $_POST['ano'];
             $ficheiroRecibo = $_FILES['documentoReciboVencimento'];
 
             $subpasta = 'RecibosVencimento';
-            $Recibo = guardarFicheiro($ficheiroRecibo, $subpasta, ['pdf']); 
+            $recibo = guardarFicheiro($ficheiroRecibo, $subpasta, ['pdf']); 
+            
+            $idDocumento = $dal->criarDocumento($recibo, 5);
+            $dal->associarDocumentoFuncionario($idDocumento, $idFuncionario);
+            $dal->criarRecibo($mes, $ano, $idDocumento);
 
-            $idRecibo = $dal->criarReciboDeVencimento($idFuncionario, $mes, $ano, $Recibo);
 
             header("Location: recibosDeVencimento.php?numeroMecanografico=&ano=&mes="); 
             exit();
@@ -99,20 +103,19 @@ function showUI(){
         header("Location: perfil.php?numeroMecanografico=" . $_SESSION['nMeca']);
         exit();
     }
+}
 
-    function guardarFicheiro($ficheiro, $subpasta, $tiposPermitidos = ['pdf']){
+function guardarFicheiro($ficheiro, $subpasta, $tiposPermitidos = ['pdf']){
         if (!in_array(strtolower(pathinfo($ficheiro['name'], PATHINFO_EXTENSION)), $tiposPermitidos)) {
             throw new Exception("Tipo de ficheiro inválido: " . $ficheiro['name']);
         }
 
-        // Caminhos corretos
         $pastaBase = '../documentos/';
         $pastaDestino = rtrim($pastaBase, '/') . '/' . trim($subpasta, '/');
         $nomeOriginal = basename($ficheiro['name']);
         $nomeFinal = uniqid() . '_' . preg_replace('/\s+/', '_', $nomeOriginal);
         $caminhoFinal = $pastaDestino . '/' . $nomeFinal;
 
-        // Criar diretório se não existir
         if (!is_dir($pastaDestino)) {
             mkdir($pastaDestino, 0777, true);
         }
@@ -124,6 +127,5 @@ function showUI(){
         $urlPublica = 'documentos/' . trim($subpasta, '/') . '/' . $nomeFinal;
 
         return $urlPublica;
-    }
 }
 ?>

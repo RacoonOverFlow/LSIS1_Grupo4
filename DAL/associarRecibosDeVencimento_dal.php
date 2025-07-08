@@ -32,47 +32,62 @@ class associarRecibosDeVencimento_DAL {
         return $funcionarios;
     }
 
-    function getRecibosDeVencimento($numeroMecanografico = null, $ano = null, $mes = null) {
-        $query = "SELECT d.caminho, f.idFuncionario, rv.mes, rv.ano
-                FROM documento d
-                INNER JOIN documento_funcionario df ON df.idDocumento = d.idDocumento 
-                INNER JOIN funcionario f ON df.idFuncionario = f.idFuncionario
-                INNER JOIN recibovencimento rv ON rv.idDocumento = d.idDocumento 
-                WHERE 1=1";
-        
-        $params = [];
-        $types = "";
-
-        if (!empty($numeroMecanografico)) {
-            $query .= " AND f.numeroMecanografico = ?";
-            $params[] = $numeroMecanografico;
-            $types .= "s"; // use "s" if mecanografico is string
-        }
-
-        if (!empty($ano)) {
-            $query .= " AND rv.ano = ?";
-            $params[] = $ano;
-            $types .= "i";
-        }
-
-        if (!empty($mes)) {
-            $query .= " AND rv.mes = ?";
-            $params[] = $mes;
-            $types .= "i";
-        }
-
+    function criarDocumento($recibo, $idTipoDocumento){
+        if ($this->conn) {
+        $query = "INSERT INTO documento (caminho, idTipoDocumento) VALUES (?, ?)";
         $stmt = $this->conn->prepare($query);
 
-        if (!empty($params)) {
-            $stmt->bind_param($types, ...$params);
+        if (!$stmt) {
+            die("Erro na preparação da query: " . $this->conn->error);
         }
 
-        $stmt->execute();
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->bind_param("si", $recibo, $idTipoDocumento);
+        if ($stmt->execute()) {
+            return $this->conn->insert_id; // devolve ID da nova equipa
+        }
+         return false;
+
+        }
+        return false;
     }
 
-    function criarReciboDeVencimento($idFuncionario, $mes, $ano, $Recibo){
-        
+    function associarDocumentoFuncionario($idDocumento, $idFuncionario){
+        if ($this->conn) {
+        $query = "INSERT INTO documento_funcionario (idDocumento, idFuncionario) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($query);
+
+        if (!$stmt) {
+            die("Erro na preparação da query: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("ii", $idDocumento, $idFuncionario);
+        if ($stmt->execute()) {
+            return $this->conn->insert_id; // devolve ID da nova equipa
+        }
+         return false;
+
+        }
+        return false;
     }
+
+    function criarRecibo($mes, $ano, $idDocumento){
+        if ($this->conn) {
+        $query = "INSERT INTO recibovencimento (mes, ano, idDocumento) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+
+        if (!$stmt) {
+            die("Erro na preparação da query: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("iii", $mes, $ano, $idDocumento);
+        if ($stmt->execute()) {
+            return $this->conn->insert_id; // devolve ID da nova equipa
+        }
+         return false;
+
+        }
+        return false;
+    }
+
 }  
 ?>
