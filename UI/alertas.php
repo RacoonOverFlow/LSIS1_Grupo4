@@ -1,7 +1,15 @@
 <?php 
 require_once "../BLL/alertas_bll.php";
+<<<<<<< Updated upstream
 require_once "../BLL/sidebar.php";
 session_start();
+=======
+require_once "../BLL/Permissoes.php";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+>>>>>>> Stashed changes
 ?>
 
 <!DOCTYPE html>

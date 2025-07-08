@@ -1,6 +1,9 @@
 <?php
 require_once "../../BLL/alertasAdmin_bll.php";
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 
 $bll = new alertasAdmin_bll();
 

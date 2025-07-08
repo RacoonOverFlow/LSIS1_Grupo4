@@ -19,11 +19,11 @@ function mostrarFuncionarios() {
             <div class="coluna nome">Nome</div>
          </div>';*/
 
-   echo '<div class="grid-container">';        
+   echo '<div class="grid-container">';     
     if($_SESSION['idCargo'] == 5){
            foreach ($funcionarios as $f) {
             echo '<div class="boxes">';
-            $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
+            $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
             echo '<div class="colunaid">' . htmlspecialchars($f['idFuncionario']) . '</div>';
