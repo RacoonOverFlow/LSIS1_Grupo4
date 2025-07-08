@@ -22,7 +22,6 @@ function isThisACallback(): bool{
     'situacaoDeIRS',
     'numeroDeDependentes',
     'cartaoContinente',
-    'voucherNOS'
   ];
 
   foreach($camposObrigatorio as $campo){
@@ -219,10 +218,6 @@ function displayFormColab() {
   Nº do Cartão Continente:
   <input type="text" name="cartaoContinente" placeholder="Número do Cartão" value="'. htmlspecialchars($beneficios['cartaoContinente']) .'"><br>
 
-  Data de emissão do voucher NOS:
-  <input type="date" name="voucherNOS" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"readonly><br><br>
-  </div>
-
   <!-- Viatura -->
   <div class="atualizarPerfil-form">
   <h3>Viatura</h3>
@@ -381,7 +376,6 @@ function showUI(){
         $dal->updateBeneficios(
           $funcionario['idBeneficios'],
           $_POST['cartaoContinente'],
-          $_POST['voucherNOS']
         );
 
         $viatura = $dal->getViaturaByIdFuncionario($funcionario['idFuncionario']);
@@ -458,11 +452,6 @@ function showUI(){
 
         if($_POST['cartaoContinente'] != $beneficios['cartaoContinente']){
           $idPedido = $dal->pedidoPendente('Cartão Continente', $beneficios['cartaoContinente'], $_POST['cartaoContinente'], $dataAtualizacao, $estado);
-          $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
-        }
-
-        if($_POST['voucherNOS'] != $beneficios['voucherNOS']){
-          $idPedido = $dal->pedidoPendente('Voucher NOS', $beneficios['voucherNOS'], $_POST['voucherNOS'], $dataAtualizacao, $estado);
           $dal->associarAlteracaoAFuncionario($idFuncionario, $idPedido);
         }
 
@@ -768,10 +757,6 @@ function displayFormRH() {
   <h3>Benefícios</h3>
   Nº do Cartão Continente:
   <input type="text" name="cartaoContinente" placeholder="Número do Cartão" value="'. htmlspecialchars($beneficios['cartaoContinente']) .'"><br>
-
-  Data de emissão do voucher NOS:
-  <input type="date" name="voucherNOS" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"><br><br>
-  </div>
 
   <!-- Viatura -->
   <div class="atualizarPerfil-form">
