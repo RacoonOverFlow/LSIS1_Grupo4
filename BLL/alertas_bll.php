@@ -9,26 +9,27 @@ function mostrarFuncionarios() {
     echo '<h2>Lista de Funcionários</h2>';
 
     // Container principal
-    echo '<div class="tabela-funcionarios">';
+ 
 
     // Cabeçalho
-    echo '<div class="linha-funcionario cabecalho">
+    /*echo '<div class="boxes">
             <div class="coluna id">ID</div>
             <div class="coluna mecanografico">Número Mecanográfico</div>
             <div class="coluna cargo">Cargo</div>
             <div class="coluna nome">Nome</div>
-          </div>';
+         </div>';*/
 
+   echo '<div class="grid-container">';        
     if($_SESSION['idCargo'] == 5){
-        // Cada funcionário (linha clicável)
-        foreach ($funcionarios as $f) {
+           foreach ($funcionarios as $f) {
+            echo '<div class="boxes">';
             $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
-            echo '<div class="coluna id">' . htmlspecialchars($f['idFuncionario']) . '</div>';
-            echo '<div class="coluna mecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
-            echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '</div>';
-            echo '<div class="coluna nome">' . htmlspecialchars($f['nomeCompleto']) . '</div>';
+            echo '<div class="colunaid">' . htmlspecialchars($f['idFuncionario']) . '</div>';
+            echo '<div class="colunamecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
+            echo '<div class="colunacargo">' . htmlspecialchars($f['cargo']) . '</div>';
+            echo '<div class="colunanome">' . htmlspecialchars($f['nomeCompleto']) . '</div>';
             echo '</div>';
             echo '</a>';
 
@@ -49,16 +50,18 @@ function mostrarFuncionarios() {
             echo '    <li>Carregando alertas...</li>';
             echo '  </ul>';
             echo '</div>';
+            echo '</div>'; // Fecha a div linha-funcionario
         }
-    }else if($_SESSION['idCargo'] == 4){
+    }
+    else if($_SESSION['idCargo'] == 4){
         foreach ($colaboradores as $c) {
             $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
-            echo '<div class="coluna id">' . htmlspecialchars($c['idFuncionario']) . '</div>';
-            echo '<div class="coluna mecanografico">' . htmlspecialchars($c['numeroMecanografico']) . '</div>';
-            echo '<div class="coluna cargo">' . htmlspecialchars($c['cargo']) . '</div>';
-            echo '<div class="coluna nome">' . htmlspecialchars($c['nomeCompleto']) . '</div>';
+            echo '<div class="colunaid">' . htmlspecialchars($c['idFuncionario']) . '</div>';
+            echo '<div class="colunamecanografico">' . htmlspecialchars($c['numeroMecanografico']) . '</div>';
+            echo '<div class="colunacargo">' . htmlspecialchars($c['cargo']) . '</div>';
+            echo '<div class="colunanome">' . htmlspecialchars($c['nomeCompleto']) . '</div>';
             echo '</div>';
             echo '</a>';
 
@@ -82,5 +85,6 @@ function mostrarFuncionarios() {
 
         }
     }
-    echo '</div>';
+
+
 }
