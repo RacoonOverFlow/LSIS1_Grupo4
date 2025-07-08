@@ -30,6 +30,7 @@ h2 {
     border: 2px solid #ccc;
 }
 
+
 /* Link sem decoração */
 .linha-link {
     text-decoration: none;
@@ -57,6 +58,17 @@ h2 {
 .mes            { flex: 1; }
 .recibo         { flex: 2; }
 
-.button-export{
-    background-color: black;
+.document-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.document-links a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.document-links a:hover {
+    text-decoration: underline;
 }

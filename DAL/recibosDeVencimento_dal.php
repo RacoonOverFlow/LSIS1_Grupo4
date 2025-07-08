@@ -74,19 +74,19 @@ class recibosDeVencimento_DAL {
         $params = [];
         $types = "";
 
-        if ($numeroMecanografico !== null) {
+        if (!empty($numeroMecanografico)) {
             $query .= " AND f.numeroMecanografico = ?";
             $params[] = $numeroMecanografico;
-            $types .= "i";
+            $types .= "s"; // use "s" if mecanografico is string
         }
 
-        if ($ano !== null) {
+        if (!empty($ano)) {
             $query .= " AND rv.ano = ?";
             $params[] = $ano;
             $types .= "i";
         }
 
-        if ($mes !== null) {
+        if (!empty($mes)) {
             $query .= " AND rv.mes = ?";
             $params[] = $mes;
             $types .= "i";

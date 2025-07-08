@@ -1,8 +1,9 @@
 <?php
     require_once __DIR__ . '/../DAL/recibosDeVencimento_dal.php';
 function showUI() {
-    if($_SESSION['idCargo']==NULL){
+    if (!isset($_SESSION['idCargo'])) {
         header("Location: login.php");
+        exit();
     }
     $dal = new recibosDeVencimento_DAL();
     $meses = $dal->getMes();
@@ -45,12 +46,12 @@ function showUI() {
         echo '</select>';
 
         echo '<button type="submit">Ver Recibos</button>';
-    echo '</form>';
+    echo '</form><br>';
     
     if ($_SESSION['idCargo'] == 5) {
-    echo '<div class="action-buttons">';
-    echo '<button onclick="location.href=\'associarRecibosDeVencimento.php\'">Upload Recibo</button>';
-    echo '</div>';
+        echo '<div class="action-buttons">';
+        echo '<button onclick="location.href=\'associarRecibosDeVencimento.php\'">Upload Recibo</button>';
+        echo '</div>';
     }
 
     // Cabeçalho
@@ -64,22 +65,26 @@ function showUI() {
           </div>';
 
     $recibosVencimento = $dal->getRecibosDeVencimento($_GET['numeroMecanografico'], $_GET['ano'], $_GET['mes']);
-    foreach ($recibosVencimento as $recibo) {
-        $funcionario = $dal->getFuncionario($recibo['idFuncionario']);
-        $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($funcionario["numeroMecanografico"]);
-        echo '<a href="' . $link . '" class="linha-link">';
-        echo '<div class="linha-funcionario">';
-        echo '<div class="coluna mecanografico">' . htmlspecialchars($funcionario['numeroMecanografico']) . '</div>';
-        echo '<div class="coluna cargo">' . htmlspecialchars($funcionario['cargo']) . '</div>';
-        echo '<div class="coluna nome">' . htmlspecialchars($funcionario['nomeCompleto']) . '</div>';
-        echo '<div class="coluna ano">' . htmlspecialchars($recibo['ano']) . '</div>';
-        echo '<div class="coluna mes">' . htmlspecialchars($recibo['mes']) . '</div>';
-        echo '<div class="coluna recibo">' . htmlspecialchars($recibo['caminho']) . '</div>';
-        echo '</div>';
-        echo '</a>';
-
+    if (empty($recibosVencimento)) {
+        echo '<p>Nenhum recibo encontrado com os filtros selecionados.</p>';
+    }else{
+        foreach ($recibosVencimento as $recibo) {
+            $funcionario = $dal->getFuncionario($recibo['idFuncionario']);
+            $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($funcionario["numeroMecanografico"]);
+            echo '<a href="' . $link . '" class="linha-link">';
+            echo '<div class="linha-funcionario">';
+            echo '<div class="coluna mecanografico"><a href="' . $link . '" class="linha-link">' . htmlspecialchars($funcionario['numeroMecanografico']) . '</div>';
+            echo '<div class="coluna cargo"><a href="' . $link . '" class="linha-link">' . htmlspecialchars($funcionario['cargo']) . '</div>';
+            echo '<div class="coluna nome"><a href="' . $link . '" class="linha-link">' . htmlspecialchars($funcionario['nomeCompleto']) . '</div>';
+            echo '<div class="coluna ano"><a href="' . $link . '" class="linha-link">' . htmlspecialchars($recibo['ano']) . '</div>';
+            echo '<div class="coluna mes"><a href="' . $link . '" class="linha-link">   ' . htmlspecialchars($recibo['mes']) . '</div>';
+            echo '<div class="coluna recibo document-links">';
+            echo '<a href="../' . htmlspecialchars($recibo['caminho']) . '" target="_blank">Ver Recibo</a>';
+            echo '</div>';
+            echo '</div>';
+            echo '</a>';
+        }
     }
-    
     echo '</div>';
 }
 
