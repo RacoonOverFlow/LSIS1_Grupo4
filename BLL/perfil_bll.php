@@ -87,6 +87,7 @@ function setPerfil($nMeca) {
     echo '<p><strong>NIF:</strong> ' . htmlspecialchars($dadosPessoais['nif']) . '</p>';
     echo '<p><strong>NISS:</strong> ' . htmlspecialchars($dadosPessoais['niss']) . '</p>';
     echo '<p><strong>Género:</strong> ' . htmlspecialchars($dadosPessoais['genero']) . '</p>';
+    echo '<p><strong>Contacto de Pessoal:</strong> ' . htmlspecialchars($indicativo['indicativo']) . ' ' . htmlspecialchars($dadosPessoais['contactoPessoal']) . '</p>';
     echo '<p><strong>Contacto de Emergência:</strong> ' . htmlspecialchars($indicativo['indicativo']) . ' ' . htmlspecialchars($dadosPessoais['contactoEmergencia']) . '</p>';
     echo '<p><strong>Grau de Relacionamento:</strong> ' . htmlspecialchars($dadosPessoais['grauDeRelacionamento']) . '</p>';
 
