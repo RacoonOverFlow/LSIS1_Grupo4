@@ -51,7 +51,7 @@ function showUI() {
     echo '<div class="action-buttons">';
     echo '<button onclick="location.href=\'associarRecibosDeVencimento.php\'">Upload Recibo</button>';
     echo '</div>';
-    
+    }
 
     // Cabeçalho
     echo '<div class="linha-funcionario cabecalho">
