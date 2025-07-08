@@ -4,7 +4,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
 require_once __DIR__ . '/../BLL/equipaBLL.php';
-require_once "../BLL/Permissoes.php";
+require_once "../BLL/sidebar.php";
+require_once "../BLL/searchbar.php";
 ?>
 <!DOCTYPE html>
 <html>
