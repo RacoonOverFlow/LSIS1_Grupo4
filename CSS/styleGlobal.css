@@ -307,3 +307,32 @@ option:focus {
     width: 85%;
     border-radius: 25px;
 }
+
+.grid-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 3rem;
+    background: linear-gradient(135deg, #5ac8fa 0% , #299df3 70%,#1579d0 100%);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px; 
+    align-content: flex-start; 
+    height: 96vh;
+    border-radius: 25px;
+    grid-column: auto;
+    padding-bottom: 2rem;
+}
+
+.boxes {
+    background-color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.2s ease;
+    width: 100%; 
+    height: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 20px;
+}
