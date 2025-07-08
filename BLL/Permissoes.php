@@ -35,6 +35,12 @@ function mostrarHeader($cargo) {
                 <?php if ($utilizadorCargo == 4 || $utilizadorCargo== 5): ?>
                     <li><a href="pedidosPendentes.php"><i class="bi-file-earmark-text"></i> Pedidos Pendentes de Alteração de Dados</a></li>
                 <?php endif; ?>
+                <?php if ($utilizadorCargo == 5): ?>
+                    <li><a href="recibosDeVencimento.php?numeroMecanografico=&ano=&mes="><i class="bi-cash-stack"></i> Recibos De Vencimento</a></li>
+                <?php endif; ?>
+                <?php if (!($utilizadorCargo == 5)): ?>
+                    <li><a href="recibosDeVencimento.php?numeroMecanografico=<?php echo htmlspecialchars($_SESSION['nMeca']); ?>&ano=&mes="><i class="bi-cash-stack"></i> Recibos De Vencimento</a></li>
+                <?php endif; ?>
                 <?php if ($cargo): ?>
                     <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                 <?php else: ?>

@@ -64,28 +64,29 @@ class recibosDeVencimento_DAL {
     }
 
     function getRecibosDeVencimento($numeroMecanografico = null, $ano = null, $mes = null) {
-        $query = "SELECT d.caminho, f.idFuncionario
+        $query = "SELECT d.caminho, f.idFuncionario, rv.mes, rv.ano
                 FROM documento d
-                INNER JOIN documento_funcionario df ON df.idFuncionario = f.idFuncionario 
+                INNER JOIN documento_funcionario df ON df.idDocumento = d.idDocumento 
+                INNER JOIN funcionario f ON df.idFuncionario = f.idFuncionario
                 INNER JOIN recibovencimento rv ON rv.idDocumento = d.idDocumento 
                 WHERE 1=1";
         
         $params = [];
         $types = "";
 
-        if ($numeroMecanografico !== null) {
+        if (!empty($numeroMecanografico)) {
             $query .= " AND f.numeroMecanografico = ?";
             $params[] = $numeroMecanografico;
-            $types .= "i";
+            $types .= "s"; // use "s" if mecanografico is string
         }
 
-        if ($ano !== null) {
+        if (!empty($ano)) {
             $query .= " AND rv.ano = ?";
             $params[] = $ano;
             $types .= "i";
         }
 
-        if ($mes !== null) {
+        if (!empty($mes)) {
             $query .= " AND rv.mes = ?";
             $params[] = $mes;
             $types .= "i";
