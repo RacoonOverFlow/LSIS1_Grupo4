@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
 require_once __DIR__ . '/../BLL/perfil_bll.php';
-require_once __DIR__ . '/../BLL/Permissoes.php';
+require_once __DIR__ . '/../BLL/sidebar.php';
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +23,10 @@ require_once __DIR__ . '/../BLL/Permissoes.php';
 <body>
     <div class="layout-container">
         <main class="main-content">
-            <?php setPerfil($nMeca); ?>
+            <?php 
+            setPerfil($_SESSION['nMeca']);
+            mostrarSidebar(); 
+            ?>
         </main>
     </div>
 </body>

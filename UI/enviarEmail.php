@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../../BLL/enviarEmail_bll.php';
-require_once __DIR__ . '/../../BLL/token_bll.php';
+require_once __DIR__ . '/../BLL/enviarEmail_bll.php';
+require_once __DIR__ . '/../BLL/token_bll.php';
 
 $mensagem = "";
 
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Criar o email e enviar
             $emailService = new enviarEmail_bll();
 
-            $link = "http://localhost/LSIS1_Grupo4/UI/admin/validarToken.php?token=$token";
+            $link = "http://localhost/LSIS1_Grupo4/UI/validarToken.php?token=$token";
             $corpo = "<p>Olá! Clique no link para confirmar: <a href='$link'>$link</a></p>";
 
             if ($emailService->enviarEmail($email, "Email de Teste", $corpo)) {
@@ -26,13 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mensagem = "<p style='color:red;'>Erro ao enviar email.</p>";
             }
         }
-    } else if(isset($_POST["botaoEmailEnvioAlertas"])) {
-        if(updateCredenciaisEnvioAlertas()){
-            $mensagem= "<p>Credenciais mudadas com sucesso.</p>";
-        } else{
-            $mensagem= "<p>Erro na mudança das credenciais.</p>";
-        }
-        
     }
 }
 ?>
@@ -43,12 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Enviar Email</title>
 </head>
 <body>
-    <h2>Enviar email com token</h2>
-
-    <?php 
-    
-    mostrarCredenciaisEnvioAlertas();?>
-
+    <h2>Enviar email ao convidado</h2>
     <form action="" method="post">
         <label for="email">Digite o email da pessoa:</label>
         <input type="email" name="email" required>

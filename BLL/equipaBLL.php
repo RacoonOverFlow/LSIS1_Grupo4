@@ -59,7 +59,7 @@ function mostrarEquipas() {
             if ($utilizadorCargo == 5 || $utilizadorCargo == 3) {
                 echo '<div class="d-flex justify-content-between align-items-center mt-3">';
                 echo '  <div class="team-actions">';
-                echo '    <a href="admin/visualizarFuncionarios.php?idEquipa=' . $equipa['idEquipa'] . '" title="Ver">';
+                echo '    <a href="visualizarFuncionarios.php?idEquipa=' . $equipa['idEquipa'] . '" title="Ver">';
                 echo '      <button><i class="bi bi-eye"></i></button>';
                 echo '    </a>';
                 echo '    <a href="editarEquipa.php?idEquipa=' . $equipa['idEquipa'] . '" title="Editar">';

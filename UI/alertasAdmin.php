@@ -1,5 +1,5 @@
 <?php
-require_once "../../BLL/alertasAdmin_bll.php";
+require_once "../BLL/alertasAdmin_bll.php";
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

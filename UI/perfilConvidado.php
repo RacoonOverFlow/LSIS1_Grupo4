@@ -1,6 +1,6 @@
 <?php 
 session_start();
-require_once "../../BLL/perfilConvidado_bll.php";
+require_once "../BLL/perfilConvidado_bll.php";
 ?>
 
 <!DOCTYPE html>

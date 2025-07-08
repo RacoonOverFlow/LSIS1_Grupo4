@@ -136,8 +136,5 @@ function setPerfil($nMeca) {
 
     echo '</div>'; // .perfilInfo
     echo '</div>'; // .perfil-container
-
-    mostrarHeader($cargo['cargo']);
 }
-
 ?>
