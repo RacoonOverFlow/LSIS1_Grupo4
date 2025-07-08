@@ -14,109 +14,164 @@ function mostrarPedidosPendentes() {
             if($_POST['TipoDeDado'] === 'moradaFiscal'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateMoradaFiscalFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'genero'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateGeneroFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'Indicativo Telemóvel'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateIndicativoTelemovelFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'Contacto Pessoal'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateContactoPessoalFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'Contacto Emergencia'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateContactoEmergenciaFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'Grau De Relacionamento'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateGrauDeRelacionamentoFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'Situaçao IRS'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateSituacaoIRSFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'Numero Dependentes'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateNumeroDependentesFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'IBAN'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateIBANFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'Cartão Continente'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateCartaoContinenteFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
-            }
-
-            if($_POST['TipoDeDado'] === 'Voucher NOS'){
-                $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
-                $dal->updateVoucherNOSFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'Tipo Viatura'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateTipoViaturaFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'Matrícula Viatura'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateMatriculaViaturaFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'Habilitações Literárias'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateHabilitacoesLiterariasFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
             
             if($_POST['TipoDeDado'] === 'Curso'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateCursoFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'Frequência'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $dal->updateFrequenciaFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao);
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'docMod99'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $TipoDocumento = "Mod 99";
-                $dal->updatDocMod99Funcionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao, $TipoDocumento);
+                if($pedido['dadoAntigo']== NULL){
+                    $idDocumento = $dal->criarDocumento($pedido['dadoNovo'], 1);
+                    $dal->associarDocumentoFuncionario($idDocumento, $idFuncionario);
+                }else{
+                    $dal->updatDocMod99Funcionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao, $TipoDocumento);
+                }
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'docCC'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $TipoDocumento = "Cópia CC";
-                $dal->updateDocCCFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao, $TipoDocumento);
+                if($pedido['dadoAntigo']== NULL){
+                    $idDocumento = $dal->criarDocumento($pedido['dadoNovo'], 2);
+                    $dal->associarDocumentoFuncionario($idDocumento, $idFuncionario);
+                }else{
+                    $dal->updateDocCCFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao, $TipoDocumento);
+                }
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'docBancario'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $TipoDocumento = "Documento Bancario";
-                $dal->updateDocBancarioFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao, $TipoDocumento);
+                if($pedido['dadoAntigo']== NULL){
+                    $idDocumento = $dal->criarDocumento($pedido['dadoNovo'], 3);
+                    $dal->associarDocumentoFuncionario($idDocumento, $idFuncionario);
+                }else{
+                    $dal->updateDocBancarioFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao, $TipoDocumento);
+                }
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
             if($_POST['TipoDeDado'] === 'docCartaoContinente'){
                 $pedido = $dal->getPedidoByid($_POST['idAlteracaoPendente']);
                 $TipoDocumento = "Cópia Cartão Continente";
-                $dal->updateDocCartaoContinenteFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao, $TipoDocumento);
+                if($pedido['dadoAntigo']== NULL){
+                    $idDocumento = $dal->criarDocumento($pedido['dadoNovo'], 4);
+                    $dal->associarDocumentoFuncionario($idDocumento, $idFuncionario);
+                }else{
+                    $dal->updateDocCartaoContinenteFuncionario($_POST['idFuncionario'], $pedido['dadoNovo'], $dataAtualizacao, $TipoDocumento);
+                }
+                $rh = $dal->getRH($_SESSION['nMeca']);
+                $dal->associarAlteracaoRH($pedido['idAlteracaoPendente'], $rh['idFuncionario']);
             }
 
         } elseif ($acao === 'recusar') {
             $dal->updatePedido($_POST['idAlteracaoPendente'], $dataAtualizacao, "recusado");
+            $rh = $dal->getRH($_SESSION['nMeca']);
+            $dal->associarAlteracaoRH($_POST['idAlteracaoPendente'], $rh['idFuncionario']);
         }
     }
 

@@ -351,32 +351,6 @@ class pedidosPendentes_dal {
         }
     }
 
-    function updateVoucherNOSFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
-        $this->conn->begin_transaction();
-        try {
-            $query1 = "UPDATE beneficios b
-                    JOIN funcionario f ON b.idBeneficios = f.idBeneficios
-                    SET b.voucherNOS = ?
-                    WHERE f.idFuncionario = ?";
-            $stmt1 = $this->conn->prepare($query1);
-            if (!$stmt1) throw new Exception("Erro na preparação do update 1: " . $this->conn->error);
-            $stmt1->bind_param("si", $dadoNovo, $idFuncionario);
-            $stmt1->execute();
-
-            $query2 = "UPDATE funcionario SET dataUltimaAtualizacao = ? WHERE idFuncionario = ?";
-            $stmt2 = $this->conn->prepare($query2);
-            if (!$stmt2) throw new Exception("Erro na preparação do update 2: " . $this->conn->error);
-            $stmt2->bind_param("si", $dataAtualizacao, $idFuncionario);
-            $stmt2->execute();
-
-            $this->conn->commit();
-            return true;
-        } catch (Exception $e) {
-            $this->conn->rollback();
-            throw $e;
-        }
-    }
-
     function updateTipoViaturaFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao) {
         $this->conn->begin_transaction();
         try {
@@ -534,7 +508,7 @@ class pedidosPendentes_dal {
         }
     }
 
-        function updateDocCCFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao, $TipoDocumento) {
+    function updateDocCCFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao, $TipoDocumento) {
         $this->conn->begin_transaction();
         try {
             $query1 = "UPDATE documento d
@@ -561,7 +535,7 @@ class pedidosPendentes_dal {
         }
     }
 
-        function updateDocBancarioFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao, $TipoDocumento) {
+    function updateDocBancarioFuncionario($idFuncionario, $dadoNovo, $dataAtualizacao, $TipoDocumento) {
         $this->conn->begin_transaction();
         try {
             $query1 = "UPDATE documento d
@@ -614,4 +588,73 @@ class pedidosPendentes_dal {
             throw $e;
         }
     }
+
+    function criarDocumento($novoDoc, $idTipoDocumento){
+        if ($this->conn) {
+        $query = "INSERT INTO documento (caminho, idTipoDocumento) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($query);
+
+        if (!$stmt) {
+            die("Erro na preparação da query: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("si", $novoDoc, $idTipoDocumento);
+        if ($stmt->execute()) {
+            return $this->conn->insert_id;
+        }
+         return false;
+
+        }
+        return false;
+    }
+
+    function associarDocumentoFuncionario($idDocumento, $idFuncionario){
+        if ($this->conn) {
+        $query = "INSERT INTO documento_funcionario (idDocumento, idFuncionario) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($query);
+
+        if (!$stmt) {
+            die("Erro na preparação da query: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("ii", $idDocumento, $idFuncionario);
+        if ($stmt->execute()) {
+            return $this->conn->insert_id; 
+        }
+         return false;
+
+        }
+        return false;
+    }
+
+    function getRH($numeroMecanografico) {
+        $query = "SELECT f.idFuncionario
+        FROM funcionario f
+        WHERE numeroMecanografico = ?";
+        
+        $stmt=$this->conn->prepare($query);
+        $stmt->bind_param("i", $numeroMecanografico);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_assoc();
+    }
+
+    function associarAlteracaoRH($idPedido, $idRH) {
+        if ($this->conn) {
+        $query = "INSERT INTO alteracoespendentes_recursoshumanos (idRecursosHumanos, idAlteracaoPendente) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($query);
+
+        if (!$stmt) {
+            die("Erro na preparação da query: " . $this->conn->error);
+        }
+
+        $stmt->bind_param("ii", $idRH, $idPedido);
+        if ($stmt->execute()) {
+            return $this->conn->insert_id; 
+        }
+         return false;
+
+        }
+        return false;
+    }
+    
 }
