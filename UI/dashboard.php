@@ -22,7 +22,6 @@ $cargo = $_SESSION['idCargo'];
 </head>
 
 <body>
-  <div class="skewed"></div>
   <div class="global-container"><?php setDashboard($nMeca)?> </div>
 </body>
 </html>
