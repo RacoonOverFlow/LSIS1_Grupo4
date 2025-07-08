@@ -24,7 +24,7 @@ require_once __DIR__ . '/../BLL/sidebar.php';
     <div class="layout-container">
         <main class="main-content">
             <?php 
-            setPerfil($_SESSION['nMeca']);
+            setPerfil($_GET['numeroMecanografico']);
             mostrarSidebar(); 
             ?>
         </main>
