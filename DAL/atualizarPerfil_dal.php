@@ -184,13 +184,13 @@ class atualizarPerfil_DAL {
     return $stmt->execute();
   }
 
-  function updateBeneficios($idBeneficios, $cartaoContinente, $voucherNos) {
-    $query = "UPDATE beneficios SET cartaoContinente=?, voucherNOS=? WHERE idBeneficios=?";
+  function updateBeneficios($idBeneficios, $cartaoContinente) {
+    $query = "UPDATE beneficios SET cartaoContinente=? WHERE idBeneficios=?";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
     }
-    $stmt->bind_param("ssi", $cartaoContinente, $voucherNos, $idBeneficios);
+    $stmt->bind_param("si", $cartaoContinente, $idBeneficios);
     return $stmt->execute();
   }
 
