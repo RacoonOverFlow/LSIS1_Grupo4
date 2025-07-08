@@ -1,0 +1,13 @@
+
+.linha-funcionario {
+    text-decoration: none;
+    list-style: none;
+}
+.colunaid,colunamecanografico,colunacargo,colunanome {
+    display: inline-block;
+    width: 20%;
+    padding: 10px;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
