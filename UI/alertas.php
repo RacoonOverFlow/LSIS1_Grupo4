@@ -1,7 +1,7 @@
 <?php 
 require_once "../BLL/alertas_bll.php";
 require_once "../BLL/sidebar.php";
-require_once "../BLL/Permissoes.php";
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
