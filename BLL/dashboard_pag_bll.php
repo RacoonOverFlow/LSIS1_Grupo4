@@ -32,6 +32,12 @@ function setDashboard($nMeca) {
     echo '<p id="average-tempo-value"></p>';
     echo '<div id="tempoMedioChartContainer"></div>';
     echo '</div>';//13*
+
+    echo '<div class="average-remuneracao">'; //22*
+    echo '<h2>Remuneracao Média</h2>';
+    echo '<p id="average-remuneracao-value"></p>';
+    echo '<div id="remuneracaoChartContainer"></div>';
+    echo '</div>';//22*
     
     echo '</div>';//12*
 
@@ -55,11 +61,7 @@ function setDashboard($nMeca) {
     echo '<div id="ageChartContainer"></div>';
     echo '</div>';//21*
 
-    echo '<div class="average-remuneracao">'; //22*
-    echo '<h2>Remuneracao Média</h2>';
-    echo '<p id="average-remuneracao-value"></p>';
-    echo '<div id="remuneracaoChartContainer"></div>';
-    echo '</div>';//22*
+    
 
     echo '</div>';//23*
     

@@ -293,7 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
       if (isNaN(start) || isNaN(end)) continue;
-      if (end < start) continue; // skip invalid contracts
+      if (end < start) continue; // skip a contratos invalidos
 
       const durationMs = end - start;
       const durationYears = durationMs / (1000 * 60 * 60 * 24 * 365.25);
@@ -405,71 +405,129 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //                    !!!!REMUNERACAO MEDIA!!!!
 
-  
+  function getMedian(arr) {
+  const mid = Math.floor(arr.length / 2);
+  return arr.length % 2 === 0
+    ? (arr[mid - 1] + arr[mid]) / 2
+    : arr[mid];
+  }
   // Calcula a média de remuneração (baseado nas keys = valores, values = contagem)
-  function calculateAverageRemuneracao(dataRemuneracao) {
+  // fazer data points aqui devido a ser boxplot
+  function dataChartBoxPlotRemuneracao(dataRemuneracao, filterTeam = null) {
     let totalRemuneracao = 0;
     let totalItens = 0;
+    let dataIntermedia = {};
+    let dataPoints = [];
 
-    for (const key in dataRemuneracao) {
-      const valor = parseFloat(key);       // key é o valor da remuneração
-      const count = parseInt(dataRemuneracao[key], 10);  // count é a quantidade de pessoas com essa remuneração
+    for (const id in dataRemuneracao) {
+      const entry = dataRemuneracao[id];       // key é o valor da remuneração
+      const salario = parseFloat(entry.remuneracao);
+      const teams = entry.teams || [];
+      const cargo = entry.cargo;
+      
 
-      if (isNaN(valor) || isNaN(count)) continue;
+      if (filterTeam === "no-team") {
+        if (teams.length !== 0) continue; // só entra se a pessoa NÃO tiver equipa
+      } else if (filterTeam !== null && filterTeam !== "all") {
+        const teamFilterInt = parseInt(filterTeam, 10);
+        const teamIds = teams.map(t => parseInt(t, 10));
+        if (!teamIds.includes(teamFilterInt)) continue; 
+      }
 
-      totalRemuneracao += valor * count;  // soma valor * quantidade
-      totalItens += count;                 // soma total de pessoas
+      /*if (isNaN(entry) || isNaN(salario)) continue;*/
+      if(!dataIntermedia[cargo]) {
+        dataIntermedia[cargo] = [salario]
+      }
+      else {
+        dataIntermedia[cargo].push(salario);
+      }
+      totalRemuneracao += salario;
+      totalItens += 1;
+    }
+
+    for (const [cargo, listRem] of Object.entries(dataIntermedia)) {
+      const sorted = [...listRem].sort((a, b) => a - b);
+      const median = getMedian(sorted);
+      const q1 = getMedian(sorted.slice(0, Math.floor(sorted.length / 2)));
+      const q3 = getMedian(sorted.slice(Math.ceil(sorted.length / 2)));
+      const iqr = q3 - q1;
+
+      const lowerFence = q1 - 1.5 * iqr;
+      const upperFence = q3 + 1.5 * iqr;
+
+      const outliers = sorted.filter(val => val < lowerFence || val > upperFence);
+      const inliers = sorted.filter(val => val >= lowerFence && val <= upperFence);
+
+      dataPoints.push({
+        label: cargo,
+        y: [Math.min(...inliers), q1,median,q3,Math.max(...inliers)],
+        color: "#4F81BC",
+        outliers: outliers
+      });
+      //console.log(sorted);
     }
 
     const averageRemuneracao = totalItens > 0 ? (totalRemuneracao / totalItens) : 0;
-    return { averageRemuneracao };
+    return { dataPoints , averageRemuneracao };
   }
 
-  // Renderiza o gráfico de remuneração
-  function renderRemuneracaoChart(dataRemuneracao) {
-    if (!dataRemuneracao || typeof dataRemuneracao !== 'object') {
-      console.error("Dados de remuneração inválidos:", dataRemuneracao);
-      return;
-    }
+   
+  function renderRemuneracaoChart(dataRemuneracao,dataIntermedia) {
+    const boxDataPoints = dataIntermedia; // inclue label, y, color, outliers
+    console.log(boxDataPoints);
+    // scatter para outliers, sendo que o canva nao suporta
+    const outlierPoints = [];
 
-    // Transforma os dados para dataPoints, ordenando pelos valores (remuneração)
-    const dataPoints = Object.entries(dataRemuneracao)
-      .map(([key, count]) => ({
-        x: parseFloat(key), // aqui pode usar x como valor da remuneração (número)
-        y: count            // quantidade de pessoas
-      }))
-      .sort((a, b) => a.x - b.x);
+    boxDataPoints.forEach((point, index) => {
+      (point.outliers || []).forEach(outlierValue => {
+        outlierPoints.push({
+          x: index , // pras labels
+          y: outlierValue,
+          markerColor: "red",
+          markerSize: 6,
+          toolTipContent: `Outlier: {y} (${point.label})`
+        });
+      });
+    });
 
     const chart = new CanvasJS.Chart("remuneracaoChartContainer", {
       animationEnabled: true,
       theme: "light2",
-      title: {
-        text: "Remuneração"
-      },
-      axisX: {
-        title: "Remuneração (euros)",
-        labelFormatter: e => e.value.toFixed(2),
+      axisY: {
+        title: "Remuneração (€)",
         includeZero: false
       },
-      axisY: {
-        title: "Quantidade",
-        includeZero: true
+      axisX: {
+        title: "Cargos",
+        interval: 1,
+        labelFontSize: 14,
+        labelAngle: -45, // tilt pq as labels sao comprimdas
+        valueFormatString: "",
+        type: "category" 
       },
-      data: [{
-        type: "column",
-        dataPoints: dataPoints
-      }]
+      data: [
+        {
+          type: "boxAndWhisker",
+          color: "#4F81BC",
+          dataPoints: boxDataPoints
+        },
+        {
+          type: "scatter",
+          dataPoints: outlierPoints,
+          markerType: "circle",
+          showInLegend: false
+        }
+      ]
     });
 
     chart.render();
   }
 
 
-
  fetch("../BLL/dashboard_bll.php")
   .then(res => res.json())
   .then(data => {
-    rawData = data; // Keep rawData as a const to avoid accidental overwrite
+    rawData = data; // raw data para avoid a overwrite acidental
     console.log("Dados recebidos:", data);
 
     const teamFilter = document.getElementById("teamFilter");
@@ -479,8 +537,8 @@ document.addEventListener("DOMContentLoaded", () => {
       for (const id in dataCategory) {
         const teams = dataCategory[id].teams || [];
         teams.forEach(teamId => {
-          if (teamId || teamId === 0) teamsSet.add(teamId);  // Allow 0 as valid team id
-        });
+          if (teamId || teamId === 0) teamsSet.add(teamId);  //  0 como uma team id valida
+        });                                                  // mas acho que ja dei fix pra nao haver zeros
       }
       return Array.from(teamsSet);
     }
@@ -529,7 +587,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updateCharts(selectedTeam) {
-      // Use rawData to avoid overwriting the original data object
+      
       const genero = aggregateByKey(rawData.genero, "genero", selectedTeam);
       const cargo = aggregateByKey(rawData.cargo, "cargo", selectedTeam);
       const nacionalidade = aggregateByKey(rawData.nacionalidade, "nacionalidade", selectedTeam);
@@ -540,23 +598,38 @@ document.addEventListener("DOMContentLoaded", () => {
       //createCheckboxFilters("filters-nacionalidade", nacionalidade, onNacionalidadeChange);
       //createCheckboxFilters("filters-moradaFiscal", moradaFiscal, onDistritoChange);
 
-      // DO NOT overwrite rawData properties here!
 
-      onGeneroChange(genero);
-      onCargoChange(cargo);
-      onNacionalidadeChange(nacionalidade);
-      onDistritoChange(moradaFiscal);
+      onGeneroChange(genero);               //GENERO
+      onCargoChange(cargo);                 //CARGO
+      onNacionalidadeChange(nacionalidade); //NACIONALIDADE
+      onDistritoChange(moradaFiscal);       //DISTRITO
 
-      // Use rawData for these calculations (unfiltered)
+      //IDADE!!!!!!
+      // usar a raw data para os calculos 
        const { averageAge, ageByYear } = calculateAverageAge(rawData.dataNascimento,selectedTeam);
        document.getElementById('average-age-value').textContent = `${averageAge} anos`;
        renderAgeChart(averageAge, ageByYear);
        console.log("averare idade:",averageAge);
 
-      // const { averageRemuneracao } = calculateAverageRemuneracao(rawData.dataRemuneracao);
-      // document.getElementById("average-remuneracao-value").innerText = `Média: ${averageRemuneracao.toFixed(2)}`;
-      // renderRemuneracaoChart(rawData.dataRemuneracao);
 
+       //REMUNERACAO!!!!!
+      const filteredRemuneracaoData = Object.values(rawData.dataRemuneracao).filter((remuneracao) => {
+        if (!selectedTeam || selectedTeam === "all") return true;
+
+        if (selectedTeam === "no-team") {
+          return remuneracao.teams.length === 0;  // only contracts with empty teams array
+        }
+
+        return remuneracao.teams.includes(parseInt(selectedTeam));
+      });
+
+       const { dataPoints, averageRemuneracao } = dataChartBoxPlotRemuneracao(filteredRemuneracaoData, selectedTeam);
+       document.getElementById("average-remuneracao-value").innerText = `Média: ${averageRemuneracao.toFixed(2)}`;
+       console.log("average remuneracao:", averageRemuneracao);
+       renderRemuneracaoChart(filteredRemuneracaoData, dataPoints);
+      
+      
+      //CONTRATO
       // necessario porque estava a ser mandado rawdata no renderchart e nao atualizava com os filtros das equipas
       const filteredContractData = Object.values(rawData.dataTempoDeContrato).filter((contrato) => {
         if (!selectedTeam || selectedTeam === "all") return true;
@@ -578,7 +651,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    // Initial load with all teams
+    // PARA INICIALIZAR COM AS EQUIPAS TODAS
     
 
     if (!teamFilter) {

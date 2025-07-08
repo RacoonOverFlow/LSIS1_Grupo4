@@ -85,8 +85,6 @@ button {
 
 
 
-
-
 .global-container { /* ter acerteza que esta em cima do skerwer */
   z-index: 1; 
   min-height: 80%;
@@ -102,55 +100,6 @@ button {
   transform: skewX(-8deg); /* tilta a imagem */
   z-index: 0; /*usado para o overlay*/
   box-shadow: 0px 0px 20px black ;
-}
-
-/*--- PARA AS TABS  ---*/
-
-.container {
-  position: relative;
-  background: rgb(245, 245, 245, 0);
-  border: 0px solid #ccc;
-  border-radius: 6px;
-  padding-top: 0px; /* leave space for tabs */
-  padding-bottom: 0px;
-  padding-left: 20px;
-  padding-right: 20px;
-  max-width: 900px;
-  margin: 0 ;
-}
-
-.tabs {
-  /* position: absolute; */
-  top: 0;
-  left: 30px;
-  right: 20px;
-  bottom: 0px;
-  display: flex;
-  /* align-items: center; */
-  gap: 10px;
-  background: transparent;
-  height: 80px;
-  margin-bottom: 0;
-}
-
-.tab-button {
-  background: rgb(255, 255, 255, 0.75);
-  color: black;
-  padding: 8px 16px;
-  width: 150px;
-  border-radius: 6px 6px 0 0;
-  text-decoration: none;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-  display: inline-block;
-  /*z-index: 10;*/
-  align-content: center;
-  text-align: center;
-}
-
-.tab-button.active,
-.tab-button:hover {
-  background-color: #4697D2; /* match folder box */
-  color:white;
 }
 
 .logo {

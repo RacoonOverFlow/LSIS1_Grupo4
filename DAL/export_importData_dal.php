@@ -163,7 +163,7 @@ class exportData_DAL {
     }
 
 
-
+        /// ESTA A APARECER ALGUM ERRO SOBRE O IDCARGO PROBLEMA A IMPORTAR DATAS
     function importCSV($csvFilePath) {
     if (($handle = fopen($csvFilePath, 'r')) !== FALSE) {
         $headers = fgetcsv($handle, 1000, ';');
