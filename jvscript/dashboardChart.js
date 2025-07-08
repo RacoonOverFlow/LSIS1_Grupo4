@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // PARA DAR RENDER NO CHART, COLORMAP {} ASSIM VAZIO PQ NAO ESTAMOS A DEFENIR NOS AS CORES
-  function renderChart(containerId, title, filteredData, type="column", colorMap = {}) {
+  function renderChart(containerId, title, filteredData, type="bar", colorMap = {}) {
     const labels = Object.keys(filteredData);
     const values = Object.values(filteredData);
 
@@ -57,7 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
       animationEnabled: true,
       theme: "light2",
       title: { text: title },
-      axisY: (type === "column") ? { title: "Quantidade" } : undefined,
+      axisY: (type === "bar") ? { 
+        title: "Quantidade",
+        interval: 1 
+      } : undefined,
       data: [{
         type: type,
         startAngle: (type === "pie") ? 240 : undefined,
