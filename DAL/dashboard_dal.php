@@ -578,13 +578,11 @@ class dashboard_dal {
 
 
 
-
-    ////////////// POR MUDAR
     //                                              !!!!REMUNERACAO!!!!
 
     function getRemuneracaoDistribution($allowedIds = null) {
         $query = "
-            SELECT df.remuneracao, f.idFuncionario,equipes.idEquipa
+            SELECT df.remuneracao, f.idFuncionario,equipes.idEquipa, ca.cargo
             FROM funcionario f
             INNER JOIN dadosfinanceiros df ON f.idDadosFinanceiros = df.idDadosFinanceiros
             INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
@@ -616,12 +614,14 @@ class dashboard_dal {
         $dataRemuneracao = [];
         while ($row = $result->fetch_assoc()) {
             $idFuncionario = $row['idFuncionario'];
+            $cargo = $row['cargo'];
             $remuneracao = number_format((float)$row['remuneracao'], 2, '.', '');
             $equipa = $row['idEquipa'] ?? null;
 
             if (!isset($dataRemuneracao[$idFuncionario])) {
                 $dataRemuneracao[$idFuncionario] = [
                     'remuneracao' => $remuneracao,
+                    'cargo' => $cargo,
                     'teams' => [],
                 ];
             }
