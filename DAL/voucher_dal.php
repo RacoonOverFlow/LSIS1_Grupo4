@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ ."/../DAL/connection.php";
+require_once __DIR__ . '/../DAL/connection.php';
 
 class voucher_dal {
     private $conn;
