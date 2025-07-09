@@ -28,7 +28,7 @@ function mostrarSidebar() {
         echo '<li><a href="/LSIS1_Grupo4/UI/alertas.php"><i class="bi bi-exclamation-triangle-fill"></i><strong> Alertas</strong></a></li>';
         echo '<li><a href="/LSIS1_Grupo4/UI/enviarEmail.php"><i class="bi bi-send-fill"></i><strong> Enviar Email Ao Convidado</strong></a></li>';
         echo '<li><a href="/LSIS1_Grupo4/UI/voucher.php"><i class="bi bi-credit-card-2-front-fill"></i>	<strong> Criar e atribuir vouchers</strong></a></li>';
-        echo '<li><a href="/LSIS1_Grupo4/UI/registoFuncionario.php"><i class="bi bi-exclamation-triangle-fill"></i><strong> Registar Funcionário</strong></a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/registoFuncionario.php"><i class="bi bi-person-plus-fill"></i><strong> Registar Funcionário</strong></a></li>';
         echo '<li><a href="recibosDeVencimento.php?numeroMecanografico=&ano=&mes="><i class="bi-cash-stack"></i><strong> Recibos De Vencimento</strong></a></li>';
     }
     
