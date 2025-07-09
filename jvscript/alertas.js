@@ -26,7 +26,13 @@ function carregarAlertas(idFuncionario) {
                     btn.classList.add('btn-remover-alerta');
                     btn.onclick = () => removerAlerta(alerta.idAlertaFuncionario, idFuncionario);
 
+                    // Adiciona o estado de visto/não visto
+                    const spanVisto = document.createElement('span');
+                    spanVisto.textContent = alerta.visualizado == 1 ? ' Visto ✅' : ' Não Visto ❌';
+                    spanVisto.style.marginLeft = '10px';
+
                     li.appendChild(btn);
+                    li.appendChild(spanVisto);
                     lista.appendChild(li);
                 });
             }

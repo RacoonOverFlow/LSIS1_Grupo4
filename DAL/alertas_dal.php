@@ -97,7 +97,7 @@ class alertas_dal {
         return $stmt->execute();
     }
     function getAlertasFuncionario($idFuncionario){
-      $query = "SELECT af.idAlertaFuncionario, a.mensagem FROM alertas_funcionario af 
+      $query = "SELECT af.idAlertaFuncionario, a.mensagem, af.visualizado FROM alertas_funcionario af 
         JOIN alertas a ON af.idAlerta = a.idAlerta WHERE af.idFuncionario = ?";
 
       $stmt = $this->conn->prepare($query);
