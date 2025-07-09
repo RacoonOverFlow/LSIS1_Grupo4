@@ -19,6 +19,7 @@ function displayForm() {
     <form method="POST" action="">
     Data de Expiração:
     <input type="date" name="dataExpiracao"><br>
+    
     Descricao do voucher:
     <input type="text" name="descricaoVoucher"><br>
     Token de acesso do voucher:
