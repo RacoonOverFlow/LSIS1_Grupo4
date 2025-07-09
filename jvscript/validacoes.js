@@ -276,8 +276,6 @@ document.addEventListener("DOMContentLoaded", function () {
             setErro("frequencia", campos.frequencia);
         }
 
-        
-
         if (!formValido) {
             e.preventDefault();
         }
