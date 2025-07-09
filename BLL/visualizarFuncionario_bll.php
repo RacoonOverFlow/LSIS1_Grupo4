@@ -156,11 +156,10 @@ function mostrarMembrosEquipa(){
         }
 
         $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
-
-        $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
         $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
         echo '<a href="' . $link . '" class="linha-link">';
         echo '<div class="linha-funcionario">';
+        echo '<div class="coluna selecao"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($m['numeroMecanografico']) . '"></div>';
         echo '<div class="coluna mecanografico">' . htmlspecialchars($m['numeroMecanografico']) . '</div>';
         echo '<div class="coluna cargo">' . htmlspecialchars($m['cargo']) . '</div>';
         echo '<div class="coluna nome">' . htmlspecialchars($m['nomeCompleto']) . '</div>';

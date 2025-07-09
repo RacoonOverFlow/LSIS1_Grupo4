@@ -19,7 +19,7 @@ function displayForm() {
     <form method="POST" action="">
     Data de Expiração:
     <input type="date" name="dataExpiracao"><br>
-    Valor do voucher:
+    Descricao do voucher:
     <input type="text" name="descricaoVoucher"><br>
     Token de acesso do voucher:
     <input type="text" name="tokenVoucher"><br>
@@ -32,7 +32,7 @@ function displayForm() {
     <select name='idVoucher' id='voucher'>
     <option>Selecione o Voucher</option>";
     foreach ($vouchers as $voucher){
-        echo "<option value='" . htmlspecialchars($voucher['idVoucher']) . "'>" . htmlspecialchars($voucher['valor']) . ", " . htmlspecialchars($voucher['dataExpiracao']) ."</option>";
+        echo "<option value='" . htmlspecialchars($voucher['idVoucher']) . "'>" . htmlspecialchars($voucher['descricao']) . ", " . htmlspecialchars($voucher['dataExpiracao']) ."</option>";
     }
     echo "</select><br>
     <label for='numeroMecanografico'>Selecionar funcionario</label>
@@ -51,13 +51,15 @@ function displayForm() {
         echo "<table border='1' cellpadding='5'>
                 <tr>
                     <th>Nº Mecanográfico</th>
-                    <th>Valor do Voucher (€)</th>
+                    <th>Descricao do Voucher</th>
+                    <th>Token voucher</th>
                     <th>Data Expiração</th>
                 </tr>";
         foreach ($funcionariosComVoucher as $f) {
             echo "<tr>
                     <td>" . htmlspecialchars($f['numeroMecanografico']) . "</td>
-                    <td>" . htmlspecialchars($f['valor']) . "</td>
+                    <td>" . htmlspecialchars($f['descricao']) . "</td>
+                    <td>" . htmlspecialchars($f['tokenVoucher']) . "</td>
                     <td>" . htmlspecialchars($f['dataExpiracao']) . "</td>
                 </tr>";
         }
