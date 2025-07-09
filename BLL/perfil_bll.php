@@ -79,6 +79,7 @@ function setPerfil($nMeca) {
     echo '<h3>Dados Pessoais</h3>';
     echo '<p><strong>Número Mecanográfico:</strong> ' . htmlspecialchars($nMeca) . '</p>';
     echo '<p><strong>Nome:</strong> ' . htmlspecialchars($dadosPessoais['nomeCompleto']) . '</p>';
+    echo '<p><strong>Nome Abreviado:</strong> ' . htmlspecialchars($dadosPessoais['nomeAbreviado']) . '</p>';
     echo '<p><strong>Email:</strong> ' . htmlspecialchars($dadosPessoais['email']) . '</p>';
     echo '<p><strong>Data Nascimento:</strong> ' . htmlspecialchars($dadosPessoais['dataNascimento']) . '</p>';
     echo '<p><strong>Morada:</strong> ' . htmlspecialchars($dadosPessoais['moradaFiscal']) . '</p>';
