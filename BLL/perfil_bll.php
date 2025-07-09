@@ -14,6 +14,7 @@ function setPerfil($nMeca) {
     $viatura = $dal->getViaturaById($nMeca);
     $cv = $dal->getCVById($nMeca);
     $beneficios = $dal->getBeneficiosById($nMeca);
+    $voucher = $dal ->getVoucherById($beneficios['idVoucher']);
     $cargo = $dal->getCargoById($nMeca);
     $caminhoDocumentos = $dal->getCaminhoDocumentos($nMeca);
     $indicativo = $dal->getIndicativos($dadosPessoais['idIndicativo']);
@@ -79,6 +80,7 @@ function setPerfil($nMeca) {
     echo '<h3>Dados Pessoais</h3>';
     echo '<p><strong>Número Mecanográfico:</strong> ' . htmlspecialchars($nMeca) . '</p>';
     echo '<p><strong>Nome:</strong> ' . htmlspecialchars($dadosPessoais['nomeCompleto']) . '</p>';
+    echo '<p><strong>Nome Abreviado:</strong> ' . htmlspecialchars($dadosPessoais['nomeAbreviado']) . '</p>';
     echo '<p><strong>Email:</strong> ' . htmlspecialchars($dadosPessoais['email']) . '</p>';
     echo '<p><strong>Data Nascimento:</strong> ' . htmlspecialchars($dadosPessoais['dataNascimento']) . '</p>';
     echo '<p><strong>Morada:</strong> ' . htmlspecialchars($dadosPessoais['moradaFiscal']) . '</p>';
@@ -88,7 +90,7 @@ function setPerfil($nMeca) {
         echo '<p><strong>NIF:</strong> ' . htmlspecialchars($dadosPessoais['nif']) . '</p>';
         echo '<p><strong>NISS:</strong> ' . htmlspecialchars($dadosPessoais['niss']) . '</p>';
     }
-    echo '<p><strong>Género:</strong> ' . htmlspecialchars($dadosPessoais['genero']) . '</p>';
+    echo '<p><strong>Género:</strong> ' . ($dadosPessoais['genero'] == "F" ? 'Feminino' : 'Masculino') .'</p>';
     echo '<p><strong>Contacto de Pessoal:</strong> ' . htmlspecialchars($indicativo['indicativo']) . ' ' . htmlspecialchars($dadosPessoais['contactoPessoal']) . '</p>';
     echo '<p><strong>Contacto de Emergência:</strong> ' . htmlspecialchars($indicativo['indicativo']) . ' ' . htmlspecialchars($dadosPessoais['contactoEmergencia']) . '</p>';
     echo '<p><strong>Grau de Relacionamento:</strong> ' . htmlspecialchars($dadosPessoais['grauDeRelacionamento']) . '</p>';
@@ -124,7 +126,12 @@ function setPerfil($nMeca) {
     if($_SESSION['idCargo'] != 3 || $_SESSION['nMeca'] == $_GET['numeroMecanografico']){
         echo '<h3>Benefícios</h3>';
         echo '<p><strong>Cartão Continente:</strong> ' . htmlspecialchars($beneficios['cartaoContinente']) . '</p>';
-        echo '<p><strong>Voucher NOS:</strong> ' . htmlspecialchars($beneficios['voucherNOS']) . '</p>';
+        if($voucher == NULL){
+            echo '<p><strong>Voucher NOS:</strong> Não disponível.</p>';
+        }else{
+            echo '<p><strong>Voucher NOS:</strong><br><strong>Valor: </strong>' . htmlspecialchars($voucher['valor']) . '€
+            <br><strong>Data de Expiração: </strong>' . htmlspecialchars($voucher['dataExpiracao']) . '</p>';
+        }
     }
     echo '<h3>Cargo</h3>';
     echo '<p><strong>Cargo:</strong> ' . htmlspecialchars($cargo['cargo']) . '</p>';
