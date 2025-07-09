@@ -21,7 +21,7 @@ function mostrarFuncionarios() {
     echo '<button class="button-export">EXPORT</button>';
     echo '</a>';
 
-    //butao para exportar
+    //butao para importar
     echo'<form action="/LSIS1_Grupo4/BLL/export_importData_bll.php" method="POST" enctype="multipart/form-data">';
     echo'<label>Import CSV:</label>';
     echo'<input type="file" name="csv_file" accept=".csv" required>';
@@ -30,7 +30,9 @@ function mostrarFuncionarios() {
 
 
     // Cabeçalho
+    echo '<form method="POST" action="/LSIS1_Grupo4/BLL/export_importData_bll.php" target="_blank">';
     echo '<div class="linha-funcionario cabecalho">
+            <div class="coluna selecao">Selecionar</div>
             <div class="coluna id">ID</div>
             <div class="coluna mecanografico">Número Mecanográfico</div>
             <div class="coluna cargo">Cargo</div>
@@ -56,9 +58,10 @@ function mostrarFuncionarios() {
             $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
 
 
-            $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
+            $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
+            echo '<div class="coluna selecao"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($f['numeroMecanografico']) . '"></div>';
             echo '<div class="coluna id">' . htmlspecialchars($f['idFuncionario']) . '</div>';
             echo '<div class="coluna mecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
             echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '</div>';
@@ -68,18 +71,10 @@ function mostrarFuncionarios() {
             echo '<div class="coluna aniversário">' . $aniversarioFuncionario . '</div>';
             echo '</div>';
             echo '</a>';
-
-            /* echo '<form action="/LSIS1_Grupo4/BLL/atribuirAlerta_bll.php" method="POST" class="form-alerta">';
-            echo '<input type="hidden" name="idFuncionario" value="' . $f['idFuncionario'] . '">';
-            echo '<select name="idAlerta" required>';
-            echo '<option value="">Selecionar alerta</option>';
-            foreach ($alertas as $a) {
-                echo '<option value="' . $a['idAlerta'] . '">' . htmlspecialchars($a['mensagem']) . '</option>';
-            }
-            echo '</select>';
-            echo '<button type="submit">Atribuir</button>';
-            echo '</form>'; */
         }
+        echo '<button type="submit" name="export_selected" class="button-export">EXPORT SELECIONADOS</button>';
+        echo '</form>';
+
     }else if($_SESSION['idCargo'] == 4){
         foreach ($colaboradores as $c) {
             $dataNascimento = new DateTime($c['dataNascimento']);
@@ -96,9 +91,10 @@ function mostrarFuncionarios() {
 
             echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">';
 
-            $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
+            $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
+            echo '<div class="coluna selecao"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($c['numeroMecanografico']) . '"></div>';
             echo '<div class="coluna id">' . htmlspecialchars($c['idFuncionario']) . '</div>';
             echo '<div class="coluna mecanografico">' . htmlspecialchars($c['numeroMecanografico']) . '</div>';
             echo '<div class="coluna cargo">' . htmlspecialchars($c['cargo']) . '</div>';
@@ -108,18 +104,9 @@ function mostrarFuncionarios() {
             echo '<div class="coluna aniversário">' . $aniversarioColaborador . '</div>';
             echo '</div>';
             echo '</a>';
-
-            /* echo '<form action="/LSIS1_Grupo4/BLL/atribuirAlerta_bll.php" method="POST" class="form-alerta">';
-            echo '<input type="hidden" name="idFuncionario" value="' . $c['idFuncionario'] . '">';
-            echo '<select name="idAlerta" required>';
-            echo '<option value="">Selecionar alerta</option>';
-            foreach ($alertas as $a) {
-                echo '<option value="' . $a['idAlerta'] . '">' . htmlspecialchars($a['mensagem']) . '</option>';
-            }
-            echo '</select>';
-            echo '<button type="submit">Atribuir</button>';
-            echo '</form>'; */
         }
+        echo '<button type="submit" name="export_selected" class="button-export">EXPORT SELECIONADOS</button>';
+        echo '</form>';
     }
     echo '</div>';
 }
@@ -169,7 +156,7 @@ function mostrarMembrosEquipa(){
 
         $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
 
-        $link = '../perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
+        $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
         echo '<a href="' . $link . '" class="linha-link">';
         echo '<div class="linha-funcionario">';
         echo '<div class="coluna id">' . htmlspecialchars($m['idFuncionario']) . '</div>';

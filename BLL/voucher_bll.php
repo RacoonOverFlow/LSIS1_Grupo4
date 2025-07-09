@@ -12,19 +12,20 @@ function isThisACallback(): bool {
 function displayForm() {
     $dal = new voucher_dal();
     $vouchers = $dal->getVouchers();
-    $funcionarios=$dal->getTodosFuncionariosSemVoucher();
+    $funcionariosSemVoucher=$dal->getTodosFuncionariosSemVoucher();
+    $funcionariosComVoucher=$dal->getTodosFuncionariosComVoucher();
 
     echo '<h2>Criar Voucher</h2>
     <form method="POST" action="">
     Data de Expiração:
     <input type="date" name="dataExpiracao"><br>
     Valor do voucher:
-    <input type="number" name="valorVoucher"><br>
+    <input type="text" name="descricaoVoucher"><br>
+    Token de acesso do voucher:
+    <input type="text" name="tokenVoucher"><br>
     <button type="submit" name="criarVoucher">Criar voucher</button>
     </form>';
     
-
-
     echo "<h2>Atribuir Vouchers a Funcionario</h2>
     <form method='POST' action=''>
     <label for='voucher'>Selecionar Voucher:</label>
@@ -37,12 +38,36 @@ function displayForm() {
     <label for='numeroMecanografico'>Selecionar funcionario</label>
     <select name='numeroMecanografico'>
     <option>Selecione o funcionario</option>";
-    foreach ($funcionarios as $f) {
+    foreach ($funcionariosSemVoucher as $f) {
             echo '<option value="' . $f['numeroMecanografico'] . '">' . htmlspecialchars($f['numeroMecanografico']) . '</option>';
     }
     echo "</select><br>
     <button type='submit' name='associarVoucherFuncionario'>Associar Voucher a funcionario</button>
     </form>";
+
+    echo "<h2>Funcionários com Voucher Atribuído</h2>";
+
+    if (count($funcionariosComVoucher) > 0) {
+        echo "<table border='1' cellpadding='5'>
+                <tr>
+                    <th>Nº Mecanográfico</th>
+                    <th>Valor do Voucher (€)</th>
+                    <th>Data Expiração</th>
+                </tr>";
+        foreach ($funcionariosComVoucher as $f) {
+            echo "<tr>
+                    <td>" . htmlspecialchars($f['numeroMecanografico']) . "</td>
+                    <td>" . htmlspecialchars($f['valor']) . "</td>
+                    <td>" . htmlspecialchars($f['dataExpiracao']) . "</td>
+                </tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "<p>Nenhum funcionário com voucher atribuído.</p>";
+    }
+
+
+
 }
 
 function showUI(){
@@ -52,7 +77,7 @@ function showUI(){
         try{
             if(isset($_POST["criarVoucher"])){
                 $dal = new voucher_dal();
-                $dal->criarVoucher($_POST["dataExpiracao"], $_POST["valorVoucher"]);
+                $dal->criarVoucher($_POST["dataExpiracao"], $_POST["descricaoVoucher"], $_POST["tokenVoucher"]);
                 header("Location: voucher.php");
             }
             if(isset($_POST["associarVoucherFuncionario"])){

@@ -45,37 +45,60 @@ class voucher_dal {
     }
 
 
-    function criarVoucher($dataExpiracao, $valor) {
+    function criarVoucher($dataExpiracao, $descricao, $tokenVoucher) {
         $naoAtribuido = FALSE;
-        $query = "INSERT INTO voucher (dataEmissao, dataExpiracao, valor,atribuido) VALUES (CURRENT_DATE, ?, ?, ?)";
+        $query = "INSERT INTO voucher (dataEmissao, dataExpiracao, descricao,atribuido tokenVoucher) VALUES (CURRENT_DATE, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("sis", $dataExpiracao, $valor, $naoAtribuido);
+        $stmt->bind_param("ssss", $dataExpiracao, $descricao, $naoAtribuido, $tokenVoucher);
         return $stmt->execute();
     }
 
     public function getTodosFuncionariosSemVoucher() {
-    $query = "
-        SELECT dl.numeroMecanografico, c.cargo
-        FROM funcionario f
-        INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-        INNER JOIN cargo c ON dl.idCargo = c.idCargo
-        INNER JOIN beneficios b ON f.idBeneficios = b.idBeneficios
-        LEFT JOIN voucher v ON b.idVoucher = v.idVoucher
-        WHERE b.idVoucher IS NULL
-        ORDER BY dl.numeroMecanografico ASC
-    ";
+        $query = "
+            SELECT dl.numeroMecanografico, c.cargo
+            FROM funcionario f
+            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+            INNER JOIN cargo c ON dl.idCargo = c.idCargo
+            INNER JOIN beneficios b ON f.idBeneficios = b.idBeneficios
+            LEFT JOIN voucher v ON b.idVoucher = v.idVoucher
+            WHERE b.idVoucher IS NULL
+            ORDER BY dl.numeroMecanografico ASC
+        ";
 
-    $stmt = $this->conn->prepare($query);
-    if(!$stmt) throw new Exception("Erro na preparação da query: " . $this->conn->error);
-    $stmt->execute();
-    $result = $stmt->get_result();
+        $stmt = $this->conn->prepare($query);
+        if(!$stmt) throw new Exception("Erro na preparação da query: " . $this->conn->error);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    $funcionarios = [];
-    while ($row = $result->fetch_assoc()) {
-        $funcionarios[] = $row;
+        $funcionarios = [];
+        while ($row = $result->fetch_assoc()) {
+            $funcionarios[] = $row;
+        }
+        return $funcionarios;
     }
-    return $funcionarios;
-}
+
+    public function getTodosFuncionariosComVoucher() {
+        $query = "
+            SELECT dl.numeroMecanografico, v.valor, v.dataExpiracao
+            FROM funcionario f
+            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+            INNER JOIN beneficios b ON f.idBeneficios = b.idBeneficios
+            INNER JOIN voucher v ON b.idVoucher = v.idVoucher
+            ORDER BY dl.numeroMecanografico ASC
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        if (!$stmt) throw new Exception("Erro na query: " . $this->conn->error);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $funcionarios = [];
+        while ($row = $result->fetch_assoc()) {
+            $funcionarios[] = $row;
+        }
+        return $funcionarios;
+    }
+
 
 
 }

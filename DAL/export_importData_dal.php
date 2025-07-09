@@ -89,9 +89,60 @@ class exportData_DAL {
         $stmt->close();
         exit();
     }
-
-
 */
+    function exportSelected($numerosMecanograficos) {
+        if (empty($numerosMecanograficos)) {
+            echo "Nenhum funcionário selecionado.";
+            return;
+        }
+
+        // Cria placeholders para o IN (...)
+        $placeholders = implode(',', array_fill(0, count($numerosMecanograficos), '?'));
+
+        $query = "
+            SELECT f.*, dl.*, ca.*, dc.*, dp.*, ic.*, df.*, cv.*, b.*
+            FROM funcionario f
+            LEFT JOIN dadosLogin dl ON f.numeroMecanografico = dl.numeroMecanografico
+            LEFT JOIN cargo ca ON dl.idCargo = ca.idCargo
+            LEFT JOIN dadosContrato dc ON f.idDadosContrato = dc.idDadosContrato
+            LEFT JOIN dadosPessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
+            LEFT JOIN indicativocontacto ic ON dp.idIndicativo = ic.idIndicativo
+            LEFT JOIN dadosFinanceiros df ON f.idDadosFinanceiros = df.idDadosFinanceiros
+            LEFT JOIN cv cv ON f.idCV = cv.idCV
+            LEFT JOIN beneficios b ON f.idBeneficios = b.idBeneficios
+            WHERE f.numeroMecanografico IN ($placeholders)
+        ";
+
+        $stmt = $this->conn->prepare($query);
+        
+        // Define tipos dinâmicos (tudo "i" porque é int)
+        $types = str_repeat('i', count($numerosMecanograficos));
+        $stmt->bind_param($types, ...$numerosMecanograficos);
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // CSV
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=funcionarios_selecionados.csv');
+        echo "\xEF\xBB\xBF";
+
+        $output = fopen('php://output', 'w');
+        $headersWritten = false;
+
+        while ($row = $result->fetch_assoc()) {
+            if (!$headersWritten) {
+                fputcsv($output, array_keys($row), ';');
+                $headersWritten = true;
+            }
+            fputcsv($output, array_values($row), ';');
+        }
+
+        fclose($output);
+        $stmt->close();
+        exit();
+    }
+
 
     function exportData($filter = 'all') {
         $query = "
