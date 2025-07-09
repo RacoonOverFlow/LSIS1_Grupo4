@@ -675,7 +675,7 @@ class dashboard_dal {
 
     function getDistritoDistribution($allowedIds = null) {
         $query = "
-            SELECT f.idFuncionario, equipes.idEquipa, TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(moradaFiscal, ',', 3), ',', -1)) AS moradaFiscal
+            SELECT f.idFuncionario, equipes.idEquipa, TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(moradaFiscal, ',', 4), ',', -1)) AS moradaFiscal
             FROM funcionario f
             INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
             INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
