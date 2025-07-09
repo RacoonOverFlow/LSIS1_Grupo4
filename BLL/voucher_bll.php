@@ -23,6 +23,8 @@ function displayForm() {
     <input type="text" name="descricaoVoucher"><br>
     Token de acesso do voucher:
     <input type="text" name="tokenVoucher"><br>
+    Emitente (empresa que emitiu o voucher):
+    <input type="text" name="emitenteVoucher"><br>
     <button type="submit" name="criarVoucher">Criar voucher</button>
     </form>';
     
@@ -32,7 +34,7 @@ function displayForm() {
     <select name='idVoucher' id='voucher'>
     <option>Selecione o Voucher</option>";
     foreach ($vouchers as $voucher){
-        echo "<option value='" . htmlspecialchars($voucher['idVoucher']) . "'>" . htmlspecialchars($voucher['descricao']) . ", " . htmlspecialchars($voucher['dataExpiracao']) ."</option>";
+        echo "<option value='" . htmlspecialchars($voucher['idVoucher']) . "'>" . htmlspecialchars($voucher['descricao']) . ", " . htmlspecialchars($voucher['dataExpiracao']) . ", " . htmlspecialchars($voucher['emitente']) ."</option>";
     }
     echo "</select><br>
     <label for='numeroMecanografico'>Selecionar funcionario</label>
@@ -53,6 +55,7 @@ function displayForm() {
                     <th>Nº Mecanográfico</th>
                     <th>Descricao do Voucher</th>
                     <th>Token voucher</th>
+                    <th>Emitente voucher</th>
                     <th>Data Expiração</th>
                 </tr>";
         foreach ($funcionariosComVoucher as $f) {
@@ -60,6 +63,7 @@ function displayForm() {
                     <td>" . htmlspecialchars($f['numeroMecanografico']) . "</td>
                     <td>" . htmlspecialchars($f['descricao']) . "</td>
                     <td>" . htmlspecialchars($f['tokenVoucher']) . "</td>
+                    <td>" . htmlspecialchars($f['emitente']) . "</td>
                     <td>" . htmlspecialchars($f['dataExpiracao']) . "</td>
                 </tr>";
         }
@@ -79,7 +83,7 @@ function showUI(){
         try{
             if(isset($_POST["criarVoucher"])){
                 $dal = new voucher_dal();
-                $dal->criarVoucher($_POST["dataExpiracao"], $_POST["descricaoVoucher"], $_POST["tokenVoucher"]);
+                $dal->criarVoucher($_POST["dataExpiracao"], $_POST["descricaoVoucher"], $_POST["tokenVoucher"], $_POST["emitenteVoucher"]);
                 header("Location: voucher.php");
             }
             if(isset($_POST["associarVoucherFuncionario"])){
