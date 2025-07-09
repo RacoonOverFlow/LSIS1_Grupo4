@@ -151,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ///////////////////////////////////
 
-  //                           !!!!IDADE MEDIA GRAFICO LINEAR!!!!
+  //                           !!!!IDADE MEDIA GRAFICO COLUNA!!!!
 
   //CALCULAR A IDADE MÉDIA 
   function calculateAverageAge(dataNascimento, filterTeam = null) {
@@ -200,6 +200,34 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  //    PARA AGRUPAR                         !!!!AGE!!!!
+  function groupAgesIntoRanges(dataNascimento) {
+    const today = new Date();
+    const ageGroups = {
+      "18-25": 0,
+      "26-35": 0,
+      "36-45": 0,
+      "46-55": 0,
+      "56-65": 0,
+      "65+": 0
+    };
+
+    for (const personId in dataNascimento) {
+      const dobString = dataNascimento[personId].dataNascimento;
+      const dob = new Date(dobString);
+      const age = today.getFullYear() - dob.getFullYear();
+
+      if (age >= 18 && age <= 25) ageGroups["18-25"]++;
+      else if (age >= 26 && age <= 35) ageGroups["26-35"]++;
+      else if (age >= 36 && age <= 45) ageGroups["36-45"]++;
+      else if (age >= 46 && age <= 55) ageGroups["46-55"]++;
+      else if (age >= 56 && age <= 65) ageGroups["56-65"]++;
+      else if (age > 65 && age < 120) ageGroups["65+"]++; // valid old ages
+    }
+
+    return ageGroups;
+  }
+
 
   
   // Função externa para formatar o conteúdo do tooltip  !!AGE!!
@@ -222,51 +250,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // Função principal para renderizar o gráfico         !!AGE!!
-  function renderAgeChart(averageAge, ageByYear) { //nao posso tirar averageAge usada para mostrar a idade média fora do gráfico numa <div>
-    const dataPoints = Object.entries(ageByYear)
-      .sort((a, b) => a[0] - b[0])
-      .map(([year, count]) => ({
-        x: new Date(`${year}-01-01`),
-        y: count
-      }));
+  function renderAgeGroupChart(ageGroups) {
+  const dataPoints = Object.entries(ageGroups).map(([range, count]) => ({
+    label: range,
+    y: count
+  }));
+  const chart = new CanvasJS.Chart("ageChartContainer", {
+    animationEnabled: true,
+    theme: "light2",
+    title: {
+      text: "Distribuição por Faixa Etária"
+    },
+    axisX: {
+      title: "Faixa Etária"
+    },
+    axisY: {
+      title: "Quantidade",
+      includeZero: true
+    },
+    data: [{
+      type: "column",
+      name: "Pessoas",
+      showInLegend: false,
+      dataPoints: dataPoints
+    }]
+  });
 
-    const chart = new CanvasJS.Chart("ageChartContainer", {
-      animationEnabled: true,
-      theme: "light2",
-      title: {
-        text: "Idades"
-      },
-      axisX: {
-        title: "Ano de Nascimento",
-        valueFormatString: "YYYY"
-      },
-      axisY: {
-        title: "Quantidade",
-        includeZero: true
-      },
-      toolTip: {
-        shared: true,
-        contentFormatter: formatAgeTooltip // usa a função externa
-      },
-      legend: {
-        cursor: "pointer",
-        itemclick: e => {
-          e.dataSeries.visible = !e.dataSeries.visible;
-          chart.render();
-        }
-      },
-      data: [
-        {
-          type: "line",
-          name: "Quantidade por Ano",
-          showInLegend: true,
-          dataPoints: dataPoints
-        }
-      ]
-    });
+  chart.render();
+}
 
-    chart.render();
-  }
+
 
   //////////////////////////////////////////////////
 
@@ -611,7 +624,10 @@ document.addEventListener("DOMContentLoaded", () => {
       // usar a raw data para os calculos 
        const { averageAge, ageByYear } = calculateAverageAge(rawData.dataNascimento,selectedTeam);
        document.getElementById('average-age-value').textContent = `${averageAge} anos`;
-       renderAgeChart(averageAge, ageByYear);
+       const ageGroups = groupAgesIntoRanges(rawData.dataNascimento);
+       if(renderAgeGroupChart(ageGroups)){
+        console.log("ageGroup funciona");
+       }; 
        console.log("averare idade:",averageAge);
 
 
