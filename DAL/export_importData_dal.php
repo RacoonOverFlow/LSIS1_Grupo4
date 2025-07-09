@@ -346,24 +346,34 @@ class exportData_DAL {
                 $row['estadoFuncionario'],
                 $row['dataUltimaAtualizacao']
             );
+
             $stmtMain->execute();
             $stmtMain->close();
-            
-            
+
+            // Recuperar o ID do funcionário recém-inserido (via SELECT)
+            $stmtGetFuncionario = $this->conn->prepare("SELECT idFuncionario FROM funcionario WHERE numeroMecanografico = ?");
+            $stmtGetFuncionario->bind_param("i", $row['numeroMecanografico']);
+            $stmtGetFuncionario->execute();
+            $stmtGetFuncionario->bind_result($idFuncionario);
+            $stmtGetFuncionario->fetch();
+            $stmtGetFuncionario->close();
+
             // Assign to team if idCargo is 2 or 3 and idEquipa is present
-            /*if (!empty($row['idEquipa'])) {
+            if (!empty($row['idEquipa'])) {
                 $idCargo = (int)$row['idCargo'];
 
                 if ($idCargo === 2) {
-                    // Insert into colaborador_equipa
                     $stmtTeam = $this->conn->prepare("
                         INSERT INTO colaborador_equipa (idColaborador, idEquipa)
                         VALUES (?, ?)
                         ON DUPLICATE KEY UPDATE idEquipa = VALUES(idEquipa)
                     ");
-                    $stmtTeam->bind_param("ii", $row['idFuncionario'], $row['idEquipa']);
+                    $stmtTeam->bind_param("ii", $idFuncionario, $row['idEquipa']);
                     $stmtTeam->execute();
                     $stmtTeam->close();
+                }
+
+    // Faça o mesmo para coordenador_equipa se for o caso (idCargo === 3)
 
                 // } elseif ($idCargo === 3) {
                 //     // Insert into coordenador_equipa
@@ -376,8 +386,8 @@ class exportData_DAL {
                 //     $stmtTeam->execute();
                 //     $stmtTeam->close();
                 // }
-            }}
-*/
+            }
+
         }
 
         fclose($handle);
@@ -388,7 +398,8 @@ class exportData_DAL {
     }
 }
 
-}   
+  
 
 
 
+}
