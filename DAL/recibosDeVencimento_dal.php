@@ -13,12 +13,13 @@ class recibosDeVencimento_DAL {
         $query = "SELECT f.idFuncionario,
             dl.numeroMecanografico,
             dp.nomeCompleto,
+            dp.nomeAbreviado,
             c.cargo
         FROM funcionario f
         INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
         INNER JOIN cargo c ON dl.idCargo = c.idCargo
         INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
-        ORDER BY dp.nomeCompleto ASC";
+        ORDER BY dp.nomeAbreviado ASC";
 
         $stmt = $this->conn->prepare($query);
         if(!$stmt) throw new Exception("Erro na preparação da query: " . $this->conn->error);
@@ -36,6 +37,7 @@ class recibosDeVencimento_DAL {
         $query = "SELECT
             dl.numeroMecanografico,
             dp.nomeCompleto,
+            dp.nomeAbreviado,
             c.cargo
         FROM funcionario f
         INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico

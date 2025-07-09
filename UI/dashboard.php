@@ -4,7 +4,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 session_start();
 require_once "../BLL/dashboard_pag_bll.php";
-require_once "../BLL/Permissoes.php";
 
 $nMeca = $_SESSION['nMeca'];
 $cargo = $_SESSION['idCargo'];
@@ -23,7 +22,6 @@ $cargo = $_SESSION['idCargo'];
 </head>
 
 <body>
-  <div class="skewed"></div>
   <div class="global-container"><?php setDashboard($nMeca)?> </div>
 </body>
 </html>

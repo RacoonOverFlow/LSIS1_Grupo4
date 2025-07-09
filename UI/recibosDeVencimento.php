@@ -2,8 +2,7 @@
 
 session_start();
 include "../BLL/recibosDeVencimento_bll.php";
-require_once "../BLL/Permissoes.php"
-
+include "../BLL/sidebar.php";
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +21,9 @@ require_once "../BLL/Permissoes.php"
 <body>
   <div class="Layout-container">
     <main class="main-content">
-      <?php showUI(); ?>
+      <?php showUI(); 
+      mostrarSidebar();
+      ?>
     </main>
   </div>
 </body>

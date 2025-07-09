@@ -51,7 +51,7 @@ h2 {
 }
 
 /* Colunas com larguras específicas */
-.mecanografico  { flex: 2; }
+.mecanografico  { flex: 1; }
 .cargo          { flex: 2; }
 .nome           { flex: 2; }
 .ano            { flex: 1; }

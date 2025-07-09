@@ -56,12 +56,12 @@ function showUI() {
 
     // Cabeçalho
     echo '<div class="linha-funcionario cabecalho">
-            <div class="coluna mecanografico">Número Mecanográfico</div>
+            <div class="coluna mecanografico">Nº Mecanográfico</div>
             <div class="coluna cargo">Cargo</div>
             <div class="coluna nome">Nome</div>
-            <div class="coluna ano">ano</div>
-            <div class="coluna mes">mes</div>
-            <div class="coluna recibo">recibo</div>
+            <div class="coluna ano">Ano</div>
+            <div class="coluna mes">Mês</div>
+            <div class="coluna recibo">Recibo</div>
           </div>';
 
     $recibosVencimento = $dal->getRecibosDeVencimento($_GET['numeroMecanografico'], $_GET['ano'], $_GET['mes']);
@@ -75,7 +75,7 @@ function showUI() {
             echo '<div class="linha-funcionario">';
             echo '<div class="coluna mecanografico"><a href="' . $link . '" class="linha-link">' . htmlspecialchars($funcionario['numeroMecanografico']) . '</div>';
             echo '<div class="coluna cargo"><a href="' . $link . '" class="linha-link">' . htmlspecialchars($funcionario['cargo']) . '</div>';
-            echo '<div class="coluna nome"><a href="' . $link . '" class="linha-link">' . htmlspecialchars($funcionario['nomeCompleto']) . '</div>';
+            echo '<div class="coluna nome"><a href="' . $link . '" class="linha-link">' . htmlspecialchars($funcionario['nomeAbreviado']) . '</div>';
             echo '<div class="coluna ano"><a href="' . $link . '" class="linha-link">' . htmlspecialchars($recibo['ano']) . '</div>';
             echo '<div class="coluna mes"><a href="' . $link . '" class="linha-link">   ' . htmlspecialchars($recibo['mes']) . '</div>';
             echo '<div class="coluna recibo document-links">';

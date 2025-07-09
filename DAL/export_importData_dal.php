@@ -146,7 +146,7 @@ class exportData_DAL {
 
     function exportData($filter = 'all') {
         $query = "
-            SELECT f.*, dl.*,ca.*, dc.*, dp.*,ic.*, df.*, cv.*, b.*
+            SELECT f.*, dl.*,ca.*,e.*, dc.*, dp.*,ic.*, df.*, cv.*, b.*, v.*
             FROM funcionario f
             LEFT JOIN dadosLogin dl ON f.numeroMecanografico = dl.numeroMecanografico
             LEFT JOIN cargo ca ON dl.idCargo = ca.idCargo
@@ -155,7 +155,14 @@ class exportData_DAL {
             LEFT JOIN indicativocontacto ic ON dp.idIndicativo = ic.idIndicativo
             LEFT JOIN dadosFinanceiros df ON f.idDadosFinanceiros = df.idDadosFinanceiros
             LEFT JOIN cv cv ON f.idCV = cv.idCV
+            LEFT JOIN (
+                SELECT idColaborador AS idFuncionarioEquipa, idEquipa FROM colaborador_equipa
+                UNION
+                SELECT idCoordenador AS idFuncionarioEquipa, idEquipa FROM coordenador_equipa
+            ) AS equipes ON f.idFuncionario = equipes.idFuncionarioEquipa
+            LEFT JOIN equipa e ON e.idEquipa = equipes.idEquipa
             LEFT JOIN beneficios b ON f.idBeneficios = b.idBeneficios
+            LEFT JOIN voucher v ON b.idVoucher = v.idVoucher
         ";
 
         $params = [];
@@ -306,9 +313,9 @@ class exportData_DAL {
 
              // Insert into beneficios
             $stmt6 = $this->conn->prepare("
-                INSERT INTO beneficios (idBeneficios, cartaoContinente, voucherNOS)
+                INSERT INTO beneficios (idBeneficios, cartaoContinente, idVoucher)
                 VALUES (?,?,?) 
-                ON DUPLICATE KEY UPDATE cartaoContinente = VALUES(cartaoContinente), voucherNOS = VALUES(voucherNOS)
+                ON DUPLICATE KEY UPDATE cartaoContinente = VALUES(cartaoContinente), idVoucher = VALUES(idVoucher)
             ");
             $stmt6->bind_param("iis", 
                 $row['idBeneficios'], $row['cartaoContinente'], $row['voucherNOS']
@@ -316,7 +323,6 @@ class exportData_DAL {
             $stmt6->execute();
             $stmt6->close();
 
-            // Repeat similar inserts for dadosContrato, dadosFinanceiros, cv, beneficios...
 
             // Insert into funcionario (after related IDs have been inserted)
             $stmtMain = $this->conn->prepare("
@@ -334,6 +340,7 @@ class exportData_DAL {
                     estadoFuncionario = VALUES(estadoFuncionario),
                     dataUltimaAtualizacao = VALUES(dataUltimaAtualizacao)
             ");
+
             $stmtMain->bind_param("iiiiiiiss", 
                 $row['idFuncionario'],
                 $row['numeroMecanografico'],
@@ -347,6 +354,35 @@ class exportData_DAL {
             );
             $stmtMain->execute();
             $stmtMain->close();
+            
+            /*
+            // Assign to team if idCargo is 2 or 3 and idEquipa is present
+            if (!empty($row['idEquipa'])) {
+                $idCargo = (int)$row['idCargo'];
+
+                if ($idCargo === 2) {
+                    // Insert into colaborador_equipa
+                    $stmtTeam = $this->conn->prepare("
+                        INSERT INTO colaborador_equipa (idColaborador, idEquipa)
+                        VALUES (?, ?)
+                        ON DUPLICATE KEY UPDATE idEquipa = VALUES(idEquipa)
+                    ");
+                    $stmtTeam->bind_param("ii", $row['idFuncionario'], $row['idEquipa']);
+                    $stmtTeam->execute();
+                    $stmtTeam->close();
+
+                } elseif ($idCargo === 3) {
+                    // Insert into coordenador_equipa
+                    $stmtTeam = $this->conn->prepare("
+                        INSERT INTO coordenador_equipa (idCoordenador, idEquipa)
+                        VALUES (?, ?)
+                        ON DUPLICATE KEY UPDATE idEquipa = VALUES(idEquipa)
+                    ");
+                    $stmtTeam->bind_param("ii", $row['idFuncionario'], $row['idEquipa']);
+                    $stmtTeam->execute();
+                    $stmtTeam->close();
+                }
+            }*/
 
         }
 

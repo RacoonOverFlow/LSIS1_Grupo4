@@ -14,6 +14,7 @@ function setPerfil($nMeca) {
     $viatura = $dal->getViaturaById($nMeca);
     $cv = $dal->getCVById($nMeca);
     $beneficios = $dal->getBeneficiosById($nMeca);
+    $voucher = $dal ->getVoucherById($beneficios['idVoucher']);
     $cargo = $dal->getCargoById($nMeca);
     $caminhoDocumentos = $dal->getCaminhoDocumentos($nMeca);
     $indicativo = $dal->getIndicativos($dadosPessoais['idIndicativo']);
@@ -79,47 +80,59 @@ function setPerfil($nMeca) {
     echo '<h3>Dados Pessoais</h3>';
     echo '<p><strong>Número Mecanográfico:</strong> ' . htmlspecialchars($nMeca) . '</p>';
     echo '<p><strong>Nome:</strong> ' . htmlspecialchars($dadosPessoais['nomeCompleto']) . '</p>';
+    echo '<p><strong>Nome Abreviado:</strong> ' . htmlspecialchars($dadosPessoais['nomeAbreviado']) . '</p>';
     echo '<p><strong>Email:</strong> ' . htmlspecialchars($dadosPessoais['email']) . '</p>';
     echo '<p><strong>Data Nascimento:</strong> ' . htmlspecialchars($dadosPessoais['dataNascimento']) . '</p>';
     echo '<p><strong>Morada:</strong> ' . htmlspecialchars($dadosPessoais['moradaFiscal']) . '</p>';
-    echo '<p><strong>Cartão de Cidadão:</strong> ' . htmlspecialchars($dadosPessoais['cc']) . '</p>';
-    echo '<p><strong>Validade do Cartão:</strong> ' . htmlspecialchars($dadosPessoais['dataValidade']) . '</p>';
-    echo '<p><strong>NIF:</strong> ' . htmlspecialchars($dadosPessoais['nif']) . '</p>';
-    echo '<p><strong>NISS:</strong> ' . htmlspecialchars($dadosPessoais['niss']) . '</p>';
-    echo '<p><strong>Género:</strong> ' . htmlspecialchars($dadosPessoais['genero']) . '</p>';
+    if($_SESSION['idCargo'] != 3 || $_SESSION['nMeca'] == $_GET['numeroMecanografico']){
+        echo '<p><strong>Cartão de Cidadão:</strong> ' . htmlspecialchars($dadosPessoais['cc']) . '</p>';
+        echo '<p><strong>Validade do Cartão:</strong> ' . htmlspecialchars($dadosPessoais['dataValidade']) . '</p>';
+        echo '<p><strong>NIF:</strong> ' . htmlspecialchars($dadosPessoais['nif']) . '</p>';
+        echo '<p><strong>NISS:</strong> ' . htmlspecialchars($dadosPessoais['niss']) . '</p>';
+    }
+    echo '<p><strong>Género:</strong> ' . ($dadosPessoais['genero'] == "F" ? 'Feminino' : 'Masculino') .'</p>';
     echo '<p><strong>Contacto de Pessoal:</strong> ' . htmlspecialchars($indicativo['indicativo']) . ' ' . htmlspecialchars($dadosPessoais['contactoPessoal']) . '</p>';
     echo '<p><strong>Contacto de Emergência:</strong> ' . htmlspecialchars($indicativo['indicativo']) . ' ' . htmlspecialchars($dadosPessoais['contactoEmergencia']) . '</p>';
     echo '<p><strong>Grau de Relacionamento:</strong> ' . htmlspecialchars($dadosPessoais['grauDeRelacionamento']) . '</p>';
-
-    echo '<h3>Dados Financeiros</h3>';
-    echo '<p><strong>Situação de IRS:</strong> ' . htmlspecialchars($dadosFinanceiros['situacaoDeIRS']) . '</p>';
-    echo '<p><strong>Número de Dependentes:</strong> ' . htmlspecialchars($dadosFinanceiros['numeroDeDependentes']) . '</p>';
-    echo '<p><strong>Remuneração:</strong> ' . htmlspecialchars($dadosFinanceiros['remuneracao']) . '€</p>';
-    echo '<p><strong>IBAN:</strong> ' . htmlspecialchars($dadosFinanceiros['IBAN']) . '</p>';
-
-    echo '<h3>Viatura</h3>';
-    if (!empty($viatura)) {
-        echo '<p><strong>Modelo:</strong> ' . htmlspecialchars($viatura['tipoViatura']) . '</p>';
-        echo '<p><strong>Matrícula:</strong> ' . htmlspecialchars($viatura['matriculaDaViatura']) . '</p>';
-    } else {
-        echo '<p>Sem viatura atribuída.</p>';
+    
+    if($_SESSION['idCargo'] != 3 || $_SESSION['nMeca'] == $_GET['numeroMecanografico']){
+        echo '<h3>Dados Financeiros</h3>';
+        echo '<p><strong>Situação de IRS:</strong> ' . htmlspecialchars($dadosFinanceiros['situacaoDeIRS']) . '</p>';
+        echo '<p><strong>Número de Dependentes:</strong> ' . htmlspecialchars($dadosFinanceiros['numeroDeDependentes']) . '</p>';
+        echo '<p><strong>Remuneração:</strong> ' . htmlspecialchars($dadosFinanceiros['remuneracao']) . '€</p>';
+        echo '<p><strong>IBAN:</strong> ' . htmlspecialchars($dadosFinanceiros['IBAN']) . '</p>';
+    
+        echo '<h3>Viatura</h3>';
+        if (!empty($viatura)) {
+            echo '<p><strong>Modelo:</strong> ' . htmlspecialchars($viatura['tipoViatura']) . '</p>';
+            echo '<p><strong>Matrícula:</strong> ' . htmlspecialchars($viatura['matriculaDaViatura']) . '</p>';
+        } else {
+            echo '<p>Sem viatura atribuída.</p>';
+        }
     }
 
     echo '<h3>Dados Contratuais</h3>';
     echo '<p><strong>Início:</strong> ' . htmlspecialchars($dadosContrato['dataInicioDeContrato']) . '</p>';
     echo '<p><strong>Fim:</strong> ' . htmlspecialchars($dadosContrato['dataFimDeContrato']) . '</p>';
-    echo '<p><strong>Tipo de Contrato:</strong> ' . htmlspecialchars($dadosContrato['tipoDeContrato']) . '</p>';
-    echo '<p><strong>Regime de Horário:</strong> ' . htmlspecialchars($dadosContrato['regimeDeHorarioDeTrabalho']) . '</p>';
+    if($_SESSION['idCargo'] != 3 || $_SESSION['nMeca'] == $_GET['numeroMecanografico']){
+        echo '<p><strong>Tipo de Contrato:</strong> ' . htmlspecialchars($dadosContrato['tipoDeContrato']) . '</p>';
+        echo '<p><strong>Regime de Horário:</strong> ' . htmlspecialchars($dadosContrato['regimeDeHorarioDeTrabalho']) . '</p>';
+    }
 
     echo '<h3>Curriculum Vitae</h3>';
     echo '<p><strong>Habilitações Literárias:</strong> ' . htmlspecialchars($cv['habilitacoesLiterarias']) . '</p>';
     echo '<p><strong>Curso:</strong> ' . htmlspecialchars($cv['curso']) . '</p>';
     echo '<p><strong>Frequência:</strong> ' . htmlspecialchars($cv['frequencia']) . '</p>';
-
-    echo '<h3>Benefícios</h3>';
-    echo '<p><strong>Cartão Continente:</strong> ' . htmlspecialchars($beneficios['cartaoContinente']) . '</p>';
-    echo '<p><strong>Voucher NOS:</strong> ' . htmlspecialchars($beneficios['voucherNOS']) . '</p>';
-
+    if($_SESSION['idCargo'] != 3 || $_SESSION['nMeca'] == $_GET['numeroMecanografico']){
+        echo '<h3>Benefícios</h3>';
+        echo '<p><strong>Cartão Continente:</strong> ' . htmlspecialchars($beneficios['cartaoContinente']) . '</p>';
+        if($voucher == NULL){
+            echo '<p><strong>Voucher NOS:</strong> Não disponível.</p>';
+        }else{
+            echo '<p><strong>Voucher NOS:</strong><br><strong>Valor: </strong>' . htmlspecialchars($voucher['valor']) . '€
+            <br><strong>Data de Expiração: </strong>' . htmlspecialchars($voucher['dataExpiracao']) . '</p>';
+        }
+    }
     echo '<h3>Cargo</h3>';
     echo '<p><strong>Cargo:</strong> ' . htmlspecialchars($cargo['cargo']) . '</p>';
 

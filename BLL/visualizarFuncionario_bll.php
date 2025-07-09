@@ -59,6 +59,7 @@ function mostrarFuncionarios() {
 
 
             $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
+            $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
             echo '<div class="coluna selecao"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($f['numeroMecanografico']) . '"></div>';
@@ -91,6 +92,7 @@ function mostrarFuncionarios() {
 
             echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">';
 
+            $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
             $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
@@ -136,7 +138,6 @@ function mostrarMembrosEquipa(){
 
     // Cabeçalho
     echo '<div class="linha-funcionario cabecalho">
-            <div class="coluna id">ID</div>
             <div class="coluna mecanografico">Número Mecanográfico</div>
             <div class="coluna cargo">Cargo</div>
             <div class="coluna nome">Nome</div>
@@ -157,9 +158,9 @@ function mostrarMembrosEquipa(){
         $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
 
         $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
+        $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
         echo '<a href="' . $link . '" class="linha-link">';
         echo '<div class="linha-funcionario">';
-        echo '<div class="coluna id">' . htmlspecialchars($m['idFuncionario']) . '</div>';
         echo '<div class="coluna mecanografico">' . htmlspecialchars($m['numeroMecanografico']) . '</div>';
         echo '<div class="coluna cargo">' . htmlspecialchars($m['cargo']) . '</div>';
         echo '<div class="coluna nome">' . htmlspecialchars($m['nomeCompleto']) . '</div>';

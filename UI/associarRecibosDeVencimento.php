@@ -2,7 +2,6 @@
 
 session_start();
 include "../BLL/associarRecibosDeVencimento_bll.php";
-require_once "../BLL/Permissoes.php"
 
 ?>
 

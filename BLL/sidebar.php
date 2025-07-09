@@ -24,25 +24,30 @@ function mostrarSidebar() {
     // Visualizar Funcionários for RH Superior
     if ($utilizadorCargo == 5) {
         echo '<li><a href="/LSIS1_Grupo4/UI/visualizarFuncionarios.php"><i class="bi bi-people-fill"></i><strong>Visualizar Funcionários</strong></a></li>';
-        echo '<li><a href="/LSIS1_Grupo4/UI/visualizarConvidados.php"><i class="bi bi-people-fill"></i><strong>Visualizar convidados</strong></a></li>';
-        echo '<li><a href="/LSIS1_Grupo4/UI/alertas.php"><i class="bi bi-exclamation-triangle-fill"></i> Alertas</a></li>';
-        echo '<li><a href="/LSIS1_Grupo4/UI/enviarEmail.php"><i class="bi bi-exclamation-triangle-fill"></i> Enviar email ao convidado</a></li>';
-        echo '<li><a href="/LSIS1_Grupo4/UI/voucher.php"><i class="bi bi-exclamation-triangle-fill"></i> Criar e atribuir vouchers</a></li>';
-        echo '<li><a href="/LSIS1_Grupo4/UI/registoFuncionario.php"><i class="bi bi-exclamation-triangle-fill"></i> Registar Funcionário</a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/visualizarConvidados.php"><i class="bi bi-person-check-fill"></i><strong>Visualizar Convidados</strong></a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/alertas.php"><i class="bi bi-exclamation-triangle-fill"></i><strong> Alertas</strong></a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/enviarEmail.php"><i class="bi bi-send-fill"></i><strong> Enviar Email Ao Convidado</strong></a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/voucher.php"><i class="bi bi-credit-card-2-front-fill"></i>	<strong> Criar e atribuir vouchers</strong></a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/registoFuncionario.php"><i class="bi bi-exclamation-triangle-fill"></i><strong> Registar Funcionário</strong></a></li>';
+        echo '<li><a href="recibosDeVencimento.php?numeroMecanografico=&ano=&mes="><i class="bi-cash-stack"></i><strong> Recibos De Vencimento</strong></a></li>';
     }
     
     // Alertas admin 6
     if ($utilizadorCargo == 6) {
-        echo '<li><a href="/LSIS1_Grupo4/UI/alertasAdmin.php"><i class="bi bi-exclamation-triangle-fill"></i> Gerir Alertas</a></li>';
-        echo '<li><a href="/LSIS1_Grupo4/UI/editarEmailAlertas.php"><i class="bi bi-exclamation-triangle-fill"></i> Editar email alertas</a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/alertasAdmin.php"><i class="bi bi-megaphone-fill"></i><strong>Gerir Alertas </strong></a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/editarEmailAlertas.php"><i class="bi bi-pencil-square"></i><strong> Editar email alertas</strong></a></li>';
     }
     
     // Pedidos Pendentes for roles 4 and 5
     if ($utilizadorCargo == 4 || $utilizadorCargo == 5) {
         echo '<li><a href="/LSIS1_Grupo4/UI/pedidosPendentes.php">';
-        echo '<i class="bi-file-earmark-text"></i> Pedidos Pendentes de Alteração de Dados</a></li>';
+        echo '<i class="bi-file-earmark-text"></i><strong> Pedidos Pendentes de Alteração de Dados</strong></a></li>';
     }
-    
+
+    if($utilizadorCargo != 5){
+        echo '<li><a href="recibosDeVencimento.php?numeroMecanografico='.htmlspecialchars($_SESSION['nMeca']). '&ano=&mes="><i class="bi-cash-stack"></i><strong> Recibos De Vencimento</strong></a></li>';
+    }
+
     // Logout/Login
     if ($numeroMecanografico) {
         echo '<li><a href="/LSIS1_Grupo4/UI/logout.php"><i class="bi bi-box-arrow-right"></i><strong>Logout</strong></a></li>';

@@ -4,8 +4,6 @@ require_once "../DAL/perfil_dal.php";
 function setDashboard($nMeca) {
     $perfdal = new Perfil_DAL();
     $cargo = $perfdal->getCargoById($nMeca);
-
-    mostrarHeader($cargo['cargo']);
     echo '<div class="backTemplate">';
     
    

@@ -2,7 +2,6 @@
 
 session_start();
 include "../BLL/editarEquipa_bll.php";
-require_once "../bll/Permissoes.php"
 
 ?>
 
