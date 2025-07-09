@@ -112,5 +112,13 @@ class Perfil_DAL {
     $stmt->bind_param("iii", $visualizado, $idAlerta, $idFuncionario);
     return $stmt->execute();
   }
+
+  public function getVoucherById($idVoucher){
+    $query = "SELECT * FROM voucher WHERE idVoucher=?";
+    $stmt=$this->conn->prepare($query);
+    $stmt->bind_param("i", $idVoucher);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+  }
 }  
 ?>

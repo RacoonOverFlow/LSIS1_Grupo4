@@ -14,6 +14,7 @@ function setPerfil($nMeca) {
     $viatura = $dal->getViaturaById($nMeca);
     $cv = $dal->getCVById($nMeca);
     $beneficios = $dal->getBeneficiosById($nMeca);
+    $voucher = $dal ->getVoucherById($beneficios['idVoucher']);
     $cargo = $dal->getCargoById($nMeca);
     $caminhoDocumentos = $dal->getCaminhoDocumentos($nMeca);
     $indicativo = $dal->getIndicativos($dadosPessoais['idIndicativo']);
@@ -125,7 +126,12 @@ function setPerfil($nMeca) {
     if($_SESSION['idCargo'] != 3 || $_SESSION['nMeca'] == $_GET['numeroMecanografico']){
         echo '<h3>Benefícios</h3>';
         echo '<p><strong>Cartão Continente:</strong> ' . htmlspecialchars($beneficios['cartaoContinente']) . '</p>';
-        echo '<p><strong>Voucher NOS:</strong> ' . htmlspecialchars($beneficios['voucherNOS']) . '</p>';
+        if($voucher == NULL){
+            echo '<p><strong>Voucher NOS:</strong> Não disponível.</p>';
+        }else{
+            echo '<p><strong>Voucher NOS:</strong><br><strong>Valor: </strong>' . htmlspecialchars($voucher['valor']) . '€
+            <br><strong>Data de Expiração: </strong>' . htmlspecialchars($voucher['dataExpiracao']) . '</p>';
+        }
     }
     echo '<h3>Cargo</h3>';
     echo '<p><strong>Cargo:</strong> ' . htmlspecialchars($cargo['cargo']) . '</p>';
