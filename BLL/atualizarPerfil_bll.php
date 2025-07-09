@@ -827,7 +827,7 @@ function displayFormRH() {
       echo '<a href="../' . htmlspecialchars($documentoBancario) . '" target="_blank">Ver documento atual</a><br>';
   }
   echo '<input id="documentoBancario" type="file" name="documentoBancario" accept=".pdf"><br>';
-
+  
   $documentoCartaoContinente = $documentosMap['4'] ?? null;
   echo 'Cópia cartão continente:';
   if ($documentoCartaoContinente) {
