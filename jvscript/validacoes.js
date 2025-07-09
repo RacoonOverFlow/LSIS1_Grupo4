@@ -166,3 +166,48 @@ document.addEventListener("DOMContentLoaded", function () {
     
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("formVoucher");
+
+    if (!form) return;
+
+    form.addEventListener("submit", function (e) {
+        // Clear previous error messages
+        document.querySelectorAll(".error").forEach(span => span.textContent = "");
+
+        const campos = {
+            dataExpiracao: "A validade deve ser de pelo menos 6 meses a partir de hoje.",
+        };
+
+        const getVal = name => document.querySelector(`[name="${name}"]`)?.value?.trim() || "";
+
+        let formValido = true;
+
+        function setErro(campo, msg) {
+            const errorSpan = document.getElementById("error-" + campo);
+            if (errorSpan) errorSpan.textContent = msg;
+            formValido = false;
+        }
+
+        // Validação: dataExpiracao deve ser pelo menos 6 meses no futuro
+        const dataInput = getVal("dataExpiracao");
+        const dataValidade = new Date(dataInput);
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0); // normalize
+
+        const seisMesesDepois = new Date(hoje);
+        seisMesesDepois.setMonth(seisMesesDepois.getMonth() + 6);
+
+        if (isNaN(dataValidade.getTime()) || dataValidade < seisMesesDepois) {
+            setErro("dataExpiracao", campos.dataExpiracao);
+        }
+
+        if (!formValido) {
+            e.preventDefault();
+            console.log("Formulário de voucher inválido.");
+        } else {
+            console.log("Formulário de voucher válido. Enviando...");
+        }
+    });
+});
