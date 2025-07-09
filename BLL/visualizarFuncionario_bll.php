@@ -13,13 +13,15 @@ function mostrarFuncionarios() {
     echo '<div class="tabela-funcionarios">';
 
     //butao para exportar
-    if($_SESSION['idCargo'] == 5){
-        echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php">';}
-    elseif($_SESSION['idCargo'] == 4) {
-        echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">';}
-    
-    echo '<button class="button-export">EXPORT</button>';
-    echo '</a>';
+    if ($_SESSION['idCargo'] == 5) {
+        echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php">';
+        echo '<button class="button-export">EXPORT</button>';
+        echo '</a>';
+    } elseif ($_SESSION['idCargo'] == 4) {
+        echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">';
+        echo '<button class="button-export">EXPORT</button>';
+        echo '</a>';
+    }
 
     //butao para importar
     echo'<form action="/LSIS1_Grupo4/BLL/export_importData_bll.php" method="POST" enctype="multipart/form-data">';
@@ -156,11 +158,10 @@ function mostrarMembrosEquipa(){
         }
 
         $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
-
-        $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
         $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
         echo '<a href="' . $link . '" class="linha-link">';
         echo '<div class="linha-funcionario">';
+        echo '<div class="coluna selecao"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($m['numeroMecanografico']) . '"></div>';
         echo '<div class="coluna mecanografico">' . htmlspecialchars($m['numeroMecanografico']) . '</div>';
         echo '<div class="coluna cargo">' . htmlspecialchars($m['cargo']) . '</div>';
         echo '<div class="coluna nome">' . htmlspecialchars($m['nomeCompleto']) . '</div>';

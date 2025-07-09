@@ -1,8 +1,8 @@
 <?php
 
 session_start();
-include "../BLL/recibosDeVencimento_bll.php";
-include "../BLL/sidebar.php";
+require_once __DIR__ . "/../BLL/recibosDeVencimento_bll.php";
+require_once __DIR__ . "/../BLL/sidebar.php";
 ?>
 
 <!DOCTYPE html>

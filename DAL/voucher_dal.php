@@ -45,11 +45,11 @@ class voucher_dal {
     }
 
 
-    function criarVoucher($dataExpiracao, $descricao, $tokenVoucher) {
+    function criarVoucher($dataExpiracao, $descricao, $tokenVoucher, $emitente) {
         $naoAtribuido = FALSE;
-        $query = "INSERT INTO voucher (dataEmissao, dataExpiracao, descricao,atribuido tokenVoucher) VALUES (CURRENT_DATE, ?, ?, ?, ?)";
+        $query = "INSERT INTO voucher (dataEmissao, dataExpiracao, descricao,atribuido, tokenVoucher,emitente) VALUES (CURRENT_DATE, ?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssss", $dataExpiracao, $descricao, $naoAtribuido, $tokenVoucher);
+        $stmt->bind_param("sssss", $dataExpiracao, $descricao, $naoAtribuido, $tokenVoucher, $emitente);
         return $stmt->execute();
     }
 
@@ -79,7 +79,7 @@ class voucher_dal {
 
     public function getTodosFuncionariosComVoucher() {
         $query = "
-            SELECT dl.numeroMecanografico, v.valor, v.dataExpiracao
+            SELECT dl.numeroMecanografico, v.descricao, v.dataExpiracao, v.tokenVoucher, v.emitente
             FROM funcionario f
             INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
             INNER JOIN beneficios b ON f.idBeneficios = b.idBeneficios
