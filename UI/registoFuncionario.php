@@ -16,11 +16,16 @@ verificarSESSIONDados();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/styleGlobal.css">
+    <link rel="stylesheet" href="../CSS/styleAtualizarPerfil.css">
+    <link rel="stylesheet" href="../CSS/styleEquipas.css">
     <title>Document</title>
 </head>
 <body>
-
-<?php showUI(); ?>
-
+    <div class="Layout-container">
+        <main class="main-content">
+            <?php showUI(); ?>
+        </main>
+    </div>
 </body>
 </html>
