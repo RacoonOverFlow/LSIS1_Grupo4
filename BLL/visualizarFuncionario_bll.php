@@ -31,7 +31,6 @@ function mostrarFuncionarios() {
 
     // Cabeçalho
     echo '<div class="linha-funcionario cabecalho">
-            <div class="coluna id">ID</div>
             <div class="coluna mecanografico">Número Mecanográfico</div>
             <div class="coluna cargo">Cargo</div>
             <div class="coluna nome">Nome</div>
@@ -59,7 +58,6 @@ function mostrarFuncionarios() {
             $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
-            echo '<div class="coluna id">' . htmlspecialchars($f['idFuncionario']) . '</div>';
             echo '<div class="coluna mecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
             echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '</div>';
             echo '<div class="coluna nome">' . htmlspecialchars($f['nomeCompleto']) . '</div>';
@@ -99,7 +97,6 @@ function mostrarFuncionarios() {
             $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
-            echo '<div class="coluna id">' . htmlspecialchars($c['idFuncionario']) . '</div>';
             echo '<div class="coluna mecanografico">' . htmlspecialchars($c['numeroMecanografico']) . '</div>';
             echo '<div class="coluna cargo">' . htmlspecialchars($c['cargo']) . '</div>';
             echo '<div class="coluna nome">' . htmlspecialchars($c['nomeCompleto']) . '</div>';
@@ -149,7 +146,6 @@ function mostrarMembrosEquipa(){
 
     // Cabeçalho
     echo '<div class="linha-funcionario cabecalho">
-            <div class="coluna id">ID</div>
             <div class="coluna mecanografico">Número Mecanográfico</div>
             <div class="coluna cargo">Cargo</div>
             <div class="coluna nome">Nome</div>
@@ -172,7 +168,6 @@ function mostrarMembrosEquipa(){
         $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
         echo '<a href="' . $link . '" class="linha-link">';
         echo '<div class="linha-funcionario">';
-        echo '<div class="coluna id">' . htmlspecialchars($m['idFuncionario']) . '</div>';
         echo '<div class="coluna mecanografico">' . htmlspecialchars($m['numeroMecanografico']) . '</div>';
         echo '<div class="coluna cargo">' . htmlspecialchars($m['cargo']) . '</div>';
         echo '<div class="coluna nome">' . htmlspecialchars($m['nomeCompleto']) . '</div>';
