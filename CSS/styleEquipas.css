@@ -96,20 +96,37 @@ body {
 .team-actions {
     margin-top: 15px;
     text-align: right;
+    display: flex; /* Alterado para flex */
+    justify-content: flex-end; /* Alinhar à direita */
+    gap: 8px; /* Espaçamento entre botões */
 }
 
 .team-actions button {
     background-color: #e9f0ff;
     border: none;
-    padding: 6px 10px;
+    padding: 8px 12px; /* Aumentado o padding */
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
     color: #0077ff;
-    display: inline-flex;
+    display: flex; /* Alterado para flex */
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s ease;
+}
+
+.team-actions button:hover {
+    background-color: #cce0ff;
+}
+
+.team-actions button i {
+    font-size: 1.2rem;
+}
+
+/* Adicione esta regra para remover a linha */
+.team-actions a {
+    text-decoration: none;
+    display: inline-block;
 }
 
 .team-actions button:hover {
@@ -160,6 +177,7 @@ body {
     display: flex;
     gap: 10px;
     text-decoration: none;
+    outline: none;
 }
 
 .action-buttons button {
