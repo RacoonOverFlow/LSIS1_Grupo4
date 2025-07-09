@@ -387,7 +387,7 @@ function showUI(){
         
         $dal->updateDocumentos($caminhosDocs, $funcionario['idFuncionario']);
         
-        header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
+        header("Location: perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
       
       }else{
         $dal = new atualizarPerfil_DAL();
@@ -537,7 +537,7 @@ function showUI(){
               }
             }
         }
-        header("Location: Perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
+        header("Location: perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
       }
 
     }catch(RuntimeException $e){
@@ -608,35 +608,41 @@ function displayFormRH() {
   };
 
   echo '
-  <input type="hidden" name="idCargo" value="'.htmlspecialchars($dadosLogin['cargo']).'">
-  
+  </select>
   </div>
   <br>
 
   <h3>Dados Pessoais</h3>
   Nome completo:
-  <input type="text" name="nomeCompleto" placeholder="Nome Completo" value="' . htmlspecialchars($dadosPessoais['nomeCompleto']) .'"><br>
-  
+  <input type="text" name="nomeCompleto" placeholder="Nome Completo" value="' . htmlspecialchars($dadosPessoais['nomeCompleto']) .'">
+  <span class="error" id="error-nomeCompleto" style="color:red; font-size:0.9em;"></span><br>
   Nome abreviado:
-  <input type="text" name="nomeAbreviado" placeholder="Nome Abreviado" value="'. htmlspecialchars($dadosPessoais['nomeAbreviado']) .'"><br>
+  <input type="text" name="nomeAbreviado" placeholder="Nome Abreviado" value="'. htmlspecialchars($dadosPessoais['nomeAbreviado']) .'">
+  <span class="error" id="error-nomeAbreviado" style="color:red; font-size:0.9em;"></span><br>
 
   Data de nascimento:
-  <input type="date" name="dataNascimento" value="'. htmlspecialchars($dadosPessoais['dataNascimento']) .'" ><br>
+  <input type="date" name="dataNascimento" value="'. htmlspecialchars($dadosPessoais['dataNascimento']) .'" >
+  <span class="error" id="error-dataNascimento" style="color:red; font-size:0.9em;"></span><br>
 
   Morada fiscal:
-  <input type="text" name="moradaFiscal" placeholder="Morada Fiscal" value="'. htmlspecialchars($dadosPessoais['moradaFiscal']) .'"><br>
+  <input type="text" name="moradaFiscal" placeholder="Morada Fiscal" value="'. htmlspecialchars($dadosPessoais['moradaFiscal']) .'">
+  <span class="error" id="error-moradaFiscal" style="color:red; font-size:0.9em;"></span><br>
 
   Cartão de Cidadão (CC):
-  <input type="text" name="cc" placeholder="Número CC" value="'. htmlspecialchars($dadosPessoais['cc']) .'" ><br>
+  <input type="text" name="cc" placeholder="Número CC" value="'. htmlspecialchars($dadosPessoais['cc']) .'" >
+  <span class="error" id="error-cc" style="color:red; font-size:0.9em;"></span><br>
 
   Data de validade do CC:
-  <input type="date" name="dataValidade" value="'. htmlspecialchars($dadosPessoais['dataValidade']) .'"><br>
+  <input type="date" name="dataValidade" value="'. htmlspecialchars($dadosPessoais['dataValidade']) .'">
+  <span class="error" id="error-dataValidade" style="color:red; font-size:0.9em;"></span><br>
 
   NIF:
-  <input type="text" name="nif" placeholder="Número de Identificação Fiscal" value="'. htmlspecialchars($dadosPessoais['nif']) .'" ><br>
+  <input type="text" name="nif" placeholder="Número de Identificação Fiscal" value="'. htmlspecialchars($dadosPessoais['nif']) .'" >
+  <span class="error" id="error-nif" style="color:red; font-size:0.9em;"></span><br>
 
   NISS:
-  <input type="text" name="niss" placeholder="Número de Identificação da Segurança Social" value="'. htmlspecialchars($dadosPessoais['niss']) .'"><br>
+  <input type="text" name="niss" placeholder="Número de Identificação da Segurança Social" value="'. htmlspecialchars($dadosPessoais['niss']) .'">
+  <span class="error" id="error-niss" style="color:red; font-size:0.9em;"></span><br>
 
 
   Género:
@@ -662,17 +668,21 @@ function displayFormRH() {
   }
 
   echo '</select>
-  <input type="text" name="contactoPessoal" value="'. htmlspecialchars($dadosPessoais['contactoPessoal']) .'"><br>
+  <input type="text" name="contactoPessoal" value="'. htmlspecialchars($dadosPessoais['contactoPessoal']) .'">
+  <span class="error" id="error-contactoPessoal" style="color:red; font-size:0.9em;"></span><br>
 
   Contacto de Emergência:
-  <input type="text" name="contactoEmergencia" value="'. htmlspecialchars($dadosPessoais['contactoEmergencia']) .'"><br>
+  <input type="text" name="contactoEmergencia" value="'. htmlspecialchars($dadosPessoais['contactoEmergencia']) .'">
+  <span class="error" id="error-contactoEmergencia" style="color:red; font-size:0.9em;"></span><br>
 
   Grau de relacionamento:
-  <input type="text" name="grauDeRelacionamento" value="'. htmlspecialchars($dadosPessoais['grauDeRelacionamento']) .'"><br>
+  <input type="text" name="grauDeRelacionamento" value="'. htmlspecialchars($dadosPessoais['grauDeRelacionamento']) .'">
+  <span class="error" id="error-grauDeRelacionamento" style="color:red; font-size:0.9em;"></span><br>  
   </div>
 
   Email:
-  <input type="email" name="email" value="'. htmlspecialchars($dadosPessoais['email']) .'"  ><br>';
+  <input type="email" name="email" value="'. htmlspecialchars($dadosPessoais['email']) .'"> 
+  <span class="error" id="error-email" style="color:red; font-size:0.9em;"></span><br>';
 
   $nacionalidades = $dal->getNacionalidades();
   echo 'Nacionalidade:
@@ -695,10 +705,12 @@ function displayFormRH() {
   <div class="atualizarPerfil-form">
   <h3>Dados do Contrato</h3>
   Data de início:
-  <input type="date" name="dataInicioDeContrato" value="'. htmlspecialchars($dadosContrato['dataInicioDeContrato']) .'"><br>
+  <input type="date" name="dataInicioDeContrato" value="'. htmlspecialchars($dadosContrato['dataInicioDeContrato']) .'">
+  <span class="error" id="error-dataInicioDeContrato" style="color:red; font-size:0.9em;"></span><br>  
 
   Data de fim:
-  <input type="date" name="dataFimDeContrato" value="'. htmlspecialchars($dadosContrato['dataFimDeContrato']) .'"><br>
+  <input type="date" name="dataFimDeContrato" value="'. htmlspecialchars($dadosContrato['dataFimDeContrato']) .'">
+  <span class="error" id="error-dataFimDeContrato" style="color:red; font-size:0.9em;"></span><br>
 
   Tipo de contrato:
   <div class="select_section">
@@ -743,20 +755,25 @@ function displayFormRH() {
   </div>
 
   Remuneração:
-  <input type="number" step="0.01" name="remuneracao" placeholder="€" value="'. htmlspecialchars($dadosFinanceiros['remuneracao']) .'"><br>
+  <input type="number" step="0.01" name="remuneracao" placeholder="€" value="'. htmlspecialchars($dadosFinanceiros['remuneracao']) .'">
+  <span class="error" id="error-remuneracao" style="color:red; font-size:0.9em;"></span><br>
 
   Número de dependentes:
-  <input type="number" name="numeroDeDependentes" placeholder="0, 1, 2..." value="'. htmlspecialchars($dadosFinanceiros['numeroDeDependentes']) .'"><br>
+  <input type="number" name="numeroDeDependentes" placeholder="0, 1, 2..." value="'. htmlspecialchars($dadosFinanceiros['numeroDeDependentes']) .'">
+  <span class="error" id="error-numeroDeDependentes" style="color:red; font-size:0.9em;"></span><br>
 
   IBAN:
-  <input type="text" name="IBAN" placeholder="PT50..." value="'. htmlspecialchars($dadosFinanceiros['IBAN']) .'"><br><br>
+  <input type="text" name="IBAN" placeholder="PT50..." value="'. htmlspecialchars($dadosFinanceiros['IBAN']) .'">
+  <span class="error" id="error-IBAN" style="color:red; font-size:0.9em;"></span><br>
+
   </div>
 
   <!-- Benefícios -->
   <div class="atualizarPerfil-form">
   <h3>Benefícios</h3>
   Nº do Cartão Continente:
-  <input type="text" name="cartaoContinente" placeholder="Número do Cartão" value="'. htmlspecialchars($beneficios['cartaoContinente']) .'"><br>
+  <input type="text" name="cartaoContinente" placeholder="Número do Cartão" value="'. htmlspecialchars($beneficios['cartaoContinente']) .'">
+  <span class="error" id="error-cartaoContinente" style="color:red; font-size:0.9em;"></span><br>
 
   <!-- Viatura -->
   <div class="atualizarPerfil-form">
@@ -770,9 +787,9 @@ function displayFormRH() {
   </select><br>
   </div>
   Matrícula da viatura:
-  <input type="text" name="matriculaDaViatura" placeholder="XX-00-XX" value="'. htmlspecialchars($viatura['matriculaDaViatura']) .'"><br><br>
+  <input type="text" name="matriculaDaViatura" placeholder="XX-00-XX" value="'. htmlspecialchars($viatura['matriculaDaViatura']) .'">
+  <span class="error" id="error-matriculaDaViatura" style="color:red; font-size:0.9em;"></span><br>
   </div>
-
 
   <!-- CV -->
   <div class="atualizarPerfil-form">
@@ -788,9 +805,12 @@ function displayFormRH() {
   </select><br>
   </div>
   Curso:
-  <input type="text" name="curso" placeholder="Curso" value="'. htmlspecialchars($cv['curso']) .'"><br>
+  <input type="text" name="curso" placeholder="Curso" value="'. htmlspecialchars($cv['curso']) .'">
+  <span class="error" id="error-curso" style="color:red; font-size:0.9em;"></span><br>
+
   Frequencia:
-  <input type="text" name="frequencia" placeholder="Frequencia" value="'. htmlspecialchars($cv['frequencia']) .'"><br>';
+  <input type="text" name="frequencia" placeholder="Frequencia" value="'. htmlspecialchars($cv['frequencia']) .'">
+  <span class="error" id="error-frequencia" style="color:red; font-size:0.9em;"></span><br>';
 
 
   $documentosMap = [];

@@ -15,6 +15,7 @@ verificarSESSIONDados();
         <link rel="stylesheet" href="../CSS/styleGlobal.css">
         <link rel="stylesheet" href="../CSS/styleAtualizarPerfil.css">
         <link rel="stylesheet" href="../CSS/styleEquipas.css">
+        <script src="../jvscript/validacoes.js"></script>
     </head>
     <body>
         <div class="Layout-container">
