@@ -36,6 +36,7 @@ function mostrarSidebar() {
     if ($utilizadorCargo == 6) {
         echo '<li><a href="/LSIS1_Grupo4/UI/alertasAdmin.php"><i class="bi bi-megaphone-fill"></i><strong>Gerir Alertas </strong></a></li>';
         echo '<li><a href="/LSIS1_Grupo4/UI/editarEmailAlertas.php"><i class="bi bi-pencil-square"></i><strong> Editar email alertas</strong></a></li>';
+        echo '<li><a href="/LSIS1_Grupo4/UI/visualizarFuncionarios.php"><i class="bi bi-people-fill"></i><strong>Gerir Funcionários</strong></a></li>';
     }
     
     // Pedidos Pendentes for roles 4 and 5

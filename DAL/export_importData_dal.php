@@ -63,7 +63,6 @@ class exportData_DAL {
         $stmt->close();
         exit();
     }
-//, v.LEFT JOIN voucher v ON b.idVoucher = v.idVoucher
 
     function exportData($filter = 'all') {
         $params = [];
@@ -161,8 +160,38 @@ class exportData_DAL {
         $stmt->close();
         exit();
     }
+    
+    // Função para atualizar estado para 'removido'
+    function removerFuncionarios($numerosMecanograficos) {
+        if (empty($numerosMecanograficos)) {
+            return false;
+        }
 
+        $placeholders = implode(',', array_fill(0, count($numerosMecanograficos), '?'));
+        $types = str_repeat('i', count($numerosMecanograficos));
 
+        $query = "UPDATE funcionario SET estadoFuncionario = 'removido' 
+                  WHERE numeroMecanografico IN ($placeholders)";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param($types, ...$numerosMecanograficos);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
+    // Função para reativar funcionário (atualizar estado para 'aceite')
+    function reativarFuncionario($numeroMecanografico) {
+        $query = "UPDATE funcionario SET estadoFuncionario = 'aceite' 
+                  WHERE numeroMecanografico = ?";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $numeroMecanografico);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+    
         ///  PROBLEMA A IMPORTAR DATAS
     function importCSV($csvFilePath) {
     if (($handle = fopen($csvFilePath, 'r')) !== FALSE) {

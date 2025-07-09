@@ -12,6 +12,7 @@ class visualizarFuncionario_dal {
     public function getTodosFuncionarios() {
         $query = "SELECT f.idFuncionario,
             dl.numeroMecanografico,
+            dl.password,
             dp.nomeCompleto,
             dp.dataNascimento,
             dp.nif,
@@ -20,7 +21,8 @@ class visualizarFuncionario_dal {
             dc.tipoDeContrato,
             df.remuneracao,
             cv.habilitacoesLiterarias,
-            c.cargo
+            c.cargo,
+            f.estadoFuncionario
         FROM funcionario f
         INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
         INNER JOIN cargo c ON dl.idCargo = c.idCargo
@@ -129,3 +131,4 @@ class visualizarFuncionario_dal {
         return $stmt->execute();
     } */
 }
+?>
