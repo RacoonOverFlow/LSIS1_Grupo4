@@ -3,7 +3,7 @@ require_once "../BLL/alertasAdmin_bll.php";
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once "../BLL/verificaoCargoNMeca.php";
+require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
 
 verificarSESSIONDados();
 

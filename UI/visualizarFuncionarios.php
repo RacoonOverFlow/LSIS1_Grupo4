@@ -3,7 +3,7 @@ session_start();
 require_once "../BLL/visualizarFuncionario_bll.php";
 require_once __DIR__ . "/../BLL/sidebar.php";
 require_once __DIR__ . "/../BLL/searchbar.php";
-require_once "../BLL/verificaoCargoNMeca.php";
+require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
 
 verificarSESSIONDados();
 
