@@ -3,12 +3,13 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require_once __DIR__ . '/../vendor/autoload.php';  // carrega o PHPMailer via Composer
+require_once '../DAL/editarEmailAlertas_dal.php';
 
 class enviarEmail_bll {
     private $mail;
 
     public function __construct() {
-        $dal = new enviarEmail_dal();
+        $dal = new editarEmailAlertas_dal();
         $credenciais = $dal->getCredenciaisEnvioAlertas();
         $smtpUser=$credenciais['email'];
         $smtpPass=$credenciais['password'];

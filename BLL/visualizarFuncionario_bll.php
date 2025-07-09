@@ -32,7 +32,7 @@ function mostrarFuncionarios() {
 
 
     // Cabeçalho
-    echo '<form method="POST" action="/LSIS1_Grupo4/BLL/export_importData_bll.php" target="_blank">';
+    echo '<form method="POST" action="/LSIS1_Grupo4/BLL/export_importData_bll.php">';
     echo '<div class="linha-funcionario cabecalho">
             <div class="coluna selecao">Selecionar</div>
             <div class="coluna mecanografico">Nº Mecanográfico</div>
@@ -42,6 +42,8 @@ function mostrarFuncionarios() {
             <div class="coluna email">Email</div>
             <div class="coluna aniversario">Aniversário</div>
           </div>';
+
+    echo '<div class="linhas-container">';
 
     if($_SESSION['idCargo'] == 5){
         // Cada funcionário (linha clicável)
@@ -69,12 +71,10 @@ function mostrarFuncionarios() {
             echo '<div class="coluna nome">' . htmlspecialchars($f['nomeCompleto']) . '</div>';
             echo '<div class="coluna nif">' . htmlspecialchars($f['nif']) . '</div>';
             echo '<div class="coluna email">' . htmlspecialchars($f['email']) . '</div>';
-            echo '<div class="coluna aniversario">' . $aniversarioFuncionario . '</div>';
+            echo '<div class="coluna aniversario" data-aniversario="' . $proximoAniversario->format('Y-m-d') . '">' . $aniversarioFuncionario . '</div>';
             echo '</div>';
             echo '</a>';
         }
-        echo '<button type="submit" name="export_selected" class="button-export">EXPORT SELECIONADOS</button>';
-        echo '</form>';
 
     }else if($_SESSION['idCargo'] == 4){
         foreach ($colaboradores as $c) {
@@ -102,14 +102,14 @@ function mostrarFuncionarios() {
             echo '<div class="coluna nome">' . htmlspecialchars($c['nomeCompleto']) . '</div>';
             echo '<div class="coluna nif">' . htmlspecialchars($c['nif']) . '</div>';
             echo '<div class="coluna email">' . htmlspecialchars($c['email']) . '</div>';
-            echo '<div class="coluna aniversario">' . $aniversarioColaborador . '</div>';
+            echo '<div class="coluna aniversario" data-aniversario="' . $proximoAniversario->format('Y-m-d') . '">' . $aniversarioColaborador . '</div>';
             echo '</div>';
             echo '</a>';
         }
-        echo '<button type="submit" name="export_selected" class="button-export">EXPORT SELECIONADOS</button>';
-        echo '</form>';
     }
-    echo '</div>';
+    echo '</div>';  // fecha linhas-container
+    echo '<button type="submit" name="export_selected" class="button-export">EXPORT SELECIONADOS</button>';
+    echo '</form>';
 }
 
 function mostrarMembrosEquipa(){
@@ -162,9 +162,9 @@ function mostrarMembrosEquipa(){
         echo '<div class="coluna mecanografico">' . htmlspecialchars($m['numeroMecanografico']) . '</div>';
         echo '<div class="coluna cargo">' . htmlspecialchars($m['cargo']) . '</div>';
         echo '<div class="coluna nome">' . htmlspecialchars($m['nomeCompleto']) . '</div>';
-        echo '<div class="coluna aniversario">' . $aniversarioFuncionario . '</div>';
+        echo '<div class="coluna aniversario" data-aniversario="' . $proximoAniversario->format('Y-m-d') . '">' . $aniversarioFuncionario . '</div>';
         echo '</div>';
         echo '</a>';
     }
-}  
+}
 ?>
