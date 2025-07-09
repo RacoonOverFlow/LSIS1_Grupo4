@@ -135,9 +135,9 @@ class registoConvidado_dal{
         $idDadosFinanceiros = $this->conn->insert_id;
 
         // 5. Inserir benefícios
-        $stmt = $this->conn->prepare("INSERT INTO beneficios (cartaoContinente, voucherNOS) VALUES (?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO beneficios (cartaoContinente) VALUES (?)");
         if(!$stmt) throw new Exception("Erro na prepare beneficios". $this->conn->error);
-        $stmt->bind_param("ss", $dados['cartaoContinente'], $dados['voucherNos']);
+        $stmt->bind_param("ss", $dados['cartaoContinente']);
         if(!$stmt->execute()) throw new Exception('Erro execute beneficios'. $stmt->error);
         echo "Beneficios inseridos com sucesso<br>";
         $idBeneficios = $this->conn->insert_id;
