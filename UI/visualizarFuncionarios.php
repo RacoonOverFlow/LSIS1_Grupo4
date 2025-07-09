@@ -22,6 +22,7 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="../CSS/styleVisualizarFuncionario.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <!--<link rel="stylesheet" href="../../CSS/styleGlobal.css">-->
+    <script src="../jvscript/visualizarFuncionario.js"></script>
 
 </head>
 <body>
