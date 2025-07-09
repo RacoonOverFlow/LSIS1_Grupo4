@@ -74,7 +74,7 @@ class Perfil_DAL {
   }
   
   function getCaminhoDocumentos($nMeca){
-    $query = "SELECT caminho FROM documento d 
+    $query = "SELECT * FROM documento d 
     INNER JOIN documento_funcionario df ON df.idDocumento=d.idDocumento 
     INNER JOIN funcionario f ON f.idFuncionario=df.idFuncionario WHERE numeroMecanografico=?";
     $stmt=$this->conn->prepare($query);
@@ -82,6 +82,15 @@ class Perfil_DAL {
     $stmt->execute();
     $result = $stmt->get_result();
     return $result->fetch_all(MYSQLI_ASSOC);
+  }
+
+  function getTipoDocumento($idTipo){
+    $query = "SELECT nome FROM tipodocumento WHERE idTipoDocumento=?";
+    $stmt=$this->conn->prepare($query);
+    $stmt->bind_param("i", $idTipo);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_assoc();
   }
 
   function getIndicativos($idIndicativo){

@@ -17,6 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $handler->exportData($filter);
 exit();
 }
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['export_selected'])) {
+    $selecionados = $_POST['selecionados'] ?? [];
+    $handler->exportSelected($selecionados);
+    exit();
+}
+
 
 // Handle import (via POST form)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['import']) && isset($_FILES['csv_file'])) {

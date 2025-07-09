@@ -50,13 +50,16 @@ h2 {
 }
 
 /* Colunas com larguras específicas */
-.id             { flex: 1; }
+.selecao        { flex: 1; }
 .mecanografico  { flex: 2; }
 .cargo          { flex: 2; }
 .nome           { flex: 3; }
-.nif            { flex: 2; }
+.nif            { flex: 1; }
 .email          { flex: 3; }
+.aniversario    { flex: 1; }
 
 .button-export{
     background-color: black;
+    width: 100px;
+    border-radius: 20px;
 }
