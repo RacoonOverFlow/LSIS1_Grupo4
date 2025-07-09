@@ -140,10 +140,22 @@ function setPerfil($nMeca) {
     echo '<h3>Documentos</h3>';
     $nomesDocumentos = ['Cartão de Cidadão', 'Comprovativo Mod99', 'Cartão Continente', 'Comprovativo Bancário'];
     if (!empty($caminhoDocumentos)) {
-        for ($i = 0; $i < count($caminhoDocumentos); $i++) {
-            $nome = $nomesDocumentos[$i] ?? 'Documento Desconhecido';
-            $caminho = $caminhoDocumentos[$i]['caminho'];
-            echo '<p><strong>' . htmlspecialchars($nome) . ':</strong> <a href="../' . htmlspecialchars($caminho) . '" target="_blank">Ver PDF</a></p>';
+        foreach ($caminhoDocumentos as $documentos) {
+            $nome = $dal->getTipoDocumento($documentos['idTipoDocumento']);
+            if($nome['nome'] != "Recibo Vencimento"){
+                if($nome['nome'] == "Cópia CC"){
+                    echo '<p><strong>Cópia do Cartão de Cidadão:</strong> <a href="../' . htmlspecialchars($documentos['caminho']) . '" target="_blank">Ver PDF</a></p>';
+                }
+                if($nome['nome'] == "Documento Bancario"){
+                    echo '<p><strong>Documento Bancário:</strong> <a href="../' . htmlspecialchars($documentos['caminho']) . '" target="_blank">Ver PDF</a></p>';
+                }
+                if($nome['nome'] == "Cópia Cartão Continente"){
+                    echo '<p><strong>' . htmlspecialchars($nome['nome']) . ':</strong> <a href="../' . htmlspecialchars($documentos['caminho']) . '" target="_blank">Ver PDF</a></p>';
+                }
+                if($nome['nome'] == "Mod 99"){
+                    echo '<p><strong>Documento Mod99:</strong> <a href="../' . htmlspecialchars($documentos['caminho']) . '" target="_blank">Ver PDF</a></p>';
+                }
+            }
         }
     } else {
         echo '<p>Sem documentos disponíveis.</p>';
