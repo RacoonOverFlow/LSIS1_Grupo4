@@ -3,6 +3,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once __DIR__ . '/../DAL/equipaDal.php';
+define('CARGO_RH_SUPERIOR', 5);
+define('CARGO_COORDENADOR', 3);
 
 // Function to display teams
 function mostrarEquipas() {
@@ -13,25 +15,28 @@ function mostrarEquipas() {
 
     // Determinar quais equipas mostrar
     $equipas = [];
-    if ($utilizadorCargo == 5) { // RHSuperior
+    if ($utilizadorCargo == CARGO_RH_SUPERIOR) { // RHSuperior
         error_log("Buscando todas as equipas para RH Superior");
         $equipas = $dal->getAllEquipas();
-    } elseif ($utilizadorCargo == 3) { // Coordenador
+    } elseif ($utilizadorCargo == CARGO_COORDENADOR) { // Coordenador
         error_log("Buscando equipas para coordenador: $numeroMecanografico");
-        $equipas =$dal-> getEquipasByCoordenador($numeroMecanografico);
+        $equipas = $dal->getEquipasByCoordenador($numeroMecanografico);
     } else {
         $numeroMecanografico = $_SESSION['nMeca'];
         header("Location: perfil.php?numeroMecanografico=$numeroMecanografico");
         exit;
     }
-
+    
+    echo '<div class="content-container">';
+    
+    // Barra de pesquisa com container próprio
+    echo '<div class="top-bar-container">';
     mostrarSearchBar();
+    echo '</div>';
     
     if (empty($equipas)) {
         echo '<div class="alert">';
         echo '  <p>Nenhuma equipa encontrada</p>';
-        echo '  <p>Debug: Cargo: ' . $utilizadorCargo . ', nMeca: ' . $_SESSION['nMeca'] . '</p>';
-        echo '  <p>Total de equipes retornadas: ' . count($equipas) . '</p>';
         echo '</div>';
     } else {
         echo '<div class="equipas-grid">';  
@@ -50,7 +55,7 @@ function mostrarEquipas() {
             echo '    </ul>';
             echo '  </div>';
             
-            if ($utilizadorCargo == 5 || $utilizadorCargo == 3) {
+            if ($utilizadorCargo == CARGO_RH_SUPERIOR || $utilizadorCargo == CARGO_COORDENADOR) {
                 echo '<div class="d-flex justify-content-between align-items-center mt-3">';
                 echo '  <div class="team-actions">';
                 echo '    <a href="visualizarFuncionarios.php?idEquipa=' . $equipa['idEquipa'] . '" title="Ver">';
@@ -69,5 +74,6 @@ function mostrarEquipas() {
         }
         echo '</div>'; // Close equipas-grid
     }
+    
+    echo '</div>'; // Close content-container
 }
-?>
