@@ -2,7 +2,7 @@
 
 require_once "connection.php";
 
-class enviarEmail_dal{
+class editarEmailAlertas_dal{
     private $conn;
 
     function __construct() {
