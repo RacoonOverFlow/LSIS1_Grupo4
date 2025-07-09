@@ -59,9 +59,9 @@ function showUI() {
             <div class="coluna mecanografico">Nº Mecanográfico</div>
             <div class="coluna cargo">Cargo</div>
             <div class="coluna nome">Nome</div>
-            <div class="coluna ano">ano</div>
-            <div class="coluna mes">mes</div>
-            <div class="coluna recibo">recibo</div>
+            <div class="coluna ano">Ano</div>
+            <div class="coluna mes">Mês</div>
+            <div class="coluna recibo">Recibo</div>
           </div>';
 
     $recibosVencimento = $dal->getRecibosDeVencimento($_GET['numeroMecanografico'], $_GET['ano'], $_GET['mes']);
