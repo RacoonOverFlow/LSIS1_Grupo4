@@ -16,9 +16,11 @@ function displayForm() {
     $funcionariosComVoucher=$dal->getTodosFuncionariosComVoucher();
 
     echo '<h2>Criar Voucher</h2>
-    <form method="POST" action="">
+    <form method="POST" id="formVoucher" action="">
     Data de Expiração:
     <input type="date" name="dataExpiracao"><br>
+    <span class="error" id="error-dataExpiracao" style="color:red; font-size:0.9em;"></span><br>
+
     Descricao do voucher:
     <input type="text" name="descricaoVoucher"><br>
     Token de acesso do voucher:
