@@ -16,7 +16,6 @@ verificarSESSIONDados();
 <html>
 <head>
     <link rel="stylesheet" href="../CSS/styleEquipas.css">
-    <script src="../jvscript/header.js" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="../jvscript/equipas.js"></script>
 </head>

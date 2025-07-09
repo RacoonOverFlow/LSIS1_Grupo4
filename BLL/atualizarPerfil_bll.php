@@ -309,6 +309,10 @@ function showUI(){
       displayFormColab();
     }
   }else{
+    error_log("Entrou no POST da showUI");
+    error_log("Conteúdo de \$_POST: " . print_r($_POST, true));
+    error_log("Conteúdo de \$_FILES: " . print_r($_FILES, true));
+
     try{
       $utilizadorCargo = $_SESSION['idCargo'];
       if($utilizadorCargo == 5){
@@ -349,6 +353,8 @@ function showUI(){
           $_POST['email'],
           $_POST['idNacionalidade']
         );
+        $ret1 = $dal->updateDadosPessoais(...);
+        error_log("updateDadosPessoais retornou: " . var_export($ret1, true));
 
         $dal->updateDadosFinanceiros(
           $funcionario['idDadosFinanceiros'],
@@ -388,6 +394,7 @@ function showUI(){
         $dal->updateDocumentos($caminhosDocs, $funcionario['idFuncionario']);
         
         header("Location: perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
+        exit;
       
       }else{
         $dal = new atualizarPerfil_DAL();
@@ -538,6 +545,7 @@ function showUI(){
             }
         }
         header("Location: perfil.php?numeroMecanografico=" . htmlspecialchars($funcionario['numeroMecanografico']));
+        exit;
       }
 
     }catch(RuntimeException $e){
@@ -681,7 +689,7 @@ function displayFormRH() {
   </div>
 
   Email:
-  <input type="email" name="email" value="'. htmlspecialchars($dadosPessoais['email']) .'"> 
+  <input type="email" name="email" autocomplete="on" value="'. htmlspecialchars($dadosPessoais['email']) .'"> 
   <span class="error" id="error-email" style="color:red; font-size:0.9em;"></span><br>';
 
   $nacionalidades = $dal->getNacionalidades();
@@ -763,7 +771,7 @@ function displayFormRH() {
   <span class="error" id="error-numeroDeDependentes" style="color:red; font-size:0.9em;"></span><br>
 
   IBAN:
-  <input type="text" name="IBAN" placeholder="PT50..." value="'. htmlspecialchars($dadosFinanceiros['IBAN']) .'">
+  <input type="text" name="IBAN" placeholder="PT50..." autocomplete="on" value="'. htmlspecialchars($dadosFinanceiros['IBAN']) .'">
   <span class="error" id="error-IBAN" style="color:red; font-size:0.9em;"></span><br>
 
   </div>
