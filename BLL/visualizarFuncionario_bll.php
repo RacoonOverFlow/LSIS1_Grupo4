@@ -40,7 +40,7 @@ function mostrarFuncionarios() {
             <div class="coluna nome">Nome</div>
             <div class="coluna nif">NIF</div>
             <div class="coluna email">Email</div>
-            <div class="coluna aniversario">Aniversário (dd/mm/yyyy)</div>
+            <div class="coluna aniversario">Aniversário</div>
           </div>';
 
     if($_SESSION['idCargo'] == 5){
@@ -140,7 +140,7 @@ function mostrarMembrosEquipa(){
             <div class="coluna mecanografico">Nº Mecanográfico</div>
             <div class="coluna cargo">Cargo</div>
             <div class="coluna nome">Nome</div>
-            <div class="coluna aniversario">Aniversário (dd/mm/yyyy)</div>
+            <div class="coluna aniversario">Aniversário</div>
           </div>';
 
     foreach ($membros as $m) {

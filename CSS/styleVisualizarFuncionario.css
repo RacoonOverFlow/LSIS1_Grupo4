@@ -53,8 +53,8 @@ h2 {
 .selecao        { flex: 1; }
 .mecanografico  { flex: 2; }
 .cargo          { flex: 2; }
-.nome           { flex: 3; }
-.nif            { flex: 2; }
+.nome           { flex: 2; }
+.nif            { flex: 1; }
 .email          { flex: 3; }
 .aniversario    { flex: 1; }
 
