@@ -21,7 +21,7 @@ function isThisACallback(): bool{
     'situacaoIrs','remuneracao','numeroDependentes','iban',
 
     // Benefícios
-    'cartaoContinente','voucherNos',
+    'cartaoContinente',
 
     // Viatura
     'tipoViatura','matriculaViatura',
@@ -185,9 +185,6 @@ function displayForm() {
   <h3>Benefícios</h3>
   Nº do Cartão Continente:
   <input type="text" name="cartaoContinente" placeholder="Número do Cartão"><br>
-
-  Data de emissão do voucher NOS:
-  <input type="date" name="voucherNos"><br><br>
 
   <!-- Viatura -->
   <h3>Viatura</h3>
