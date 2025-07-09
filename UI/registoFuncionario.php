@@ -1,7 +1,9 @@
 <?php
 
 require_once "../BLL/registoFuncionario_bll.php";
+require_once "../BLL/verificaoCargoNMeca.php";
 
+verificarSESSIONDados();
 ?>
 
 

@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../BLL/token_bll.php';
+require_once "../BLL/verificaoCargoNMeca.php";
 
+verificarSESSIONDados();
 if (!isset($_GET['token'])) {
     die("Token não fornecido.");
 }

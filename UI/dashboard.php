@@ -6,6 +6,7 @@ session_start();
 require_once "../BLL/dashboard_pag_bll.php";
 require_once "../BLL/sidebar.php";
 
+verificarSESSIONDados();
 $nMeca = $_SESSION['nMeca'];
 $cargo = $_SESSION['idCargo'];
 

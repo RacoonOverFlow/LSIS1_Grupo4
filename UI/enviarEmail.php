@@ -1,7 +1,9 @@
 <?php
 require_once __DIR__ . '/../BLL/enviarEmail_bll.php';
 require_once __DIR__ . '/../BLL/token_bll.php';
+require_once "../BLL/verificaoCargoNMeca.php";
 
+verificarSESSIONDados();
 $mensagem = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

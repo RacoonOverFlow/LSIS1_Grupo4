@@ -3,6 +3,9 @@ session_start();
 require_once "../BLL/visualizarFuncionario_bll.php";
 require_once __DIR__ . "/../BLL/sidebar.php";
 require_once __DIR__ . "/../BLL/searchbar.php";
+require_once "../BLL/verificaoCargoNMeca.php";
+
+verificarSESSIONDados();
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);

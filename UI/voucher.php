@@ -1,6 +1,8 @@
 <?php
 require_once "../BLL/voucher_bll.php"
+require_once "../BLL/verificaoCargoNMeca.php";
 
+verificarSESSIONDados();
 ?>
 
 <!DOCTYPE html>

@@ -1,6 +1,9 @@
 <?php 
 session_start();
 require_once "../BLL/atualizarPerfil_bll.php";
+require_once "../BLL/verificaoCargoNMeca.php";
+
+verificarSESSIONDados();
 ?>
 
 <!DOCTYPE html>

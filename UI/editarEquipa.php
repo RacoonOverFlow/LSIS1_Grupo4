@@ -2,7 +2,9 @@
 
 session_start();
 include "../BLL/editarEquipa_bll.php";
+require_once "../BLL/verificaoCargoNMeca.php";
 
+verificarSESSIONDados();
 ?>
 
 <!DOCTYPE html>

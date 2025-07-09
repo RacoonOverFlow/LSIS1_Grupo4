@@ -6,6 +6,9 @@ session_start();
 require_once __DIR__ . '/../BLL/equipaBLL.php';
 require_once "../BLL/sidebar.php";
 require_once "../BLL/searchbar.php";
+require_once "../BLL/verificaoCargoNMeca.php";
+
+verificarSESSIONDados();
 ?>
 <!DOCTYPE html>
 <html>

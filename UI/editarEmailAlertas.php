@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../BLL/editarEmailAlertas_bll.php';
+require_once "../BLL/verificaoCargoNMeca.php";
 
+verificarSESSIONDados();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(isset($_POST["botaoEmailEnvioAlertas"])) {
         if(updateCredenciaisEnvioAlertas()){

@@ -143,6 +143,7 @@ body {
 .action-buttons {
     display: flex;
     gap: 10px;
+    text-decoration: none;
 }
 
 .action-buttons button {
@@ -156,6 +157,7 @@ body {
     align-items: center;
     gap: 6px;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .action-buttons button:hover {

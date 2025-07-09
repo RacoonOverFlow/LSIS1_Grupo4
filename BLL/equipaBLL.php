@@ -4,12 +4,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once __DIR__ . '/../DAL/equipaDal.php';
 
-if (!isset($_SESSION['nMeca']) || !isset($_SESSION['idCargo'])) {
-    error_log("Redirecionando para login: Sessão incompleta");
-    header("Location: login.php");
-    exit;
-}
-
 // Function to display teams
 function mostrarEquipas() {
     $dal = new Equipa_DAL();

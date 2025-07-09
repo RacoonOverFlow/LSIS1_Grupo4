@@ -1,11 +1,12 @@
 <?php 
-require_once "../BLL/alertas_bll.php";
-require_once "../BLL/sidebar.php";
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+require_once "../BLL/alertas_bll.php";
+require_once "../BLL/sidebar.php";
+require_once "../BLL/verificaoCargoNMeca.php";
 
+verificarSESSIONDados();
 ?>
 
 <!DOCTYPE html>

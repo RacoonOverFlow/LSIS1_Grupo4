@@ -5,6 +5,9 @@ error_reporting(E_ALL);
 session_start();
 require_once __DIR__ . '/../BLL/perfil_bll.php';
 require_once __DIR__ . '/../BLL/sidebar.php';
+require_once "../BLL/verificaoCargoNMeca.php";
+
+verificarSESSIONDados();
 ?>
 
 <!DOCTYPE html>

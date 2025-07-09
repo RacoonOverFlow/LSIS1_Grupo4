@@ -1,7 +1,9 @@
 <?php
 
 require_once "../BLL/registoConvidado_bll.php";
+require_once "../BLL/verificaoCargoNMeca.php";
 
+verificarSESSIONDados();
 ?>
 <!DOCTYPE html>
 <html lang="pt">

@@ -7,7 +7,7 @@
     echo '    <i class="bi bi-search"></i>';
     echo '  </div>';   
     echo '  <div class="action-buttons">';
-    echo '    <a href="criarEquipa.php"><button><i class="bi bi-plus-circle-fill"></i> Nova Equipa</button></a>';
+    echo '    <a class="action-buttons" href="criarEquipa.php"><button><i class="bi bi-plus-circle-fill"></i> Nova Equipa</button></a>';
     echo '  </div>';
     echo '</div>';
     }

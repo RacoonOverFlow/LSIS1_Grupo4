@@ -2,6 +2,9 @@
 require_once "../BLL/pedidosPendentes_bll.php";
 require_once "../BLL/sidebar.php";
 session_start();
+require_once "../BLL/verificaoCargoNMeca.php";
+
+verificarSESSIONDados();
 ?>
 
 <!DOCTYPE html>
