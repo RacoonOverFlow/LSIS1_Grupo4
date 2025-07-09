@@ -129,7 +129,8 @@ function setPerfil($nMeca) {
         if($voucher == NULL){
             echo '<p><strong>Voucher NOS:</strong> Não disponível.</p>';
         }else{
-            echo '<p><strong>Voucher NOS:</strong><br><strong>Valor: </strong>' . htmlspecialchars($voucher['valor']) . '€
+            echo '<p><strong>Voucher NOS:</strong><br><strong>Token de acesso</strong>'. htmlspecialchars($voucher['tokenVoucher']) .
+            '<br><strong>Valor: </strong>' . htmlspecialchars($voucher['valor']) . '€
             <br><strong>Data de Expiração: </strong>' . htmlspecialchars($voucher['dataExpiracao']) . '</p>';
         }
     }
