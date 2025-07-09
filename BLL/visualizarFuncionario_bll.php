@@ -136,12 +136,15 @@ function mostrarMembrosEquipa(){
 
 
     // Cabeçalho
+    echo '<form method="POST" action="/LSIS1_Grupo4/BLL/export_importData_bll.php">';
     echo '<div class="linha-funcionario cabecalho">
             <div class="coluna mecanografico">Nº Mecanográfico</div>
             <div class="coluna cargo">Cargo</div>
             <div class="coluna nome">Nome</div>
             <div class="coluna aniversario">Aniversário</div>
           </div>';
+              
+    echo '<div class="linhas-container">';
 
     foreach ($membros as $m) {
         $dataNascimento = new DateTime($m['dataNascimento']);
@@ -166,5 +169,8 @@ function mostrarMembrosEquipa(){
         echo '</div>';
         echo '</a>';
     }
+    echo '</div>';
+    echo '<button type="submit" name="export_selected" class="button-export">EXPORT SELECIONADOS</button>';
+    echo '</form>';
 }
 ?>
