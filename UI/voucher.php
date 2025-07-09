@@ -1,7 +1,7 @@
 <?php
 require_once "../BLL/voucher_bll.php"
 require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
-
+    
 verificarSESSIONDados();
 ?>
 
