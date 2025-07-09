@@ -35,13 +35,12 @@ function mostrarFuncionarios() {
     echo '<form method="POST" action="/LSIS1_Grupo4/BLL/export_importData_bll.php" target="_blank">';
     echo '<div class="linha-funcionario cabecalho">
             <div class="coluna selecao">Selecionar</div>
-            <div class="coluna id">ID</div>
-            <div class="coluna mecanografico">Número Mecanográfico</div>
+            <div class="coluna mecanografico">Nº Mecanográfico</div>
             <div class="coluna cargo">Cargo</div>
             <div class="coluna nome">Nome</div>
             <div class="coluna nif">NIF</div>
             <div class="coluna email">Email</div>
-            <div class="coluna aniversário">Aniversário (dd/mm/yyyy)</div>
+            <div class="coluna aniversario">Aniversário (dd/mm/yyyy)</div>
           </div>';
 
     if($_SESSION['idCargo'] == 5){
@@ -65,13 +64,12 @@ function mostrarFuncionarios() {
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
             echo '<div class="coluna selecao"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($f['numeroMecanografico']) . '"></div>';
-            echo '<div class="coluna id">' . htmlspecialchars($f['idFuncionario']) . '</div>';
             echo '<div class="coluna mecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
             echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '</div>';
             echo '<div class="coluna nome">' . htmlspecialchars($f['nomeCompleto']) . '</div>';
             echo '<div class="coluna nif">' . htmlspecialchars($f['nif']) . '</div>';
             echo '<div class="coluna email">' . htmlspecialchars($f['email']) . '</div>';
-            echo '<div class="coluna aniversário">' . $aniversarioFuncionario . '</div>';
+            echo '<div class="coluna aniversario">' . $aniversarioFuncionario . '</div>';
             echo '</div>';
             echo '</a>';
         }
@@ -99,13 +97,12 @@ function mostrarFuncionarios() {
             echo '<a href="' . $link . '" class="linha-link">';
             echo '<div class="linha-funcionario">';
             echo '<div class="coluna selecao"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($c['numeroMecanografico']) . '"></div>';
-            echo '<div class="coluna id">' . htmlspecialchars($c['idFuncionario']) . '</div>';
             echo '<div class="coluna mecanografico">' . htmlspecialchars($c['numeroMecanografico']) . '</div>';
             echo '<div class="coluna cargo">' . htmlspecialchars($c['cargo']) . '</div>';
             echo '<div class="coluna nome">' . htmlspecialchars($c['nomeCompleto']) . '</div>';
             echo '<div class="coluna nif">' . htmlspecialchars($c['nif']) . '</div>';
             echo '<div class="coluna email">' . htmlspecialchars($c['email']) . '</div>';
-            echo '<div class="coluna aniversário">' . $aniversarioColaborador . '</div>';
+            echo '<div class="coluna aniversario">' . $aniversarioColaborador . '</div>';
             echo '</div>';
             echo '</a>';
         }
@@ -140,10 +137,10 @@ function mostrarMembrosEquipa(){
 
     // Cabeçalho
     echo '<div class="linha-funcionario cabecalho">
-            <div class="coluna mecanografico">Número Mecanográfico</div>
+            <div class="coluna mecanografico">Nº Mecanográfico</div>
             <div class="coluna cargo">Cargo</div>
             <div class="coluna nome">Nome</div>
-            <div class="coluna aniversário">Aniversário (dd/mm/yyyy)</div>
+            <div class="coluna aniversario">Aniversário (dd/mm/yyyy)</div>
           </div>';
 
     foreach ($membros as $m) {
@@ -165,7 +162,7 @@ function mostrarMembrosEquipa(){
         echo '<div class="coluna mecanografico">' . htmlspecialchars($m['numeroMecanografico']) . '</div>';
         echo '<div class="coluna cargo">' . htmlspecialchars($m['cargo']) . '</div>';
         echo '<div class="coluna nome">' . htmlspecialchars($m['nomeCompleto']) . '</div>';
-        echo '<div class="coluna aniversário">' . $aniversarioFuncionario . '</div>';
+        echo '<div class="coluna aniversario">' . $aniversarioFuncionario . '</div>';
         echo '</div>';
         echo '</a>';
     }
