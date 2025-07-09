@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
             continente: /^[0-9]{13,14}$/,
             matricula: /^\d{2}-[A-Z]{2}-\d{2}$/,
             letras: /^[A-Za-z\s]{2,}$/,
-            moradaFiscal: /^([A-Za-zÀ-ÿ0-9ºª°.,\-\/ ]+),\s?\d+[A-Za-z]?,\s?\d{4}-\d{3},\s?[A-Za-zÀ-ÿ\s]+$/,
+            moradaFiscal: /^([A-Za-zÀ-ÿ0-9ºª°.,\-\/ ]+),\s?\d+[A-Za-z]?,\s?\d{4}-\d{3},\s?[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-zà-ÿ]*(\s[A-Za-zÀ-ÿ]+)*$/
         };
 
         const campos = {
