@@ -250,6 +250,7 @@ function displayFormColab() {
   </div>
   Matrícula da viatura:
   <input type="text" name="matriculaDaViatura" placeholder="XX-00-XX" value="'. htmlspecialchars($viatura['matriculaDaViatura']) .'"><br><br>
+  <span class="error" id="error-matriculaDaViatura" style="color:red; font-size:0.9em;"></span><br>  
   </div>
 
 

@@ -50,7 +50,7 @@ function isThisACallback(): bool{
 function displayForm() {
   echo '
   <div class="container_atualizarPerfil">
-  <h2>Atualizar Perfil</h2>
+  <h2>Registar Funcionário</h2>
   <form id="formFuncionario" action="" method="post" enctype="multipart/form-data">
   
   <div class="atualizarPerfil-form">
