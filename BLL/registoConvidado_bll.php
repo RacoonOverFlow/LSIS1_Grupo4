@@ -10,7 +10,7 @@ function isThisACallback(): bool{
 
     // Dados Pessoais
     'nomeCompleto','nomeAbreviado','dataNascimento','moradaFiscal',
-    'cc','validadeCc','nif','niss','Genero','idIndicativo',
+    'cc','dataValidade','nif','niss','Genero','idIndicativo',
     'contactoPessoal','contactoEmergencia','grauRelacionamento','email',
     'idNacionalidade',
 
@@ -18,7 +18,7 @@ function isThisACallback(): bool{
     'dataInicioContrato','dataFimContrato','tipoContrato','regimeHorarioTrabalho',*/
 
     // Dados Financeiros
-    'situacaoIrs',/*'remuneracao',*/'numeroDeDependentes','iban',
+    'situacaoIrs',/*'remuneracao',*/'numeroDeDependentes','IBAN',
 
     // Benefícios
     'cartaoContinente',
@@ -78,7 +78,7 @@ function displayForm($email) {
   <span class="error" id="error-cc" style="color:red; font-size:0.9em;"></span><br>
 
   Data de validade do CC:
-  <input type="date" name="validadeCc"><br>
+  <input type="date" name="dataValidade"><br>
   <span class="error" id="error-dataValidade" style="color:red; font-size:0.9em;"></span><br>
 
   NIF:
@@ -151,7 +151,7 @@ function displayForm($email) {
   <span class="error" id="error-numeroDeDependentes" style="color:red; font-size:0.9em;"></span><br>
 
   IBAN:
-  <input type="text" name="iban" placeholder="PT50..."><br><br>
+  <input type="text" name="IBAN" placeholder="PT50..."><br><br>
   <span class="error" id="error-IBAN" style="color:red; font-size:0.9em;"></span><br>
 
   <!-- Benefícios -->
