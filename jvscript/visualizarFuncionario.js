@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
     // Funções de filtragem e ordenação
     window.filterFuncionarios = function(searchField) {
         const input = document.getElementById('searchInput').value.toLowerCase();
@@ -10,8 +10,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 const textoColuna = coluna.textContent.toLowerCase();
                 if (textoColuna.includes(input)) {
                     linha.style.display = 'flex';
+                    linha.parentElement.style.display = 'flex';
                 } else {
                     linha.style.display = 'none';
+                    linha.parentElement.style.display = 'none';
                 }
             }
         });
@@ -19,17 +21,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.sortFuncionarios = function(criterio) {
         const linhasContainer = document.querySelector('.linhas-container');
-        const linhas = Array.from(linhasContainer.querySelectorAll('.linha-funcionario:not(.cabecalho)'));
+        const linhas = Array.from(linhasContainer.querySelectorAll('.linha-container:has(.linha-funcionario:not(.cabecalho))'));
         
         linhas.sort((a, b) => {
             let valorA, valorB;
+            const linhaA = a.querySelector('.linha-funcionario');
+            const linhaB = b.querySelector('.linha-funcionario');
             
             if (criterio === 'aniversario') {
-                valorA = new Date(a.querySelector('.coluna.aniversario').dataset.aniversario);
-                valorB = new Date(b.querySelector('.coluna.aniversario').dataset.aniversario);
+                valorA = new Date(linhaA.querySelector('.coluna.aniversario').dataset.aniversario);
+                valorB = new Date(linhaB.querySelector('.coluna.aniversario').dataset.aniversario);
             } else {
-                valorA = a.querySelector(`.coluna.${criterio}`).textContent.toLowerCase();
-                valorB = b.querySelector(`.coluna.${criterio}`).textContent.toLowerCase();
+                valorA = linhaA.querySelector(`.coluna.${criterio}`).textContent.toLowerCase();
+                valorB = linhaB.querySelector(`.coluna.${criterio}`).textContent.toLowerCase();
             }
             
             if (criterio === 'aniversario') {
