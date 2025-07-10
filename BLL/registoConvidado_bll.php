@@ -11,7 +11,7 @@ function isThisACallback(): bool{
     // Dados Pessoais
     'nomeCompleto','nomeAbreviado','dataNascimento','moradaFiscal',
     'cc','dataValidade','nif','niss','Genero','idIndicativo',
-    'contactoPessoal','contactoEmergencia','grauRelacionamento','email',
+    'contactoPessoal','contactoEmergencia','grauDeRelacionamento','email',
     'idNacionalidade',
 
     /*// Dados Contrato
@@ -116,7 +116,7 @@ function displayForm($email) {
   <span class="error" id="error-contactoEmergencia" style="color:red; font-size:0.9em;"></span><br>
 
   Grau de relacionamento:
-  <input type="text" name="grauRelacionamento" placeholder="Ex: Pai, Esposa, Amigo"><br>
+  <input type="text" name="grauDeRelacionamento" placeholder="Ex: Pai, Esposa, Amigo"><br>
   <span class="error" id="error-grauDeRelacionamento" style="color:red; font-size:0.9em;"></span><br>  
 
   Email:
