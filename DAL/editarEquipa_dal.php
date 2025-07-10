@@ -10,7 +10,10 @@ class editarEquipa_DAL {
     }
   
     function getColaborador($idCargo) {
-        $query = "SELECT dp.nomeCompleto, f.idFuncionario FROM dadospessoais dp INNER JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais INNER JOIN dadoslogin dl on f.numeroMecanografico = dl.numeroMecanografico INNER JOIN cargo c ON dl.idCargo = c.idCargo WHERE c.idCargo = ?";
+        $query = "SELECT dp.nomeCompleto, f.idFuncionario, dl.numeroMecanografico FROM dadospessoais dp 
+        INNER JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais 
+        INNER JOIN dadoslogin dl on f.numeroMecanografico = dl.numeroMecanografico 
+        INNER JOIN cargo c ON dl.idCargo = c.idCargo WHERE c.idCargo = ?";
         $stmt=$this->conn->prepare($query);
         $stmt->bind_param("s", $idCargo);
         $stmt->execute();
@@ -87,19 +90,19 @@ class editarEquipa_DAL {
 
 
     public function getIdColaboradorByEquipaId($idEquipa) {
-        $query = "SELECT idColaborador FROM colaborador_equipa WHERE idEquipa = ?";
+        $query = "SELECT idColaborador AS idFuncionario FROM colaborador_equipa WHERE idEquipa = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("i", $idEquipa);
         $stmt->execute();
-        /*$result = $stmt->get_result();
+        $result = $stmt->get_result();
 
         $ids = [];
         while ($row = $result->fetch_assoc()) {
-        $ids[] = $row['idFuncionario'];
+            $ids[] = $row;
         }
-        return $ids;*/
-        return $stmt->get_result()->fetch_assoc();
+        return $ids;
     }
+
 
     /* function getColaboradorById($idFuncionario) {
         $query = "SELECT dp.nomeCompleto FROM dadospessoais dp INNER JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais INNER JOIN dadoslogin dl on f.numeroMecanografico = dl.numeroMecanografico INNER JOIN cargo c ON dl.idCargo = c.idCargo WHERE c.idCargo = ?";
