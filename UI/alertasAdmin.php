@@ -57,8 +57,8 @@ $alertas = $bll->listarAlertas();
                     <button type="submit">Adicionar</button>
                 </form>
             </div>
-            
-            <div class="criar-Alerta">
+
+            <div class="editar-Alerta">
                 <h2>Alertas existentes</h2>
                 <?php foreach ($alertas as $a): ?>
                     <div class="alerta">

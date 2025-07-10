@@ -12,3 +12,33 @@ h2 {
     padding: 20px;
     margin-bottom:20px;
 }
+
+.criar-Alerta input {
+  background: #FFFFFF;
+  border-radius: 12px;
+  width: 30%;
+  padding: 10px;
+  border-color: black;
+  box-sizing: border-box;
+  font-size: 18px;
+  opacity: 1;
+}
+
+.editar-Alerta{
+    background-color: white;
+    border-radius: 25px;
+    padding: 20px;
+    margin-bottom:20px;
+}
+
+.editar-Alerta input {
+  background: #FFFFFF;
+  border-radius: 10px;
+  width: 80%;
+  padding: 10px;
+  border-color: black;
+  box-sizing: border-box;
+  font-size: 18px;
+  opacity: 1;
+}
+
