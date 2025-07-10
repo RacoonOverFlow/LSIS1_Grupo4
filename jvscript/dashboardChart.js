@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function onDistritoChange(filteredDistrito = null) {
 
-    const dataToUse = filteredDistrito || aggregateByKey(rawData.moradaFiscal, "cargo", teamFilter.value);
+    const dataToUse = filteredDistrito || aggregateByKey(rawData.moradaFiscal, "moradaFiscal", teamFilter.value);
     
     //const finalData = filterData(dataToUse, "filters-moradaFiscal");
     
