@@ -1,0 +1,287 @@
+/* Estilos Globais */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url(styleGlobal.css);
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #f0f4f8;
+    padding: 20px;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* Container principal */
+.tabela-funcionarios {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* Cabeçalho e linhas - Solução para tamanhos consistentes */
+.linha-funcionario {
+    display: grid;
+    background-color: white;
+    padding: 12px 15px;
+    border: 1px solid #e1e5eb;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+    /* Definindo proporções fixas para as colunas */
+    grid-template-columns: 
+        1.0fr  /* id */
+        2.5fr  /* nome */
+        2.5fr  /* email */
+}
+
+
+/* Cabeçalho específico */
+.linha-funcionario.cabecalho {
+    font-weight: 600;
+    background-color: #f5f7fa;
+    border: 2px solid #e1e5eb;
+    color: #2c3e50;
+}
+
+/* Link sem decoração */
+.linha-link {
+    text-decoration: none;
+    color: inherit;
+    display: contents; /* Importante para o grid funcionar */
+}
+
+/* Hover para linhas */
+.linha-link:hover .linha-funcionario:not(.cabecalho) {
+    background-color: #f0f7ff;
+    border-color: #c2d9ff;
+}
+
+/* Colunas */
+.coluna {
+    padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+}
+
+/* Alinhamento de checkbox */
+.coluna.selecao {
+    justify-content: center;
+}
+
+/* Botões */
+.button-export {
+    padding: 10px 20px;
+    height: auto;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 8px;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    margin-top: 10px;
+    margin-right: 10px;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.button-export:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+}
+
+/* Estilos para a barra superior */
+.top-bar-container {
+    margin-bottom: 20px;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.search-container {
+    position: relative;
+    flex-grow: 1;
+    min-width: 250px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px 15px 12px 40px;
+    border-radius: 30px;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.search-container input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.search-container i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #7f8c8d;
+}
+
+.sort-dropdown {
+    min-width: 200px;
+}
+
+.sort-dropdown select {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 30px;
+    border: 1px solid #d1d8e0;
+    background-color: white;
+    cursor: pointer;
+    font-size: 14px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px;
+}
+
+.sort-dropdown select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Botão de reativação */
+.btn-reativar {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-reativar:hover {
+    background-color: #27ae60;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(46, 204, 113, 0.3);
+}
+
+/* Container de linhas */
+.linhas-container {
+    max-height: 60vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Barra de rolagem personalizada */
+.linhas-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.linhas-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.linhas-container::-webkit-scrollbar-thumb {
+    background: #c5c5c5;
+    border-radius: 10px;
+}
+
+.linhas-container::-webkit-scrollbar-thumb:hover {
+    background: #a5a5a5;
+}
+
+/* Layout responsivo */
+@media (max-width: 1200px) {
+    .linha-funcionario {
+        grid-template-columns: 
+            1fr  /* selecao */
+            1.5fr  /* mecanografico */
+            1.5fr  /* cargo */
+            2fr  /* nome */
+            1fr  /* nif */
+            2fr  /* email */
+            1.5fr; /* aniversario */
+    }
+}
+
+@media (max-width: 992px) {
+    .linha-funcionario {
+        grid-template-columns: 
+            0.8fr  /* selecao */
+            1.2fr  /* mecanografico */
+            1.2fr  /* cargo */
+            1.8fr  /* nome */
+            0.9fr  /* nif */
+            1.8fr  /* email */
+            1.2fr; /* aniversario */
+    }
+}
+
+@media (max-width: 768px) {
+    .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .search-container, 
+    .sort-dropdown {
+        min-width: 100%;
+    }
+    
+    .linha-funcionario {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .linha-funcionario.cabecalho {
+        display: none;
+    }
+    
+    .coluna {
+        display: flex;
+        width: 100%;
+        padding: 5px 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .coluna::before {
+        content: attr(data-label);
+        font-weight: 600;
+        min-width: 140px;
+        display: inline-block;
+        color: #7f8c8d;
+    }
+}
