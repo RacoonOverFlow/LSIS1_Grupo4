@@ -49,9 +49,12 @@ function isThisACallback(): bool{
   return true;
 }
 function displayForm($email) {
+  echo '<div class="container_atualizarPerfil">';
+  echo '<h2>Registo Convidado</h2>';
   echo '<form id="formFuncionario" action="" method="post" enctype="multipart/form-data">';
   
   echo '</select><br><br>
+  <div class="atualizarPerfil-form">
   <!-- Dados Pessoais -->
   <h3>Dados Pessoais</h3>
   Nome completo:
@@ -176,9 +179,11 @@ function displayForm($email) {
   <input id="documentoBancario" type="file" name="documentoBancario" required accept=".pdf"><br>
   Cópia cartão continente:
   <input id="documentoCartaoContinente" type="file" name="documentoCartaoContinente" required accept=".pdf"><br><br>
+  </div>
+  </div>
 
   <!-- Botão -->
-  <input type="submit" value="Registar"/>
+  <input type="submit" value="Registar" id="atualizarPerfil-form-submit"/>
 </form>';
 }
 function showUI($email, $token){

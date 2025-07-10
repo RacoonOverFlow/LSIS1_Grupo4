@@ -48,7 +48,12 @@ function isThisACallback(): bool{
 
 
 function displayForm() {
-  echo '<form id="formFuncionario" action="" method="post" enctype="multipart/form-data">
+  echo '
+  <div class="container_atualizarPerfil">
+  <h2>Atualizar Perfil</h2>
+  <form id="formFuncionario" action="" method="post" enctype="multipart/form-data">
+  
+  <div class="atualizarPerfil-form">
   <!-- Dados Login -->
   <h3>Dados Login</h3>
   Numero Mecanográfico:
@@ -66,7 +71,7 @@ function displayForm() {
     echo '<option value="' . htmlspecialchars($cargo['idCargo']) 
     . '">' . htmlspecialchars($cargo['cargo']) .'</option>';
   }
-  
+
   echo '</select><br><br>
   <!-- Dados Pessoais -->
   <h3>Dados Pessoais</h3>
@@ -220,9 +225,11 @@ function displayForm() {
   <input id="documentoBancario" type="file" name="documentoBancario" required accept=".pdf"><br>
   Cópia cartão continente:
   <input id="documentoCartaoContinente" type="file" name="documentoCartaoContinente" required accept=".pdf"><br><br>
+  
+  </div>
 
   <!-- Botão -->
-  <input type="submit" value="Registar"/>
+  <input type="submit" value="Registar" id="atualizarPerfil-form-submit"/>
   </form>';
 }
 

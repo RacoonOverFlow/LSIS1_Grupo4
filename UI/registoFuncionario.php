@@ -19,7 +19,7 @@ verificarSESSIONDados();
     <link rel="stylesheet" href="../CSS/styleGlobal.css">
     <link rel="stylesheet" href="../CSS/styleAtualizarPerfil.css">
     <link rel="stylesheet" href="../CSS/styleEquipas.css">
-    <title>Document</title>
+    <title>Registo Funcionario</title>
 </head>
 <body>
     <div class="Layout-container">
