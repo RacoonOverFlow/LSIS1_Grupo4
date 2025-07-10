@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
-
+require_once "../BLL/sidebar.php";
 verificarSESSIONDados();
 
 $bll = new alertasAdmin_bll();
@@ -36,33 +36,43 @@ $alertas = $bll->listarAlertas();
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/styleAlertasAdmin.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <title>Admin - Alertas</title>
 </head>
 <body>
-    <h1>Gestão de Alertas</h1>
-
-    <?php
-    if (!empty($mensagem)) {
-        echo $mensagem;
-    }
-    ?>
-
-    <h2>Adicionar novo alerta</h2>
-    <form method="POST">
-        <input type="text" name="nova_mensagem" placeholder="Mensagem do alerta" required>
-        <button type="submit">Adicionar</button>
-    </form>
-
-    <h2>Alertas existentes</h2>
-    <?php foreach ($alertas as $a): ?>
-        <div class="alerta">
-            <form method="POST" style="display:inline-block;">
-                <input type="hidden" name="editar_id" value="<?= $a['idAlerta'] ?>">
-                <input type="text" name="editar_mensagem" value="<?= htmlspecialchars($a['mensagem']) ?>">
-                <button type="submit">Editar</button>
-            </form>
-            <a href="?delete=<?= $a['idAlerta'] ?>" onclick="return confirm('Tem certeza que deseja eliminar este alerta?');">Eliminar</a>
+    <div class="layout-container">
+        <div class="main-content">
+            <h1>Gestão de Alertas</h1>
+            <?php
+            if (!empty($mensagem)) {
+                echo $mensagem;
+            }
+            ?>
+            <div class="criar-Alerta">
+                <h2>Adicionar novo alerta</h2>
+                <form method="POST">
+                    <input type="text" name="nova_mensagem" placeholder="Mensagem do alerta" required>
+                    <button type="submit">Adicionar</button>
+                </form>
+            </div>
+            
+            <div class="criar-Alerta">
+                <h2>Alertas existentes</h2>
+                <?php foreach ($alertas as $a): ?>
+                    <div class="alerta">
+                        <form method="POST" style="display:inline-block;">
+                            <input type="hidden" name="editar_id" value="<?= $a['idAlerta'] ?>">
+                            <input type="text" name="editar_mensagem" value="<?= htmlspecialchars($a['mensagem']) ?>">
+                            <button type="submit">Editar</button>
+                        </form>
+                        <a href="?delete=<?= $a['idAlerta'] ?>" onclick="return confirm('Tem certeza que deseja eliminar este alerta?');">Eliminar</a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
-    <?php endforeach; ?>
+        <?php mostrarSidebar()?> 
+    </div>
 </body>
 </html>

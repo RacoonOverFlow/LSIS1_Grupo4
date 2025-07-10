@@ -1,1 +1,14 @@
 @import url('styleGlobal.css');
+
+h2 {
+    color: Black;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.criar-Alerta{
+    background-color: white;
+    border-radius: 25px;
+    padding: 20px;
+    margin-bottom:20px;
+}

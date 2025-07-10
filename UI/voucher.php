@@ -17,7 +17,7 @@ verificarSESSIONDados();
     <title>Voucher</title>
 </head>
 <body>
-    <div class="layout-container">;
+    <div class="layout-container">
         <div class="main-content">
             <?php showUI(); ?>
         </div>
