@@ -42,7 +42,7 @@ function mostrarSearchBar() {
             
             echo '    <div class="sort-dropdown">';
             echo '      <select id="sortSelect" onchange="sortFuncionarios(this.value)">';
-            echo '        <option value="none"></option>';
+            echo '        <option value="none">Filtrar por:</option>';
             echo '        <option value="mecanografico">Ordenar por Nº Mec</option>';
             
             // Apenas RH e RH Superior podem ordenar por aniversário
