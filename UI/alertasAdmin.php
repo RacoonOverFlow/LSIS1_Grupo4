@@ -9,21 +9,27 @@ verificarSESSIONDados();
 
 $bll = new alertasAdmin_bll();
 
+$mensagem = "";
+
 // Adicionar
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['nova_mensagem'])) {
-    $bll->adicionarAlerta($_POST['nova_mensagem']);
+    $resultado = $bll->adicionarAlerta($_POST['nova_mensagem']);
+    $mensagem = $resultado['mensagem'];
 }
 
 // Editar
-if (isset($_POST['editar_id']) && isset($_POST['editar_mensagem'])) {
-    $bll->atualizarAlerta($_POST['editar_id'], $_POST['editar_mensagem']);
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['editar_id']) && isset($_POST['editar_mensagem'])) {
+    $resultado = $bll->atualizarAlerta($_POST['editar_id'], $_POST['editar_mensagem']);
+    $mensagem = $resultado['mensagem'];
 }
 
 // Eliminar
 if (isset($_GET['delete'])) {
-    $bll->apagarAlerta($_GET['delete']);
+    $resultado = $bll->apagarAlerta($_GET['delete']);
+    $mensagem = $resultado['mensagem'];
 }
 
+// Listar após operações para refletir mudanças
 $alertas = $bll->listarAlertas();
 ?>
 <!DOCTYPE html>
@@ -34,6 +40,12 @@ $alertas = $bll->listarAlertas();
 </head>
 <body>
     <h1>Gestão de Alertas</h1>
+
+    <?php
+    if (!empty($mensagem)) {
+        echo $mensagem;
+    }
+    ?>
 
     <h2>Adicionar novo alerta</h2>
     <form method="POST">
@@ -49,7 +61,7 @@ $alertas = $bll->listarAlertas();
                 <input type="text" name="editar_mensagem" value="<?= htmlspecialchars($a['mensagem']) ?>">
                 <button type="submit">Editar</button>
             </form>
-            <a href="?delete=<?= $a['idAlerta'] ?>">Eliminar</a>
+            <a href="?delete=<?= $a['idAlerta'] ?>" onclick="return confirm('Tem certeza que deseja eliminar este alerta?');">Eliminar</a>
         </div>
     <?php endforeach; ?>
 </body>

@@ -1,9 +1,8 @@
 <?php
+require_once __DIR__ . '/../BLL/token_bll.php';
+require_once __DIR__ . '/../DAL/editarEmailAlertas_dal.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-require_once __DIR__ . '/../vendor/autoload.php';  // carrega o PHPMailer via Composer
-require_once '../DAL/editarEmailAlertas_dal.php';
 
 class enviarEmail_bll {
     private $mail;
@@ -11,8 +10,8 @@ class enviarEmail_bll {
     public function __construct() {
         $dal = new editarEmailAlertas_dal();
         $credenciais = $dal->getCredenciaisEnvioAlertas();
-        $smtpUser=$credenciais['email'];
-        $smtpPass=$credenciais['password'];
+        $smtpUser = $credenciais['email'];
+        $smtpPass = $credenciais['password'];
 
         $this->mail = new PHPMailer(true);
         try {
@@ -37,17 +36,48 @@ class enviarEmail_bll {
             $this->mail->Subject = $assunto;
             $this->mail->Body = $corpoHtml;
 
-            //$this->mail->SMTPDebug = 1; // Ativa debug detalhado (pode usar 1 ou 2 para mais ou menos detalhes)
-            //$this->mail->Debugoutput = 'html'; // Para exibir no navegador em formato HTML
-
             $this->mail->send();
             return true;
         } catch (Exception $e) {
-            // Você pode logar o erro ou tratar aqui
-            error_log("Erro ao enviar email: enviarEmail_bll" . $e->getMessage());
+            error_log("Erro ao enviar email: enviarEmail_bll: " . $e->getMessage());
             return false;
         }
     }
+
+    public function enviarEmailComToken($email) {
+        // Validar email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return [
+                'success' => false,
+                'mensagem' => "<p style='color:red;'>Email inválido.</p>"
+            ];
+        }
+
+        // Gerar token
+        $tokenService = new token_bll();
+        $token = $tokenService->gerarTokenParaEmail($email);
+
+        // Montar corpo do email
+        $link = "http://localhost/LSIS1_Grupo4/UI/validarToken.php?token=$token";
+        $corpo = "<p>Olá! Clique no link para confirmar: <a href='$link'>$link</a></p>";
+
+        try {
+            if ($this->enviarEmail($email, "Email de Teste", $corpo)) {
+                return [
+                    'success' => true,
+                    'mensagem' => "<p style='color:green;'>Email enviado com sucesso para $email!</p>"
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'mensagem' => "<p style='color:red;'>Erro ao enviar email.</p>"
+                ];
+            }
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'mensagem' => "<p style='color:red;'>Erro ao configurar email: " . htmlspecialchars($e->getMessage()) . "</p>"
+            ];
+        }
+    }
 }
-
-

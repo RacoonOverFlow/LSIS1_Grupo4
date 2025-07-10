@@ -1,40 +1,21 @@
 <?php
-
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 require_once __DIR__ . '/../BLL/enviarEmail_bll.php';
-require_once __DIR__ . '/../BLL/token_bll.php';
 require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
 
 verificarSESSIONDados();
+
 $mensagem = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['enviarEmail'])) {
-         $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-        if (!$email) {
-            $mensagem = "<p style='color:red;'>Email inválido.</p>";
-        } else {
-            // Gerar e salvar token
-            $tokenService = new token_bll();
-            $token = $tokenService->gerarTokenParaEmail($email);
-
-            // Criar o email e enviar
-            $emailService = new enviarEmail_bll();
-
-            $link = "http://localhost/LSIS1_Grupo4/UI/validarToken.php?token=$token";
-            $corpo = "<p>Olá! Clique no link para confirmar: <a href='$link'>$link</a></p>";
-
-            if ($emailService->enviarEmail($email, "Email de Teste", $corpo)) {
-                $mensagem = "<p style='color:green;'>Email enviado com sucesso para $email!</p>";
-            } else {
-                $mensagem = "<p style='color:red;'>Erro ao enviar email.</p>";
-            }
-        }
-    }
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviarEmail'])) {
+    $emailService = new enviarEmail_bll();
+    $resultado = $emailService->enviarEmailComToken($_POST['email']);
+    $mensagem = $resultado['mensagem'];
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
@@ -49,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" name="enviarEmail">Enviar</button>
     </form>
 
-    <!-- Mensagem de retorno -->
     <?php
     if (!empty($mensagem)) {
         echo $mensagem;
@@ -57,4 +37,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ?>
 </body>
 </html>
-
