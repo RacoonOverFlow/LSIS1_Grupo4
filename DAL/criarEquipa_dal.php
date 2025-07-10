@@ -10,7 +10,7 @@ class criarEquipa_DAL {
   }
 
   function getColaborador($idCargo) {
-    $query = "SELECT dp.nomeCompleto, f.idFuncionario FROM dadospessoais dp INNER JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais INNER JOIN dadoslogin dl on f.numeroMecanografico = dl.numeroMecanografico INNER JOIN cargo c ON dl.idCargo = c.idCargo WHERE c.idCargo = ?";
+    $query = "SELECT dp.nomeCompleto, f.idFuncionario,dl.numeroMecanografico FROM dadospessoais dp INNER JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais INNER JOIN dadoslogin dl on f.numeroMecanografico = dl.numeroMecanografico INNER JOIN cargo c ON dl.idCargo = c.idCargo WHERE c.idCargo = ?";
     $stmt=$this->conn->prepare($query);
     $stmt->bind_param("s", $idCargo);
     $stmt->execute();

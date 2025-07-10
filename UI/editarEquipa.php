@@ -15,7 +15,7 @@ verificarSESSIONDados();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editar Equipas</title>
   
-  <link rel="stylesheet" href="../css/styleEditarEquipas.css">
+  <link rel="stylesheet" href="../css/styleEditarCriarEquipas.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 </head>

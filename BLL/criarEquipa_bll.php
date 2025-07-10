@@ -1,63 +1,93 @@
 <?php
+
 if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 require_once "../DAL/criarEquipa_dal.php";
 
 function isThisACallback(): bool {
-  if (empty($_POST['nomeEquipa']))  {
-    return false;
-  }
-  return true;
+  return !empty($_POST['nomeEquipa']);
 }
 
 function displayForm() {
   $dal = new criarEquipa_DAL();
-  
+
   $colaboradores = $dal->getColaborador(2);
   $coordenadores = $dal->getCoordenador(3);
 
-  echo '<form method="POST" action="">';
-  echo '<div class="login-box">';
-  echo '<h1>Criar Equipa</h1>';
-  echo '<label class="login-form">';
-  echo '<h2>Nome da Equipa</h2>';
-  echo '<input type="text" name="nomeEquipa" placeholder="Nome da Equipa" required>';
-  echo '</label><br>';
+  echo '<form method="POST" action="" autocomplete="off">';
+  echo '<div class="editar-equipa-container">';
 
-  echo '<h3>Selecionar Colaboradores</h3>';
-  foreach ($colaboradores as $colaborador) {
-    echo '<label>';
-    echo '<input type="checkbox" name="colaboradores[]" value="' . $colaborador['idFuncionario'] . '"> ' . htmlspecialchars($colaborador['nomeCompleto']);
-    echo '</label><br>';
-  }
+  // Title
+  echo '<h1 style="text-align:left;">Criar Equipa</h1>';
 
-  // Coordenador (Dropdown)
-  echo '<div class="select_coord_section">';
-  echo '<label>';
-  echo '<h3>Selecionar Coordenador</h3>';
-  echo '<select name ="coordenador" required>';
+  // Nome da equipa
+  echo '<div class="form-group">';
+  echo '<label for="nomeEquipa"><strong>Nome da Equipa</strong></label><br>';
+
+  // Hidden dummy input to confuse autocomplete
+  echo '<input type="text" name="fake-name" id="fake-name" style="display:none" autocomplete="off">';
+
+  // Real input, with autocomplete off and readonly trick
+  echo '<input 
+          type="text" 
+          name="nomeEquipa" 
+          id="nomeEquipa_' . uniqid() . '" 
+          placeholder="Nome da Equipa" 
+          required 
+          autocomplete="off"
+          spellcheck="false"
+          readonly 
+          onfocus="this.removeAttribute(\'readonly\');" 
+          autocorrect="off" 
+          autocapitalize="off"
+        >';
+  echo '</div><br>';
+
+
+  // Coordenador dropdown
+  echo '<div class="form-group">';
+  echo '<label><strong>Selecionar Coordenador</strong></label><br>';
+  echo '<select name="coordenador" required>';
   echo '<option value="">Selecione um Coordenador</option>';
   foreach ($coordenadores as $coordenador) {
-    echo '<option value="' . $coordenador['idFuncionario'] . '">' . htmlspecialchars($coordenador['nomeCompleto']) . '</option>';
+    echo '<option value="' . htmlspecialchars($coordenador['idFuncionario']) . '">' . htmlspecialchars($coordenador['nomeCompleto']) . '</option>';
   }
-  echo '</select><br>';
-  echo '</label>';
+  echo '</select>';
+  echo '</div><br>';
+
+  // Tabela de colaboradores
+  echo '<h3>Selecionar Colaboradores</h3>';
+  echo '<div class="tabela-funcionarios">';
+  echo '<div class="linha-funcionario cabecalho">';
+  echo '  <div class="coluna selecao">Selecionar</div>';
+  echo '  <div class="coluna nome">Nome</div>';
+  echo '  <div class="coluna nome">Numero Mecanografico</div>';
   echo '</div>';
 
-  echo '<button type="submit">Criar Equipa</button>';
+  echo '<div class="linhas-container">';
+  foreach ($colaboradores as $colaborador) {
+    echo '<div class="linha-funcionario">';
+    echo '  <div class="coluna selecao">';
+    echo '    <input type="checkbox" name="colaboradores[]" value="' . htmlspecialchars($colaborador['idFuncionario']) . '">';
+    echo '  </div>';
+    echo '  <div class="coluna nome">' . htmlspecialchars($colaborador['nomeCompleto']) . '</div>';
+    echo '  <div class="coluna numeroMecanografico">' . htmlspecialchars($colaborador['numeroMecanografico']) . '</div>';
+    echo '</div>';
+  }
+  echo '</div>'; // linhas-container
+  echo '</div>'; // tabela-funcionarios
+
+  echo '<br><button type="submit" class="button-export">Criar Equipa</button>';
   echo '</form>';
-  echo '</div>';
-
+  echo '</div>'; // editar-equipa-container
 }
 
-function showUI(){
-  if(!isThisACallback()){
+function showUI() {
+  if (!isThisACallback()) {
     displayForm();
-  }
-  else{
-    try{
-
+  } else {
+    try {
       $dal = new criarEquipa_DAL();
       $idEquipa = $dal->criarEquipa($_POST["nomeEquipa"]);
 
@@ -70,9 +100,8 @@ function showUI(){
       }
 
       header("Location: Equipas.php");
-    }
-    catch(RuntimeException $e){
-      echo "<div>".$e->getMessage()."</div>";
+    } catch (RuntimeException $e) {
+      echo "<div>" . $e->getMessage() . "</div>";
     }
   }
 }

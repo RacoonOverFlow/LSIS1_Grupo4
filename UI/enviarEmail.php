@@ -33,13 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviarEmail'])) {
             <form action="" method="post">
                 <label for="email" >Digite o email da pessoa:</label>
                 <input type="text" name="fake-email" style="display:none">
-
+        <!-- new email auto complete para dar trick ao sistema, assim para de nos aparecer cenas ja la postas-->
                 <input 
                     type="email" 
                     class="label" 
                     name="email" 
                     required 
-                    autocomplete="new-password" 
+                    autocomplete="new-email" 
                     readonly 
                     onfocus="this.removeAttribute('readonly');"
                 >
