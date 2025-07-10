@@ -1,9 +1,9 @@
 @import url('styleGlobal.css');
 
-
 h2 {
     color: white;
 }
+
 /* Container da lista completa */
 .tabela-funcionarios {
     display: flex;
@@ -23,6 +23,16 @@ h2 {
     transition: background-color 0.2s;
 }
 
+/* Garante que todas as colunas tenham o mesmo layout */
+.linha-funcionario > .coluna {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* Cabeçalho específico */
 .linha-funcionario.cabecalho {
     font-weight: bold;
@@ -34,19 +44,12 @@ h2 {
 .linha-link {
     text-decoration: none;
     color: inherit;
+    display: flex;
 }
 
 /* Hover para linhas */
 .linha-link:hover .linha-funcionario {
     background-color: #e9f0ff;
-}
-
-/* Colunas */
-.coluna {
-    padding: 0 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 /* Colunas com larguras específicas */
@@ -57,20 +60,90 @@ h2 {
 .nif            { flex: 1; }
 .email          { flex: 3; }
 .aniversario    { flex: 1; }
+.password       { flex: 2; }
+.estado         { flex: 2; }
+.acao           { flex: 2; }
 
-.button-export{
-    width: 100px;
-    height:50px;
+.button-export {
+    width: auto;
+    padding: 10px 15px;
+    height: auto;
     cursor: pointer;
-    text-align:center;
-    align-content: center;
+    text-align: center;
     border-radius: 12px;
     border: none;
-    /*padding: 7.5px;*/
     background-color: #156082;
     color: white;
-    margin-top:10px;
+    margin-top: 10px;
     margin-bottom: 0;
     display: inline-block;
     text-decoration: none;
+}
+
+/* Estilos para a barra superior */
+.top-bar-container {
+    margin-bottom: 15px;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.search-container {
+    position: relative;
+    flex-grow: 1;
+    min-width: 250px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 8px 12px 8px 35px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+}
+
+.search-container i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+}
+
+.sort-dropdown select {
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+    min-width: 200px;
+}
+
+/* Botão de reativação */
+.btn-reativar {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btn-reativar:hover {
+    background-color: #218838;
+}
+
+/* Container de linhas */
+.linhas-container {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* Alinhamento de checkbox */
+.coluna.selecao {
+    justify-content: center;
 }

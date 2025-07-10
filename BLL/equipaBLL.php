@@ -3,8 +3,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once __DIR__ . '/../DAL/equipaDal.php';
-define('CARGO_RH_SUPERIOR', 5);
-define('CARGO_COORDENADOR', 3);
+if (!defined('CARGO_RH_SUPERIOR')) define('CARGO_RH_SUPERIOR', 5);
+if (!defined('CARGO_COORDENADOR')) define('CARGO_COORDENADOR', 3);
+if (!defined('CARGO_ADMINISTRADOR')) define('CARGO_ADMINISTRADOR', 6);
+if (!defined('CARGO_RH')) define('CARGO_RH', 4);
 
 // Function to display teams
 function mostrarEquipas() {

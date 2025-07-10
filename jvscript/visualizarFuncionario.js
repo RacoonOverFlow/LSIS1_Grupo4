@@ -1,32 +1,48 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const sortButton = document.createElement("button");
-    sortButton.textContent = "Ordenar por Aniversário";
-    sortButton.className = "button-export";
-    sortButton.type = "button"; // evita submit do form
+    // Funções de filtragem e ordenação
+    window.filterFuncionarios = function(searchField) {
+        const input = document.getElementById('searchInput').value.toLowerCase();
+        const linhas = document.querySelectorAll('.linha-funcionario:not(.cabecalho)');
+        
+        linhas.forEach(linha => {
+            const coluna = linha.querySelector(`.coluna.${searchField}`);
+            if (coluna) {
+                const textoColuna = coluna.textContent.toLowerCase();
+                if (textoColuna.includes(input)) {
+                    linha.style.display = 'flex';
+                } else {
+                    linha.style.display = 'none';
+                }
+            }
+        });
+    };
 
-    const container = document.querySelector(".tabela-funcionarios");
-    if (container) {
-        container.prepend(sortButton);
+    window.sortFuncionarios = function(criterio) {
+        const linhasContainer = document.querySelector('.linhas-container');
+        const linhas = Array.from(linhasContainer.querySelectorAll('.linha-funcionario:not(.cabecalho)'));
+        
+        linhas.sort((a, b) => {
+            let valorA, valorB;
+            
+            if (criterio === 'aniversario') {
+                valorA = new Date(a.querySelector('.coluna.aniversario').dataset.aniversario);
+                valorB = new Date(b.querySelector('.coluna.aniversario').dataset.aniversario);
+            } else {
+                valorA = a.querySelector(`.coluna.${criterio}`).textContent.toLowerCase();
+                valorB = b.querySelector(`.coluna.${criterio}`).textContent.toLowerCase();
+            }
+            
+            if (criterio === 'aniversario') {
+                return valorA - valorB;
+            } else {
+                return valorA.localeCompare(valorB);
+            }
+        });
+        
+        // Reinserir linhas ordenadas
+        linhas.forEach(linha => linhasContainer.appendChild(linha));
+    };
 
-        // Aqui só mexemos no container que tem as linhas:
-        const linhasContainer = container.querySelector(".linhas-container");
-
-        if (sortButton && linhasContainer) {
-            sortButton.addEventListener("click", function () {
-                const linhas = Array.from(linhasContainer.querySelectorAll(".linha-link"));
-
-                linhas.sort((a, b) => {
-                    const dataA = new Date(a.querySelector(".coluna.aniversario").dataset.aniversario);
-                    const dataB = new Date(b.querySelector(".coluna.aniversario").dataset.aniversario);
-                    return dataA - dataB;
-                });
-
-                // Remove todas as linhas para inserir na ordem certa
-                linhas.forEach(linha => linhasContainer.appendChild(linha));
-            });
-        }
-    }
-    
     // Handler para botões de reativar
     document.querySelectorAll('.btn-reativar').forEach(button => {
         button.addEventListener('click', function() {

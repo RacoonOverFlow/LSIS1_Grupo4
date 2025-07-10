@@ -192,243 +192,209 @@ class exportData_DAL {
         return $result;
     }
     
-        ///  PROBLEMA A IMPORTAR DATAS
     function importCSV($csvFilePath) {
-    if (($handle = fopen($csvFilePath, 'r')) !== FALSE) {
-        $headers = fgetcsv($handle, 1000, ';');
+        if (($handle = fopen($csvFilePath, 'r')) !== FALSE) {
+            $headers = fgetcsv($handle, 1000, ';');
 
-        while (($data = fgetcsv($handle, 1000, ';')) !== FALSE) {
-            $row = array_combine($headers, $data);
+            while (($data = fgetcsv($handle, 1000, ';')) !== FALSE) {
+                $row = array_combine($headers, $data);
 
-            //    !!!!DADOS LOGIN!!!!
-            $stmtC = $this->conn->prepare("SELECT idCargo FROM cargo WHERE idCargo =? ");
-            $stmtC->bind_param("i", $row["idCargo"]);
-            $stmtC->execute();
-            $resultC = $stmtC->get_result()->fetch_assoc();
-            $row['idCargo'] = $resultC ? (int)$resultC['idCargo'] : null;
-            $stmtC->close();
+                //    !!!!DADOS LOGIN!!!!
+                $stmtC = $this->conn->prepare("SELECT idCargo FROM cargo WHERE idCargo =? ");
+                $stmtC->bind_param("i", $row["idCargo"]);
+                $stmtC->execute();
+                $resultC = $stmtC->get_result()->fetch_assoc();
+                $row['idCargo'] = $resultC ? (int)$resultC['idCargo'] : null;
+                $stmtC->close();
 
-            // Sanitizar e validar o idCargo
-            $idCargo = isset($row['idCargo']) && is_numeric($row['idCargo']) ? (int)$row['idCargo'] : null;
+                // Sanitizar e validar o idCargo
+                $idCargo = isset($row['idCargo']) && is_numeric($row['idCargo']) ? (int)$row['idCargo'] : null;
 
-            if ($idCargo === null) {
-                // Aqui você pode:
-                // - lançar um log de erro
-                // - pular esta linha com continue;
-                // - ou definir um idCargo padrão (se fizer sentido para seu sistema)
-                echo "Erro: idCargo inválido para numeroMecanografico {$row['numeroMecanografico']}<br>";
-                continue;
-            }
-
-            $stmt1 = $this->conn->prepare("
-                INSERT INTO dadoslogin (numeroMecanografico, password, idCargo)
-                VALUES (?, ?, ?)
-                ON DUPLICATE KEY UPDATE password = VALUES(password), idCargo = VALUES(idCargo)
-            ");
-            $stmt1->bind_param("isi", 
-                $row['numeroMecanografico'], $row['password'], $idCargo
-            );
-            $stmt1->execute();
-            $stmt1->close();
-
-
-            //    !!!!DADOS CONTRATO!!!!
-            $stmt2 = $this->conn->prepare("
-                INSERT INTO dadoscontrato (dataInicioDeContrato, dataFimDeContrato, tipoDeContrato,
-                regimeDeHorarioDeTrabalho)
-                VALUES (?, ?, ?, ? ) 
-                ON DUPLICATE KEY UPDATE dataInicioDeContrato = VALUES(dataInicioDeContrato), dataFimDeContrato = VALUES(dataFimDeContrato), 
-                tipoDeContrato = VALUES(tipoDeContrato), regimeDeHorarioDeTrabalho = VALUES(regimeDeHorarioDeTrabalho)
-            ");
-            $stmt2->bind_param("ssss", 
-                $row['dataInicioDeContrato'], $row['dataFimDeContrato'], $row['tipoDeContrato'],
-                $row['regimeDeHorarioDeTrabalho']
-            );
-            $stmt2->execute();
-            $idDadosContrato = $this->conn->insert_id;
-
-
-            //     !!!!DADOS PESSOAIS!!!!
-
-            $stmtI = $this->conn->prepare("SELECT idIndicativo FROM indicativocontacto WHERE idIndicativo =? ");
-            $stmtI->bind_param("i", $row["idIndicativo"]);
-            $stmtI->execute();
-            $resultI = $stmtI->get_result()->fetch_assoc();
-            $row['idIndicativo'] = $resultI ? (int)$resultI['idIndicativo'] : null;
-            $stmtI->close();
-
-            // Sanitizar e validar o idCargo
-            $idIndicativo = isset($row['idIndicativo']) && is_numeric($row['idIndicativo']) ? (int)$row['idIndicativo'] : null;
-
-            if ($idIndicativo === null) {
-                echo "Erro: idIndicativo inválido para numeroMecanografico {$row['numeroMecanografico']}<br>";
-                continue;
-            }
-
-            $stmtN = $this->conn->prepare("SELECT idNacionalidade FROM nacionalidade WHERE idNacionalidade =? ");
-            $stmtN->bind_param("i", $row["idNacionalidade"]);
-            $stmtN->execute();
-            $resultN = $stmtN->get_result()->fetch_assoc();
-            $row['idNacionalidade'] = $resultN ? (int)$resultN['idNacionalidade'] : null;
-            $stmtN->close();
-
-            // Sanitizar e validar o idCargo
-            $idNacionalidade = isset($row['idNacionalidade']) && is_numeric($row['idNacionalidade']) ? (int)$row['idIndicativo'] : null;
-
-            if ($idNacionalidade === null) {
-                echo "Erro: idNacionalidade inválido para numeroMecanografico {$row['numeroMecanografico']}<br>";
-                continue;
-            }
-            
-            $stmt3 = $this->conn->prepare("
-                INSERT INTO dadospessoais (
-                    nomeCompleto, nomeAbreviado, dataNascimento, moradaFiscal, cc, dataValidade, nif, niss, 
-                    genero, idIndicativo, contactoPessoal, contactoEmergencia, grauDeRelacionamento, email, idNacionalidade
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ");
-
-            $stmt3->bind_param("sssssssssiisssi", 
-                $row['nomeCompleto'], $row['nomeAbreviado'], $row['dataNascimento'],
-                $row['moradaFiscal'], $row['cc'], $row['dataValidade'], $row['nif'], $row['niss'],
-                $row['genero'], $row['idIndicativo'], $row['contactoPessoal'], $row['contactoEmergencia'],
-                $row['grauDeRelacionamento'], $row['email'], $row['idNacionalidade']
-            );
-
-            $stmt3->execute();
-
-            // Get the inserted ID
-            $idDadosPessoais = $this->conn->insert_id;
-
-
-
-            // !!!!DADOS FINANCEIROS!!!!
-            $stmt4 = $this->conn->prepare("
-                INSERT INTO dadosfinanceiros (situacaoDeIrs, remuneracao, numeroDeDependentes,
-                IBAN)
-                VALUES (?,?,?,?) 
-                ON DUPLICATE KEY UPDATE situacaoDeIrs = VALUES(situacaoDeIRS), remuneracao = VALUES(remuneracao), 
-                numeroDeDependentes = VALUES(numeroDeDependentes), IBAN = VALUES(IBAN)
-            ");
-            $stmt4->bind_param("sdis", 
-                $row['situacaoDeIRS'], $row['remuneracao'], $row['numeroDeDependentes'],
-                $row['IBAN']
-            );
-            $stmt4->execute();
-
-            $idDadosFinanceiros = $this->conn->insert_id;
-
-
-            // Insert into cv
-            $stmt5 = $this->conn->prepare("
-                INSERT INTO cv ( habilitacoesLiterarias, curso, frequencia)
-                VALUES (?,?,?)
-                ON DUPLICATE KEY UPDATE habilitacoesLiterarias = VALUES(habilitacoesLiterarias), curso = VALUES(curso), 
-                frequencia = VALUES(frequencia)
-            ");
-            $stmt5->bind_param("sss", 
-                 $row['habilitacoesLiterarias'], $row['curso'], $row['frequencia']
-            );
-            $stmt5->execute();
-            $idCV =$this->conn->insert_id;
-
-
-             // Insert into beneficios
-            $stmt6 = $this->conn->prepare("
-                INSERT INTO beneficios (cartaoContinente)
-                VALUES (?) 
-                ON DUPLICATE KEY UPDATE cartaoContinente = VALUES(cartaoContinente)
-            ");
-            $stmt6->bind_param("i", 
-                $row['cartaoContinente']
-            );
-            $stmt6->execute();
-            $idBeneficios = $this->conn->insert_id;
-           
-            
-
-
-            // Insert into funcionario (after related IDs have been inserted)
-            $stmtMain = $this->conn->prepare("
-                INSERT INTO funcionario (
-                    numeroMecanografico, idDadosContrato, idDadosPessoais, idDadosFinanceiros, idCV, idBeneficios, estadoFuncionario, dataUltimaAtualizacao
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                ON DUPLICATE KEY UPDATE 
-                    numeroMecanografico = VALUES(numeroMecanografico),
-                    idDadosPessoais = VALUES(idDadosPessoais),
-                    idDadosContrato = VALUES(idDadosContrato),
-                    idDadosFinanceiros = VALUES(idDadosFinanceiros),
-                    idCV = VALUES(idCV),
-                    idBeneficios = VALUES(idBeneficios),
-                    estadoFuncionario = VALUES(estadoFuncionario),
-                    dataUltimaAtualizacao = VALUES(dataUltimaAtualizacao)
-            ");
-
-            $stmtMain->bind_param("iiiiiiss", 
-                $row['numeroMecanografico'],
-                $idDadosContrato,
-                $idDadosPessoais,
-                $idDadosFinanceiros,
-                $idCV,
-                $idBeneficios,
-                $row['estadoFuncionario'],
-                $row['dataUltimaAtualizacao']
-            );
-
-            $stmtMain->execute();
-            $stmtMain->close();
-
-            // Recuperar o ID do funcionário recém-inserido (via SELECT)
-            $stmtGetFuncionario = $this->conn->prepare("SELECT idFuncionario FROM funcionario WHERE numeroMecanografico = ?");
-            $stmtGetFuncionario->bind_param("i", $row['numeroMecanografico']);
-            $stmtGetFuncionario->execute();
-            $stmtGetFuncionario->bind_result($idFuncionario);
-            $stmtGetFuncionario->fetch();
-            $stmtGetFuncionario->close();
-
-            // Assign to team if idCargo is 2 or 3 and idEquipa is present
-            if (!empty($row['idEquipa'])) {
-                $idCargo = (int)$row['idCargo'];
-
-                if ($idCargo === 2) {
-                    $stmtTeam = $this->conn->prepare("
-                        INSERT INTO colaborador_equipa (idColaborador, idEquipa)
-                        VALUES (?, ?)
-                        ON DUPLICATE KEY UPDATE idEquipa = VALUES(idEquipa)
-                    ");
-                    $stmtTeam->bind_param("ii", $idFuncionario, $row['idEquipa']);
-                    $stmtTeam->execute();
-                    $stmtTeam->close();
+                if ($idCargo === null) {
+                    echo "Erro: idCargo inválido para numeroMecanografico {$row['numeroMecanografico']}<br>";
+                    continue;
                 }
 
-    // Faça o mesmo para coordenador_equipa se for o caso (idCargo === 3)
+                $stmt1 = $this->conn->prepare("
+                    INSERT INTO dadoslogin (numeroMecanografico, password, idCargo)
+                    VALUES (?, ?, ?)
+                    ON DUPLICATE KEY UPDATE password = VALUES(password), idCargo = VALUES(idCargo)
+                ");
+                $stmt1->bind_param("isi", 
+                    $row['numeroMecanografico'], $row['password'], $idCargo
+                );
+                $stmt1->execute();
+                $stmt1->close();
 
-                // } elseif ($idCargo === 3) {
-                //     // Insert into coordenador_equipa
-                //     $stmtTeam = $this->conn->prepare("
-                //         INSERT INTO coordenador_equipa (idCoordenador, idEquipa)
-                //         VALUES (?, ?)
-                //         ON DUPLICATE KEY UPDATE idEquipa = VALUES(idEquipa)
-                //     ");
-                //     $stmtTeam->bind_param("ii", $row['idFuncionario'], $row['idEquipa']);
-                //     $stmtTeam->execute();
-                //     $stmtTeam->close();
-                // }
+
+                //    !!!!DADOS CONTRATO!!!!
+                $stmt2 = $this->conn->prepare("
+                    INSERT INTO dadoscontrato (dataInicioDeContrato, dataFimDeContrato, tipoDeContrato,
+                    regimeDeHorarioDeTrabalho)
+                    VALUES (?, ?, ?, ? ) 
+                    ON DUPLICATE KEY UPDATE dataInicioDeContrato = VALUES(dataInicioDeContrato), dataFimDeContrato = VALUES(dataFimDeContrato), 
+                    tipoDeContrato = VALUES(tipoDeContrato), regimeDeHorarioDeTrabalho = VALUES(regimeDeHorarioDeTrabalho)
+                ");
+                $stmt2->bind_param("ssss", 
+                    $row['dataInicioDeContrato'], $row['dataFimDeContrato'], $row['tipoDeContrato'],
+                    $row['regimeDeHorarioDeTrabalho']
+                );
+                $stmt2->execute();
+                $idDadosContrato = $this->conn->insert_id;
+
+
+                //     !!!!DADOS PESSOAIS!!!!
+
+                $stmtI = $this->conn->prepare("SELECT idIndicativo FROM indicativocontacto WHERE idIndicativo =? ");
+                $stmtI->bind_param("i", $row["idIndicativo"]);
+                $stmtI->execute();
+                $resultI = $stmtI->get_result()->fetch_assoc();
+                $row['idIndicativo'] = $resultI ? (int)$resultI['idIndicativo'] : null;
+                $stmtI->close();
+
+                // Sanitizar e validar o idCargo
+                $idIndicativo = isset($row['idIndicativo']) && is_numeric($row['idIndicativo']) ? (int)$row['idIndicativo'] : null;
+
+                if ($idIndicativo === null) {
+                    echo "Erro: idIndicativo inválido para numeroMecanografico {$row['numeroMecanografico']}<br>";
+                    continue;
+                }
+
+                $stmtN = $this->conn->prepare("SELECT idNacionalidade FROM nacionalidade WHERE idNacionalidade =? ");
+                $stmtN->bind_param("i", $row["idNacionalidade"]);
+                $stmtN->execute();
+                $resultN = $stmtN->get_result()->fetch_assoc();
+                $row['idNacionalidade'] = $resultN ? (int)$resultN['idNacionalidade'] : null;
+                $stmtN->close();
+
+                // Sanitizar e validar o idCargo
+                $idNacionalidade = isset($row['idNacionalidade']) && is_numeric($row['idNacionalidade']) ? (int)$row['idNacionalidade'] : null;
+
+                if ($idNacionalidade === null) {
+                    echo "Erro: idNacionalidade inválido para numeroMecanografico {$row['numeroMecanografico']}<br>";
+                    continue;
+                }
+                
+                $stmt3 = $this->conn->prepare("
+                    INSERT INTO dadospessoais (
+                        nomeCompleto, nomeAbreviado, dataNascimento, moradaFiscal, cc, dataValidade, nif, niss, 
+                        genero, idIndicativo, contactoPessoal, contactoEmergencia, grauDeRelacionamento, email, idNacionalidade
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ");
+
+                $stmt3->bind_param("sssssssssiisssi", 
+                    $row['nomeCompleto'], $row['nomeAbreviado'], $row['dataNascimento'],
+                    $row['moradaFiscal'], $row['cc'], $row['dataValidade'], $row['nif'], $row['niss'],
+                    $row['genero'], $row['idIndicativo'], $row['contactoPessoal'], $row['contactoEmergencia'],
+                    $row['grauDeRelacionamento'], $row['email'], $row['idNacionalidade']
+                );
+
+                $stmt3->execute();
+
+                // Get the inserted ID
+                $idDadosPessoais = $this->conn->insert_id;
+                                // !!!!DADOS FINANCEIROS!!!!
+                $stmt4 = $this->conn->prepare("
+                    INSERT INTO dadosfinanceiros (situacaoDeIrs, remuneracao, numeroDeDependentes, IBAN)
+                    VALUES (?, ?, ?, ?) 
+                ");
+                $stmt4->bind_param("sdis", 
+                    $row['situacaoDeIRS'], 
+                    $row['remuneracao'], 
+                    $row['numeroDeDependentes'],
+                    $row['IBAN']
+                );
+                $stmt4->execute();
+                $idDadosFinanceiros = $this->conn->insert_id;
+
+                // Insert into cv
+                $stmt5 = $this->conn->prepare("
+                    INSERT INTO cv (habilitacoesLiterarias, curso, frequencia)
+                    VALUES (?, ?, ?)
+                ");
+                $stmt5->bind_param("sss", 
+                    $row['habilitacoesLiterarias'], 
+                    $row['curso'], 
+                    $row['frequencia']
+                );
+                $stmt5->execute();
+                $idCV = $this->conn->insert_id;
+
+                // Insert into beneficios
+                $stmt6 = $this->conn->prepare("
+                    INSERT INTO beneficios (cartaoContinente)
+                    VALUES (?)
+                ");
+                $stmt6->bind_param("i", $row['cartaoContinente']);
+                $stmt6->execute();
+                $idBeneficios = $this->conn->insert_id;
+
+                // Insert into funcionario (after related IDs have been inserted)
+                $stmtMain = $this->conn->prepare("
+                    INSERT INTO funcionario (
+                        numeroMecanografico, idDadosContrato, idDadosPessoais, 
+                        idDadosFinanceiros, idCV, idBeneficios, estadoFuncionario, 
+                        dataUltimaAtualizacao
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    ON DUPLICATE KEY UPDATE 
+                        idDadosPessoais = VALUES(idDadosPessoais),
+                        idDadosContrato = VALUES(idDadosContrato),
+                        idDadosFinanceiros = VALUES(idDadosFinanceiros),
+                        idCV = VALUES(idCV),
+                        idBeneficios = VALUES(idBeneficios),
+                        estadoFuncionario = VALUES(estadoFuncionario),
+                        dataUltimaAtualizacao = VALUES(dataUltimaAtualizacao)
+                ");
+
+                $stmtMain->bind_param("iiiiiiss", 
+                    $row['numeroMecanografico'],
+                    $idDadosContrato,
+                    $idDadosPessoais,
+                    $idDadosFinanceiros,
+                    $idCV,
+                    $idBeneficios,
+                    $row['estadoFuncionario'],
+                    $row['dataUltimaAtualizacao']
+                );
+
+                $stmtMain->execute();
+                $idFuncionario = $this->conn->insert_id;
+
+                // Assign to team if idCargo is 2 or 3 and idEquipa is present
+                if (!empty($row['idEquipa'])) {
+                    $idCargo = (int)$row['idCargo'];
+
+                    if ($idCargo === 2) {
+                        $stmtTeam = $this->conn->prepare("
+                            INSERT INTO colaborador_equipa (idColaborador, idEquipa)
+                            VALUES (?, ?)
+                            ON DUPLICATE KEY UPDATE idEquipa = VALUES(idEquipa)
+                        ");
+                        $stmtTeam->bind_param("ii", $idFuncionario, $row['idEquipa']);
+                        $stmtTeam->execute();
+                        $stmtTeam->close();
+                    }
+                    elseif ($idCargo === 3) {
+                        $stmtTeam = $this->conn->prepare("
+                            INSERT INTO coordenador_equipa (idCoordenador, idEquipa)
+                            VALUES (?, ?)
+                            ON DUPLICATE KEY UPDATE idEquipa = VALUES(idEquipa)
+                        ");
+                        $stmtTeam->bind_param("ii", $idFuncionario, $row['idEquipa']);
+                        $stmtTeam->execute();
+                        $stmtTeam->close();
+                    }
+                }
+
             }
 
+            fclose($handle);
+            header("Location: /LSIS1_Grupo4/UI/visualizarFuncionarios.php");
+            exit();
+        } else {
+            echo "Falha ao abrir o arquivo CSV.";
         }
-
-        fclose($handle);
-        header("Location: /LSIS1_Grupo4/UI/visualizarFuncionarios.php");
-        exit();  // Adjust path as needed
-    } else {
-        echo " Failed to open CSV file.";
     }
-}
-
-  
-
-
-
 }

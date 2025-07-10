@@ -2,7 +2,7 @@
 require_once __DIR__ ."/../DAL/connection.php";
 
 class visualizarFuncionario_dal {
-    private $conn;
+     private $conn;
 
     public function __construct() {
         $dal = new connection();

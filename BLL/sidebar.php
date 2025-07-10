@@ -2,6 +2,10 @@
 function mostrarSidebar() {
     $utilizadorCargo = isset($_SESSION['idCargo']) ? $_SESSION['idCargo'] : null;
     $numeroMecanografico = isset($_SESSION['nMeca']) ? $_SESSION['nMeca'] : null;
+    if (!defined('CARGO_RH_SUPERIOR')) define('CARGO_RH_SUPERIOR', 5);
+    if (!defined('CARGO_COORDENADOR')) define('CARGO_COORDENADOR', 3);
+    if (!defined('CARGO_ADMINISTRADOR')) define('CARGO_ADMINISTRADOR', 6);
+    if (!defined('CARGO_RH')) define('CARGO_RH', 4);
 
     echo '<div class="sidebar">';
     echo '    <div class="logo">';
@@ -16,13 +20,13 @@ function mostrarSidebar() {
     }
     
     // Equipas and Dashboard for roles 3,4,5
-    if ($utilizadorCargo == 3 || $utilizadorCargo == 4 || $utilizadorCargo == 5) {
+    if ($utilizadorCargo == CARGO_COORDENADOR || $utilizadorCargo == CARGO_RH || $utilizadorCargo == CARGO_RH_SUPERIOR) {
         echo '<li><a href="/LSIS1_Grupo4/UI/equipas.php"><i class="bi bi-people"></i><strong>Equipas</strong></a></li>';
         echo '<li><a href="/LSIS1_Grupo4/UI/dashboard.php"><i class="bi bi-bar-chart-line"></i><strong>Dashboard</strong></a></li>';
     }
     
     // Visualizar Funcionários for RH Superior
-    if ($utilizadorCargo == 5) {
+    if ($utilizadorCargo == CARGO_RH_SUPERIOR) {
         echo '<li><a href="/LSIS1_Grupo4/UI/visualizarFuncionarios.php"><i class="bi bi-people-fill"></i><strong>Visualizar Funcionários</strong></a></li>';
         echo '<li><a href="/LSIS1_Grupo4/UI/visualizarConvidados.php"><i class="bi bi-person-check-fill"></i><strong>Visualizar Convidados</strong></a></li>';
         echo '<li><a href="/LSIS1_Grupo4/UI/alertas.php"><i class="bi bi-exclamation-triangle-fill"></i><strong> Alertas</strong></a></li>';
@@ -33,19 +37,19 @@ function mostrarSidebar() {
     }
     
     // Alertas admin 6
-    if ($utilizadorCargo == 6) {
+    if ($utilizadorCargo == CARGO_ADMINISTRADOR) {
         echo '<li><a href="/LSIS1_Grupo4/UI/alertasAdmin.php"><i class="bi bi-megaphone-fill"></i><strong>Gerir Alertas </strong></a></li>';
         echo '<li><a href="/LSIS1_Grupo4/UI/editarEmailAlertas.php"><i class="bi bi-pencil-square"></i><strong> Editar email alertas</strong></a></li>';
         echo '<li><a href="/LSIS1_Grupo4/UI/visualizarFuncionarios.php"><i class="bi bi-people-fill"></i><strong>Gerir Funcionários</strong></a></li>';
     }
     
     // Pedidos Pendentes for roles 4 and 5
-    if ($utilizadorCargo == 4 || $utilizadorCargo == 5) {
+    if ($utilizadorCargo == CARGO_RH || $utilizadorCargo == CARGO_RH_SUPERIOR) {
         echo '<li><a href="/LSIS1_Grupo4/UI/pedidosPendentes.php">';
         echo '<i class="bi-file-earmark-text"></i><strong> Pedidos Pendentes de Alteração de Dados</strong></a></li>';
     }
 
-    if($utilizadorCargo != 5){
+    if($utilizadorCargo != CARGO_RH_SUPERIOR){
         echo '<li><a href="recibosDeVencimento.php?numeroMecanografico='.htmlspecialchars($_SESSION['nMeca']). '&ano=&mes="><i class="bi-cash-stack"></i><strong> Recibos De Vencimento</strong></a></li>';
     }
 

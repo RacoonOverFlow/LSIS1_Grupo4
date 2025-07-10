@@ -34,11 +34,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remover_selecionados'
     exit();
 }
 
-// Handle reativar (via GET)
-if (isset($_GET['action']) && $_GET['action'] == 'reativar' && isset($_GET['numero'])) {
-    $numero = $_GET['numero'];
+// Handle reativar (via POST)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'reativar' && isset($_POST['numero'])) {
+    $numero = $_POST['numero'];
     $handler->reativarFuncionario($numero);
     // Redirecionar para evitar reenvio
     header("Location: " . $_SERVER['HTTP_REFERER']);
     exit();
 }
+?>

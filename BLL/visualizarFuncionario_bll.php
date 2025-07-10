@@ -1,38 +1,38 @@
 <?php
 require_once __DIR__ . '/../DAL/visualizarFuncionario_dal.php';
-define('CARGO_RH_SUPERIOR', 5);
-define('CARGO_COORDENADOR', 3);
-define('CARGO_ADMINISTRADOR', 6);
-define('CARGO_RH', 4);
+
+if (!defined('CARGO_RH_SUPERIOR')) define('CARGO_RH_SUPERIOR', 5);
+if (!defined('CARGO_COORDENADOR')) define('CARGO_COORDENADOR', 3);
+if (!defined('CARGO_ADMINISTRADOR')) define('CARGO_ADMINISTRADOR', 6);
+if (!defined('CARGO_RH')) define('CARGO_RH', 4);
+
+
 function mostrarFuncionarios() {
     $dal = new visualizarFuncionario_dal();
     $funcionarios = $dal->getTodosFuncionarios();
     $colaboradores =$dal->getColaboradores(2);
     $isAdmin = ($_SESSION['idCargo'] == CARGO_ADMINISTRADOR);
-    /* $alertas = $dal->getAlertas(); */
-
 
     echo '<h2>Lista de Funcionários</h2>';
-
     // Container principal
+
+    echo '<div class="top-bar-container">';
+    mostrarSearchBar();
+    echo '</div>';
+
     echo '<div class="tabela-funcionarios">';
 
     // Botões de export/import apenas para não-admins
     if (!$isAdmin) {
-        //butao para exportar
+        // Botão para exportar
         if ($_SESSION['idCargo'] == CARGO_RH_SUPERIOR) {
-        echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php">Export</a>';
-            
-            echo '</a>';
+            echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php">Export</a>';
         } elseif ($_SESSION['idCargo'] == CARGO_RH) {
-            echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">';
-            
-            echo '</a>';
+            echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">Export</a>';
         }
 
-        //butao para importar
-        echo'<form action="/LSIS1_Grupo4/BLL/export_importData_bll.php" method="POST" enctype="multipart/form-data">';
-        echo'<label>Import CSV:</label>';
+        // Botão para importar
+        echo'<form action="/LSIS1_Grupo4/BLL/export_importData_bll.php" method="POST" enctype="multipart/form-data" style="display:inline;">';
         echo'<input type="file" name="csv_file" accept=".csv" required>';
         echo'<button type="submit" name="import" class="button-export">Import</button>';
         echo'</form>';
@@ -77,7 +77,12 @@ function mostrarFuncionarios() {
                 echo '<div class="coluna estado">' . htmlspecialchars($f['estadoFuncionario'] ?? '') . '</div>';
                 echo '<div class="coluna acao">';
                 if (($f['estadoFuncionario'] ?? '') === 'removido') {
-                    echo '<button type="button" class="btn-reativar" data-numero="' . htmlspecialchars($f['numeroMecanografico']) . '">Reativar</button>';
+                    // Formulário para reativação sem AJAX
+                    echo '<form method="POST" action="/LSIS1_Grupo4/BLL/export_importData_bll.php" style="display:inline;">';
+                    echo '  <input type="hidden" name="action" value="reativar">';
+                    echo '  <input type="hidden" name="numero" value="' . htmlspecialchars($f['numeroMecanografico']) . '">';
+                    echo '  <button type="submit" class="btn-reativar">Reativar</button>';
+                    echo '</form>';
                 }
                 echo '</div>';
                 echo '</div>';
@@ -93,7 +98,6 @@ function mostrarFuncionarios() {
                 }
 
                 $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
-
 
                 $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
                 echo '<a href="' . $link . '" class="linha-link">';
