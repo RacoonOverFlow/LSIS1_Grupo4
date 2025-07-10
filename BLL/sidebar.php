@@ -49,7 +49,7 @@ function mostrarSidebar() {
         echo '<li><a href="recibosDeVencimento.php?numeroMecanografico='.htmlspecialchars($_SESSION['nMeca']). '&ano=&mes="><i class="bi-cash-stack"></i><strong> Recibos De Vencimento</strong></a></li>';
     }
 
-    echo '<li><a href="/LSIS1_Grupo4/UI/associarCertificadoFormacao.php" class="tab-button"><strong>Associar Certificado de Formacao</strong></a></li>';
+    echo '<li><a href="/LSIS1_Grupo4/UI/associarCertificadoFormacao.php"><i class="bi-mortarboard-fill"></i><strong>Associar Certificado de Formacao</strong></a></li>';
 
     // Logout/Login
     if ($numeroMecanografico) {
