@@ -3,7 +3,8 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
-require_once "../../DAL/perfilConvidado_dal.php";
+require_once "../DAL/perfilConvidado_dal.php";
+require_once "enviarEmail_bll.php";
 
 function isThisACallback(): bool{
 
@@ -310,6 +311,10 @@ function showUI(){
         header("Location: visualizarConvidados.php");
         exit;
       }
+
+      $emailPessoal = $_POST['email'];
+      $emailEmpresa = $_POST['numeroMecanografico'] . '@tlantic.com';
+
       $dal->updateDadosPessoais(
         $convidado['idDadosPessoais'],
         $_POST['nomeCompleto'],
@@ -325,7 +330,7 @@ function showUI(){
         $_POST['contactoPessoal'],
         $_POST['contactoEmergencia'],
         $_POST['grauDeRelacionamento'],
-        $_POST['email'],
+        $emailEmpresa,
         $_POST['idNacionalidade']
       );
 
@@ -343,6 +348,10 @@ function showUI(){
         $_POST['tipoDeContrato'],
         $_POST['regimeDeHorarioDeTrabalho']
       );
+      if (!$idDadosContrato) {
+        throw new Exception("Erro ao registar contrato.");
+      }
+
 
       $dal->updateCV(
         $convidado['idCV'],
@@ -370,6 +379,14 @@ function showUI(){
       $dal->updateFuncionario($convidado['idFuncionario'],$_POST['numeroMecanografico'],
       $convidado['idDadosPessoais'], $convidado['idDadosFinanceiros'], $idDadosContrato, 
       $convidado['idCV'], $convidado['idBeneficios'],$estadoFuncionario);
+
+      //enviar email com as credenciais
+      if (enviarCredenciais($emailPessoal, $_POST['nomeCompleto'], $_POST['numeroMecanografico'], $_POST['password'])) {
+          echo "Email enviado com sucesso.";
+      } else {
+          echo "Falha ao enviar o email.";
+      }
+      //-------------
       
       header("Location: ../perfil.php?numeroMecanografico=" . htmlspecialchars($_POST['numeroMecanografico']));
     }
@@ -377,6 +394,24 @@ function showUI(){
       echo "<div>".$e->getMessage()."</div>";
     }
   }
+}
+
+function enviarCredenciais($emailPessoal, $nome, $numeroMecanografico, $password) {
+    $assunto = "As suas credenciais de acesso";
+
+    $corpo = "
+        <h2>Olá, {$nome}</h2>
+        <p>As suas credenciais de acesso são as seguintes:</p>
+        <ul>
+            <li><strong>Numero Mecanografico:</strong> {$numeroMecanografico}</li>
+            <li><strong>Palavra-passe:</strong> {$password}</li>
+        </ul>
+        <p>Recomendamos que altere a sua palavra-passe após o primeiro login.</p>
+        <p>Se não pediu este email, por favor ignore.</p>
+    ";
+
+    $emailBLL = new enviarEmail_bll();
+    return $emailBLL->enviarEmail($emailPessoal, $assunto, $corpo);
 }
 
 function guardarFicheiro($ficheiro, $subpasta, $tiposPermitidos = ['pdf']){
