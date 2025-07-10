@@ -60,20 +60,6 @@ body {
   height: 100%;
   object-fit: cover;
 }*/
-/*
-.backTemplate {
-  background-color: #40BCD8; 
-  Box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 100%;
-  border-radius: 25px;
-  padding: 60px;
-  /*margin: 180px 50px 40px;*//*
-  display: flex;
-  position: relative;
-  justify-content: space-between; /*faz questao do espacamente entre a caivxa de cima e baixa estejam a mesma diferenca*/
-  /*gap: 200px; /*o gap entre as colunas da direta e da esquerda*//*
-  z-index: 1;
-}*/
 
 button {
   width: auto;
@@ -131,9 +117,6 @@ button {
   height: 96vh;
   border-radius: 25px;
   margin-right: 0px;
-  /*margin-right: 265px; /* mesma largura da sidebar */
-  /*margin-right: 70px;*/
-  /*position: relative;*/
 }
 
 .main-content::-webkit-scrollbar {
@@ -277,16 +260,8 @@ option:focus {
     color: black;
 }
 
-.layout-container {/*
-  display: flex;
- /* flex-direction: column;*/
- /* gap: 50px; /* vertical space between children *//*
-  height: 96vh;
-  overflow: hidden;
-  width: 85%;
-  border-radius: 25px;
-  position:fixed;
-  overflow: hidden;*/
+.layout-container {
+ 
   margin-left:20px;
   margin-right:0px;
   margin-top:20px;
@@ -296,7 +271,6 @@ option:focus {
   right: 300px; /* leave space for sidebar */
   height: 96vh;
   display: flex;
-  /*gap: 25px;*/
   border-radius: 25px;
   overflow: hidden;
   
