@@ -17,19 +17,16 @@ verificarSESSIONDados();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil</title>
   <link rel="stylesheet" href="../CSS/stylePerfil.css">
-  <link rel="stylesheet" href="../CSS/styleGlobal.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 
 
 <body>
     <div class="layout-container">
-        <main class="main-content">
-            <?php 
-            setPerfil($_GET['numeroMecanografico']);
-            mostrarSidebar(); 
-            ?>
-        </main>
+        <div class="main-content">
+            <?php setPerfil($_GET['numeroMecanografico']);?>
+        </div>     
+            <?php mostrarSidebar(); ?>
     </div>
 </body>
 </html>

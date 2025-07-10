@@ -18,7 +18,6 @@ $cargo = $_SESSION['idCargo'];
   <meta charset="UTF-8" />
   <title>Dashboard</title>
   <link rel="stylesheet" href="../CSS/styleDashboard.css" />
-  <link rel="stylesheet" href="../CSS/styleGlobal.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
   <script src="../jvscript/dashboardChart.js" defer></script>
@@ -28,8 +27,8 @@ $cargo = $_SESSION['idCargo'];
   <div class="layout-container">;
     <div class="main-content">
       <?php setDashboard($nMeca)?> 
-      <?php mostrarSidebar($nMeca)?> 
     </div>
+    <?php mostrarSidebar($nMeca)?> 
   </div>
 </body>
 </html>

@@ -13,7 +13,7 @@ body {
   padding: 20px;
   height: 100%;
   background-color: #ffffff;
-  overflow: transparent;
+  overflow: hidden;
 }
 
 
@@ -60,30 +60,34 @@ body {
   height: 100%;
   object-fit: cover;
 }*/
-
+/*
 .backTemplate {
   background-color: #40BCD8; 
   Box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   height: 100%;
   border-radius: 25px;
   padding: 60px;
-  /*margin: 180px 50px 40px;*/
+  /*margin: 180px 50px 40px;*//*
   display: flex;
   position: relative;
   justify-content: space-between; /*faz questao do espacamente entre a caivxa de cima e baixa estejam a mesma diferenca*/
-  gap: 200px; /*o gap entre as colunas da direta e da esquerda*/
+  /*gap: 200px; /*o gap entre as colunas da direta e da esquerda*//*
   z-index: 1;
-}
+}*/
 
 button {
+  width: auto;
+  height:40px;
   cursor: pointer;
+  text-align:center;
   border-radius: 12px;
   border: none;
   padding: 7.5px;
   background-color: #156082;
   color: white;
+  margin-top:10px;
+  margin-bottom: 0;
 }
-
 
 
 .global-container { /* ter acerteza que esta em cima do skerwer */
@@ -113,16 +117,23 @@ button {
   height: 30px;
 }
 
+
 .main-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 2rem 3rem;
-    background: linear-gradient(135deg, #5ac8fa 0% , #299df3 70%,#1579d0 100%);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    border-radius: 25px;
-    overflow: transparent;
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;/*
+  max-width: 98%;*/
+  box-sizing: border-box;
+  padding: 2rem 3rem;
+  background: linear-gradient(135deg, #5ac8fa 0% , #299df3 70%,#1579d0 100%);
+  display:flex;
+  flex-direction: column;
+  height: 96vh;
+  border-radius: 25px;
+  margin-right: 0px;
+  /*margin-right: 265px; /* mesma largura da sidebar */
+  /*margin-right: 70px;*/
+  /*position: relative;*/
 }
 
 .main-content::-webkit-scrollbar {
@@ -216,6 +227,7 @@ option:focus {
 }
 
 .sidebar {
+    /*flex: 0 0 20%;*/
     min-width: 240px;
     max-width: 265px;
     background: linear-gradient(135deg, #5ac8fa 0% , #299df3 30%,#1579d0 100%);
@@ -227,9 +239,9 @@ option:focus {
     top: 0;
     right: 0;
     height: 96vh;
-    margin-left: 0;
     margin: 20px;
     border-radius: 25px;
+    
     position: fixed;
 }
 
@@ -241,7 +253,6 @@ option:focus {
     margin-bottom: 20px;
     margin-top: 20px;
 }
-
 
 .nav-links {
     list-style: none;
@@ -266,28 +277,45 @@ option:focus {
     color: black;
 }
 
-.layout-container {
-    display: flex;
-    height: 96vh;
-    overflow: hidden;
-    width: 85%;
-    border-radius: 25px;
-    overflow: transparent;
-  }
+.layout-container {/*
+  display: flex;
+ /* flex-direction: column;*/
+ /* gap: 50px; /* vertical space between children *//*
+  height: 96vh;
+  overflow: hidden;
+  width: 85%;
+  border-radius: 25px;
+  position:fixed;
+  overflow: hidden;*/
+  margin-left:20px;
+  margin-right:0px;
+  margin-top:20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 300px; /* leave space for sidebar */
+  height: 96vh;
+  display: flex;
+  /*gap: 25px;*/
+  border-radius: 25px;
+  overflow: hidden;
+  
+
+}
 
 .grid-container {
-    flex: 1;
-    overflow-y: auto;
-    padding: 2rem 3rem;
-    background: linear-gradient(135deg, #5ac8fa 0% , #299df3 70%,#1579d0 100%);
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px; 
-    align-content: flex-start; 
-    height: 96vh;
-    border-radius: 25px;
-    grid-column: auto;
-    padding-bottom: 2rem;
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem 3rem;
+  background: linear-gradient(135deg, #5ac8fa 0% , #299df3 70%,#1579d0 100%);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px; 
+  align-content: flex-start; 
+  max-height: 96vh;
+  border-radius: 25px;
+  grid-column: auto;
+  padding-bottom: 2rem;
 }
 
 .boxes {

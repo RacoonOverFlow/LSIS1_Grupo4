@@ -22,10 +22,10 @@ verificarSESSIONDados();
 </head>
 <body>
 <div class="layout-container">
-    <div class="main-container">
+    <div class="main-content">
         <?php mostrarEquipas(); ?>
-        <?php mostrarSidebar(); ?>
-    </div>
+       </div> 
+    <?php mostrarSidebar(); ?>
 </div>
 </body>
 </html>
