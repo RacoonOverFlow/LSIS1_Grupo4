@@ -22,7 +22,8 @@ h2 {
 }
 
 /* Container principal */
-.tabela-funcionarios {
+/* Wrapper for table */
+.tabela-funcionarios-visualizar {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -31,19 +32,12 @@ h2 {
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     padding: 20px;
-    overflow: hidden;
 }
 
-/* Cabeçalho e linhas - Solução para tamanhos consistentes */
+/* Row structure using CSS Grid */
 .linha-funcionario {
     display: grid;
-    background-color: white;
-    padding: 12px 15px;
-    border: 1px solid #e1e5eb;
-    border-radius: 8px;
-    transition: background-color 0.2s;
-    /* Definindo proporções fixas para as colunas */
-    grid-template-columns: 
+    grid-template-columns:
         0.8fr  /* selecao */
         1.8fr  /* mecanografico */
         1.8fr  /* cargo */
@@ -51,6 +45,12 @@ h2 {
         1.2fr  /* nif */
         2.5fr  /* email */
         1.5fr; /* aniversario */
+    align-items: center;
+    background-color: white;
+    border: 1px solid #e1e5eb;
+    border-radius: 8px;
+    padding: 12px 15px;
+    transition: background-color 0.2s;
 }
 
 /* Para a visualização de Admin */
@@ -95,29 +95,69 @@ h2 {
     align-items: center;
 }
 
-/* Alinhamento de checkbox */
 .coluna.selecao {
     justify-content: center;
 }
 
 /* Botões */
-.button-export {
+.button-export-visualizar {
     padding: 10px 20px;
     height: auto;
     cursor: pointer;
     text-align: center;
     border-radius: 8px;
     border: none;
-    background-color: #3498db;
+    background-color: #2980b9;
     color: white;
     margin-top: 10px;
     margin-right: 10px;
     font-weight: 500;
     transition: all 0.2s;
     display: inline-block;
+    text-decoration: none;
+    font-size: large;
 }
 
-.button-export:hover {
+.button-import-visualizar {
+    padding: 10px 20px;
+    height: auto;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 8px;
+    border: none;
+    margin-left: 20px;
+    background-color: #2980b9;
+    color: white;
+    margin-top: 10px;
+    margin-right: 10px;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: inline-block;
+    text-decoration: none;
+    font-size: large;
+}
+
+.button-export-selected-visualizar {
+    padding: 10px 20px;
+    height: 50px;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 8px;
+    border: none;
+    background-color:white;
+    color: #2980b9;
+    margin-top: 10px;
+    margin-right: 10px;
+    font-weight: 500;
+    transition: all 0.2s;
+    display: inline-block;
+    font-weight: bold;
+    font-size:large;
+}
+
+
+.button-export,.button-export-selected :hover {
     background-color: #2980b9;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
@@ -210,7 +250,7 @@ h2 {
 }
 
 /* Container de linhas */
-.linhas-container {
+.linhas-container-visualizar {
     max-height: 60vh;
     overflow-y: auto;
     display: flex;
@@ -219,16 +259,16 @@ h2 {
 }
 
 /* Barra de rolagem personalizada */
-.linhas-container::-webkit-scrollbar {
+.linhas-container-visualizar::-webkit-scrollbar {
     width: 8px;
 }
 
-.linhas-container::-webkit-scrollbar-track {
+.linhas-container-visualizar::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 10px;
 }
 
-.linhas-container::-webkit-scrollbar-thumb {
+.linhas-container-visualizar::-webkit-scrollbar-thumb {
     background: #c5c5c5;
     border-radius: 10px;
 }
