@@ -42,11 +42,12 @@ function mostrarSearchBar() {
             
             echo '    <div class="sort-dropdown">';
             echo '      <select id="sortSelect" onchange="sortFuncionarios(this.value)">';
-            echo '        <option value="nome">Ordenar por Nome</option>';
+            echo '        <option value="none"></option>';
             echo '        <option value="mecanografico">Ordenar por Nº Mec</option>';
             
             // Apenas RH e RH Superior podem ordenar por aniversário
             if ($_SESSION['idCargo'] == CARGO_RH_SUPERIOR || $_SESSION['idCargo'] == CARGO_RH) {
+                echo '        <option value="nome">Ordenar por Nome</option>';
                 echo '        <option value="aniversario">Ordenar por Aniversário</option>';
             }
             
