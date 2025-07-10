@@ -1,15 +1,141 @@
+@import url('styleGlobal.css');
 
-
-
-.linha-funcionario {
-    text-decoration: none;
-    list-style: none;
+/* Base Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-.colunaid,colunamecanografico,colunacargo,colunanome {
-    display: inline-block;
-    width: 20%;
-    padding: 10px;
-    box-sizing: border-box;
-    text-decoration: none;
-    list-style: none;
+
+h2 {
+  margin-bottom: 20px;
+  color: white;
+}
+
+/* Grid container for funcionario cards */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* Card box for each funcionario */
+.boxes {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+   /* NEW for consistent height and layout */
+  height: 400px; /* You can adjust this value to fit your design */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow-y: auto;
+}
+
+/* Funcionario link block */
+.linha-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Layout inside a card */
+.linha-funcionario {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.colunamecanografico,
+.colunacargo,
+.colunanome {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Alert form */
+.form-alerta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.form-alerta select {
+  flex: 1 1 200px;
+  max-width: 100%;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Button next to dropdown */
+.form-alerta button {
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+.form-alerta button:hover {
+  background-color: #0056b3;
+}
+
+/* Alertas atribuídos */
+.alertas-atribuídos {
+  margin-top: auto;
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.alertas-atribuídos strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.alertas-atribuídos ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.alertas-atribuídos li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 14px;
+  background-color: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+/* Remove alert button */
+.btn-remover-alerta {
+  padding: 4px 8px;
+  font-size: 12px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-remover-alerta:hover {
+  background-color: #a71d2a;
+}
+
+/* Responsiveness */
+@media (max-width: 500px) {
+  .form-alerta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-alerta button {
+    width: 100%;
+  }
 }

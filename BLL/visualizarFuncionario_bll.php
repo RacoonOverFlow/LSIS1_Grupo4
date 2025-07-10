@@ -21,12 +21,12 @@ function mostrarFuncionarios() {
     if (!$isAdmin) {
         //butao para exportar
         if ($_SESSION['idCargo'] == CARGO_RH_SUPERIOR) {
-            echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php">';
-            echo '<button class="button-export">EXPORT</button>';
+        echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php">Export</a>';
+            
             echo '</a>';
         } elseif ($_SESSION['idCargo'] == CARGO_RH) {
             echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">';
-            echo '<button class="button-export">EXPORT</button>';
+            
             echo '</a>';
         }
 
@@ -143,7 +143,7 @@ function mostrarFuncionarios() {
     if ($isAdmin) {
         echo '<button type="submit" name="remover_selecionados" class="button-export">REMOVER SELECIONADOS</button>';
     } else {
-        echo '<button type="submit" name="export_selected" class="button-export">EXPORT SELECIONADOS</button>';
+        echo '<button type="submit" name="export_selected" class="button-export">Export Selecionados</button>';
     }
 
     echo '</form>';

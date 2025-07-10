@@ -10,7 +10,7 @@ function mostrarCredenciaisEnvioAlertas() {
             <input type="email" name="emailEnvioAlerta" value="'. $credenciais['email'] .'"><br>
             <label for="passwordEnvioAlerta">Password: </label>
             <input type="password" name="passwordEnvioAlerta"><br>
-            <button type="submit" name="botaoEmailEnvioAlertas">Editar</button>
+            <button type="submit" name="botaoEmailEnvioAlertas">Submeter</button>
         </form><br>';
 }
 function updateCredenciaisEnvioAlertas(){
