@@ -11,62 +11,71 @@ function isThisACallback(): bool {
   }
   return true;
 }
-
 function displayForm() {
-  $dal = new editarEquipa_DAL();
+    $dal = new editarEquipa_DAL();
+
+    $colaboradores = $dal->getColaborador(2);
+    $coordenadores = $dal->getCoordenador(3);
+    $equipa = $dal->getEquipaById($_GET['idEquipa'] ?? null);
+    $colaboradoresEquipa = $dal->getIdColaboradorByEquipaId($_GET['idEquipa'] ?? null);
+    $coordenadorEquipa = $dal->getCoordenadorByEquipa($_GET['idEquipa'] ?? null);
+    $selectedIds = array_column($colaboradoresEquipa ?? [], 'idFuncionario');   
+
+    echo '<form method="POST" action="">';
+    echo '<div class="editar-equipa-container">';
+
+    // Title
+    echo '<h1 style="text-align:left;">Editar Equipa</h1>';
+
+    // Nome da equipa
+    echo '<div class="form-group">';
+    echo '<label><strong>Nome da Equipa</strong></label><br>';
+    echo '<input type="text" name="nomeEquipa" placeholder="Nome Equipa" value="' . htmlspecialchars($equipa['nome']) . '" required>';
+    echo '</div><br>';
+
+    // Coordenador dropdown
+    echo '<div class="form-group">';
+    echo '<label><strong>Selecionar Coordenador</strong></label><br>';
+    echo '<select name="coordenador" required>';
+    echo '<option value="">Selecione um Coordenador</option>';
+    foreach ($coordenadores as $coordenador) {
+        $selected = ($coordenadorEquipa['idCoordenador'] ?? null) === $coordenador['idFuncionario'] ? 'selected' : '';
+        echo '<option value="' . htmlspecialchars($coordenador['idFuncionario']) . '" ' . $selected . '>' . htmlspecialchars($coordenador['nomeCompleto']) . '</option>';
+    }
+    echo '</select>';
+    echo '</div><br>';
+
+    // Tabela de colaboradores
+    echo '<h3>Selecionar Colaboradores</h3>';
+    echo '<div class="tabela-funcionarios">';
+    echo '<div class="linha-funcionario cabecalho">';
+    echo '  <div class="coluna selecao">Selecionar</div>';
+    echo '  <div class="coluna nome">Nome</div>';
+    echo '  <div class="coluna nome">Numero Mecanografico</div>';
+    echo '</div>';
+    
+    echo '<div class="linhas-container">';
+    
+    foreach ($colaboradores as $colaborador) {
+        $checked = in_array((string)$colaborador['idFuncionario'], array_map('strval', $selectedIds)) ? 'checked' : '';
+        echo '<div class="linha-funcionario">';
+        echo '  <div class="coluna selecao">';
+        echo '    <input type="checkbox" name="colaboradores[]" value="' . htmlspecialchars($colaborador['idFuncionario']) . '" ' . $checked . '>';
+        echo '  </div>';
+        echo '  <div class="coluna nome">' . htmlspecialchars($colaborador['nomeCompleto']) . '</div>';
+        echo '  <div class="coluna numeroMecanografico">' . htmlspecialchars($colaborador['numeroMecanografico']) . '</div>';
+        echo '</div>';
+    }
+    
+    echo '</div>'; // linhas-container
   
-  $colaboradores = $dal->getColaborador(2);
-  $coordenadores = $dal->getCoordenador(3);
-  $equipa = $dal->getEquipaById($_GET['idEquipa'] ?? null);
+    echo '</div>'; // tabela-funcionarios
 
-  echo '<form method="POST" action="">';
-  echo '<div class="login-box">';
-  echo '<h1>Editar Equipa</h1>';
-  echo '<label class="login-form">';
-  echo '<h2>Nome da Equipa</h2>';
-  echo '<input type="text" name="nomeEquipa" placeholder="Nome Equipa" value="' . htmlspecialchars($equipa['nome']) .'"><br>';
-  echo '</label><br>';
-
-  $colaboradoresEquipa = $dal->getIdColaboradorByEquipaId($_GET['idEquipa'] ?? null);
-  echo '<h3>Selecionar Colaboradores</h3>';
-  if($colaboradoresEquipa == NULL){
-    foreach ($colaboradores as $colaborador) {
-      echo '<label>';
-      echo '<input type="checkbox" name="colaboradores[]" value="' . htmlspecialchars($colaborador['idFuncionario'])
-      . '">' . htmlspecialchars($colaborador['nomeCompleto']) . '</option>';
-      echo '</label><br>';
-    }
-  }else{
-    foreach ($colaboradores as $colaborador) {
-      echo '<label>';
-      echo '<input type="checkbox" name="colaboradores[]" value="' . htmlspecialchars($colaborador['idFuncionario']) . '" ' 
-      . ($colaboradoresEquipa['idColaborador'] === $colaborador['idFuncionario'] ? 'checked' : '') 
-      . '>' . htmlspecialchars($colaborador['nomeCompleto']) . '</option>';
-      echo '</label><br>';
-    }
-  }
-  $coordenadorEquipa = $dal->getCoordenadorByEquipa($_GET['idEquipa'] ?? null);
-  // Coordenador (Dropdown)
-  echo '<div class="select_coord_section">';
-  echo '<label>';
-  echo '<h3>Selecionar Coordenador</h3>';
-  echo '<select name ="coordenador" required>';
-  echo '<option value="">Selecione um Coordenador</option>';
-  foreach ($coordenadores as $coordenador) {
-    echo '<option value="' . htmlspecialchars($coordenador['idFuncionario']) . '" ' 
-    . ($coordenadorEquipa['idCoordenador'] === $coordenador['idFuncionario'] ? 'selected' : '') 
-    . '>' . htmlspecialchars($coordenador['nomeCompleto']) . '</option>';
-  }
-
-  echo '</select><br>';
-  echo '</label>';
-  echo '</div>';
-
-  echo '<button type="submit">Editar Equipa</button>';
-  echo '</form>';
-  echo '</div>';
-
+    echo '<br><button type="submit" class="button-export">Guardar Alterações</button>';
+    echo '</form>';
+    echo '</div>'; // editar-equipa-container
 }
+
 
 function showUI(){
   if(!isThisACallback()){
