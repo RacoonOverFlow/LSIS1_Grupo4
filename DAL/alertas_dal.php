@@ -90,7 +90,7 @@ class alertas_dal {
         return $alertas;  
     }
     function atribuirAlertaFuncionario($idFuncionario, $idAlerta) {
-        $visualizado = "pendente";
+        $visualizado = 0;
         $query = "INSERT INTO alertas_funcionario (idAlerta, idFuncionario, visualizado) VALUES (?, ?, ?)";
         $stmt = $this->conn->prepare($query);
         $stmt->bind_param("iis", $idAlerta, $idFuncionario, $visualizado);

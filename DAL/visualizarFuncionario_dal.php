@@ -111,24 +111,5 @@ class visualizarFuncionario_dal {
         }
         return $membros;
     }
-    /* function getAlertas(){
-        $query = "SELECT * FROM alertas";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();  
-        $result = $stmt->get_result();
-
-        $alertas = [];
-        while ($row = $result->fetch_assoc()) {
-            $alertas[] = $row;
-        }
-        return $alertas;  
-    }
-    function atribuirAlertaFuncionario($idFuncionario, $idAlerta) {
-        $visualizado = "pendente";
-        $query = "INSERT INTO alertas_funcionario (idAlerta, idFuncionario, visualizado) VALUES (?, ?, ?)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("iis", $idAlerta, $idFuncionario, $visualizado);
-        return $stmt->execute();
-    } */
 }
 ?>

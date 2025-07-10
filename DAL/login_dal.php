@@ -1,7 +1,7 @@
 <?php
 require_once "connection.php";
 
-class Login_DAL {
+class login_dal {
     private $conn;
 
     function __construct() {
@@ -74,7 +74,44 @@ class Login_DAL {
         return $idEquipas;  // returns an array of team IDs
     }
 
+    public function getFuncionarioComVouchersPorExpirarEmMeses($mesesExpiracao) {
+        $query = "SELECT idFuncionario FROM funcionario f 
+        INNER JOIN beneficios b ON f.idBeneficios=b.idBeneficios 
+        INNER JOIN voucher v ON b.idVoucher=v.idVoucher
+        WHERE dataExpiracao <= DATE_ADD(CURDATE(), INTERVAL ? MONTH) AND atribuido=1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("i", $mesesExpiracao);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+    public function getIdAlertaVoucher($mensagem){
+        $query = "SELECT idAlerta FROM alertas WHERE mensagem = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $mensagem);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc() ;
 
+        return $row ? $row['idAlerta'] : null;
+    }
+
+    public function enviarAlertaFuncionario($idFuncionario, $idAlertaVoucher){
+        $visualizado=FALSE;
+        $query = "INSERT INTO alertas_funcionario (idAlerta, idFuncionario, visualizado) VALUES (?,?,?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("iib", $idAlertaVoucher,$idFuncionario, $visualizado);
+        $stmt->execute();
+    }
+    public function alertaJaFoiEnviado($idFuncionario, $idAlerta) {
+        $query = "SELECT * FROM alertas_funcionario WHERE idFuncionario = ? AND idAlerta = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ii", $idFuncionario, $idAlerta);
+        $stmt->execute();
+        $stmt->store_result();
+
+        return $stmt->num_rows > 0;
+    }
 
 }
 ?>

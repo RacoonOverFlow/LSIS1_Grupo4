@@ -1,7 +1,7 @@
 <?php
 require_once "connection.php";
 
-class Perfil_DAL {
+class perfil_dal {
   private $conn;
 
   function __construct() {
@@ -129,5 +129,6 @@ class Perfil_DAL {
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc();
   }
+
 }  
 ?>

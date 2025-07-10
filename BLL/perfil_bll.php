@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once "../DAL/perfil_dal.php";
 
 function setPerfil($nMeca) {
-    $dal = new Perfil_DAL();
+    $dal = new perfil_dal();
 
     $funcionario = $dal->geFuncionarioByMeca($nMeca);
     $dadosPessoais = $dal->getDadosPessoaisById($nMeca);

@@ -1,7 +1,8 @@
 <?php
 require_once __DIR__ . '/../DAL/login_dal.php';
+require_once "../DAL/alertasAdmin_dal.php";
 
-$dal= new Login_DAL();
+$dal= new login_dal();
 
 if (!isset($_SESSION)) {
     session_start();
@@ -49,7 +50,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["nMeca"] = $nMeca;
             $_SESSION["idCargo"] = $dal->getIdCargoByNumeroMecanografico($nMeca);
             $_SESSION['idEquipa'] = $dal->getIdEquipaByNumMeca($nMeca);
-            
+
+
+            if (isset($_SESSION['idCargo']) && $_SESSION['idCargo'] == 5) {
+                $mesesExpiracao = 1;
+                $mensagem = "Falta menos de " . $mesesExpiracao . "mês para expirar o seu voucher!";
+                $idFuncionariosVouchers = $dal->getFuncionarioComVouchersPorExpirarEmMeses($mesesExpiracao);
+                $idAlertaVoucher = $dal->getIdAlertaVoucher($mensagem);
+                if(!empty($idFuncionariosVouchers) && !empty($idAlertaVoucher)){
+                    foreach ($idFuncionariosVouchers as $func) {
+                        if (!$dal->alertaJaFoiEnviado($func['idFuncionario'], $idAlertaVoucher)) {
+                            $dal->enviarAlertaFuncionario($func['idFuncionario'], $idAlertaVoucher);
+                        }
+                    }
+                }elseif(!empty($idFuncionariosVouchers) && empty($idAlertaVoucher)){
+                    $dalAlertasAdmin = new alertasAdmin_dal();
+                    $idAlertaVoucher = $dalAlertasAdmin->registarAlerta($mensagem);
+                    foreach ($idFuncionariosVouchers as $func) {
+                        if (!$dal->alertaJaFoiEnviado($func['idFuncionario'], $idAlertaVoucher)) {
+                            $dal->enviarAlertaFuncionario($func['idFuncionario'], $idAlertaVoucher);
+                        }
+                    }
+                }
+            } else {
+                $vouchers = [];
+            }
             // Redirect user to welcome page
             header("location: perfil.php?numeroMecanografico=" . $nMeca);
             
@@ -84,5 +109,4 @@ function showUI(){
         </form>
     </section>';
 }
-
 ?>

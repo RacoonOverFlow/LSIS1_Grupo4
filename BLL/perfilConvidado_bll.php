@@ -377,13 +377,14 @@ function showUI(){
 
       //enviar email com as credenciais
       if (enviarCredenciais($emailPessoal, $_POST['nomeCompleto'], $_POST['numeroMecanografico'], $_POST['password'])) {
-          echo "Email enviado com sucesso.";
+        echo "Email enviado com sucesso.";
       } else {
           echo "Falha ao enviar o email.";
       }
       //-------------
       
       header("Location: perfil.php?numeroMecanografico=" . htmlspecialchars($_POST['numeroMecanografico']));
+      exit;
     }
     catch(RuntimeException $e){
       echo "<div>".$e->getMessage()."</div>";
