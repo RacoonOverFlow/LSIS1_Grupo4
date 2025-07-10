@@ -15,15 +15,17 @@
 }
 
 .logo {
-  padding: 0px 10px 10px 10px;
-  border-radius: 10px;
-  align-items: center;
-  justify-content: center;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Ensure full width */
+  margin-bottom: 20px; /* Add spacing below */
 }
 
+
 .logo img {
-    height: 40px;
+  height: 40px;
+  align-self: center;
 }
 
 .login-box {
