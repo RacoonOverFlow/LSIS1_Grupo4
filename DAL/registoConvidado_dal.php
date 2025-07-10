@@ -78,8 +78,6 @@ class registoConvidado_dal{
     function registarConvidado($dados){
         $this->conn->begin_transaction();
         try{
-
-        
             // 1. Inserir dados pessoais
             $stmt = $this->conn->prepare("INSERT INTO dadospessoais 
                 (nomeCompleto, nomeAbreviado, dataNascimento, moradaFiscal, cc, dataValidade, nif, niss, genero, idIndicativo, contactoPessoal, contactoEmergencia, grauDeRelacionamento, email, idNacionalidade) 

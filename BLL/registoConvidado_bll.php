@@ -195,7 +195,7 @@ function displayForm($email) {
   Tipo de viatura:
   <select name="tipoViatura">
   <option value="">Selecione o tipo</option>
-  <option value="Empresa">Empresa</option>
+  <!-- <option value="Empresa">Empresa</option> convidado não seleciona carro da empresa-->
   <option value="Pessoal">Pessoal</option>
   </select><br>
   Matrícula:

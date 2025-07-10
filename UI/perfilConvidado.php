@@ -8,7 +8,7 @@ require_once "../BLL/perfilConvidado_bll.php";
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Atualizar Perfil</title>
+        <title>Atualizar Perfil Convidado</title>
         <link rel="stylesheet" href="../CSS/styleGlobal.css">
         <link rel="stylesheet" href="../CSS/styleAtualizarPerfil.css">
         <link rel="stylesheet" href="../CSS/styleEquipas.css">
