@@ -76,27 +76,35 @@ function displayFormColab() {
   <h3>Dados Pessoais</h3>
   Nome completo:
   <input type="text" name="nomeCompleto" placeholder="Nome Completo" value="' . htmlspecialchars($dadosPessoais['nomeCompleto']) .'" readonly><br>
+  <span class="error" id="error-nomeCompleto" style="color:red; font-size:0.9em;"></span><br>
   
   Nome abreviado:
   <input type="text" name="nomeAbreviado" placeholder="Nome Abreviado" value="'. htmlspecialchars($dadosPessoais['nomeAbreviado']) .'" readonly><br>
+  <span class="error" id="error-nomeAbreviado" style="color:red; font-size:0.9em;"></span><br>
 
   Data de nascimento:
   <input type="date" name="dataNascimento" value="'. htmlspecialchars($dadosPessoais['dataNascimento']) .'" readonly><br>
+  <span class="error" id="error-dataNascimento" style="color:red; font-size:0.9em;"></span><br>
 
   Morada fiscal:
   <input type="text" name="moradaFiscal" placeholder="Morada Fiscal" value="'. htmlspecialchars($dadosPessoais['moradaFiscal']) .'"><br>
+  <span class="error" id="error-moradaFiscal" style="color:red; font-size:0.9em;"></span><br>
 
   Cartão de Cidadão (CC):
   <input type="text" name="cc" placeholder="Número CC" value="'. htmlspecialchars($dadosPessoais['cc']) .'" readonly><br>
+  <span class="error" id="error-cc" style="color:red; font-size:0.9em;"></span><br>
 
   Data de validade do CC:
   <input type="date" name="dataValidade" value="'. htmlspecialchars($dadosPessoais['dataValidade']) .'"><br>
+  <span class="error" id="error-dataValidade" style="color:red; font-size:0.9em;"></span><br>
 
   NIF:
   <input type="text" name="nif" placeholder="Número de Identificação Fiscal" value="'. htmlspecialchars($dadosPessoais['nif']) .'" readonly><br>
+  <span class="error" id="error-nif" style="color:red; font-size:0.9em;"></span><br>
 
   NISS:
   <input type="text" name="niss" placeholder="Número de Identificação da Segurança Social" value="'. htmlspecialchars($dadosPessoais['niss']) .'"readonly><br>
+  <span class="error" id="error-niss" style="color:red; font-size:0.9em;"></span><br>
 
 
   Género:
@@ -123,16 +131,20 @@ function displayFormColab() {
 
   echo '</select>
   <input type="text" name="contactoPessoal" value="'. htmlspecialchars($dadosPessoais['contactoPessoal']) .'"><br>
+  <span class="error" id="error-contactoPessoal" style="color:red; font-size:0.9em;"></span><br>
 
   Contacto de Emergência:
   <input type="text" name="contactoEmergencia" value="'. htmlspecialchars($dadosPessoais['contactoEmergencia']) .'"><br>
+  <span class="error" id="error-contactoEmergencia" style="color:red; font-size:0.9em;"></span><br>
 
   Grau de relacionamento:
   <input type="text" name="grauDeRelacionamento" value="'. htmlspecialchars($dadosPessoais['grauDeRelacionamento']) .'"><br>
+  <span class="error" id="error-grauDeRelacionamento" style="color:red; font-size:0.9em;"></span><br>  
   </div>
 
   Email:
-  <input type="email" name="email" value="'. htmlspecialchars($dadosPessoais['email']) .'" readonly ><br>';
+  <input type="email" name="email" value="'. htmlspecialchars($dadosPessoais['email']) .'" readonly ><br>
+  <span class="error" id="error-email" style="color:red; font-size:0.9em;"></span><br>';
 
   $nacionalidades = $dal->getNacionalidades();
   echo 'Nacionalidade:
@@ -156,9 +168,11 @@ function displayFormColab() {
   <h3>Dados do Contrato</h3>
   Data de início:
   <input type="date" name="dataInicioDeContrato" value="'. htmlspecialchars($dadosContrato['dataInicioDeContrato']) .'" readonly><br>
+  <span class="error" id="error-dataInicioDeContrato" style="color:red; font-size:0.9em;"></span><br>  
 
   Data de fim:
   <input type="date" name="dataFimDeContrato" value="'. htmlspecialchars($dadosContrato['dataFimDeContrato']) .'" readonly><br>
+  <span class="error" id="error-dataFimDeContrato" style="color:red; font-size:0.9em;"></span><br>  
 
   Tipo de contrato:
   <div class="select_section">
@@ -204,12 +218,16 @@ function displayFormColab() {
 
   Remuneração:
   <input type="number" step="0.01" name="remuneracao" placeholder="€" value="'. htmlspecialchars($dadosFinanceiros['remuneracao']) .'"readonly><br>
+  <span class="error" id="error-remuneracao" style="color:red; font-size:0.9em;"></span><br>
 
   Número de dependentes:
   <input type="number" name="numeroDeDependentes" placeholder="0, 1, 2..." value="'. htmlspecialchars($dadosFinanceiros['numeroDeDependentes']) .'"><br>
+  <span class="error" id="error-numeroDeDependentes" style="color:red; font-size:0.9em;"></span><br>
 
   IBAN:
   <input type="text" name="IBAN" placeholder="PT50..." value="'. htmlspecialchars($dadosFinanceiros['IBAN']) .'"><br><br>
+  <span class="error" id="error-IBAN" style="color:red; font-size:0.9em;"></span><br>
+
   </div>
 
   <!-- Benefícios -->
@@ -217,6 +235,7 @@ function displayFormColab() {
   <h3>Benefícios</h3>
   Nº do Cartão Continente:
   <input type="text" name="cartaoContinente" placeholder="Número do Cartão" value="'. htmlspecialchars($beneficios['cartaoContinente']) .'"><br>
+  <span class="error" id="error-cartaoContinente" style="color:red; font-size:0.9em;"></span><br>
 
   <!-- Viatura -->
   <div class="atualizarPerfil-form">
@@ -249,9 +268,11 @@ function displayFormColab() {
   </div>
   Curso:
   <input type="text" name="curso" placeholder="Curso" value="'. htmlspecialchars($cv['curso']) .'"><br>
+  <span class="error" id="error-curso" style="color:red; font-size:0.9em;"></span><br>
+  
   Frequencia:
-  <input type="text" name="frequencia" placeholder="Frequencia" value="'. htmlspecialchars($cv['frequencia']) .'"><br>';
-
+  <input type="text" name="frequencia" placeholder="Frequencia" value="'. htmlspecialchars($cv['frequencia']) .'"><br>
+  <span class="error" id="error-frequencia" style="color:red; font-size:0.9em;"></span><br>';
 
   $documentosMap = [];
   foreach ($documentos as $doc) {

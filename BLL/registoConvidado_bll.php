@@ -18,7 +18,7 @@ function isThisACallback(): bool{
     'dataInicioContrato','dataFimContrato','tipoContrato','regimeHorarioTrabalho',*/
 
     // Dados Financeiros
-    'situacaoIrs',/*'remuneracao',*/'numeroDependentes','iban',
+    'situacaoIrs',/*'remuneracao',*/'numeroDeDependentes','iban',
 
     // Benefícios
     'cartaoContinente',
@@ -51,7 +51,7 @@ function isThisACallback(): bool{
 function displayForm($email) {
   echo '<div class="container_atualizarPerfil">';
   echo '<h2>Registo Convidado</h2>';
-  echo '<form id="formFuncionario" action="" method="post" enctype="multipart/form-data">';
+  echo '<form id="formConvidado" action="" method="post" enctype="multipart/form-data">';
   
   echo '</select><br><br>
   <div class="atualizarPerfil-form">
@@ -59,27 +59,35 @@ function displayForm($email) {
   <h3>Dados Pessoais</h3>
   Nome completo:
   <input type="text" name="nomeCompleto" placeholder="Nome Completo"><br>
+  <span class="error" id="error-nomeCompleto" style="color:red; font-size:0.9em;"></span><br>
 
   Nome abreviado:
   <input type="text" name="nomeAbreviado" placeholder="Nome Abreviado"><br>
+  <span class="error" id="error-nomeAbreviado" style="color:red; font-size:0.9em;"></span><br>
 
   Data de nascimento:
   <input type="date" name="dataNascimento"><br>
+  <span class="error" id="error-dataNascimento" style="color:red; font-size:0.9em;"></span><br>
 
   Morada fiscal:
   <input type="text" name="moradaFiscal" placeholder="Morada Fiscal"><br>
+  <span class="error" id="error-moradaFiscal" style="color:red; font-size:0.9em;"></span><br>
 
   Cartão de Cidadão (CC):
   <input type="text" name="cc" placeholder="Número CC"><br>
+  <span class="error" id="error-cc" style="color:red; font-size:0.9em;"></span><br>
 
   Data de validade do CC:
   <input type="date" name="validadeCc"><br>
+  <span class="error" id="error-dataValidade" style="color:red; font-size:0.9em;"></span><br>
 
   NIF:
   <input type="text" name="nif" placeholder="Número de Identificação Fiscal"><br>
+  <span class="error" id="error-nif" style="color:red; font-size:0.9em;"></span><br>
 
   NISS:
   <input type="text" name="niss" placeholder="Número de Identificação da Segurança Social"><br>
+  <span class="error" id="error-niss" style="color:red; font-size:0.9em;"></span><br>
 
   Género:
   <select name="Genero">
@@ -101,16 +109,20 @@ function displayForm($email) {
 
   echo '</select>
   <input type="text" name="contactoPessoal" placeholder="Telefone pessoal"><br>
+  <span class="error" id="error-contactoPessoal" style="color:red; font-size:0.9em;"></span><br>
 
   Contacto de Emergência:
   <input type="text" name="contactoEmergencia" placeholder="Contacto de emergência"><br>
+  <span class="error" id="error-contactoEmergencia" style="color:red; font-size:0.9em;"></span><br>
 
   Grau de relacionamento:
   <input type="text" name="grauRelacionamento" placeholder="Ex: Pai, Esposa, Amigo"><br>
+  <span class="error" id="error-grauDeRelacionamento" style="color:red; font-size:0.9em;"></span><br>  
 
   Email:
   <input type="email" value="'. htmlspecialchars($email) . '" readonly><br>'; // o email tem de ser o mesmo e não da para alterar
-  echo '<input type="hidden" name="email" value="'. htmlspecialchars($email) .'">'; //este é que é enviado no post
+  echo '<input type="hidden" name="email" value="'. htmlspecialchars($email) .'">
+  <span class="error" id="error-email" style="color:red; font-size:0.9em;"></span><br>'; //este é que é enviado no post
 
   $nacionalidades = $dal->getNacionalidades();
   echo 'Nacionalidade:
@@ -135,15 +147,18 @@ function displayForm($email) {
   </select><br>';
   
   echo 'Número de dependentes:
-  <input type="number" name="numeroDependentes" placeholder="0, 1, 2..."><br>
+  <input type="number" name="numeroDeDependentes" placeholder="0, 1, 2..."><br>
+  <span class="error" id="error-numeroDeDependentes" style="color:red; font-size:0.9em;"></span><br>
 
   IBAN:
   <input type="text" name="iban" placeholder="PT50..."><br><br>
+  <span class="error" id="error-IBAN" style="color:red; font-size:0.9em;"></span><br>
 
   <!-- Benefícios -->
   <h3>Benefícios</h3>
   Nº do Cartão Continente:
   <input type="text" name="cartaoContinente" placeholder="Número do Cartão"><br>
+  <span class="error" id="error-cartaoContinente" style="color:red; font-size:0.9em;"></span><br>
 
   <!-- Viatura -->
   <h3>Viatura</h3>
@@ -155,6 +170,7 @@ function displayForm($email) {
   </select><br>
   Matrícula:
   <input type="text" name="matriculaViatura" placeholder="XX-00-XX"><br><br>
+  <span class="error" id="error-matriculaDaViatura" style="color:red; font-size:0.9em;"></span><br>
 
   <!-- CV -->
   <h3>CV</h3>
@@ -167,8 +183,11 @@ function displayForm($email) {
   </select><br>
   Curso:
   <input type="text" name="curso" placeholder="Curso"><br>
+  <span class="error" id="error-curso" style="color:red; font-size:0.9em;"></span><br>
+  
   Frequencia:
   <input type="text" name="frequencia" placeholder="Frequencia"><br>
+  <span class="error" id="error-frequencia" style="color:red; font-size:0.9em;"></span><br>
 
   <h3>Documentos</h3>
   Comprovativo de cartão de cidadão:
