@@ -219,7 +219,6 @@ function displayForm() {
   <input type="text" name="matriculaDaViatura" placeholder="XX-00-XX" value="'. htmlspecialchars($viatura['matriculaDaViatura']) .'"><br><br>
   </div>
 
-
   <!-- CV -->
   <div class="atualizarPerfil-form">
   <h3>CV</h3>
