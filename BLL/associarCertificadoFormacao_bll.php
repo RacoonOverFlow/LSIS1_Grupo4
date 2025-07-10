@@ -10,16 +10,16 @@ function isThisACallback(): bool {
 
 function displayForm() {
     echo '<form method="POST" action="" enctype="multipart/form-data">';
-    echo '<div class="login-box">';
+    echo '<div class="box">';
     echo '<h1>Associar Certificado de Formação</h1>';
 
-    echo '<label>';
+    echo '<label >';
     echo '<h3>Nome da Formacao</h3>';
-    echo '<input type="text" name="nomeFormacao" placeholder="Nome da Formacao" required>';
+    echo '<input type="text" name="nomeFormacao" placeholder="Nome da Formacao" class="label" required>';
     echo '</label>';
 
     echo '<h3>Certificado da Formacao(PDF):</h3>';
-    echo '<input type="file" name="documentoCertificadoFormacao" accept=".pdf" required><br>';
+    echo '<input type="file" name="documentoCertificadoFormacao" accept=".pdf" class="label" required><br>';
 
     echo '<button type="submit">Associar Certificado</button>';
     echo '</form>';

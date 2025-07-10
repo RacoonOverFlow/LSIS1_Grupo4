@@ -1,0 +1,19 @@
+@import url('styleGlobal.css');
+
+h1{
+    margin-bottom: 20px;
+    color: black;
+}
+
+.box{
+    background-color: white;
+    border-radius: 25px;
+    max-width: auto;
+    max-height: auto;
+    padding: 20px;
+}
+
+.label{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
