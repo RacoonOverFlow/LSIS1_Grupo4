@@ -21,8 +21,7 @@ function isThisACallback(): bool{
     'IBAN',
     'situacaoDeIRS',
     'numeroDeDependentes',
-    'cartaoContinente',
-    'voucherNOS'
+    'cartaoContinente'
   ];
 
   foreach($camposObrigatorio as $campo){
@@ -205,10 +204,6 @@ function displayForm() {
   Nº do Cartão Continente:
   <input type="text" name="cartaoContinente" placeholder="Número do Cartão" value="'. htmlspecialchars($beneficios['cartaoContinente']) .'"><br>
 
-  Data de emissão do voucher NOS:
-  <input type="date" name="voucherNOS" value="'. htmlspecialchars($beneficios['voucherNOS']) .'"readonly><br><br>
-  </div>
-
   <!-- Viatura -->
   <div class="atualizarPerfil-form">
   <h3>Viatura</h3>
@@ -261,28 +256,28 @@ function displayForm() {
   $ccPath = $documentosMap['2'] ?? null;
   echo 'Comprovativo de cartão de cidadão:';
   if ($ccPath) {
-      echo '<a href="../../' . htmlspecialchars($ccPath) . '" target="_blank">Ver documento atual</a><br>';
+      echo '<a href="../' . htmlspecialchars($ccPath) . '" target="_blank">Ver documento atual</a><br>';
   }
   echo '<input id="documentoCC" type="file" name="documentoCC" accept=".pdf"><br>'; 
 
   $mod99Path = $documentosMap['1'] ?? null;
   echo 'Comprovativo de morada fiscal:';
   if ($mod99Path) {
-      echo '<a href="../../' . htmlspecialchars($mod99Path) . '" target="_blank">Ver documento atual</a><br>';
+      echo '<a href="../' . htmlspecialchars($mod99Path) . '" target="_blank">Ver documento atual</a><br>';
   }
   echo '<input id="documentoMod99" type="file" name="documentoMod99" accept=".pdf"><br>';
 
   $documentoBancario = $documentosMap['3'] ?? null;
   echo 'Documento Bancario:';
   if ($documentoBancario) {
-      echo '<a href="../../' . htmlspecialchars($documentoBancario) . '" target="_blank">Ver documento atual</a><br>';
+      echo '<a href="../' . htmlspecialchars($documentoBancario) . '" target="_blank">Ver documento atual</a><br>';
   }
   echo '<input id="documentoBancario" type="file" name="documentoBancario" accept=".pdf"><br>';
 
   $documentoCartaoContinente = $documentosMap['4'] ?? null;
   echo 'Cópia cartão continente:';
   if ($documentoCartaoContinente) {
-      echo '<a href="../../' . htmlspecialchars($documentoCartaoContinente) . '" target="_blank">Ver documento atual</a><br>';
+      echo '<a href="../' . htmlspecialchars($documentoCartaoContinente) . '" target="_blank">Ver documento atual</a><br>';
   }
   echo '<input id="documentoCartaoContinente" type="file" name="documentoCartaoContinente" accept=".pdf"><br><br>
 
@@ -363,7 +358,7 @@ function showUI(){
       $dal->updateBeneficios(
         $convidado['idBeneficios'],
         $_POST['cartaoContinente'],
-        $_POST['voucherNOS']
+        NULL
       );
 
       $viatura = $dal->getViaturaByIdFuncionario($convidado['idFuncionario']);
@@ -388,7 +383,7 @@ function showUI(){
       }
       //-------------
       
-      header("Location: ../perfil.php?numeroMecanografico=" . htmlspecialchars($_POST['numeroMecanografico']));
+      header("Location: perfil.php?numeroMecanografico=" . htmlspecialchars($_POST['numeroMecanografico']));
     }
     catch(RuntimeException $e){
       echo "<div>".$e->getMessage()."</div>";

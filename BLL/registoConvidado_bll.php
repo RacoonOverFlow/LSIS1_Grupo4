@@ -50,23 +50,6 @@ function isThisACallback(): bool{
 }
 function displayForm($email) {
   echo '<form id="formFuncionario" action="" method="post" enctype="multipart/form-data">';
-  /*<!-- Dados Login -->
-  <h3>Dados Login</h3>
-  Numero Mecanográfico:
-  <input type="text" name="numeroMecanografico" placeholder="Numero Mecanografico"><br>
-
-  Password:
-  <input type="password" name="password" placeholder="Password"><br>';
-  $dal = new registoFuncionario_dal();
-  $cargos = $dal->getCargos();
-  echo 'Cargo:
-  <select name="idCargo">
-    <option value="">Selecione um cargo</option>';
-  
-  foreach($cargos as $cargo){
-    echo '<option value="' . htmlspecialchars($cargo['idCargo']) 
-    . '">' . htmlspecialchars($cargo['cargo']) .'</option>';
-  }*/
   
   echo '</select><br><br>
   <!-- Dados Pessoais -->
@@ -136,33 +119,6 @@ function displayForm($email) {
     . '">' . htmlspecialchars($nacionalidade['nacionalidade']) .'</option>';
   }
   echo '</select><br><br>';
-  /*
-  echo '<!-- Dados Contrato -->
-  <h3>Dados do Contrato</h3>
-  Data de início:
-  <input type="date" name="dataInicioContrato"><br>
-
-  Data de fim:
-  <input type="date" name="dataFimContrato"><br>
-
-  Tipo de contrato:
-  <select name="tipoContrato">
-    <option value="">Selecione um Tipo de contrato </option>
-    <option value="Estagio curricular">Estagio curricular</option>
-    <option value="Estagio IEFP">Estagio IEFP</option>
-    <option value="Termo certo">Termo certo</option>
-    <option value="Termo incerto">Termo incerto</option>
-    <option value="Sem incerto">Sem incerto</option>
-  </select><br>
-
-  Regime de horário de trabalho:
-  <select name="regimeHorarioTrabalho">
-    <option value="">Selecione um regime de horario de trabalho </option>
-    <option value="10%">10%</option>
-    <option value="20%">20%</option>
-    <option value="50%">50%</option>
-    <option value="100%">100%</option>
-  </select><br><br>*/
 
   echo '<!-- Dados Financeiros -->
   <h3>Dados Financeiros</h3>
@@ -174,10 +130,6 @@ function displayForm($email) {
     <option value="Viuvo/a">Viuvo/a</option>
     <option value="União de facto">União de facto</option>
   </select><br>';
-
-  /*Remuneração:
-  <input type="number" step="0.01" name="remuneracao" placeholder="€"><br>
-  */
   
   echo 'Número de dependentes:
   <input type="number" name="numeroDependentes" placeholder="0, 1, 2..."><br>
@@ -195,7 +147,7 @@ function displayForm($email) {
   Tipo de viatura:
   <select name="tipoViatura">
   <option value="">Selecione o tipo</option>
-  <!-- <option value="Empresa">Empresa</option> convidado não seleciona carro da empresa-->
+  <option value="Empresa">Empresa</option>
   <option value="Pessoal">Pessoal</option>
   </select><br>
   Matrícula:

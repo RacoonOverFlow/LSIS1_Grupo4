@@ -252,8 +252,8 @@ class perfilConvidado_dal {
     return $stmt->execute();
   }
 
-  function updateBeneficios($idBeneficios, $cartaoContinente, $voucherNos) {
-    $query = "UPDATE beneficios SET cartaoContinente=?, voucherNOS=? WHERE idBeneficios=?";
+  function updateBeneficios($idBeneficios, $cartaoContinente, $idVoucher) {
+    $query = "UPDATE beneficios SET cartaoContinente=?, idVoucher=? WHERE idBeneficios=?";
     $stmt = $this->conn->prepare($query);
     if (!$stmt) {
         throw new Exception("Erro na preparação da query". $this->conn->error);
