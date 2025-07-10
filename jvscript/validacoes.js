@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".error").forEach(span => span.textContent = "");
 
         const regexes = {
-            nome: /^[A-Z][a-zA-Z\s]+$/,
+            nome: /^[A-ZÀ-Ý][a-zA-ZÀ-ÿ\s]+$/,
             grauRelacionamento: /^[A-Z][a-zA-Z]{2,}$/,
             nif: /^\d{9}$/,
             niss: /^\d{11}$/,
@@ -16,35 +16,35 @@ document.addEventListener("DOMContentLoaded", function () {
             email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
             remuneracao: /^\d+(\.\d{1,2})?$/, // aceita 1500, 1500.5 e 1500.75
             dependentes: /^\d+$/,
-            iban: /^PT50\d{21}$/,
+            iban: /^[A-Z]{2}\d{23}$/,
             continente: /^[0-9]{13,14}$/,
-            matricula: /^\d{2}-[A-Z]{2}-\d{2}$/,
+            matricula: /^([A-Z\d]{2})-([A-Z\d]{2})-([A-Z\d]{2})$/,
             letras: /^[A-Za-z\s]{2,}$/,
             moradaFiscal: /^([A-Za-zÀ-ÿ0-9ºª°.,\-\/ ]+),\s?\d+[A-Za-z]?,\s?\d{4}-\d{3},\s?[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-zà-ÿ]*(\s[A-Za-zÀ-ÿ]+)*$/
         };
 
         const campos = {
-            nomeCompleto: "Nome completo inválido.",
-            nomeAbreviado: "Nome abreviado inválido.",
+            nomeCompleto: "Nome completo inválido. (Primeira letra de cada palavra deve ser maiúscula)",
+            nomeAbreviado: "Nome abreviado inválido. (Primeira letra de cada palavra deve ser maiúscula)",
             dataNascimento: "Idade superior a 100 anos ou data inválida.",
             moradaFiscal: "Morada fiscal inválida. (Ex: Rua Exemplo, 123, 4000-123, Porto)",
-            cc: "Cartão de Cidadão inválido.",
+            cc: "Cartão de Cidadão inválido. (Ex: 123456789XZ1)",
             dataValidade: "Data de validade do Cartão de Cidadão inválida ou já expirou.",
-            nif: "NIF inválido.",
-            niss: "NISS inválido.",
-            contactoPessoal: "Contacto pessoal inválido.",
-            contactoEmergencia: "Contacto de emergência inválido.",
+            nif: "NIF inválido. (Deve conter apenas 9 digitos.)",
+            niss: "NISS inválido. (Deve conter apenas 11 digitos.)",
+            contactoPessoal: "Contacto pessoal inválido. (Deve conter apenas 9 digitos.)",
+            contactoEmergencia: "Contacto de emergência inválido. (Deve conter apenas 9 digitos.)",
             grauRelacionamento: "Grau de relacionamento inválido.",
             email: "Email inválido.",
             dataInicioDeContrato: "Data de início inválida.",
             dataFimDeContrato: "Data de fim inválida.",
             remuneracao: "Remuneração inválida.",
             numeroDeDependentes: "Número de dependentes inválido.",
-            IBAN: "IBAN inválido.",
-            cartaoContinente: "Número de Cartão Continente inválido.",
+            IBAN: "IBAN inválido. (Deve conter duas letras e 23 digitos.)",
+            cartaoContinente: "Número de Cartão Continente inválido. (Deve conter 13 a 14 digitos.)",
             matriculaDaViatura: "Matrícula da viatura inválida.",
-            curso: "Curso inválido.",
-            frequencia: "Frequência inválida.",
+            curso: "Curso inválido. (Deve começar por uma letra maiúscula e não pode conter números)",
+            frequencia: "Frequência inválida. (Deve começar por uma letra maiúscula e não pode conter números)",
         };
 
         const getVal = name => document.querySelector(`[name="${name}"]`)?.value?.trim() || "";
@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".error").forEach(span => span.textContent = "");
 
         const regexes = {
-            nome: /^[A-Z][a-zA-Z\s]+$/,
+            nome: /^[A-ZÀ-Ý][a-zA-ZÀ-ÿ\s]+$/,
             grauRelacionamento: /^[A-Z][a-zA-Z]{2,}$/,
             nif: /^\d{9}$/,
             niss: /^\d{11}$/,
@@ -228,32 +228,32 @@ document.addEventListener("DOMContentLoaded", function () {
             contacto: /^\d{9}$/,
             email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
             dependentes: /^\d+$/,
-            iban: /^PT50\d{21}$/,
+            iban: /^[A-Z]{2}\d{23}$/,
             continente: /^[0-9]{13,14}$/,
-            matricula: /^\d{2}-[A-Z]{2}-\d{2}$/,
+            matricula: /^([A-Z\d]{2})-([A-Z\d]{2})-([A-Z\d]{2})$/,
             letras: /^[A-Za-z\s]{2,}$/,
             moradaFiscal: /^([A-Za-zÀ-ÿ0-9ºª°.,\-\/ ]+),\s?\d+[A-Za-z]?,\s?\d{4}-\d{3},\s?[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-zà-ÿ]*(\s[A-Za-zÀ-ÿ]+)*$/
         };
 
         const campos = {
-            nomeCompleto: "Nome completo inválido.",
-            nomeAbreviado: "Nome abreviado inválido.",
+            nomeCompleto: "Nome completo inválido. (Primeira letra de cada palavra deve ser maiúscula)",
+            nomeAbreviado: "Nome abreviado inválido. (Primeira letra de cada palavra deve ser maiúscula)",
             dataNascimento: "Idade superior a 100 anos ou data inválida.",
             moradaFiscal: "Morada fiscal inválida. (Ex: Rua Exemplo, 123, 4000-123, Porto)",
-            cc: "Cartão de Cidadão inválido.",
+            cc: "Cartão de Cidadão inválido. (Ex: 123456789XZ1)",
             dataValidade: "Data de validade do Cartão de Cidadão inválida ou já expirou.",
-            nif: "NIF inválido.",
-            niss: "NISS inválido.",
-            contactoPessoal: "Contacto pessoal inválido.",
-            contactoEmergencia: "Contacto de emergência inválido.",
+            nif: "NIF inválido. (Deve conter apenas 9 digitos.)",
+            niss: "NISS inválido. (Deve conter apenas 11 digitos.)",
+            contactoPessoal: "Contacto pessoal inválido. (Deve conter apenas 9 digitos.)",
+            contactoEmergencia: "Contacto de emergência inválido. (Deve conter apenas 9 digitos.)",
             grauRelacionamento: "Grau de relacionamento inválido.",
             email: "Email inválido.",
             numeroDeDependentes: "Número de dependentes inválido.",
-            IBAN: "IBAN inválido.",
-            cartaoContinente: "Número de Cartão Continente inválido.",
+            IBAN: "IBAN inválido. (Deve conter duas letras e 23 digitos.)",
+            cartaoContinente: "Número de Cartão Continente inválido. (Deve conter 13 a 14 digitos.)",
             matriculaDaViatura: "Matrícula da viatura inválida.",
-            curso: "Curso inválido.",
-            frequencia: "Frequência inválida.",
+            curso: "Curso inválido. (Deve começar por uma letra maiúscula e não pode conter números)",
+            frequencia: "Frequência inválida. (Deve começar por uma letra maiúscula e não pode conter números)",
         };
 
         const getVal = name => document.querySelector(`[name="${name}"]`)?.value?.trim() || "";

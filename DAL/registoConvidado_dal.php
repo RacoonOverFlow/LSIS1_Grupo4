@@ -90,14 +90,14 @@ class registoConvidado_dal{
                 $dados['dataNascimento'],
                 $dados['moradaFiscal'],
                 $dados['cc'],
-                $dados['validadeCc'],
+                $dados['dataValidade'],
                 $dados['nif'],
                 $dados['niss'],
                 $dados['Genero'],
                 $dados["idIndicativo"],
                 $dados['contactoPessoal'],
                 $dados['contactoEmergencia'],
-                $dados['grauRelacionamento'],
+                $dados['grauDeRelacionamento'],
                 $dados['email'],
                 $dados["idNacionalidade"]
         );
@@ -127,7 +127,7 @@ class registoConvidado_dal{
         $remuneração= 0.0;
         $stmt = $this->conn->prepare("INSERT INTO dadosfinanceiros (situacaoDeIRS, remuneracao, numeroDeDependentes, IBAN) VALUES (?, ?, ?, ?)");
         if(!$stmt) throw new Exception("Erro na prepare dadosfinanceiros". $this->conn->error);
-        $stmt->bind_param("sdis", $dados['situacaoIrs'], $remuneração, $dados['numeroDependentes'], $dados['iban']);
+        $stmt->bind_param("sdis", $dados['situacaoIrs'], $remuneração, $dados['numeroDeDependentes'], $dados['IBAN']);
         if(!$stmt->execute()) throw new Exception('Erro execute dados financeiros'. $stmt->error);
         echo "Dados financeiros inseridos com sucesso<br>";
         $idDadosFinanceiros = $this->conn->insert_id;
@@ -135,7 +135,7 @@ class registoConvidado_dal{
         // 5. Inserir benefícios
         $stmt = $this->conn->prepare("INSERT INTO beneficios (cartaoContinente) VALUES (?)");
         if(!$stmt) throw new Exception("Erro na prepare beneficios". $this->conn->error);
-        $stmt->bind_param("ss", $dados['cartaoContinente']);
+        $stmt->bind_param("s", $dados['cartaoContinente']);
         if(!$stmt->execute()) throw new Exception('Erro execute beneficios'. $stmt->error);
         echo "Beneficios inseridos com sucesso<br>";
         $idBeneficios = $this->conn->insert_id;
@@ -143,7 +143,7 @@ class registoConvidado_dal{
         // 7. Inserir viatura
         $stmt = $this->conn->prepare("INSERT INTO viatura (matriculaDaViatura, tipoViatura) VALUES (?, ?)");
         if(!$stmt) throw new Exception("Erro na prepare viatura". $this->conn->error);
-        $stmt->bind_param("ss",  $dados['matriculaViatura'], $dados['tipoViatura']);
+        $stmt->bind_param("ss",  $dados['matriculaDaViatura'], $dados['tipoViatura']);
         if(!$stmt->execute()) throw new Exception('Erro execute viatura'. $stmt->error);
         echo "Viatura inserida com sucesso<br>";
         $idViatura = $this->conn->insert_id;

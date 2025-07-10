@@ -11,7 +11,7 @@ function isThisACallback(): bool{
     // Dados Pessoais
     'nomeCompleto','nomeAbreviado','dataNascimento','moradaFiscal',
     'cc','dataValidade','nif','niss','Genero','idIndicativo',
-    'contactoPessoal','contactoEmergencia','grauRelacionamento','email',
+    'contactoPessoal','contactoEmergencia','grauDeRelacionamento','email',
     'idNacionalidade',
 
     /*// Dados Contrato
@@ -24,7 +24,7 @@ function isThisACallback(): bool{
     'cartaoContinente',
 
     // Viatura
-    'tipoViatura','matriculaViatura',
+    'tipoViatura','matriculaDaViatura',
 
     // CV
     'habilitacoesLiterarias','curso','frequencia'
@@ -116,7 +116,7 @@ function displayForm($email) {
   <span class="error" id="error-contactoEmergencia" style="color:red; font-size:0.9em;"></span><br>
 
   Grau de relacionamento:
-  <input type="text" name="grauRelacionamento" placeholder="Ex: Pai, Esposa, Amigo"><br>
+  <input type="text" name="grauDeRelacionamento" placeholder="Ex: Pai, Esposa, Amigo"><br>
   <span class="error" id="error-grauDeRelacionamento" style="color:red; font-size:0.9em;"></span><br>  
 
   Email:
@@ -169,7 +169,7 @@ function displayForm($email) {
   <option value="Pessoal">Pessoal</option>
   </select><br>
   Matrícula:
-  <input type="text" name="matriculaViatura" placeholder="XX-00-XX"><br><br>
+  <input type="text" name="matriculaDaViatura" placeholder="XX-00-XX"><br><br>
   <span class="error" id="error-matriculaDaViatura" style="color:red; font-size:0.9em;"></span><br>
 
   <!-- CV -->
@@ -199,16 +199,15 @@ function displayForm($email) {
   Cópia cartão continente:
   <input id="documentoCartaoContinente" type="file" name="documentoCartaoContinente" required accept=".pdf"><br><br>
   </div>
-  </div>
 
   <!-- Botão -->
   <input type="submit" value="Registar" id="atualizarPerfil-form-submit"/>
+  </div>
 </form>';
 }
 function showUI($email, $token){
     if(!isThisACallback()){
         displayForm($email);
-        echo "callback";
     }
     else{
       try{

@@ -20,21 +20,21 @@ function mostrarFuncionarios() {
     mostrarSearchBar();
     echo '</div>';
 
-    echo '<div class="tabela-funcionarios">';
+    echo '<div class="tabela-funcionarios-visualizar">';
 
     // Botões de export/import apenas para não-admins
     if (!$isAdmin) {
         // Botão para exportar
         if ($_SESSION['idCargo'] == CARGO_RH_SUPERIOR) {
-            echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php">Export</a>';
+            echo '<a class="button-export-visualizar" href="/LSIS1_Grupo4/BLL/export_importData_bll.php">Export</a>';
         } elseif ($_SESSION['idCargo'] == CARGO_RH) {
-            echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">Export</a>';
+            echo '<a class="button-export-visualizar" href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">Export</a>';
         }
 
         // Botão para importar
         echo'<form action="/LSIS1_Grupo4/BLL/export_importData_bll.php" method="POST" enctype="multipart/form-data" style="display:inline;">';
         echo'<input type="file" name="csv_file" accept=".csv" required>';
-        echo'<button type="submit" name="import" class="button-export">Import</button>';
+        echo'<button type="submit" name="import" class="button-import-visualizar">Import</button>';
         echo'</form>';
     }
 
@@ -63,13 +63,13 @@ function mostrarFuncionarios() {
               </div>';
     }
 
-    echo '<div class="linhas-container">';
+    echo '<div class="linhas-container-visualizar">';
 
     if($_SESSION['idCargo'] == CARGO_RH_SUPERIOR || $isAdmin){
         // Cada funcionário (linha clicável)
         foreach ($funcionarios as $f) {
             if ($isAdmin) {
-                echo '<div class="linha-funcionario">';
+                echo '<div class="linha-funcionario-visualizar">';
                 echo '<div class="coluna selecao"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($f['numeroMecanografico']) . '"></div>';
                 echo '<div class="coluna mecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
                 echo '<div class="coluna password">' . htmlspecialchars($f['password']) . '</div>';
@@ -143,11 +143,11 @@ function mostrarFuncionarios() {
         }
     }
     echo '</div>';  // fecha linhas-container
-
+    echo '</div>';
     if ($isAdmin) {
         echo '<button type="submit" name="remover_selecionados" class="button-export">REMOVER SELECIONADOS</button>';
     } else {
-        echo '<button type="submit" name="export_selected" class="button-export">Export Selecionados</button>';
+        echo '<button type="submit" name="export_selected" class="button-export-selected-visualizar" >Export Selecionados</button>';
     }
 
     echo '</form>';
