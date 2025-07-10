@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../BLL/token_bll.php';
 require_once __DIR__ . '/../DAL/editarEmailAlertas_dal.php';
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
