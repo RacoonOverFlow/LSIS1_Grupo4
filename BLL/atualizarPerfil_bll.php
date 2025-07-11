@@ -1,8 +1,4 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-  session_start();
-}
-
 require_once "../DAL/atualizarPerfil_dal.php";
 require_once __DIR__ . "/../BLL/caminhoDocumentos_bll.php";
 
@@ -813,7 +809,14 @@ function displayFormRH() {
   <span class="error" id="error-cartaoContinente" style="color:red; font-size:0.9em;"></span><br>
 
   <!-- Viatura -->
-  <div class="atualizarPerfil-form">
+  <div class="atualizarPerfil-form">';
+   if (!is_array($viatura)) {
+    $viatura = [
+        'tipoViatura' => '',
+        'matriculaDaViatura' => ''
+    ];
+  };
+  echo'
   <h3>Viatura</h3>
   Tipo de viatura:
   <div class="select_section">
