@@ -24,18 +24,9 @@ class dashboard_dal {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
-    }  /*elseif ($cargoId == 5) {
-        // RECURSOS HUMANOS VE SO COLABORADORES
-        $query = "
-            SELECT dl.numeroMecanografico
-            FROM funcionario f
-            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-            WHERE dl.idCargo = ?
-        ";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
+    } 
 
-  } */ 
+   
      elseif ($cargoId == 3) {
         // COORDENADOR ENCONTRA O IDFUNCIONARIO NMECA 
         $subQuery = "
@@ -81,87 +72,6 @@ class dashboard_dal {
     return $allowed;
     }
 
-/*
-    //                                  !!!!GENERO!!!!
-    public function getGeneroDistribution($allowedIds = null) {
-    $query = "SELECT dp.genero, COUNT(*) AS total
-            FROM funcionario f
-            INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
-            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-            INNER JOIN cargo ca ON dl.idCargo = ca.idCargo";
-
-    if (!empty($allowedIds)) {
-        $placeholders = implode(',', array_fill(0, count($allowedIds), '?'));
-        $query .= " WHERE f.numeroMecanografico IN ($placeholders)";
-    }
-
-    $query .= " GROUP BY dp.genero";
-
-    $stmt = $this->conn->prepare($query);
-
-    if (!empty($allowedIds)) {
-        $types = str_repeat('i', count($allowedIds));
-        $stmt->bind_param($types, ...$allowedIds);
-    }
-
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $dataGenero = [];
-    while ($row = $result->fetch_assoc()) {
-        $dataGenero[$row['genero']] = (int)$row['total'];
-    }
-
-    return $dataGenero;
-    }
-  */
-
-    /*
-    public function getGeneroDistribution($allowedIds = null) {
-        $query = "
-            SELECT dp.genero, equipes.idEquipa, COUNT(*) AS total
-            FROM funcionario f
-            INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
-            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-            LEFT JOIN (
-                SELECT idColaborador AS idFuncionario, idEquipa FROM colaborador_equipa
-                UNION
-                SELECT idCoordenador AS idFuncionario, idEquipa FROM coordenador_equipa
-            ) AS equipes ON f.idFuncionario = equipes.idFuncionario ";
-            //equipes é uma tabela temporaria
-
-        if (!empty($allowedIds)) {
-            $placeholders = implode(',', array_fill(0, count($allowedIds), '?'));
-            $query .= " WHERE f.numeroMecanografico IN ($placeholders)";
-        }
-
-        $query .= " GROUP BY dp.genero, equipes.idEquipa";
-
-        $stmt = $this->conn->prepare($query);
-
-        if (!empty($allowedIds)) {
-            $types = str_repeat('i', count($allowedIds));
-            $stmt->bind_param($types, ...$allowedIds);
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $dataGenero = [];
-        while ($row = $result->fetch_assoc()) {
-            $genero = $row['genero'];
-            $equipa = $row['idEquipa'] ?? 'Sem Equipa';
-
-            if (!isset($dataGenero[$equipa])) {
-                $dataGenero[$equipa] = [];
-            }
-
-            $dataGenero[$equipa][$genero] = (int)$row['total'];
-        }
-
-        return $dataGenero;
-    }*/
-
     
     public function getGeneroDistribution($allowedIds = null) {
         $query = "
@@ -180,8 +90,6 @@ class dashboard_dal {
             $placeholders = implode(',', array_fill(0, count($allowedIds), '?'));
             $query .= " WHERE f.numeroMecanografico IN ($placeholders)";
         }
-
-        //$query .= " GROUP BY f.idFuncionario, dp.genero";
 
         $stmt = $this->conn->prepare($query);
 
@@ -217,55 +125,8 @@ class dashboard_dal {
 
     }
     
-/*
-
 
     //                              !!!!CARGO/FUNCAO!!!!
-
-    function getCargoDistribution($allowedIds = null) { //MUDADO PARA MANTER CONSISTENCIA MAS SO VISIVEL PARA RHSUPER
-        $query = "
-                SELECT ca.cargo, equipes.idEquipa, COUNT(*) AS total
-                FROM funcionario f
-                INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-                INNER JOIN cargo ca ON dl.idCargo = ca.idCargo
-                LEFT JOIN (
-                SELECT idColaborador AS idFuncionario, idEquipa FROM colaborador_equipa
-                UNION
-                SELECT idCoordenador AS idFuncionario, idEquipa FROM coordenador_equipa
-            ) AS equipes ON f.idFuncionario = equipes.idFuncionario ";
-
-        if (!empty($allowedIds)) {
-            $placeholders = implode(',', array_fill(0, count($allowedIds), '?'));
-            $query .= " WHERE f.numeroMecanografico IN ($placeholders)";
-        }
-
-        $query .= " GROUP BY ca.cargo, equipes.idEquipa";
-
-        $stmt = $this->conn->prepare($query);
-
-        if (!empty($allowedIds)) {
-            $types = str_repeat('i', count($allowedIds));
-            $stmt->bind_param($types, ...$allowedIds);
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $dataCargo = [];
-        while ($row = $result->fetch_assoc()) {
-            $cargo = $row['cargo'];
-            $equipa = $row['idEquipa'] ?? 'Sem Equipa';
-
-            if (!isset($dataCargo[$equipa])) {
-                $dataCargo[$equipa] = [];
-            }
-
-            $dataCargo[$equipa][$cargo] = (int)$row['total'];
-        }
-
-        return $dataCargo;
-    }
-*/
 
 
     function getCargoDistribution($allowedIds = null) {
@@ -317,57 +178,11 @@ class dashboard_dal {
 
         return $dataCargo;
     }
-/*
+
 
     //                                          !!!!NACIONALIDADE!!
 
-    function getNacionalidadeDistribution($allowedIds = null) {
-        $query = "
-            SELECT n.nacionalidade,equipes.idEquipa, COUNT(*) AS total
-            FROM funcionario f
-            INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
-            INNER JOIN nacionalidade n ON dp.idNacionalidade = n.idNacionalidade
-            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-            INNER JOIN cargo ca ON dl.idCargo = ca.idCargo
-            LEFT JOIN (
-                SELECT idColaborador AS idFuncionario, idEquipa FROM colaborador_equipa
-                UNION
-                SELECT idCoordenador AS idFuncionario, idEquipa FROM coordenador_equipa
-            ) AS equipes ON f.idFuncionario = equipes.idFuncionario ";
 
-        if (!empty($allowedIds)) {
-        $placeholders = implode(',', array_fill(0, count($allowedIds), '?'));
-        $query .= " WHERE f.numeroMecanografico IN ($placeholders)";
-        }
-
-        $query .= " GROUP BY n.nacionalidade, equipes.idEquipa";
-
-        $stmt = $this->conn->prepare($query);
-
-        if (!empty($allowedIds)) {
-            $types = str_repeat('i', count($allowedIds));
-            $stmt->bind_param($types, ...$allowedIds);
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $dataNacionalidade = [];
-        while ($row = $result->fetch_assoc()) {
-            $nacionalidade = $row['nacionalidade'];
-            $equipa = $row['idEquipa'] ?? 'Sem Equipa';
-
-            if (!isset($dataNacionalidade[$equipa])) {
-                $dataNacionalidade[$equipa] = [];
-            }
-
-            $dataNacionalidade[$equipa][$nacionalidade] = (int)$row['total'];
-        }
-
-        return $dataNacionalidade;
-    }
-
-*/
 
     function getNacionalidadeDistribution($allowedIds = null) {
         $query = "
@@ -419,54 +234,9 @@ class dashboard_dal {
 
         return $dataNacionalidade;
     }
-/*
+
     //                                                  !!!!IDADE!!!!
 
-    function getIdadeDistribution($allowedIds = null) {
-        $query = "
-            SELECT dp.dataNascimento, equipes.idEquipa, COUNT(*) AS total
-            FROM funcionario f
-            INNER JOIN dadospessoais dp ON f.idDadosPessoais = dp.idDadosPessoais
-            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-            INNER JOIN cargo ca ON dl.idCargo = ca.idCargo
-            LEFT JOIN (
-                SELECT idColaborador AS idFuncionario, idEquipa FROM colaborador_equipa
-                UNION
-                SELECT idCoordenador AS idFuncionario, idEquipa FROM coordenador_equipa
-            ) AS equipes ON f.idFuncionario = equipes.idFuncionario ";
-
-        if (!empty($allowedIds)) {
-            $placeholders = implode(',', array_fill(0, count($allowedIds), '?'));
-            $query .= " WHERE f.numeroMecanografico IN ($placeholders)";
-        }
-
-        $query .= " GROUP BY dp.dataNascimento, equipes.idEquipa";
-
-        $stmt = $this->conn->prepare($query);
-
-        if (!empty($allowedIds)) {
-            $types = str_repeat('i', count($allowedIds));
-            $stmt->bind_param($types, ...$allowedIds);
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $dataIdade = [];
-        while ($row = $result->fetch_assoc()) {
-            $idade = $row['dataNascimento'];
-            $equipa = $row['idEquipa'] ?? 'Sem Equipa';
-
-            if (!isset($dataIdade[$equipa])) {
-                $dataIdade[$equipa] = [];
-            }
-
-            $dataIdade[$equipa][$idade] = (int)$row['total'];
-        }
-
-        return $dataIdade;
-    }
-*/
 
     function getIdadeDistribution($allowedIds = null) {
         $query = "
@@ -635,40 +405,6 @@ class dashboard_dal {
         return $dataRemuneracao;
     }  
 
-
-    //                                                                  !!!!TAXAFIM!!!!
-/*
-    function getTaxaFimDistribution($allowedIds = null) {
-        $query = "SELECT dc.dataFimDeContrato AS dataFimDeContrato, COUNT(*) AS total
-            FROM funcionario f
-            INNER JOIN dadoscontrato dc ON f.idDadosContrato = dc.idDadosContrato
-            INNER JOIN dadoslogin dl ON f.numeroMecanografico = dl.numeroMecanografico
-            INNER JOIN cargo ca ON dl.idCargo = ca.idCargo";
-
-        if (!empty($allowedIds)) {
-            $placeholders = implode(',', array_fill(0, count($allowedIds), '?'));
-            $query .= " WHERE f.numeroMecanografico IN ($placeholders)";
-        }
-
-        $query .= " GROUP BY dc.dataFimDeContrato";
-
-        $stmt = $this->conn->prepare($query);
-
-        if (!empty($allowedIds)) {
-            $types = str_repeat('i', count($allowedIds));
-            $stmt->bind_param($types, ...$allowedIds);
-        }
-
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        $dataFimDeContrato = [];
-        while ($row = $result->fetch_assoc()) {
-            $dataFimDeContrato[$row['dataFimDeContrato']] = (int)$row['total'];
-        }
-
-        return $dataFimDeContrato;
-    }*/
     
 
     //                                                                             !!!!GEOGRAFIA!!!!

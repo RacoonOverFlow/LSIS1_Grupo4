@@ -2,40 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let rawData = {};
   const teamFilter = document.getElementById("teamFilter");
 
-  //CRIAR O CHECKBOX DOS FILTROS. ELE VAI BUSCAR A DATA E ADICIONA O CHECKBOX COM ESTE CODIGO
-  function createCheckboxFilters(containerId, data, onChange) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = "";
-    Object.keys(data).forEach(key => {
-      const label = document.createElement("label");
-      label.style.marginRight = "15px";
-      label.style.cursor = "pointer";
-      label.innerHTML = `<input type="checkbox" value="${key}" checked> ${formatLabel(key, containerId)}`;
-      container.appendChild(label);
-      label.querySelector("input").addEventListener("change", onChange);
-    });
-  }
-
   function formatLabel(key, containerId) { 
     if(containerId === "filters-genero") { // esta a ser criado pq a informacao vem como M e F e nao masculino e feminino
       return key === "M" ? "Masculino" : "Feminino";
     }
     // Para cargo,nacionalidade, retorna direto
     return key;
-  }
-
-
-  //FILTROS
-  function filterData(data, containerId) {
-    const container = document.getElementById(containerId);
-    const checkboxes = container.querySelectorAll("input[type=checkbox]");
-    let filtered = {};
-    checkboxes.forEach(chk => {
-      if(chk.checked && data[chk.value] !== undefined) {
-        filtered[chk.value] = data[chk.value];
-      }
-    });
-    return filtered;
   }
 
   // PARA AS CORES DE GRAFICOS QUE NAO TEEM CORES JA PREDEFENIDAS POR NOS
@@ -89,9 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function onCargoChange(filteredCargo = null) {
     // Usa os dados filtrados recebidos, ou recalcula com filtro da equipa
     const dataToUse = filteredCargo || aggregateByKey(rawData.cargo, "cargo", teamFilter.value);
-
-    // Aplica o filtro dos checkboxes (se houver)
-    //const finalData = filterData(dataToUse, "filters-cargo");
     
     const labels = Object.keys(dataToUse);
 
@@ -112,8 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function onNacionalidadeChange(filteredNacionalidade = null) {
     const dataToUse = filteredNacionalidade || aggregateByKey(rawData.nacionalidade, "nacionalidade", teamFilter.value);
     
-    //const finalData = filterData(dataToUse, "filters-nacionalidade");
-
     const labels = Object.keys(dataToUse);
 
     // Paleta para Nacionalidade: tons quentes (hue 0-60)
@@ -133,8 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function onDistritoChange(filteredDistrito = null) {
 
     const dataToUse = filteredDistrito || aggregateByKey(rawData.moradaFiscal, "moradaFiscal", teamFilter.value);
-    
-    //const finalData = filterData(dataToUse, "filters-moradaFiscal");
+
     
     const labels = Object.keys(dataToUse);
 
@@ -227,26 +193,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return ageGroups;
   }
-
-
-  
-  // Função externa para formatar o conteúdo do tooltip  !!AGE!!
-  function formatAgeTooltip(e) {
-    const today = new Date();
-    const year = e.entries[0].dataPoint.x.getFullYear();
-    const idade = today.getFullYear() - year;
-
-    let content = `<strong>Ano de nascimento:</strong> ${year}<br/>`;
-    e.entries.forEach(entry => {
-      content += `<span style="color:${entry.dataSeries.color}">●</span> <strong>${entry.dataSeries.name}:</strong> ${entry.dataPoint.y}<br/>`;
-    });
-
-    // Adicionando uma bolinha personalizada antes da idade hoje
-    content += `<span style="color:#6666cc">●</span> <strong>Idade hoje:</strong> ${idade} anos`;
-
-    return content;
-  }
-
 
 
   // Função principal para renderizar o gráfico         !!AGE!!
@@ -374,11 +320,6 @@ document.addEventListener("DOMContentLoaded", () => {
       title: {
         text: "Contrato"
       },
-      /*subtitles: [
-        {
-          text: `Tempo médio de contrato: ${averageTempo} anos`
-        }
-      ],*/
       axisX: {
         title: "Ano",
         valueFormatString: "YYYY"
@@ -450,7 +391,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!teamIds.includes(teamFilterInt)) continue; 
       }
 
-      /*if (isNaN(entry) || isNaN(salario)) continue;*/
+      
       if(!dataIntermedia[cargo]) {
         dataIntermedia[cargo] = [salario]
       }
@@ -480,7 +421,7 @@ document.addEventListener("DOMContentLoaded", () => {
         color: "#4F81BC",
         outliers: outliers
       });
-      //console.log(sorted);
+      
     }
 
     const averageRemuneracao = totalItens > 0 ? (totalRemuneracao / totalItens) : 0;
@@ -554,14 +495,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const teams = dataCategory[id].teams || [];
         teams.forEach(teamId => {
           if (teamId || teamId === 0) teamsSet.add(teamId);  //  0 como uma team id valida
-        });                                                  // mas acho que ja dei fix pra nao haver zeros
+        });                                                  
       }
       return Array.from(teamsSet);
     }
 
     const allTeams = getAllTeams(rawData.genero);
 
-    teamFilter.innerHTML = '<option value="all">Todas as Equipas</option>';
+    teamFilter.innerHTML = '<option value="all">Empresa</option>';
     allTeams.forEach(teamId => {
       teamFilter.innerHTML += `<option value="${teamId}">Equipa ${teamId}</option>`;
     });
@@ -609,11 +550,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const nacionalidade = aggregateByKey(rawData.nacionalidade, "nacionalidade", selectedTeam);
       const moradaFiscal = aggregateByKey(rawData.moradaFiscal, "moradaFiscal", selectedTeam);
 
-      //createCheckboxFilters("filters-genero", genero, onGeneroChange); //comentados na pagina mas pq é que ao tirar param de funcionar
-      //createCheckboxFilters("filters-cargo", cargo, onCargoChange);
-      //createCheckboxFilters("filters-nacionalidade", nacionalidade, onNacionalidadeChange);
-      //createCheckboxFilters("filters-moradaFiscal", moradaFiscal, onDistritoChange);
-
 
       onGeneroChange(genero);               //GENERO
       onCargoChange(cargo);                 //CARGO
@@ -636,7 +572,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!selectedTeam || selectedTeam === "all") return true;
 
         if (selectedTeam === "no-team") {
-          return remuneracao.teams.length === 0;  // only contracts with empty teams array
+          return remuneracao.teams.length === 0;  // so contratos com team arraty vazio
         }
 
         return remuneracao.teams.includes(parseInt(selectedTeam));
@@ -654,7 +590,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!selectedTeam || selectedTeam === "all") return true;
 
         if (selectedTeam === "no-team") {
-          return contrato.teams.length === 0;  // only contracts with empty teams array
+          return contrato.teams.length === 0;  // so contratos com team arraty vazio
         }
 
         return contrato.teams.includes(parseInt(selectedTeam));
