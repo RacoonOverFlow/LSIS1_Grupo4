@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".error").forEach(span => span.textContent = "");
 
         const regexes = {
-            nome: /^[A-ZÀ-Ý][a-zA-ZÀ-ÿ\s]+$/,
-            grauRelacionamento: /^[A-Z][a-zA-Z]{2,}$/,
+            nome: /^[A-ZÀ-Ý][a-zA-ZÀ-ÿ.\s]+$/,
+            grauRelacionamento: /^[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-zA-Zà-ÿÀ-ÝçÇ\s]{2,}$/,
             nif: /^\d{9}$/,
             niss: /^\d{11}$/,
             cc: /^\d{9}[A-Z]{2}\d{1}$/,
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
             iban: /^[A-Z]{2}\d{23}$/,
             continente: /^[0-9]{13,14}$/,
             matricula: /^([A-Z\d]{2})-([A-Z\d]{2})-([A-Z\d]{2})$/,
-            letras: /^[A-Za-z\s]{2,}$/,
+            letras: /^[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-zA-Zà-ÿÀ-ÝçÇ\s]{2,}$/,
             moradaFiscal: /^([A-Za-zÀ-ÿ0-9ºª°.,\-\/ ]+),\s?\d+[A-Za-z]?,\s?\d{4}-\d{3},\s?[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-zà-ÿ]*(\s[A-Za-zÀ-ÿ]+)*$/
         };
 

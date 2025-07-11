@@ -238,12 +238,19 @@ function displayFormColab() {
   <span class="error" id="error-cartaoContinente" style="color:red; font-size:0.9em;"></span><br>
 
   <!-- Viatura -->
-  <div class="atualizarPerfil-form">
+  <div class="atualizarPerfil-form">';
+  if (!is_array($viatura)) {
+    $viatura = [
+        'tipoViatura' => '',
+        'matriculaDaViatura' => ''
+    ];
+  };
+  echo'
   <h3>Viatura</h3>
   Tipo de viatura:
   <div class="select_section">
   <select name="tipoViatura">
-  <option value="">Selecione o tipo</option>
+  <option value=""> Selecione o tipo</option>
   <option value="Empresa"' . ($viatura['tipoViatura'] == "Empresa" ? 'selected' : '') . '>Empresa</option>
   <option value="Pessoal"' . ($viatura['tipoViatura'] == "Pessoal" ? 'selected' : '') . '>Pessoal</option>
   </select><br>

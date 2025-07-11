@@ -3,6 +3,7 @@
 session_start();
 include "../BLL/associarRecibosDeVencimento_bll.php";
 require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
+require_once __DIR__ . '/../BLL/sidebar.php';
 
 verificarSESSIONDados();
 ?>
@@ -21,9 +22,10 @@ verificarSESSIONDados();
 </head>
 
 <body>
-  <div class="Layout-container">
-    <main class="main-content">
+  <div class="layout-container">
+    <div class="main-content">
       <?php showUI(); ?>
-    </main>
+  </div>
+    <?php mostrarSidebar(); ?>
   </div>
 </body>
