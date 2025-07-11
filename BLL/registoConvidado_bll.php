@@ -5,20 +5,15 @@ require_once __DIR__ . '/caminhoDocumentos_bll.php';
 function isThisACallback(): bool{
 
   $camposObrigatorio=[  
-    /*//Dados Login
-    'numeroMecanografico','password','idCargo',*/
+
 
     // Dados Pessoais
     'nomeCompleto','nomeAbreviado','dataNascimento','moradaFiscal',
     'cc','dataValidade','nif','niss','Genero','idIndicativo',
     'contactoPessoal','contactoEmergencia','grauDeRelacionamento','email',
     'idNacionalidade',
-
-    /*// Dados Contrato
-    'dataInicioContrato','dataFimContrato','tipoContrato','regimeHorarioTrabalho',*/
-
     // Dados Financeiros
-    'situacaoIrs',/*'remuneracao',*/'numeroDeDependentes','IBAN',
+    'situacaoIrs','numeroDeDependentes','IBAN',
 
     // Benefícios
     'cartaoContinente',
@@ -32,7 +27,6 @@ function isThisACallback(): bool{
 
   foreach($camposObrigatorio as $campo){
     if(empty($_POST[$campo])){
-      //echo "campo:" . $campo; //debug registo convidado
       return false;
     }
   }
@@ -41,7 +35,6 @@ function isThisACallback(): bool{
   
   foreach($ficheirosObrigatorio as $file){
     if(!isset($_FILES[$file]) || $_FILES[$file]['error'] !== UPLOAD_ERR_OK || $_FILES[$file]['size'] === 0){
-      //echo "documentos"; debug registo convidado
       return false;
     }
   }

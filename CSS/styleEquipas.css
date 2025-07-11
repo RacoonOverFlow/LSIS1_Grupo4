@@ -34,19 +34,6 @@ body {
     justify-content: space-between;
     border-radius: 20px;
 }
-/*
-.main-container {
-    flex: 1;
-    overflow-y: auto;
-    padding: 2rem 3rem;
-    background: linear-gradient(135deg, #5ac8fa 0% , #299df3 70%,#1579d0 100%);
-    display: flex; /* Alterado para flex *//*
-    flex-direction: column; /* Alterado para coluna *//*
-    gap: 25px; 
-    height: 96vh;
-    border-radius: 25px;
-    padding-bottom: 2rem;
-}*/
 
 /* Container principal para conteúdo */
 .content-container {

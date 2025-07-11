@@ -103,15 +103,6 @@ class editarEquipa_DAL {
         return $ids;
     }
 
-
-    /* function getColaboradorById($idFuncionario) {
-        $query = "SELECT dp.nomeCompleto FROM dadospessoais dp INNER JOIN funcionario f ON dp.idDadosPessoais = f.idDadosPessoais INNER JOIN dadoslogin dl on f.numeroMecanografico = dl.numeroMecanografico INNER JOIN cargo c ON dl.idCargo = c.idCargo WHERE c.idCargo = ?";
-        $stmt=$this->conn->prepare($query);
-        $stmt->bind_param("s", $idFuncionario);
-        $stmt->execute();
-        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    } */
-
     function removerAssociacoesColaboradorEquipa($idEquipa) {
         $query = "DELETE FROM colaborador_equipa WHERE idEquipa = ?";
         $stmt = $this->conn->prepare($query);

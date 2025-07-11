@@ -104,24 +104,7 @@ class registoConvidado_dal{
         if(!$stmt->execute()) throw new Exception("Erro execute dadospessoais: " . $stmt->error);
         echo "Dados pessoais inseridos com sucesso<br>";
         $idDadosPessoais = $this->conn->insert_id;
-        /*
-        // 2. Inserir dados de login
-        //$hashedPassword = password_hash($dados['password'], PASSWORD_BCRYPT);
-        //por enquanto vou deixar sem hash
-        $stmt = $this->conn->prepare("INSERT INTO dadoslogin (numeroMecanografico, password, idCargo) VALUES (?, ?, ?)");
-        if(!$stmt) throw new Exception("Erro na prepare dadoslogin ". $this->conn->error);
-        $stmt->bind_param("ssi", $dados['numeroMecanografico'], $dados["password"], $dados["idCargo"]);
-        if(!$stmt->execute()) throw new Exception("Erro execute dadoslogin " . $stmt->error);
-        echo "Dados login inseridos com sucesso<br>";
-        $idDadosLogin = $dados['numeroMecanografico'];
         
-        // 3. Inserir dados do contrato
-        $stmt = $this->conn->prepare("INSERT INTO dadoscontrato (dataInicioDeContrato, dataFimDeContrato, tipoDeContrato, regimeDeHorarioDeTrabalho) VALUES (?, ?, ?, ?)");
-        if(!$stmt) throw new Exception("Erro na prepare dadoscontacto". $this->conn->error);
-        $stmt->bind_param("ssss", $dados['dataInicioContrato'], $dados['dataFimContrato'], $dados['tipoContrato'], $dados['regimeHorarioTrabalho']);
-        if(!$stmt->execute()) throw new Exception('Erro execute dados contrato'. $stmt->error);
-        echo "Dados de contrato inseridos com sucesso<br>";
-        $idDadosContrato = $this->conn->insert_id;*/
 
         // 4. Inserir dados financeiros
         $remuneração= 0.0;

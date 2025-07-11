@@ -9,14 +9,6 @@ function mostrarFuncionarios() {
     echo '<h2>Lista de Funcionários</h2>';
 
     // Container principal
- 
-
-    // Cabeçalho
-    /*echo '<div class="boxes">
-            <div class="coluna mecanografico">Número Mecanográfico</div>
-            <div class="coluna cargo">Cargo</div>
-            <div class="coluna nome">Nome</div>
-         </div>';*/
 
    echo '<div class="grid-container">';     
     if($_SESSION['idCargo'] == 5){
