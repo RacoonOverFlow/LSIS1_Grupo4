@@ -1,6 +1,8 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-session_start();
 include "../BLL/associarCertificadoFormacao_bll.php";
 require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
 require_once __DIR__ . '/../BLL/sidebar.php';

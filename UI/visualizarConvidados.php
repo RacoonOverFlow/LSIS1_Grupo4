@@ -1,6 +1,9 @@
 <?php 
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once "../BLL/visualizarConvidados_bll.php";
-session_start();
 require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
 require_once "../BLL/sidebar.php";
 verificarSESSIONDados();

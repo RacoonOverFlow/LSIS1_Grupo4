@@ -1,6 +1,8 @@
 <?php
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once __DIR__ . "/../BLL/recibosDeVencimento_bll.php";
 require_once __DIR__ . "/../BLL/sidebar.php";
 require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';

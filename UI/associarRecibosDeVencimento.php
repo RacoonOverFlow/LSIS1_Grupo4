@@ -1,6 +1,7 @@
 <?php
-
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include "../BLL/associarRecibosDeVencimento_bll.php";
 require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
 require_once __DIR__ . '/../BLL/sidebar.php';

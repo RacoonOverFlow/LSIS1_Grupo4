@@ -1,6 +1,8 @@
 <?php
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include "../BLL/editarEquipa_bll.php";
 require_once "../BLL/sidebar.php";
 require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';

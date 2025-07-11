@@ -403,7 +403,7 @@ class dashboard_dal {
         return $dataRemuneracao;
     }  
 
-    
+
 
     //                                                                             !!!!GEOGRAFIA!!!!
 
