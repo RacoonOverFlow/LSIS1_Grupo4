@@ -9,7 +9,7 @@ verificarSESSIONDados();
 $nMeca = $_SESSION['nMeca'];
 $cargo= $_SESSION['idCargo'];
 
-if(!($_SESSION['idCargo'] == 5) || !($_SESSION['idCargo'] == 4)|| !($_SESSION['idCargo'] == 3)){
+if(($_SESSION['idCargo'] == 2) || ($_SESSION['idCargo'] == 6)){
     header("location: perfil.php?numeroMecanografico=" . $_SESSION['nMeca']);
 }
 
