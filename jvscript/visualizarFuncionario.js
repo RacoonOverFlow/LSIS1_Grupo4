@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (coluna) {
                 const textoColuna = coluna.textContent.toLowerCase();
                 if (textoColuna.includes(input)) {
-                    linha.style.display = 'flex';
+                    linha.style.display = '';  
                 } else {
                     linha.style.display = 'none';
                 }
