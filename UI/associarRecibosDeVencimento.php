@@ -7,6 +7,7 @@ require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
 require_once __DIR__ . '/../BLL/sidebar.php';
 
 verificarSESSIONDados();
+
 ?>
 
 <!DOCTYPE html>

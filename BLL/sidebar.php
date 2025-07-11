@@ -20,9 +20,13 @@ function mostrarSidebar() {
     }
     
     // Equipas and Dashboard for roles 3,4,5
-    if ($utilizadorCargo == CARGO_COORDENADOR || $utilizadorCargo == CARGO_RH || $utilizadorCargo == CARGO_RH_SUPERIOR) {
+    if ($utilizadorCargo == CARGO_COORDENADOR ||  $utilizadorCargo == CARGO_RH_SUPERIOR) {
         echo '<li><a href="/LSIS1_Grupo4/UI/equipas.php"><i class="bi bi-people"></i><strong>Equipas</strong></a></li>';
         echo '<li><a href="/LSIS1_Grupo4/UI/dashboard.php"><i class="bi bi-bar-chart-line"></i><strong>Dashboard</strong></a></li>';
+    }
+
+    if ($utilizadorCargo == CARGO_RH) {
+        echo '<li><a href="/LSIS1_Grupo4/UI/visualizarFuncionarios.php"><i class="bi bi-people-fill"></i><strong>Visualizar Funcionários</strong></a></li>';
     }
     
     // Visualizar Funcionários for RH Superior

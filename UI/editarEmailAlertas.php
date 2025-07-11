@@ -1,11 +1,11 @@
 <?php
 require_once __DIR__ . '/../BLL/editarEmailAlertas_bll.php';
 require_once __DIR__ . '/../BLL/sidebar.php';
-//require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
+require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-//verificarSESSIONDados();
+verificarSESSIONDados();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(isset($_POST["botaoEmailEnvioAlertas"])) {
         if(updateCredenciaisEnvioAlertas()){
@@ -16,6 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     }
 }
+
+if(!($_SESSION['idCargo'] == 6) ){
+    header("location: perfil.php?numeroMecanografico=" . $_SESSION['nMeca']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
