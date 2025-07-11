@@ -7,7 +7,7 @@ require_once __DIR__ . '/../BLL/verificacaoCargoNMeca.php';
 require_once __DIR__ . '/../BLL/sidebar.php';
 
 verificarSESSIONDados();
-if(!($_SESSION['idCargo'] == 5) || !($_SESSION['idCargo'] == 4)){
+if(($_SESSION['idCargo'] == 2) || ($_SESSION['idCargo'] == 3)|| ($_SESSION['idCargo'] == 4)){
     header("location: perfil.php?numeroMecanografico=" . $_SESSION['nMeca']);
 }
 
