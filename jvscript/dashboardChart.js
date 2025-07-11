@@ -391,10 +391,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!teamIds.includes(teamFilterInt)) continue; 
       }
 
-<<<<<<< Updated upstream
-      
-=======
->>>>>>> Stashed changes
       if(!dataIntermedia[cargo]) {
         dataIntermedia[cargo] = [salario]
       }

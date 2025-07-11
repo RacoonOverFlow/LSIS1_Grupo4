@@ -25,11 +25,6 @@ class dashboard_dal {
         $stmt->execute();
 
     } 
-<<<<<<< Updated upstream
-
-   
-=======
->>>>>>> Stashed changes
      elseif ($cargoId == 3) {
         // COORDENADOR ENCONTRA O IDFUNCIONARIO NMECA 
         $subQuery = "
