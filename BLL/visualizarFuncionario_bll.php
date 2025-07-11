@@ -6,152 +6,144 @@ if (!defined('CARGO_COORDENADOR')) define('CARGO_COORDENADOR', 3);
 if (!defined('CARGO_ADMINISTRADOR')) define('CARGO_ADMINISTRADOR', 6);
 if (!defined('CARGO_RH')) define('CARGO_RH', 4);
 
-
 function mostrarFuncionarios() {
     $dal = new visualizarFuncionario_dal();
     $funcionarios = $dal->getTodosFuncionarios();
-    $colaboradores =$dal->getColaboradores(2);
+    $colaboradores = $dal->getColaboradores(2);
     $isAdmin = ($_SESSION['idCargo'] == CARGO_ADMINISTRADOR);
 
     echo '<h2>Lista de Funcionários</h2>';
-    // Container principal
-
+    
     echo '<div class="top-bar-container">';
     mostrarSearchBar();
     echo '</div>';
 
-    echo '<div class="tabela-funcionarios-visualizar">';
+    echo '<div class="tabela-funcionarios' . ($isAdmin ? ' admin-view' : '') . '">';
 
-    // Botões de export/import apenas para não-admins
     if (!$isAdmin) {
-        // Botão para exportar
+        echo '<div class="action-buttons-container">';
         if ($_SESSION['idCargo'] == CARGO_RH_SUPERIOR) {
-            echo '<a class="button-export-visualizar" href="/LSIS1_Grupo4/BLL/export_importData_bll.php">Export</a>';
+            echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php">Export</a>';
         } elseif ($_SESSION['idCargo'] == CARGO_RH) {
-            echo '<a class="button-export-visualizar" href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">Export</a>';
+            echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=colaboradores">Export</a>';
         }
 
-        // Botão para importar
-        echo'<form action="/LSIS1_Grupo4/BLL/export_importData_bll.php" method="POST" enctype="multipart/form-data" style="display:inline;">';
-        echo'<input type="file" name="csv_file" accept=".csv" required>';
-        echo'<button type="submit" name="import" class="button-import-visualizar">Import</button>';
-        echo'</form>';
+        echo '<form action="/LSIS1_Grupo4/BLL/export_importData_bll.php" method="POST" enctype="multipart/form-data">';
+        echo '<input type="file" name="csv_file" accept=".csv" required>';
+        echo '<button type="submit" name="import" class="button-export">Import</button>';
+        echo '</form>';
+        echo '</div>';
     }
 
+    echo '<form method="POST" action="/LSIS1_Grupo4/BLL/export_importData_bll.php">';
 
-    // Cabeçalho
+    echo '<div class="linha-container">';
+    echo '<div class="linha-funcionario cabecalho">';
     if ($isAdmin) {
-        echo '<form method="POST" action="/LSIS1_Grupo4/BLL/export_importData_bll.php">';
-        echo '<div class="linha-funcionario cabecalho">
-                <div class="coluna selecao">Selecionar</div>
-                <div class="coluna mecanografico">Nº Mecanográfico</div>
-                <div class="coluna password">Password</div>
-                <div class="coluna cargo">Cargo</div>
-                <div class="coluna estado">Estado</div>
-                <div class="coluna acao">Ação</div>
-              </div>';
+        echo '<div class="coluna selecao" data-label="Selecionar">Selecionar</div>';
+        echo '<div class="coluna mecanografico" data-label="Nº Mecanográfico">Nº Mecanográfico</div>';
+        echo '<div class="coluna password" data-label="Password">Password</div>';
+        echo '<div class="coluna cargo" data-label="Cargo">Cargo</div>';
+        echo '<div class="coluna estado" data-label="Estado">Estado</div>';
+        echo '<div class="coluna acao" data-label="Ação">Ação</div>';
     } else {
-        echo '<form method="POST" action="/LSIS1_Grupo4/BLL/export_importData_bll.php">';
-        echo '<div class="linha-funcionario cabecalho">
-                <div class="coluna selecao">Selecionar</div>
-                <div class="coluna mecanografico">Nº Mecanográfico</div>
-                <div class="coluna cargo">Cargo</div>
-                <div class="coluna nome">Nome</div>
-                <div class="coluna nif">NIF</div>
-                <div class="coluna email">Email</div>
-                <div class="coluna aniversario">Aniversário</div>
-              </div>';
+        echo '<div class="coluna selecao" data-label="Selecionar">Selecionar</div>';
+        echo '<div class="coluna mecanografico" data-label="Nº Mecanográfico">Nº Mecanográfico</div>';
+        echo '<div class="coluna cargo" data-label="Cargo">Cargo</div>';
+        echo '<div class="coluna nome" data-label="Nome">Nome</div>';
+        echo '<div class="coluna nif" data-label="NIF">NIF</div>';
+        echo '<div class="coluna email" data-label="Email">Email</div>';
+        echo '<div class="coluna aniversario" data-label="Aniversário">Aniversário</div>';
     }
+    echo '</div>';
+    echo '</div>';
 
-    echo '<div class="linhas-container-visualizar">';
+    echo '<div class="linhas-container">';
 
-    if($_SESSION['idCargo'] == CARGO_RH_SUPERIOR || $isAdmin){
-        // Cada funcionário (linha clicável)
+    if ($_SESSION['idCargo'] == CARGO_RH_SUPERIOR || $isAdmin) {
         foreach ($funcionarios as $f) {
             if ($isAdmin) {
-                echo '<div class="linha-funcionario-visualizar">';
-                echo '<div class="coluna selecao"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($f['numeroMecanografico']) . '"></div>';
-                echo '<div class="coluna mecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
-                echo '<div class="coluna password">' . htmlspecialchars($f['password']) . '</div>';
-                echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '</div>';
-                echo '<div class="coluna estado">' . htmlspecialchars($f['estadoFuncionario'] ?? '') . '</div>';
-                echo '<div class="coluna acao">';
+                echo '<div class="linha-container">';
+                echo '<div class="linha-funcionario">';
+                echo '<div class="coluna selecao" data-label="Selecionar"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($f['numeroMecanografico']) . '"></div>';
+                echo '<div class="coluna mecanografico" data-label="Nº Mecanográfico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
+                echo '<div class="coluna password" data-label="Password">' . htmlspecialchars($f['password']) . '</div>';
+                echo '<div class="coluna cargo" data-label="Cargo">' . htmlspecialchars($f['cargo']) . '</div>';
+                echo '<div class="coluna estado" data-label="Estado">' . htmlspecialchars($f['estadoFuncionario'] ?? '') . '</div>';
+                echo '<div class="coluna acao" data-label="Ação">';
                 if (($f['estadoFuncionario'] ?? '') === 'removido') {
-                    // Formulário para reativação sem AJAX
                     echo '<form method="POST" action="/LSIS1_Grupo4/BLL/export_importData_bll.php" style="display:inline;">';
-                    echo '  <input type="hidden" name="action" value="reativar">';
-                    echo '  <input type="hidden" name="numero" value="' . htmlspecialchars($f['numeroMecanografico']) . '">';
-                    echo '  <button type="submit" class="btn-reativar">Reativar</button>';
+                    echo '<input type="hidden" name="action" value="reativar">';
+                    echo '<input type="hidden" name="numero" value="' . htmlspecialchars($f['numeroMecanografico']) . '">';
+                    echo '<button type="submit" class="btn-reativar">Reativar</button>';
                     echo '</form>';
                 }
+                echo '</div>';
                 echo '</div>';
                 echo '</div>';
             } else {
                 $dataNascimento = new DateTime($f['dataNascimento']);
                 $hoje = new DateTime();
-
                 $proximoAniversario = new DateTime($hoje->format('Y') . '-' . $dataNascimento->format('m-d'));
-
-                // Se o aniversário deste ano já passou, usa o próximo ano
                 if ($proximoAniversario < $hoje) {
                     $proximoAniversario->modify('+1 year');
                 }
-
                 $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
-
                 $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($f["numeroMecanografico"]);
+
                 echo '<a href="' . $link . '" class="linha-link">';
+                echo '<div class="linha-container">';
                 echo '<div class="linha-funcionario">';
-                echo '<div class="coluna selecao"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($f['numeroMecanografico']) . '"></div>';
-                echo '<div class="coluna mecanografico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
-                echo '<div class="coluna cargo">' . htmlspecialchars($f['cargo']) . '</div>';
-                echo '<div class="coluna nome">' . htmlspecialchars($f['nomeCompleto']) . '</div>';
-                echo '<div class="coluna nif">' . htmlspecialchars($f['nif']) . '</div>';
-                echo '<div class="coluna email">' . htmlspecialchars($f['email']) . '</div>';
-                echo '<div class="coluna aniversario" data-aniversario="' . $proximoAniversario->format('Y-m-d') . '">' . $aniversarioFuncionario . '</div>';
+                echo '<div class="coluna selecao" data-label="Selecionar"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($f['numeroMecanografico']) . '"></div>';
+                echo '<div class="coluna mecanografico" data-label="Nº Mecanográfico">' . htmlspecialchars($f['numeroMecanografico']) . '</div>';
+                echo '<div class="coluna cargo" data-label="Cargo">' . htmlspecialchars($f['cargo']) . '</div>';
+                echo '<div class="coluna nome" data-label="Nome">' . htmlspecialchars($f['nomeCompleto']) . '</div>';
+                echo '<div class="coluna nif" data-label="NIF">' . htmlspecialchars($f['nif']) . '</div>';
+                echo '<div class="coluna email" data-label="Email">' . htmlspecialchars($f['email']) . '</div>';
+                echo '<div class="coluna aniversario" data-label="Aniversário" data-aniversario="' . $proximoAniversario->format('Y-m-d') . '">' . $aniversarioFuncionario . '</div>';
+                echo '</div>';
                 echo '</div>';
                 echo '</a>';
             }
         }
-
-    }else if($_SESSION['idCargo'] == CARGO_RH){
+    } else if ($_SESSION['idCargo'] == CARGO_RH) {
         foreach ($colaboradores as $c) {
             $dataNascimento = new DateTime($c['dataNascimento']);
             $hoje = new DateTime();
-
             $proximoAniversario = new DateTime($hoje->format('Y') . '-' . $dataNascimento->format('m-d'));
-
-            // Se o aniversário deste ano já passou, usa o próximo ano
             if ($proximoAniversario < $hoje) {
                 $proximoAniversario->modify('+1 year');
             }
-
             $aniversarioColaborador = $proximoAniversario->format('d/m/Y');
-
             $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($c["numeroMecanografico"]);
+
             echo '<a href="' . $link . '" class="linha-link">';
+            echo '<div class="linha-container">';
             echo '<div class="linha-funcionario">';
-            echo '<div class="coluna selecao"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($c['numeroMecanografico']) . '"></div>';
-            echo '<div class="coluna mecanografico">' . htmlspecialchars($c['numeroMecanografico']) . '</div>';
-            echo '<div class="coluna cargo">' . htmlspecialchars($c['cargo']) . '</div>';
-            echo '<div class="coluna nome">' . htmlspecialchars($c['nomeCompleto']) . '</div>';
-            echo '<div class="coluna nif">' . htmlspecialchars($c['nif']) . '</div>';
-            echo '<div class="coluna email">' . htmlspecialchars($c['email']) . '</div>';
-            echo '<div class="coluna aniversario" data-aniversario="' . $proximoAniversario->format('Y-m-d') . '">' . $aniversarioColaborador . '</div>';
+            echo '<div class="coluna selecao" data-label="Selecionar"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($c['numeroMecanografico']) . '"></div>';
+            echo '<div class="coluna mecanografico" data-label="Nº Mecanográfico">' . htmlspecialchars($c['numeroMecanografico']) . '</div>';
+            echo '<div class="coluna cargo" data-label="Cargo">' . htmlspecialchars($c['cargo']) . '</div>';
+            echo '<div class="coluna nome" data-label="Nome">' . htmlspecialchars($c['nomeCompleto']) . '</div>';
+            echo '<div class="coluna nif" data-label="NIF">' . htmlspecialchars($c['nif']) . '</div>';
+            echo '<div class="coluna email" data-label="Email">' . htmlspecialchars($c['email']) . '</div>';
+            echo '<div class="coluna aniversario" data-label="Aniversário" data-aniversario="' . $proximoAniversario->format('Y-m-d') . '">' . $aniversarioColaborador . '</div>';
+            echo '</div>';
             echo '</div>';
             echo '</a>';
         }
     }
-    echo '</div>';  // fecha linhas-container
     echo '</div>';
+
+    echo '<div class="action-buttons-container">';
     if ($isAdmin) {
-        echo '<button type="submit" name="remover_selecionados" class="button-export">REMOVER SELECIONADOS</button>';
+        echo '<button type="submit" name="remover_selecionados" class="button-export button-remover">REMOVER SELECIONADOS</button>';
     } else {
-        echo '<button type="submit" name="export_selected" class="button-export-selected-visualizar" >Export Selecionados</button>';
+        echo '<button type="submit" name="export_selected" class="button-export">Export Selecionados</button>';
     }
+    echo '</div>';
 
     echo '</form>';
-    echo '</div>'; // fecha tabela-funcionarios
+    echo '</div>';
 }
 
 function mostrarMembrosEquipa(){
@@ -161,58 +153,57 @@ function mostrarMembrosEquipa(){
 
     echo '<h2>Lista de Funcionários</h2>';
 
-    // Container principal
     echo '<div class="tabela-funcionarios">';
 
-    //butao para exportar
-    echo '<a href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=equipa&idEquipa=' . urlencode($idEquipa) . '">';
-    echo '<button class="button-export">EXPORT</button>';
-    echo '</a>';
+    echo '<div class="action-buttons-container">';
+    echo '<a class="button-export" href="/LSIS1_Grupo4/BLL/export_importData_bll.php?filter=equipa&idEquipa=' . urlencode($idEquipa) . '">Export</a>';
+    echo '<form action="/LSIS1_Grupo4/BLL/export_importData_bll.php" method="POST" enctype="multipart/form-data">';
+    echo '<input type="file" name="csv_file" accept=".csv" required>';
+    echo '<button type="submit" name="import" class="button-export">Import</button>';
+    echo '</form>';
+    echo '</div>';
 
-    //butao para exportar
-    echo'<form action="/LSIS1_Grupo4/BLL/export_importData_bll.php" method="POST" enctype="multipart/form-data">';
-    echo'<label>Import CSV:</label>';
-    echo'<input type="file" name="csv_file" accept=".csv" required>';
-    echo'<button type="submit" name="import" class="button-export">Import</button>';
-    echo'</form>';
-
-
-    // Cabeçalho
     echo '<form method="POST" action="/LSIS1_Grupo4/BLL/export_importData_bll.php">';
-    echo '<div class="linha-funcionario cabecalho">
-            <div class="coluna mecanografico">Nº Mecanográfico</div>
-            <div class="coluna cargo">Cargo</div>
-            <div class="coluna nome">Nome</div>
-            <div class="coluna aniversario">Aniversário</div>
-          </div>';
+    echo '<div class="linha-container">';
+    echo '<div class="linha-funcionario cabecalho">';
+    echo '<div class="coluna selecao" data-label="Selecionar">Selecionar</div>';
+    echo '<div class="coluna mecanografico" data-label="Nº Mecanográfico">Nº Mecanográfico</div>';
+    echo '<div class="coluna cargo" data-label="Cargo">Cargo</div>';
+    echo '<div class="coluna nome" data-label="Nome">Nome</div>';
+    echo '<div class="coluna aniversario" data-label="Aniversário">Aniversário</div>';
+    echo '</div>';
+    echo '</div>';
               
     echo '<div class="linhas-container">';
 
     foreach ($membros as $m) {
         $dataNascimento = new DateTime($m['dataNascimento']);
         $hoje = new DateTime();
-
         $proximoAniversario = new DateTime($hoje->format('Y') . '-' . $dataNascimento->format('m-d'));
-
-        // Se o aniversário deste ano já passou, usa o próximo ano
         if ($proximoAniversario < $hoje) {
             $proximoAniversario->modify('+1 year');
         }
-
         $aniversarioFuncionario = $proximoAniversario->format('d/m/Y'); 
         $link = 'perfil.php?numeroMecanografico=' . htmlspecialchars($m["numeroMecanografico"]);
+        
         echo '<a href="' . $link . '" class="linha-link">';
+        echo '<div class="linha-container">';
         echo '<div class="linha-funcionario">';
-        echo '<div class="coluna selecao"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($m['numeroMecanografico']) . '"></div>';
-        echo '<div class="coluna mecanografico">' . htmlspecialchars($m['numeroMecanografico']) . '</div>';
-        echo '<div class="coluna cargo">' . htmlspecialchars($m['cargo']) . '</div>';
-        echo '<div class="coluna nome">' . htmlspecialchars($m['nomeCompleto']) . '</div>';
-        echo '<div class="coluna aniversario" data-aniversario="' . $proximoAniversario->format('Y-m-d') . '">' . $aniversarioFuncionario . '</div>';
+        echo '<div class="coluna selecao" data-label="Selecionar"><input type="checkbox" name="selecionados[]" value="' . htmlspecialchars($m['numeroMecanografico']) . '"></div>';
+        echo '<div class="coluna mecanografico" data-label="Nº Mecanográfico">' . htmlspecialchars($m['numeroMecanografico']) . '</div>';
+        echo '<div class="coluna cargo" data-label="Cargo">' . htmlspecialchars($m['cargo']) . '</div>';
+        echo '<div class="coluna nome" data-label="Nome">' . htmlspecialchars($m['nomeCompleto']) . '</div>';
+        echo '<div class="coluna aniversario" data-label="Aniversário" data-aniversario="' . $proximoAniversario->format('Y-m-d') . '">' . $aniversarioFuncionario . '</div>';
+        echo '</div>';
         echo '</div>';
         echo '</a>';
     }
     echo '</div>';
+    
+    echo '<div class="action-buttons-container">';
     echo '<button type="submit" name="export_selected" class="button-export">EXPORT SELECIONADOS</button>';
+    echo '</div>';
+    
     echo '</form>';
+    echo '</div>';
 }
-?>
